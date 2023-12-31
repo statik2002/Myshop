@@ -33,7 +33,7 @@ class Customer(AbstractUser):
         'Дата регистрации',
         default=timezone.now
     )
-    avatar = models.ImageField(blank=True, null=True, upload_to='avatars/')
+    avatar = models.ImageField(blank=True, null=True, upload_to='media/avatars/')
 
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'phone_number'
