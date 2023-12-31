@@ -1,7 +1,10 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
+from django.views import generic
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -97,3 +100,30 @@ class ProductProperty(models.Model):
 
     def __str__(self) -> str:
         return f'{self.title} - {self.value}'
+
+
+class ProductPropertyContent(models.Model):
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    property = GenericForeignKey('content_type', 'object_id')
+    name = models.CharField(max_length=100)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [models.Index(fields=['content_type', 'object_id'])]
+
+
+class ProductProp(models.Model):
+    name = models.CharField(max_length=100)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    property = GenericForeignKey('content_type', 'object_id')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+
+class Color(ProductProp):
+    value = models.CharField(max_length=100)
+
+
+class Weight(ProductProp):
+    value = models.DecimalField(max_digits=6, decimal_places=3)

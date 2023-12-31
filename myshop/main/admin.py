@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
 
-from main.models import Customer, Catalog, Product, ProductProperty
+from main.models import Customer, Catalog, Product, ProductProperty, ProductPropertyContent, ProductProp
 
 
 @admin.register(Customer)
@@ -15,11 +16,18 @@ class CatalogAdmin(admin.ModelAdmin):
 
 class ProductPropertyInline(admin.StackedInline):
     model = ProductProperty
+    extra = 1
+
+
+class ProductPropertyContentInline(admin.StackedInline):
+    model = ProductProp
+    extra = 1
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'code_1c')
 
-    inlines = (ProductPropertyInline, )
+    inlines = (ProductPropertyContentInline, )
+
 
