@@ -46,3 +46,54 @@ class Customer(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+
+class Catalog(models.Model):
+
+    name = models.CharField('Название каталога', max_length=150)
+    code_1c = models.PositiveIntegerField(verbose_name='Код каталога из 1С')
+
+    class Meta:
+        verbose_name = 'Каталог'
+        verbose_name_plural = 'Каталоги'
+
+    def __str__(self) -> str:
+        return f'{self.code_1c} -> {self.name}'
+
+
+class Product(models.Model):
+
+    name = models.CharField('Наименование товара', max_length=200)
+    description = models.TextField()
+    code_1c = models.PositiveIntegerField('Код из 1С')
+
+    class Meta:
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
+    def __str__(self) -> str:
+        return f'{self.name[:20]}'
+
+
+class ProductUnit(models.Model):
+    name = models.CharField('Единица измерения', max_length=50)
+
+    class Meta:
+        verbose_name = 'Единица измерения'
+        verbose_name_plural = 'Единицы измерения'
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
+
+class ProductProperty(models.Model):
+    title = models.CharField('Наименование свойства', max_length=100)
+    value = models.CharField('Значение свойства', max_length=200)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties')
+
+    class Meta:
+        verbose_name = 'Единица измерения'
+        verbose_name_plural = 'Единицы измерения'
+
+    def __str__(self) -> str:
+        return f'{self.title} - {self.value}'
