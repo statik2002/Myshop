@@ -1,0 +1,19 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<div class="d-flex flex-column gap-3">
+		{% for product in products %}
+			<div><a href="{% url 'main:edit_product' product.slug %}">{{product.name}}</a></div>
+			{% for metrica in product.metrics.all %}
+				<div>{{metrica.weight}} Кг. Размер: {{metrica.width}}x{{metrica.height}}x{{metrica.length}} м.</div>
+			{% endfor %}
+			{% for color in product.colors.all %}
+				<div>{{color}}</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+</div>
+{% endblock content %}

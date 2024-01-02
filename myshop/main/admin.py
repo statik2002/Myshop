@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
 
-from main.models import Customer, Catalog, Product, ProductProperty, ProductPropertyContent, ProductProp
+from main.models import Customer, Catalog, Product, Color, Metrics, Tag
 
 
 @admin.register(Customer)
@@ -11,23 +11,37 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Catalog)
 class CatalogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'code_1c')
+    prepopulated_fields = {'slug': ['name']}
 
 
-class ProductPropertyInline(admin.StackedInline):
-    model = ProductProperty
+class ColorInline(admin.TabularInline):
+    model = Color
     extra = 1
 
 
-class ProductPropertyContentInline(admin.StackedInline):
-    model = ProductProp
+class MetricsInline(admin.TabularInline):
+    model = Metrics
     extra = 1
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ['title']}
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'code_1c')
+    list_display = ('id', 'name', 'code_1c', 'price', 'discount', 'available', 'rating', 'quantity', 'show_count', 'create_date')
+    prepopulated_fields = {'slug': ['name']}
+    list_editable = ('available', )
+    raw_id_fields = ('tags', )
+    search_fields = ['name', 'code_1c']
+    search_help_text = 'Поиск по наименованию или коду из 1С'
+    readonly_fields = ('show_count', 'rating')
+    list_filter = ('available', )
 
-    inlines = (ProductPropertyContentInline, )
+    inlines = (ColorInline, MetricsInline)
+
+
 
 

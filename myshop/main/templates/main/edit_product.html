@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<form>
+		{{ product_form }}
+
+		<div class="container p-3">
+			{{ metricsformset.management_form }}
+			{% for form in metricsformset %}
+				<div class="d-flex gap-3 flex-wrap pb-5">
+					{% for field in form %}
+						<div>
+							{{ field.label_tag }} {{ field }}
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+		{{ colorformset.management_form }}
+		{% for form in colorformset %}
+			{{ form.id }}
+			<div class="d-flex gap-3 flex-wrap pb-5">
+					<div>
+						{{ form.value.label }}{{ form.value }}
+					</div>
+			</div>
+		{% endfor %}
+	</form>
+</div>
+{% endblock content %}

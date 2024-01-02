@@ -1,10 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils import timezone
-from django.views import generic
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -26,17 +23,18 @@ class CustomerManager(BaseUserManager):
 
 class Customer(AbstractUser):
     username = None
-    email = models.EmailField(max_length=256, unique=True)
-    first_name = models.CharField(max_length=256, null=True, blank=True)
-    last_name = models.CharField(max_length=256, null=True, blank=True)
-    is_read_pd = models.BooleanField(default=False)
-    phone_number = PhoneNumberField(unique=True)
-    address = models.CharField(max_length=500, null=True, blank=True)
+    email = models.EmailField(max_length=256, unique=True, verbose_name='Email')
+    first_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Имя')
+    last_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Фамилия')
+    is_read_pd = models.BooleanField(default=False, verbose_name='Соглашение прочтено')
+    phone_number = PhoneNumberField(unique=True, verbose_name='Номер телефона')
+    address = models.CharField(max_length=500, null=True, blank=True, verbose_name='Адрес')
     date_joined = models.DateTimeField(
         'Дата регистрации',
         default=timezone.now
     )
-    avatar = models.ImageField(blank=True, null=True, upload_to='media/avatars/')
+    avatar = models.ImageField(blank=True, null=True, upload_to='media/avatars/', verbose_name='Аватар')
+    likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары')
 
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'phone_number'
@@ -54,76 +52,94 @@ class Customer(AbstractUser):
 class Catalog(models.Model):
 
     name = models.CharField('Название каталога', max_length=150)
-    code_1c = models.PositiveIntegerField(verbose_name='Код каталога из 1С')
+    code_1c = models.PositiveIntegerField(verbose_name='Код каталога из 1С', blank=True, null=True)
+    image = models.ImageField(upload_to='media/catalog_images', verbose_name='Изображение', blank=True, null=True)
+    is_active = models.BooleanField(verbose_name='Показывается', default=True)
+    slug = models.SlugField(max_length=200)
+    order = models.IntegerField(verbose_name='Порядок', default=1)  # Для сортировки
+    icon = models.CharField(max_length=250, verbose_name='Код иконки', blank=True, null=True)  # html код иконки
 
     class Meta:
         verbose_name = 'Каталог'
         verbose_name_plural = 'Каталоги'
 
     def __str__(self) -> str:
-        return f'{self.code_1c} -> {self.name}'
+        return f'{self.name[:20]}'
+
+
+class Tag(models.Model):
+    title = models.CharField(max_length=50, verbose_name='Наименование')
+    slug = models.SlugField()
+
+    class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'Тэги'
+
+    def __str__(self) -> str:
+        return f'{self.title}'
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey('Product', verbose_name='Товар',
+                                on_delete=models.CASCADE, related_name='product_images')
+    alt = models.CharField(max_length=100, verbose_name='Alt изображения')
+    image = models.ImageField(upload_to='media/product_images', verbose_name='Изображение')
+
+    class Meta:
+        verbose_name = 'Изображение товара'
+        verbose_name_plural = 'Изображения товаров'
+
+    def __str__(self) -> str:
+        return f'{self.alt[:20]}'
 
 
 class Product(models.Model):
 
     name = models.CharField('Наименование товара', max_length=200)
-    description = models.TextField()
-    code_1c = models.PositiveIntegerField('Код из 1С')
+    description = models.TextField(verbose_name='Описание')
+    code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
+    price = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Цена')  # 000 000 000.00
+    available = models.BooleanField(verbose_name='Показывается', default=True)
+    catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE, related_name='products', verbose_name='В каталоге')
+    slug = models.SlugField(max_length=255)
+    rating = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Рейтинг', default=0.0)  # 0.0
+    quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество', default=0.0)  # 000 000.000
+    tags = models.ManyToManyField(Tag, verbose_name='Тэг', blank=True)
+    discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки', default=0.0)  # 000 000 000.00 сумма скидки
+    show_count = models.BigIntegerField(verbose_name='Кол-во показов', default=0)
+    create_date = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
 
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        ordering = ['name', '-create_date', 'show_count']
 
     def __str__(self) -> str:
         return f'{self.name[:20]}'
 
 
-class ProductUnit(models.Model):
-    name = models.CharField('Единица измерения', max_length=50)
+class Metrics(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='metrics', verbose_name='Товар')
+    weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Вес кг')  # 000.000 в кг
+    width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина см')  # 000.00 в см
+    height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота см')  # 000.00 в см
+    length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна см')  # 000.00 в см
 
     class Meta:
-        verbose_name = 'Единица измерения'
-        verbose_name_plural = 'Единицы измерения'
+        verbose_name = 'Метрика'
+        verbose_name_plural = 'Метрики'
 
     def __str__(self) -> str:
-        return f'{self.name}'
+        return f'{self.product.name[:20]} {self.weight} {self.width}x{self.height}x{self.length} см. (ШхВхД)'
 
 
-class ProductProperty(models.Model):
-    title = models.CharField('Наименование свойства', max_length=100)
-    value = models.CharField('Значение свойства', max_length=200)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties')
+class Color(models.Model):
+    value = models.CharField(max_length=100, verbose_name='Цвет')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors', verbose_name='Товар')
 
     class Meta:
-        verbose_name = 'Единица измерения'
-        verbose_name_plural = 'Единицы измерения'
+        verbose_name = 'Цвет'
+        verbose_name_plural = 'Цвета'
 
     def __str__(self) -> str:
-        return f'{self.title} - {self.value}'
-
-
-class ProductPropertyContent(models.Model):
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    property = GenericForeignKey('content_type', 'object_id')
-    name = models.CharField(max_length=100)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    class Meta:
-        indexes = [models.Index(fields=['content_type', 'object_id'])]
-
-
-class ProductProp(models.Model):
-    name = models.CharField(max_length=100)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    property = GenericForeignKey('content_type', 'object_id')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-
-class Color(ProductProp):
-    value = models.CharField(max_length=100)
-
-
-class Weight(ProductProp):
-    value = models.DecimalField(max_digits=6, decimal_places=3)
+        return f'{self.value}'
