@@ -6,13 +6,19 @@
 <div class="container">
 	<div class="d-flex flex-column gap-3">
 		{% for product in products %}
-			<div><a href="{% url 'main:edit_product' product.slug %}">{{product.name}}</a></div>
-			{% for metrica in product.metrics.all %}
-				<div>{{metrica.weight}} Кг. Размер: {{metrica.width}}x{{metrica.height}}x{{metrica.length}} м.</div>
-			{% endfor %}
-			{% for color in product.colors.all %}
-				<div>{{color}}</div>
-			{% endfor %}
+			<div>Name: {{product.name}}</div>
+			<div>Description: {{product.description}}</div>
+			<div>Rating: {{product.rating}}</div>
+			<div>
+				{% for property in product.properties.all %}
+					<div>Color: {{property.color}}</div>
+					<div>Price: {{property.price}}</div>
+					<div>Weight: {{property.weight}}</div>
+					<div>Width: {{property.width}}</div>
+					<div>Height: {{property.height}}</div>
+					<div>Length: {{property.length}}</div>
+				{% endfor %}
+			</div>
 		{% endfor %}
 	</div>
 </div>

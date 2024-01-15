@@ -97,15 +97,11 @@ class Product(models.Model):
 
     name = models.CharField('Наименование товара', max_length=200)
     description = models.TextField(verbose_name='Описание')
-    code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
-    price = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Цена')  # 000 000 000.00
     available = models.BooleanField(verbose_name='Показывается', default=True)
     catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE, related_name='products', verbose_name='В каталоге')
     slug = models.SlugField(max_length=255)
     rating = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Рейтинг', default=0.0)  # 0.0
-    quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество', default=0.0)  # 000 000.000
     tags = models.ManyToManyField(Tag, verbose_name='Тэг', blank=True)
-    discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки', default=0.0)  # 000 000 000.00 сумма скидки
     show_count = models.BigIntegerField(verbose_name='Кол-во показов', default=0)
     create_date = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
 
@@ -118,28 +114,23 @@ class Product(models.Model):
         return f'{self.name[:20]}'
 
 
-class Metrics(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='metrics', verbose_name='Товар')
-    weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Вес кг')  # 000.000 в кг
+class ProductProperty(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties')
+    code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
+    color = models.CharField(max_length=50, verbose_name='Color')
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Price')
+    discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки',
+                                   default=0.0)  # 000 000 000.00 сумма скидки
+    weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Weight')
     width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина см')  # 000.00 в см
     height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота см')  # 000.00 в см
     length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна см')  # 000.00 в см
+    quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество', default=0.0)  # 000 000.000
+    image = models.ImageField(upload_to='media/products/')
 
     class Meta:
-        verbose_name = 'Метрика'
-        verbose_name_plural = 'Метрики'
+        verbose_name = 'Product property'
+        verbose_name_plural = 'Product properties'
 
     def __str__(self) -> str:
-        return f'{self.product.name[:20]} {self.weight} {self.width}x{self.height}x{self.length} см. (ШхВхД)'
-
-
-class Color(models.Model):
-    value = models.CharField(max_length=100, verbose_name='Цвет')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors', verbose_name='Товар')
-
-    class Meta:
-        verbose_name = 'Цвет'
-        verbose_name_plural = 'Цвета'
-
-    def __str__(self) -> str:
-        return f'{self.value}'
+        return f'{self.color}'
