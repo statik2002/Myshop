@@ -34,7 +34,7 @@ class Customer(AbstractUser):
         default=timezone.now
     )
     avatar = models.ImageField(blank=True, null=True, upload_to='media/avatars/', verbose_name='Аватар')
-    likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары')
+    likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары', blank=True)
 
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'phone_number'
