@@ -1,7 +1,5 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline, GenericStackedInline
-
-from main.models import Customer, Catalog, Product, Color, Metrics, Tag
+from main.models import Customer, Catalog, Product, Tag, ProductProperty, ProductImage
 
 
 @admin.register(Customer)
@@ -14,24 +12,24 @@ class CatalogAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['name']}
 
 
-class ColorInline(admin.TabularInline):
-    model = Color
-    extra = 1
-
-
-class MetricsInline(admin.TabularInline):
-    model = Metrics
-    extra = 1
-
-
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['title']}
 
 
+class ProductPropertyInline(admin.StackedInline):
+    model = ProductProperty
+    extra = 1
+
+
+class ProductImageInline(admin.StackedInline):
+    model = ProductImage
+    extra = 1
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'code_1c', 'price', 'discount', 'available', 'rating', 'quantity', 'show_count', 'create_date')
+    list_display = ('id', 'name', 'available', 'rating', 'show_count', 'create_date')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', )
     raw_id_fields = ('tags', )
@@ -40,7 +38,7 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ('show_count', 'rating')
     list_filter = ('available', )
 
-    inlines = (ColorInline, MetricsInline)
+    inlines = (ProductImageInline, ProductPropertyInline)
 
 
 

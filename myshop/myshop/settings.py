@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'phonenumber_field',
-    'main.apps.MainConfig'
+    'main.apps.MainConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
