@@ -60,6 +60,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'myshop.urls'
 AUTH_USER_MODEL = 'main.Customer'
+CART_SESSION_ID = 'cart'
 
 TEMPLATES = [
     {

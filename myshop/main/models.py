@@ -104,6 +104,12 @@ class Product(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='Тэг', blank=True)
     show_count = models.BigIntegerField(verbose_name='Кол-во показов', default=0)
     create_date = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Price')
+    discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки',
+                                   default=0.0)  # 000 000 000.00 сумма скидки
+    code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
+    quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество',
+                                   default=0.0)  # 000 000.000
 
     class Meta:
         verbose_name = 'Товар'
@@ -116,16 +122,11 @@ class Product(models.Model):
 
 class ProductProperty(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties')
-    code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
     color = models.CharField(max_length=50, verbose_name='Color')
-    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Price')
-    discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки',
-                                   default=0.0)  # 000 000 000.00 сумма скидки
     weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Weight')
     width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина см')  # 000.00 в см
     height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота см')  # 000.00 в см
     length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна см')  # 000.00 в см
-    quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество', default=0.0)  # 000 000.000
     image = models.ImageField(upload_to='media/products/')
 
     class Meta:
