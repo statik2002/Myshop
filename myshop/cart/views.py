@@ -4,13 +4,11 @@ from django.views.decorators.http import require_POST
 
 from cart.cart import Cart
 from cart.forms import CartAddProductForm
-from main.models import Product
+from main.models import Product, ProductImage
 
 
 def cart_detail(request):
     cart = Cart(request)
-    for item in cart:
-        print(item)
     context = {
         'cart': cart,
     }

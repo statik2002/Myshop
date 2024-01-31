@@ -37,7 +37,7 @@ for (let product of productsInCart.children) {
     const listedProduct = new Product(price.value, quantity.value, id);
     cart.products.push(listedProduct);
     cart.total_products += Number(quantity.value);
-    cart.total_income += quantity.value * price.value;
+    cart.total_income += quantity.value * parseFloat(price.value.replace(',','.'));
 };
 
 cart.showTotalProducts('.cart-total-products');
@@ -52,14 +52,14 @@ productsInCart.onclick = function(event) {
     let price = parent.parentElement.parentElement.parentElement.querySelector('.price');
     if (parent.className === "minus-button") {
         (quantity.value >= 2) ? quantity.value-- : 1;
-        total.value = (price.value * quantity.value).toLocaleString('ru-RU', {style: 'currency', currency: "RUB"});
+        total.value = (parseFloat(price.value.replace(',','.')) * parseFloat(quantity.value.replace(',','.'))).toLocaleString('ru-RU', {style: 'currency', currency: "RUB"});
         cart.total_products -= 1;
-        cart.total_income -= Number(price.value);
+        cart.total_income -= parseFloat(price.value.replace(',','.'));
     } else if (parent.className === "plus-button") {
         (quantity.value <= 999) ? quantity.value++ : 999;
-        total.value = (price.value * quantity.value).toLocaleString('ru-RU', {style: 'currency', currency: "RUB"});
+        total.value = (parseFloat(price.value.replace(',','.')) * parseFloat(quantity.value.replace(',','.'))).toLocaleString('ru-RU', {style: 'currency', currency: "RUB"});
         cart.total_products += 1;
-        cart.total_income += Number(price.value);
+        cart.total_income += parseFloat(price.value.replace(',','.'));
     }
     cart.showTotalProducts('.cart-total-products');
     cart.showTotalIncome('.cart-total-value');

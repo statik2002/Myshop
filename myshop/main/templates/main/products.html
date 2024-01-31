@@ -2,6 +2,12 @@
 
 {% load static %}
 
+{% block header_script %}
+	<script src="{% static '/js/jquery-3.1.0.js' %}"></script>
+	<script src="{% static '/js/main.js' %}"></script>
+{% endblock header_script %}
+
+
 {% block content %}
 
 
@@ -404,7 +410,7 @@
                       <div class="row p-1 m-0">
                         <div class="col-12">
                           <div class="d-flex justyfy-content-start">
-                            <b class="pe-1 product-price">{{product.price.price__min}} &#8381;</b>
+                            <b class="pe-1 product-price">{{product.price}} &#8381;</b>
                             <s class="ps-1 text-secondary product-old-price">450 &#8381;</s>
                           </div>
                         </div>
