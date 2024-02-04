@@ -1,0 +1,64 @@
+<template>
+    <div>
+        <div class="container-xl">
+            <div class="row g-1">
+                <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                <div class="card border-0 p-1 card-content">
+                <div class="overlay">
+                    <a href="#" class="product-like-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill" viewBox="-1 -1 18 18">
+                        <path class="bold-icon-active" fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                    </svg>
+                    </a>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                    <a href="#" class="stretched-link">
+                        <img src="..." class="card-img-top product-image" alt="...">
+                    </a>
+                    </div>
+                </div>
+                <div class="row p-1 m-0">
+                    <div class="col-12">
+                    <div class="d-flex justyfy-content-start">
+                        <b class="pe-1">346 &#8381;</b>
+                        <s class="text-secondary"><small>450 &#8381;</small></s>
+                    </div>                    <div class="text-truncate product-name">Краска Текс латексная 1,5л</div>
+
+                    </div>
+                </div>
+                <div class="row p-1 mt-0">
+                    <div class="col-12">
+                    <div class="text-truncate product-name">Краска Текс латексная 1,5л</div>
+                    </div>
+                </div>
+                <div class="row p-1">
+                    <div class="col-12">
+                    <div class="text-truncate product-description"><small>Some quick example text to build on the card title and make up the bulk of the card's content.</small></div>
+                    </div>
+                </div>
+                <div class="d-flex text-secondary justify-content-start p-1">
+                    <div class="stars">
+                    <i class="bi bi-star-fill"></i>
+                    4.7
+                    </div>
+                    <div class="stars">
+                    &#x2022; 3224 оценок
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: 'products-list'
+    }
+</script>
+
+<style scoped>
+
+</style>
