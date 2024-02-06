@@ -1,11 +1,7 @@
 <template>
-  <div class="container-fluid d-none d-sm-block p-0">
+  <div class="app">
     <header-component/>
-  </div>
-  <div>
-    <ProductsList/>
-  </div>
-  <div class="container-fluid d-none d-sm-block p-0">
+    <router-view></router-view>
     <footer-component/>
   </div>
 </template>
@@ -13,14 +9,8 @@
 <script>
   import HeaderComponent from '@/components/HeaderComponent.vue'
   import FooterComponent from '@/components/FooterComponent.vue'
-  import ProductsList from '@/components/ProductsList.vue'
   export default {
-    components: {HeaderComponent, FooterComponent, ProductsList},
-    data() {
-      return {
-        
-      }
-    }
+    components: {HeaderComponent, FooterComponent}
   }
 </script>
 

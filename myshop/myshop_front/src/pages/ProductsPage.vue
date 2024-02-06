@@ -1,0 +1,88 @@
+<template>
+    <div class="container-fluid d-none d-sm-block p-0">
+    </div>
+    <div>
+      <ProductsList 
+        :products="products"
+        v-if="!isProductsLoading"
+      />
+      <div v-else>Идет загрузка...</div>
+      <div ref="observer" class="observer"></div>
+    </div>
+    <div class="container-fluid d-none d-sm-block p-0">
+      
+    </div>
+  </template>
+  
+  <script>
+    import ProductsList from '@/components/ProductsList.vue'
+    import { Alert } from 'bootstrap'
+    export default {
+      components: {ProductsList},
+      data() {
+        return {
+          tel: import.meta.env.VITE_PHONE_NUMBER,
+          password: import.meta.env.VITE_PASSWORD,
+          products: [],
+          isProductsLoading: false,
+          productsPage: 0,
+          productsLimit: 30,
+          productsTotalPages: 0,
+          productsOffest: -30,
+        }
+      },
+      methods: {
+        async uploadProducts() {
+          try {
+            this.productsPage += 1;
+            this.productsOffest += this.productsLimit;
+            let response = await fetch(
+              'http://127.0.0.1:8000/api/token/', 
+              {method: 'POST', headers: {'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify({'phone_number': this.tel, 'password': this.password})}
+              );
+            if (response.ok) {
+              let json = await response.json();
+              let token = json.access;
+              let response2 = await fetch(
+                'http://127.0.0.1:8000/api/v1/products/?' + new URLSearchParams({limit: this.productsLimit, offset: this.productsOffest, page: this.productsPage}),
+                {method: 'GET', headers: {'Authorization': `Bearer ${token}`}}
+              );
+              if (response2.ok) {
+                let products = await response2.json();
+                this.products = [...this.products, ...products.results];
+                this.productsTotalPages = Math.ceil(products.count / this.productsLimit);
+              } else {
+                Alert('Error get products');
+              }
+            } else {
+              alert('Error');
+            }
+          } catch(e) {
+            Alert('Connection error');
+          }
+          finally {
+  
+          }
+        }
+      },
+      mounted() {
+        this.uploadProducts();
+        const options = {
+          rootMargin: '0px',
+          thresold: 1.0
+        }
+        const callback = (entries, observer) => {
+          if (entries[0].isIntersecting && this.productsPage < this.productsTotalPages) {
+            this.uploadProducts()
+          }
+        }
+        const observer = new IntersectionObserver(callback, options);
+        observer.observe(this.$refs.observer);
+      }
+    }
+  </script>
+  
+  <style>
+
+  </style>
+  

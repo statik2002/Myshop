@@ -6,7 +6,7 @@
           <li class="nav-item d-none d-lg-block">
             <ul class="nav">
               <li class="nav-link menu1">
-                <a href="#">&#8226; One</a>
+                <a href="" @click="$router.push('/about')">&#8226; About</a>
               </li>
               <li class="nav-link menu1">
                 <a href="#">&#8226; Two</a>
@@ -22,7 +22,7 @@
               <div class="row pe-2 align-items-center">
                 <!--Logo-->
                 <div class="col-md-auto logo d-none d-lg-block">
-                  <a href="#">
+                  <a href="#" @click="$router.push('/')">
                     <h2><span class="logoM">М</span><span class="logo-end">озаика</span></h2>
                   </a>
                 </div>
@@ -76,9 +76,11 @@
 </template>
 
 <script>
+import router from '@/router/router';
+
     export default {
-        
-    }
+    components: { router }
+}
 </script>
 
 <style scoped>

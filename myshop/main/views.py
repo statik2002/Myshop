@@ -51,7 +51,6 @@ def show_product(request, product_id):
         'description': product.description,
         'images': images,
     }
-    print(serialized_product)
 
     add_to_cart_form = CartAddProductForm()
 

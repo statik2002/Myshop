@@ -1,0 +1,545 @@
+* {
+    /*font-family: 'Oswald', sans-serif;*/
+    font-family: 'Ubuntu', sans-serif;
+    /*font-family: 'Roboto', sans-serif;*/
+}
+
+.menu-background {
+    background: linear-gradient(to right, rgb(26, 158, 0), rgb(58, 184, 27));
+}
+
+h2 {
+    font-weight: 700;
+}
+
+.product-name {
+    letter-spacing: -1px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.product-price {
+    font-size: 1.5rem;
+}
+
+.product-price-list {
+    font-size: 1.2rem;
+}
+
+.product-old-price {
+    font-size: 1.0rem;
+}
+
+.product-description {
+    letter-spacing: -0.5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.0rem;
+}
+
+.product-image {
+    border-radius: 5%;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 205px;
+    object-fit: cover;
+}
+
+@media(max-width: 991px) and (min-width: 721px) {
+     .card-img-top {
+        width: 100%;
+        height: 205px;
+        object-fit: cover;
+    }
+}
+
+@media(max-width: 720px) {
+     .card-img-top {
+        width: 100%;
+        height: 205px;
+        object-fit: cover;
+    }
+}
+
+.product-like {
+    position: absolute;
+    cursor: pointer;
+    left: 80%;
+    top: 2%;
+    height: 100%; width: 100%;
+    font-size: 1.3rem;
+    color: black;
+}
+
+.product-container {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transition: .3s ease;
+    background-color: transparent;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.product-like-container {
+    position: absolute;
+    left: 82%;
+    top: 5%;
+    font-size: 1.3rem;
+}
+
+.product-like-container-active {
+    position: absolute;
+    cursor: pointer;
+    left: 85%;
+    top: 0%;
+    font-size: 1.3rem;
+    color: red;
+}
+
+.product-like-active {
+    position: absolute;
+    cursor: pointer;
+    left: 80%;
+    top: 2%;
+    height: 100%; width: 100%;
+    font-size: 1.3rem;
+    color: black;
+}
+
+.product-like-container:hover {
+    color: red;
+    font-size: 1.3rem;
+}
+
+.product-like a {
+    color: black;
+}
+
+.product-like a:visited {
+    color: black;
+}
+
+.product-like a:hover {
+    color: red;
+}
+
+.product-property {
+    overflow: hidden;
+}
+
+.product-property:after {
+    content:'........................................................';
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.stars {
+    font-size: 0.7rem;
+}
+
+.star {
+    color: gold;
+}
+
+.star-no {
+    color: rgb(187, 187, 187);
+}
+
+.product-stars {
+    font-size: 1.0rem;
+}
+
+.bottom-icons {
+    font-size: 2.0em;
+}
+
+.bottom-icons a:link {
+    color: #aaa;
+}
+
+.bottom-icons a:visited {
+    color: #aaa;
+}
+
+.bottom-icons a:active {
+    color: green;
+}
+
+.search-line-icon {
+    font-size: 0.8rem;
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+    border: none;
+    background-color: #F5F5F5;
+    border-radius: 0.5rem;
+    height: 3rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+
+.header-big {
+    height: 300px !important;
+    width: 100%;
+    background-color: blueviolet;
+}
+
+.header-small {
+    background-color: blue;
+}
+
+.carousel-image-mobile {
+    height: 100px;
+}
+
+.carousel-desktop {
+    border-radius: 20px 20px 20px 20px;
+    overflow: hidden;
+}
+
+.carousel-image-desktop {
+    height: 200px;
+}
+
+.carousel {
+    transition: transform .5s ease;
+}
+
+.carousel-item-zoomed {
+    background-position: 50% 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+.carousel-item-zoomed img {
+    transition: opacity .5s;
+    display: block;
+    width: 100%;
+}
+
+.carousel-item-zoomed img:hover {
+    opacity: 0;
+}
+
+.menu1 {
+    color: rgba(231, 231, 231, 0.5);
+}
+
+.menu1 a:link {
+    color: rgba(231, 231, 231, 0.5);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.menu1 a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.menu1 a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.logo {
+    -webkit-text-stroke:1px rgb(255, 255, 255);
+    color: rgb(255, 208, 0);
+}
+
+.logo a:link {
+    -webkit-text-stroke:1px rgb(255, 255, 255);
+    color: rgb(255, 208, 0);
+    text-decoration: none;
+}
+
+.logo a:visited {
+    text-decoration: none;
+}
+
+.logo a:hover {
+    text-decoration: underline dotted;
+    text-decoration-thickness: 1px;
+}
+
+.logoM {
+    color: red;
+}
+
+.logo-end {
+    color: green;
+    font-size: 0.8em;
+}
+
+
+.card-content {
+    border-radius: 15px;
+}
+
+.card:hover {
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    box-shadow: 0px 0px 30px 0px rgba(34, 60, 80, 0.2);
+    z-index: 100;
+}
+
+
+.breadcrumb a {
+    text-decoration: none;
+    color: gray;
+}
+
+.breadcrumb-icon {
+    font-size: 1.3em;
+}
+
+.widget-area {
+    background-color: white;
+}
+
+.widget {
+    border-radius: 10px;
+    box-shadow: 0 2px 16px 5px rgba(0, 0, 0, 0.08);
+}
+
+.widget a:link {
+    color: green;
+    text-decoration: none;
+}
+
+.widget a:hover {
+    color: red;
+}
+
+.circle {
+    width: 8vw;
+    height: 8vw;
+    -webkit-border-radius: 8vw;
+    -moz-border-radius: 8vw;
+    border-radius: 8vw;
+    border: 5px solid;
+    color: rgba(54, 131, 10, 0.3);
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.icon-at-circle {
+    font-size: 4vw;
+    color: green;
+}
+
+.text-at-circle {
+    font-size: 3vw;
+    color: green;
+    font-weight: 700;
+}
+
+.bold-icon {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:link {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:active {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:visited {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:hover {
+    stroke: rgb(255, 255, 255);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    fill: rgba(255, 0, 0, 0.623);
+}
+
+.bold-icon-active {
+    fill: rgba(255, 0, 0, 0.623);
+    stroke: white;
+}
+
+.bold-icon-carousel {
+    fill: rgba(112, 112, 112, 0.623);
+    stroke: rgb(255, 255, 255);
+}
+
+.right-menu {
+    background: linear-gradient(to right, rgb(26, 158, 0), rgb(58, 184, 27));
+}
+
+.right-menu h5 {
+    color: white;
+}
+
+.right-menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.right-menu a:active {
+    color: white;
+    text-decoration: none;
+}
+
+.right-menu a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+.right-menu a:hover {
+    color: white;
+    text-decoration: underline dotted;
+    text-decoration-thickness: 1px;
+}
+
+
+.card {
+    font-size: 0.8rem;
+}
+
+.datetime {
+    font-size: 0.6rem;
+    color: #999999;
+}
+
+.cabinet-top-menu {
+    font-size: 0.8rem;
+}
+
+.cabinet-top-menu a {
+    color: green;
+}
+
+.cabinet-top-menu a:link {
+    color: green;
+}
+
+.cabinet-top-menu a:visited {
+    color: green;
+}
+
+.cabinet-top-menu a:hover {
+    color: red;
+}
+
+.cabinet-avatar img {
+    object-fit: cover;
+    max-width: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    object-position: center;
+}
+
+#carouselColorSlider {
+    @media (min-width: 576px) {
+        .carousel-inner {
+            display: flex;
+            overflow: hidden;
+        }
+        .carousel-item {
+            margin-right: 0;
+            display: block;
+        }
+        .carousel-inner{
+            padding: 1em;
+        }
+        .carousel-control-prev, .carousel-control-next{
+            background-color: #888888;
+            width: 5vh;
+            height: 5vh;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}
+
+.input-wrapper input {
+    border: none; 
+    width: 2em; 
+    text-align: center;
+    background-color: white;
+}
+
+.input-total-wrapper input {
+    border: none;
+    width: 7em;
+    text-align: start;
+    background-color: white;
+    color: black;
+    font-weight: 700;
+}
+
+.input-hidden input {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    visibility: hidden;
+    size: 0;
+    width: 0px;
+}
+
+.cart-product:hover .cart-product-icons{
+    visibility: visible;
+}
+
+.cart-product-icons {
+    visibility: hidden;
+}
+
+.cart-total-value {
+    font-weight: 700;
+}
+
+.cart-total-products {
+    font-weight: 700;
+}

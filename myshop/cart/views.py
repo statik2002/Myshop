@@ -9,6 +9,7 @@ from main.models import Product, ProductImage
 
 def cart_detail(request):
     cart = Cart(request)
+
     context = {
         'cart': cart,
     }

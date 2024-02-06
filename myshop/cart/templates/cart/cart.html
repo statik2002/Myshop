@@ -253,7 +253,7 @@
                   <div class="col pe-5">
                     <div class="row">
                       <div class="col-auto">
-												{{cart_product.images.all}}
+                        {{cart_product.images.all}}
                         <img class="" src="{{item.images}}" alt="" style="max-height: 100px; width: auto;">
                       </div>
                       <div class="col">
@@ -265,19 +265,19 @@
                     <div class="row h-100">
                       <div class="col-auto">
                         <div class="d-flex gap-3 h-100">
-													<div>
-														{{item.price}}
-													</div>
+                          <div>
+                              {{item.price}}
+                          </div>
                           <div class="d-flex align-items-start pe-5">
                             <div class="d-flex gap-2 align-items-center">
                               <a href="#" class="minus-button" id="product1-minus"><i class="bi bi-dash-square fs-3 text-dark"></i></a>
-                              <div class="px-1 input-wrapper"><input size="2" type="text" id="product_{{cart_product.id}}" class="quantity" disabled value="{{item.cart_quantity}}" maxlength="2" min="1"></div>
+                              <div class="px-1 input-wrapper"><input size="2" type="text" id="product_{{cart_product.id}}" class="quantity" disabled value="{{item.quantity}}" maxlength="2" min="1"></div>
                               <a href="#" class="plus-button"><i class="bi bi-plus-square fs-3 text-dark"></i></a>
                             </div>
                           </div>
                           <div class="input-hidden">
-														<input type="text" value="{{item.price}}" class="price">
-													</div>
+                              <input type="text" value="{{item.price}}" class="price">
+                          </div>
                           <div class="d-flex flex-column justify-content-start">
                             <div class="pt-2 pb-3 fw-bold input-total-wrapper">
                               <input type="text" value="{{item.total_price}}" class="total" disabled maxlength="2" min="1" size="1">

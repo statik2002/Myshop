@@ -83,7 +83,7 @@ class ProductImage(models.Model):
     product = models.ForeignKey('Product', verbose_name='Товар',
                                 on_delete=models.CASCADE, related_name='product_images')
     alt = models.CharField(max_length=100, verbose_name='Alt изображения')
-    image = models.ImageField(upload_to='media/product_images', verbose_name='Изображение')
+    image = models.ImageField(upload_to='product_images', verbose_name='Изображение')
 
     class Meta:
         verbose_name = 'Изображение товара'
@@ -96,7 +96,7 @@ class ProductImage(models.Model):
 class Product(models.Model):
 
     name = models.CharField('Наименование товара', max_length=200)
-    description = models.TextField(verbose_name='Описание')
+    description = models.TextField(verbose_name='Описание', default='Нет описания', null=True, blank=True)
     available = models.BooleanField(verbose_name='Показывается', default=True)
     catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE, related_name='products', verbose_name='В каталоге')
     slug = models.SlugField(max_length=255)
