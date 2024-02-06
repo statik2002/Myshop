@@ -3,6 +3,8 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from api.serializers import CatalogSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
 from main.models import Catalog, Product
@@ -17,6 +19,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Product.objects.filter(quantity__gt=0)
     serializer_class = ProductListSerializer
+    @method_decorator(cache_page(60 * 60 * 2))
 
     @action(methods=['get'], detail=True)
     def get_product(self, request, pk):

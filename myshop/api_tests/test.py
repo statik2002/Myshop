@@ -158,17 +158,18 @@ async def main():
 
     api_login = env.str('API_LOGIN')
     api_password = env.str('API_PASSWORD')
-    port = env.int('SMB_PORT')
-    oks_path = env.str('SMB_OKS_PATH')
-    shared_folder = env.str('SMB_SHARED_FOLDER')
-    username = env.str('SMB_USERNAME')
-    my_name = env.str('SMB_MY_NAME')
-    password = env.str('SMB_PASSWORD')
-    remote_name = env.str('SMB_REMOTE_NAME')
-    leftovers_path = env.str('SMB_LEFTOVERS_PATH')
+    #port = env.int('SMB_PORT')
+    #oks_path = env.str('SMB_OKS_PATH')
+    #shared_folder = env.str('SMB_SHARED_FOLDER')
+    #username = env.str('SMB_USERNAME')
+    #my_name = env.str('SMB_MY_NAME')
+    #password = env.str('SMB_PASSWORD')
+    #remote_name = env.str('SMB_REMOTE_NAME')
+    #leftovers_path = env.str('SMB_LEFTOVERS_PATH')
 
     try:
         token = await get_token(api_login, api_password, debug)
+        '''
         await fetch_file(
                     leftovers_path,
                     shared_folder,
@@ -179,6 +180,7 @@ async def main():
                     port,
                     my_name
                 )
+        '''                
         catalogs, products = await parse_leftovers_for_site('ostatki.txt')
         response = await initial_catalogs_upload(token, catalogs, debug)
         print(response)
