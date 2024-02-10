@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from main.models import Catalog, Product, ProductImage
+from main.models import Cart, Catalog, Customer, Product, ProductImage
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -36,3 +36,15 @@ class CatalogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Catalog
         fields = ('name', 'code_1c')
+
+
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = '__all__'
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = '__all__'

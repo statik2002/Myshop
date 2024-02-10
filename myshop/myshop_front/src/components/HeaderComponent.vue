@@ -6,13 +6,13 @@
           <li class="nav-item d-none d-lg-block">
             <ul class="nav">
               <li class="nav-link menu1">
-                <a href="" @click="$router.push('/about')">&#8226; About</a>
+                <router-link to="/about">&#8226; About</router-link>
               </li>
               <li class="nav-link menu1">
-                <a href="#">&#8226; Two</a>
+                <router-link to="/cart">&#8226; My Cart</router-link>
               </li>
               <li class="nav-link menu1">
-                <a href="#">&#8226; Three</a>
+                <router-link to="/">&#8226; {{ $store.state.likes }}</router-link>
               </li>
             </ul>
           </li>
@@ -22,9 +22,9 @@
               <div class="row pe-2 align-items-center">
                 <!--Logo-->
                 <div class="col-md-auto logo d-none d-lg-block">
-                  <a href="#" @click="$router.push('/')">
+                  <router-link to="/">
                     <h2><span class="logoM">М</span><span class="logo-end">озаика</span></h2>
-                  </a>
+                  </router-link>
                 </div>
                 <!--Off canvas button-->
                 <div class="col-md-auto text-light d-none d-lg-block">
@@ -48,7 +48,7 @@
                   <div class="container">
                     <div class="row menu1">
                       <div class="col">
-                        <a href="#" data-bs-title="Cabinet"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a>
+                        <UserTab></UserTab>
                       </div>
                       <div class="col">
                         <a href="#" data-bs-title="Your cart"><i class="bi bi-bag" style="font-size: 1.5rem;"></i></a>
@@ -76,10 +76,9 @@
 </template>
 
 <script>
-import router from '@/router/router';
-
+import UserTab from '@/components/UserTab.vue'
     export default {
-    components: { router }
+    components: { UserTab }
 }
 </script>
 

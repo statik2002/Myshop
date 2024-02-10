@@ -4,9 +4,13 @@
     <div>
       <ProductsList 
         :products="products"
-        v-if="!isProductsLoading"
+        v-if="isProductsLoading"
       />
-      <div v-else>Идет загрузка...</div>
+      <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
       <div ref="observer" class="observer"></div>
     </div>
     <div class="container-fluid d-none d-sm-block p-0">
@@ -38,7 +42,7 @@
             this.productsOffest += this.productsLimit;
             let response = await fetch(
               'http://127.0.0.1:8000/api/token/', 
-              {method: 'POST', headers: {'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify({'phone_number': this.tel, 'password': this.password})}
+              {method: 'POST', headers: {'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify({'phone_number': this.$store.state.userPhone, 'password': this.$store.state.userPassword})}
               );
             if (response.ok) {
               let json = await response.json();
@@ -58,10 +62,10 @@
               alert('Error');
             }
           } catch(e) {
-            Alert('Connection error');
+            alert('Connection error');
           }
           finally {
-  
+            this.isProductsLoading=true;
           }
         }
       },

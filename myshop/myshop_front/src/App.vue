@@ -1,16 +1,11 @@
 <template>
   <div class="app">
-    <header-component/>
     <router-view></router-view>
-    <footer-component/>
   </div>
 </template>
 
 <script>
-  import HeaderComponent from '@/components/HeaderComponent.vue'
-  import FooterComponent from '@/components/FooterComponent.vue'
   export default {
-    components: {HeaderComponent, FooterComponent}
   }
 </script>
 

@@ -1,5 +1,9 @@
 <template>
-    <div class="container-lg pt-5">
+    <header-component></header-component>
+    <div class="container-lg pt-5" v-if="isProductLoading">
+      <div class="row">
+        {{ product }}
+      </div>
       <div class="row">
         <div class="col-12 px-3">
           <h2>{{ product.name }}</h2>
@@ -23,19 +27,21 @@
         <div class="col-sm-6 col-lg-4 col-md-6">
           <div id="carouselExampleFade" class="carousel slide carousel-fade">
             <div class="carousel-inner">
-              <div class="carousel-item active carousel-item-zoomed" onmousemove="zoom(event)" style="background-image: url(/media/14370.jpeg);">
-                <img src="..." class="d-block w-100" alt="...">
+              <div class="carousel-item active carousel-item-zoomed" v-if="product.product_images.length > 0" @mousemove="zoom($event)" style="background-image: url('http://127.0.0.1:8000'+product.product_images[0].image);">
+                <img :src="'http://127.0.0.1:8000'+product.product_images[0].image" class="d-block w-100" alt="...">
                 <!--
                 <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
                 <img v-else src="..." class="card-img-top product-image" alt="...">
                 -->
               </div>
+              <!--
               <div class="carousel-item carousel-item-zoomed" onmousemove="zoom(event)" style="background-image: url(/media/avatar.webp);">
                 <img src="..." class="d-block w-100" alt="...">
               </div>
               <div class="carousel-item carousel-item-zoomed" onmousemove="zoom(event)" style="background-image: url(/media/oboi.webp);">
                 <img src="..." class="d-block w-100" alt="...">
               </div>
+              -->
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
               <!--
@@ -59,14 +65,18 @@
         </div>
         <!--End Carousel-->
         <div class="col-sm-6 col-lg-5 col-md-6 pe-4">
-          <div class="row my-2">
+          <div class="row my-2" v-if="product.discount > 0">
             <div class="col-12">
               <span class="badge bg-danger">Выгодное предложение</span>
             </div>
           </div>
-          <div class="d-flex align-items-end">
+          <div class="d-flex align-items-end" v-if="product.discount > 0">
+              <h1><b>{{ product.discount }} &#8381;</b></h1>
+              <h3 class="mx-2 "><s class="text-secondary"><small>{{ product.price }} &#8381;</small></s></h3>
+          </div>
+          <div class="d-flex align-items-end" v-else>
               <h1><b>{{ product.price }} &#8381;</b></h1>
-              <h3 class="mx-2 "><s class="text-secondary"><small>450 &#8381;</small></s></h3>
+              <!--<h3 class="mx-2 "><s class="text-secondary"><small>{{ product.price }} &#8381;</small></s></h3>-->
           </div>
           <div class="row my-3">
             <div class="col">
@@ -102,7 +112,7 @@
           <div class="row my-3">
             <div class="col-10">
               <div class="d-grid">
-                <button type="button" class="btn btn-success">Добавить в корзину  <i class="bi bi-cart"></i></button>
+                <button type="button" class="btn btn-success" @click="addToCart">Добавить в корзину  <i class="bi bi-cart"></i></button>
               </div>
             </div>
             <div class="col-2">
@@ -127,6 +137,7 @@
         <!--End Widget-->
       </div>
       <!--Color slider-->
+      <!--
       <div class="row">
         <div class="container">
           <div class="px-5">Выбор цвета</div>
@@ -176,6 +187,7 @@
           </div>
         </div>
       </div>
+      -->
       <!--End color slider-->
       <!--About Product-->
       <div class="row mt-5">
@@ -368,17 +380,23 @@
         </div>
       </div>
     </div>
+    <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+      <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <footer-component></footer-component>
 </template>
 
 <script>
-  import axios from 'axios'
-  import { isProxy, toRaw } from 'vue';
+    import axios from 'axios'
+    import HeaderComponent from '@/components/HeaderComponent.vue'
+    import FooterComponent from '@/components/FooterComponent.vue'
     export default {
+        components: {HeaderComponent, FooterComponent},
         data() {
             return {
-                tel: import.meta.env.VITE_PHONE_NUMBER,
-                password: import.meta.env.VITE_PASSWORD,
-                routeParamId: 0,
+                isProductLoading: false,
                 product: {
                   available: true,
                   catalog: 0,
@@ -406,20 +424,20 @@
                         method: 'post',
                         url: 'http://127.0.0.1:8000/api/token/',
                         headers: {'Content-Type': 'application/json;charset=utf-8'},
-                        data: JSON.stringify({'phone_number': this.tel, 'password': this.password})
+                        data: JSON.stringify({'phone_number': this.$store.state.userPhone, 'password': this.$store.state.userPassword})
                       }
                     ).then((response) => {
                       const token = response.data.access;
                       axios(
                         {
-                          url: 'http://127.0.0.1:8000/api/v1/products/'+this.$route.params.id+'/get_product/',
+                          url: `http://127.0.0.1:8000/api/v1/products/${this.$route.params.id}/`,
                           method: 'get',
                           headers: {'Authorization': `Bearer ${token}`}
                         }
                       ).then((response) => {
-                        console.log(response.data)
                         this.product = response.data;
-                        console.log(this.product);
+                        this.isProductLoading=true
+                        //console.log(this.product);
                       })
                     });
                 } catch(e) {
@@ -429,6 +447,22 @@
         
                 }
             },
+
+            zoom(event) {
+                // console.log(event);
+                const zoomer = event.currentTarget;
+                let img = zoomer.querySelector("img");
+                zoomer.setAttribute('style', `background-image: url(${img.src})`);
+                // event.offsetX ? offsetX = event.offsetX : offsetX = event.touches[0].pageX
+                // event.offsetY ? offsetY = event.offsetY : offsetX = event.touches[0].pageX
+                const x = event.offsetX/zoomer.offsetWidth*100
+                const y = event.offsetY/zoomer.offsetHeight*100
+                zoomer.style.backgroundPosition = x + '% ' + y + '%';
+            },
+
+            addToCart() {
+              this.$store.commit('addProductToCart', this.product);
+            }
         },
         mounted() {
             this.routeParamId = this.$route.params.id;

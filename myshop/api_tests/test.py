@@ -150,6 +150,70 @@ async def parse_leftovers_for_site(filepath):
     return catalogs, products
 
 
+async def get_customers(token, debug):
+    if debug:
+        url = f'http://127.0.0.1:8000/api/v1/customers/'
+    else:
+        url = f'https://neit.ru/api/v1/goods/'
+    header = {
+        'Authorization': f'Bearer {token}'
+    }
+
+    response = requests.get(url, headers=header, timeout=500)
+    response.raise_for_status()
+
+    return response.json()
+
+
+async def get_customer_by_id(token, debug, id):
+    if debug:
+        url = f'http://127.0.0.1:8000/api/v1/customers/{id}/'
+    else:
+        url = f'https://neit.ru/api/v1/goods/'
+    header = {
+        'Authorization': f'Bearer {token}'
+    }
+
+    response = requests.get(url, headers=header, timeout=500)
+    response.raise_for_status()
+
+    return response.json()
+
+
+async def get_customer_by_phone(token, debug, phone):
+    if debug:
+        url = f'http://127.0.0.1:8000/api/v1/customers/get_customer_by_phone/'
+    else:
+        url = f'https://neit.ru/api/v1/goods/'
+    header = {
+        'Authorization': f'Bearer {token}'
+    }
+
+    data = {
+        'phone_number': phone
+    }
+
+    response = requests.get(url, headers=header, json=data, timeout=500)
+    response.raise_for_status()
+
+    return response.json()
+
+
+async def register_customer(token, debug, customer):
+    if debug:
+        url = f'http://127.0.0.1:8000/api/v1/customers/'
+    else:
+        url = f'https://neit.ru/api/v1/goods/'
+    header = {
+        'Authorization': f'Bearer {token}'
+    }
+
+    response = requests.post(url, headers=header, json=customer, timeout=500)
+    response.raise_for_status()
+
+    return response.json()
+    
+
 async def main():
     env = Env()
     env.read_env()
@@ -181,17 +245,34 @@ async def main():
                     my_name
                 )
         '''                
-        catalogs, products = await parse_leftovers_for_site('ostatki.txt')
-        response = await initial_catalogs_upload(token, catalogs, debug)
-        print(response)
-        response = await initial_upload_products(token, products, debug)
-        print(response)
+        #catalogs, products = await parse_leftovers_for_site('ostatki.txt')
+        #response = await initial_catalogs_upload(token, catalogs, debug)
+        #print(response)
+        #response = await initial_upload_products(token, products, debug)
+        #print(response)
         #products = await get_all_products_from_server(token, debug)
         #pprint(products)
 
         #product_id = 2
         #product = await get_product_by_id(token, product_id, debug)
         #pprint(product)
+
+        #customers = await get_customers(token, debug)
+        #pprint(customers)
+        #customer = await get_customer_by_id(token, debug, 1)
+        #pprint(customer)
+        customer = await get_customer_by_phone(token, debug, '+79149569967')
+        pprint(customer)
+
+        #response = await register_customer(token, debug, {
+        #    'email': 'asda@gdfdf.ru', 
+        #    'password': 'password1', 
+        #    'phone_number': '+79146667778',
+        #    'first_name': 'Fedya',
+        #    'last_name': 'Slyapkin'
+        #    })
+        #pprint(response)
+
 
     except Exception as e:
         py_logger.critical(f'\n{datetime.datetime.now()} --- Connection Error: \n {e} \n')

@@ -1,5 +1,4 @@
 <template>
-    <div class="container-xl pt-3">
         <div class="row g-1">
             <TransitionGroup name="products">
                 <div v-for="product in products" :key="product" class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6">
@@ -7,7 +6,6 @@
                 </div>
             </TransitionGroup>
         </div>
-    </div>
 </template>
 
 <script>

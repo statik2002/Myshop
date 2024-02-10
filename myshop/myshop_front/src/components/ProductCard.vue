@@ -9,7 +9,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-            <a href="" @click="$router.push(`/products/${product.id}`)" class="stretched-link">
+            <a href="#" @click="$router.push({name: 'product', params: {id: product.id}})" class="stretched-link">
                 <img v-if="product.product_images.length > 0" :src=product.product_images[0].image class="card-img-top product-image" alt="...">
                 <img v-else src="..." class="card-img-top product-image" alt="...">
             </a>
@@ -17,9 +17,13 @@
         </div>
         <div class="row p-0 m-0">
             <div class="col-12 p-0">
-                <div class="d-flex justyfy-content-start">
+                <div class="d-flex justyfy-content-start" v-if="product.discount > 0">
+                    <b class="pe-1 product-price-list">{{ product.discount }} &#8381;</b>
+                    <s class="text-secondary"><small>{{ product.price }} &#8381;</small></s>
+                </div>
+                <div class="d-flex justyfy-content-start" v-else>
                     <b class="pe-1 product-price-list">{{ product.price }} &#8381;</b>
-                    <s class="text-secondary"><small>450 &#8381;</small></s>
+                    <!--<s class="text-secondary"><small>{{ product.price }} &#8381;</small></s>-->
                 </div>                    
                 <div class="text-truncate product-name ps-0">{{ product.name }}</div>
             </div>

@@ -4,7 +4,7 @@ from main.models import Customer, Catalog, Product, Tag, ProductProperty, Produc
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'phone_number')
 
 
 @admin.register(Catalog)

@@ -1,3 +1,4 @@
+import decimal
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -135,3 +136,30 @@ class ProductProperty(models.Model):
 
     def __str__(self) -> str:
         return f'{self.color}'
+
+
+class ProductInCart(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products_in_carts')
+    quantity = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Количество в корзине', default='1.0')
+    fixed_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Зафиксированая цена')
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='products')
+
+    def total(self) -> decimal:
+        return self.quantity * self.fixed_price
+
+
+class Cart(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='cart')
+    
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+
+
+    def products_count(self) -> int:
+        products_count = ProductInCart.objects.filter(cart=self).count
+        return products_count
+
+
+    def __str__(self) -> str:
+        return f'Корзина пользователя: {self.customer.phone_number}, кол-во товаров: {self.products_count}'
