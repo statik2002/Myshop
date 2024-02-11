@@ -4,6 +4,7 @@ from main.models import Cart, Catalog, Customer, Product, ProductImage
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = ProductImage
         fields = '__all__'

@@ -33,9 +33,20 @@ export default createStore({
         },
 
         getCartProductsCount(state) {
-            return state.cartProductsTotal;
-        }
+            return state.cartProductsQuantity;
+        },
 
+        getCartPositionCount(state) {
+            return state.cart.length;
+        },
+        getProductQuantity(state, id) {
+            const productIndex = state.cart.findIndex((index) => index.id === id);
+            return state.cart[productIndex].quantity;
+        },
+        getProductInCart(state, id) {
+            const productIndex = state.cart.findIndex((index) => index.id === id);
+            return state.cart[productIndex];
+        }
     },
 
     mutations: {
@@ -62,9 +73,9 @@ export default createStore({
         addProductToCart(state, product) {
             const productIndex = state.cart.findIndex((index) => index.id === product.id);
             if (productIndex >= 0) {
-                state.cart[productIndex].quantity += 1;
-                state.cartProductsQuantity += product.quantity;
-                state.cartProductsTotal += product.quantity * product.price;
+                state.cart[productIndex].quantity = 1;
+                state.cartProductsQuantity += 1;
+                state.cartProductsTotal += state.cart[productIndex].quantity * product.price;
             } else {
                 const newCartItem = {
                     id: product.id,
@@ -79,30 +90,38 @@ export default createStore({
                     price: product.price,
                     discount: product.discount,
                     code_1c: product.code_1c,
-                    quantity: product.quantity,
+                    quantity: 1,
                     catalog: product.catalog,
                     tags: product.tags
                 };
                 state.cart.push(newCartItem);
-                state.cartProductsQuantity += product.quantity;
-                state.cartProductsTotal += product.quantity * product.price;
+                state.cartProductsQuantity += 1;
+                state.cartProductsTotal += 1 * product.price;
             }
         },
         removeProductFromCart(state, product) {
             const productIndex = state.cart.findIndex((index) => index.id === product.id);
             state.cart.splice(productIndex, 1);
-            state.cartProductsQuantity -= product.quantity;
-            state.cartProductsTotal -= product.quantity - product.price;
+            state.cartProductsQuantity -= 1;
+            state.cartProductsTotal -= Number(state.cartProductsTotal - product.price)
         },
 
         addOne(state, id) {
             const productIndex = state.cart.findIndex((index) => index.id === id);
             state.cart[productIndex].quantity += 1;
+            state.cartProductsQuantity += 1;
+            state.cartProductsTotal += Number(state.cart[productIndex].price)
         },
 
-        subOne(state,product) {
+        subOne(state, id) {
             const productIndex = state.cart.findIndex((index) => index.id === id);
-            state.cart[productIndex].quantity -= 1;
+            if (state.cart[productIndex].quantity > 1)
+            {
+                state.cart[productIndex].quantity -= 1;
+                state.cartProductsQuantity -= 1;
+                state.cartProductsTotal -= state.cart[productIndex].price
+            }
+            
         }
     },
 

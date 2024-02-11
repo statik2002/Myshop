@@ -28,7 +28,7 @@
           <div id="carouselExampleFade" class="carousel slide carousel-fade">
             <div class="carousel-inner">
               <div class="carousel-item active carousel-item-zoomed" v-if="product.product_images.length > 0" @mousemove="zoom($event)" style="background-image: url('http://127.0.0.1:8000'+product.product_images[0].image);">
-                <img :src="'http://127.0.0.1:8000'+product.product_images[0].image" class="d-block w-100" alt="...">
+                <img :src="product.product_images[0].image" class="d-block w-100" alt="...">
                 <!--
                 <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
                 <img v-else src="..." class="card-img-top product-image" alt="...">
@@ -437,7 +437,6 @@
                       ).then((response) => {
                         this.product = response.data;
                         this.isProductLoading=true
-                        //console.log(this.product);
                       })
                     });
                 } catch(e) {

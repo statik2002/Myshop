@@ -5,7 +5,7 @@
             :name='cartItem.name'
             :description='cartItem.description'
             :id='cartItem.id'
-            :product_images='cartItem.product_iamges'
+            :product_images='cartItem.product_images'
             :available='cartItem.available'
             :slug='cartItem.slug'
             :rating='cartItem.rating'
@@ -18,6 +18,12 @@
             :catalog='cartItem.catalog'
             :tags="cartItem.tags">
         </cart-card>
+        <div>
+            Кол-во товаров: {{ $store.state.cartProductsQuantity }}
+        </div>
+        <div>
+            Общая сумма: {{ $store.state.cartProductsTotal }}
+        </div>
     </div>
     <footer-component></footer-component>
 </template>
@@ -31,6 +37,9 @@
         computed: {
             productsInCart() {
                 return this.$store.getters['getCart'];
+            },
+            getProductsCount() {
+                return this.$store.cartProductQuantity;
             }
         }
     }

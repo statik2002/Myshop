@@ -26,7 +26,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, pk):
         product = Product.objects.get(pk=pk)
-        return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
+        return Response(ProductSerializer(product,  context={'request': request}).data, status=status.HTTP_200_OK)
 
 
 class InitialUploadCatalog(viewsets.ModelViewSet):

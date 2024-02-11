@@ -9,7 +9,7 @@
                 <router-link to="/about">&#8226; About</router-link>
               </li>
               <li class="nav-link menu1">
-                <router-link to="/cart">&#8226; My Cart</router-link>
+                <router-link to="/cart">&#8226; My Cart ({{ $store.getters.getCartPositionCount }})</router-link>
               </li>
               <li class="nav-link menu1">
                 <router-link to="/">&#8226; {{ $store.state.likes }}</router-link>
