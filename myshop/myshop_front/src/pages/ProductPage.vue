@@ -24,14 +24,23 @@
       <div class="row mt-5 d-flex">
         <!--Carousel-->
         <div class="col-sm-6 col-lg-4 col-md-6">
-          <div id="carouselExampleFade" class="carousel slide carousel-fade">
+          <div id="carouselFade" class="carousel slide carousel-fade">
             <div class="carousel-inner">
-              <div class="carousel-item active carousel-item-zoomed" v-if="product.product_images.length > 0" @mousemove="zoom($event)" style="background-image: url('http://127.0.0.1:8000'+product.product_images[0].image);">
-                <img :src="product.product_images[0].image" class="d-block w-100" alt="...">
-                <!--
-                <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
-                <img v-else src="..." class="card-img-top product-image" alt="...">
-                -->
+              <div v-for="(image, index) in product.product_images">
+                <div class="carousel-item active carousel-item-zoomed" v-if="index === 0" @mousemove="zoom($event)" style="background-image: url(image.image);">
+                  <img :src="image.image" class="d-block w-100" :alt="image.alt">
+                  <!--
+                  <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
+                  <img v-else src="..." class="card-img-top product-image" alt="...">
+                  -->
+                </div>
+                <div class="carousel-item carousel-item-zoomed" v-else @mousemove="zoom($event)" style="background-image: url(image.image);">
+                  <img :src="image.image" class="d-block w-100" :alt="image.alt">
+                  <!--
+                  <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
+                  <img v-else src="..." class="card-img-top product-image" alt="...">
+                  -->
+                </div>
               </div>
               <!--
               <div class="carousel-item carousel-item-zoomed" onmousemove="zoom(event)" style="background-image: url(/media/avatar.webp);">
@@ -42,7 +51,7 @@
               </div>
               -->
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselFade" data-bs-slide="prev">
               <!--
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               -->
@@ -51,7 +60,7 @@
               </svg>
               <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselFade" data-bs-slide="next">
               <!--
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               -->

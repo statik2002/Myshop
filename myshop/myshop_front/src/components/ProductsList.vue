@@ -1,5 +1,5 @@
 <template>
-        <div class="row g-1">
+        <div class="row g-2">
             <TransitionGroup name="products">
                 <div v-for="product in products" :key="product" class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6">
                     <product-card :product="product"/>

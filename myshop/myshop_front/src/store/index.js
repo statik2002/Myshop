@@ -46,6 +46,20 @@ export default createStore({
         getProductInCart(state, id) {
             const productIndex = state.cart.findIndex((index) => index.id === id);
             return state.cart[productIndex];
+        },
+        getTotalProductQuantity(state) {
+            let total = 0
+            for (let product of state.cart) {
+                total += product.quantity
+            }
+            return total
+        },
+        getTotalProductsAmount(state) {
+            let total = 0
+            for (let product of state.cart) {
+                total += product.quantity * product.price
+            }
+            return total
         }
     },
 
@@ -73,7 +87,7 @@ export default createStore({
         addProductToCart(state, product) {
             const productIndex = state.cart.findIndex((index) => index.id === product.id);
             if (productIndex >= 0) {
-                state.cart[productIndex].quantity = 1;
+                state.cart[productIndex].quantity += 1;
                 state.cartProductsQuantity += 1;
                 state.cartProductsTotal += state.cart[productIndex].quantity * product.price;
                 localStorage.setItem('cart', JSON.stringify(state.cart))
