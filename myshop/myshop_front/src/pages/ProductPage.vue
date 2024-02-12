@@ -2,7 +2,6 @@
     <header-component></header-component>
     <div class="container-lg pt-5" v-if="isProductLoading">
       <div class="row">
-        {{ product }}
       </div>
       <div class="row">
         <div class="col-12 px-3">

@@ -34,7 +34,7 @@
                         <div class="">
                             <div class="d-flex gap-3 ms-auto cart-product-icons align-items-start">
                             <a href="#"><i class="bi bi-heart"></i></a>
-                                <button type="submit" class="btn btn-success"><i class="bi bi-trash3"></i></button>
+                                <button type="button" class="btn btn-success" @click="$store.commit('deleteProductFromCart', id)"><i class="bi bi-trash3"></i></button>
                             </div>
                         </div>
                         </div>

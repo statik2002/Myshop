@@ -76,6 +76,7 @@ export default createStore({
                 state.cart[productIndex].quantity = 1;
                 state.cartProductsQuantity += 1;
                 state.cartProductsTotal += state.cart[productIndex].quantity * product.price;
+                localStorage.setItem('cart', JSON.stringify(state.cart))
             } else {
                 const newCartItem = {
                     id: product.id,
@@ -97,6 +98,7 @@ export default createStore({
                 state.cart.push(newCartItem);
                 state.cartProductsQuantity += 1;
                 state.cartProductsTotal += 1 * product.price;
+                localStorage.setItem('cart', JSON.stringify(state.cart))
             }
         },
         removeProductFromCart(state, product) {
@@ -111,6 +113,7 @@ export default createStore({
             state.cart[productIndex].quantity += 1;
             state.cartProductsQuantity += 1;
             state.cartProductsTotal += Number(state.cart[productIndex].price)
+            localStorage.setItem('cart', JSON.stringify(state.cart))
         },
 
         subOne(state, id) {
@@ -120,8 +123,15 @@ export default createStore({
                 state.cart[productIndex].quantity -= 1;
                 state.cartProductsQuantity -= 1;
                 state.cartProductsTotal -= state.cart[productIndex].price
+                localStorage.setItem('cart', JSON.stringify(state.cart))
             }
             
+        },
+
+        deleteProductFromCart(state, id) {
+            const productIndex = state.cart.findIndex((index) => index.id === id);
+            state.cart.splice(productIndex, 1)
+            localStorage.setItem('cart', JSON.stringify(state.cart))
         }
     },
 

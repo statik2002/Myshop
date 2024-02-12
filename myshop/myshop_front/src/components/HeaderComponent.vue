@@ -51,7 +51,14 @@
                         <UserTab></UserTab>
                       </div>
                       <div class="col">
-                        <a href="#" data-bs-title="Your cart"><i class="bi bi-bag" style="font-size: 1.5rem;"></i></a>
+                        <router-link to="/cart">
+                          <i class="bi bi-bag position-relative" style="font-size: 1.5rem;">
+                            <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                              {{ $store.getters.getCartPositionCount }}
+                              <span class="visually-hidden">unread messages</span>
+                            </span>
+                          </i>
+                        </router-link>
                       </div>
                       <div class="col">
                         <a href="#" data-bs-title="Your likes"><i class="bi bi-heart" style="font-size: 1.5rem;"></i></a>

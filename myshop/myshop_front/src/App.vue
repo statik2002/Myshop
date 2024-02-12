@@ -6,6 +6,14 @@
 
 <script>
   export default {
+    mounted() {
+        const localStorageCart = localStorage.getItem('cart')
+        if (localStorageCart) {
+            this.$store.state.cart = JSON.parse(localStorageCart)
+        } else {
+            localStorage.setItem('cart', JSON.stringify(this.$store.state.cart))
+        }
+    }
   }
 </script>
 
