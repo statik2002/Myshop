@@ -11,7 +11,7 @@
             <div class="col-12">
             <a href="#" @click="$router.push({name: 'product', params: {id: product.id}})" class="stretched-link">
                 <img v-if="product.product_images.length > 0" :src=product.product_images[0].image class="card-img-top product-image" alt="...">
-                <img v-else src="..." class="card-img-top product-image" alt="...">
+                <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
             </a>
             </div>
         </div>

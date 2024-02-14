@@ -2,8 +2,11 @@
     <div class="row p-2 cart-product widget" :id="id">
         <div class="col pe-5">
             <div class="row">
-                <div class="col-auto">
+                <div class="col-auto" v-if="product_images.length > 0">
                     <img class="" :src="product_images[0].image" :alt="product_images[0].alt" style="max-height: 100px; width: auto;">
+                </div>
+                <div class="col-auto" v-else>
+                    <img class="" src="@/assets/no_image.png" alt="no image" style="max-height: 100px; width: auto;">
                 </div>
                 <div class="col">
                     <div class="col product-description">{{name}}</div>
