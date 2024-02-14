@@ -427,26 +427,15 @@
         methods: {
             async uploadProduct() {
                 try {
-                    axios(
-                      {
-                        method: 'post',
-                        url: 'http://127.0.0.1:8000/api/token/',
-                        headers: {'Content-Type': 'application/json;charset=utf-8'},
-                        data: JSON.stringify({'phone_number': this.$store.state.userPhone, 'password': this.$store.state.userPassword})
-                      }
-                    ).then((response) => {
-                      const token = response.data.access;
                       axios(
                         {
                           url: `http://127.0.0.1:8000/api/v1/products/${this.$route.params.id}/`,
-                          method: 'get',
-                          headers: {'Authorization': `Bearer ${token}`}
+                          method: 'get'
                         }
                       ).then((response) => {
                         this.product = response.data;
                         this.isProductLoading=true
-                      })
-                    });
+                        })
                 } catch(e) {
                     alert(`Connection error: ${e}`);
                 }
