@@ -13,10 +13,10 @@
           <div class="d-flex text-secondary justify-content-start p-1">
             <div class="product-stars">
               <i class="bi bi-star-fill star"></i>
-              {{ product.rating }}
+              {{ product.his_rating[0].value }}
             </div>
-            <div class="product-stars">
-              &#x2022; 3224 оценок
+            <div class="product-stars ps-1">
+              &#x2022; {{ product.his_rating[0].counter }} оценок
             </div>
           </div>
         </div>
@@ -420,7 +420,8 @@
                   rating: "0.0",
                   show_count: 0,
                   slug: "",
-                  tags: []
+                  tags: [],
+                  his_rating: []
                 }
             }
         },
@@ -433,6 +434,10 @@
                           method: 'get'
                         }
                       ).then((response) => {
+                        if(response.data.his_rating.length != null)
+                        {
+                          response.data.his_rating.push({'value': 0.0, 'counter': 0})
+                        }
                         this.product = response.data;
                         this.isProductLoading=true
                         })

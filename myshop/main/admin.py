@@ -1,5 +1,6 @@
 from django.contrib import admin
-from main.models import Customer, Catalog, Product, Tag, ProductProperty, ProductImage
+from django.core.exceptions import ObjectDoesNotExist
+from main.models import Customer, Catalog, Product, ProductRating, Tag, ProductProperty, ProductImage
 
 
 @admin.register(Customer)
@@ -29,7 +30,7 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'quantity', 'available', 'rating', 'show_count', 'create_date')
+    list_display = ('id', 'name', 'quantity', 'available', 'rating', 'show_count', 'create_date', 'get_rating')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', )
     raw_id_fields = ('tags', )
@@ -40,6 +41,12 @@ class ProductAdmin(admin.ModelAdmin):
 
     inlines = (ProductImageInline, ProductPropertyInline)
 
+    def get_rating(self, obj):
+        try:
+            rating = ProductRating.objects.get(product=obj)
+            return rating.value
+        except ObjectDoesNotExist:
+            return 0.0
 
 
 

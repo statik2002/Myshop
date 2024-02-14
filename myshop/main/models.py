@@ -163,3 +163,17 @@ class Cart(models.Model):
 
     def __str__(self) -> str:
         return f'Корзина пользователя: {self.customer.phone_number}, кол-во товаров: {self.products_count}'
+    
+
+class ProductRating(models.Model):
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='his_rating')
+    value = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Рейтинг', default=0.0)  # 0.0
+    counter = models.IntegerField(verbose_name='Кол-во оценок', default=0)
+
+    class Meta:
+        verbose_name = 'Рейтинг товара'
+        verbose_name_plural = 'Рейтинги товаров'
+
+    def __str__(self) -> str:
+        return f'{self.product.name} : {self.value} ({self.counter})'

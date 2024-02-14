@@ -2,8 +2,8 @@
     <div class="card border-0 p-1 card-content">
         <div class="overlay">
             <a href="#" class="product-like-container">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill" viewBox="-1 -1 18 18">
-                    <path class="bold-icon-active" fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart" viewBox="-1 -1 18 18">
+                    <path class="bold-icon" fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
                 </svg>
             </a>
         </div>

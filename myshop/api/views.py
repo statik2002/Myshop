@@ -19,7 +19,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         /api/v1/products/{pk}/ - get product by pk
     """
     permission_classes = []
-    queryset = Product.objects.filter(quantity__gt=0)
+    queryset = Product.objects.filter(quantity__gt=0).order_by('?')
     serializer_class = ProductListSerializer
     #@method_decorator(cache_page(60 * 60 * 2))
     #@method_decorator(vary_on_cookie)
