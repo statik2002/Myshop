@@ -178,6 +178,18 @@ async def get_customers(token, debug):
     return response.json()
 
 
+async def get_customers_public(debug):
+    if debug:
+        url = f'http://127.0.0.1:8000/api/v1/customers/'
+    else:
+        url = f'https://neit.ru/api/v1/goods/'
+
+    response = requests.get(url, timeout=500)
+    response.raise_for_status()
+
+    return response.json()
+
+
 async def get_customer_by_id(token, debug, id):
     if debug:
         url = f'http://127.0.0.1:8000/api/v1/customers/{id}/'
@@ -225,6 +237,20 @@ async def register_customer(token, debug, customer):
     response.raise_for_status()
 
     return response.json()
+
+
+async def register_customer_public(debug, customer):
+    print('in register')
+    if debug:
+        url = f'http://127.0.0.1:8000/api/v1/customers/'
+    else:
+        url = f'https://neit.ru/api/v1/goods/'
+
+    response = requests.post(url, json=customer, timeout=500)
+    response.raise_for_status()
+    print(response)
+
+    return response.json()
     
 
 async def main():
@@ -245,7 +271,7 @@ async def main():
     #leftovers_path = env.str('SMB_LEFTOVERS_PATH')
 
     try:
-        #token = await get_token(api_login, api_password, debug)
+        token = await get_token(api_login, api_password, debug)
         '''
         await fetch_file(
                     leftovers_path,
@@ -266,12 +292,12 @@ async def main():
         #products = await get_all_products_from_server(token, debug)
         #pprint(products)
 
-        product_id = 100
-        product = await get_product_by_id_public(product_id, debug)
-        pprint(product)
+        #product_id = 100
+        #product = await get_product_by_id_public(product_id, debug)
+        #pprint(product)
 
-        #customers = await get_customers(token, debug)
-        #pprint(customers)
+        customers = await get_customers(token, debug)
+        pprint(customers)
         #customer = await get_customer_by_id(token, debug, 1)
         #pprint(customer)
         #customer = await get_customer_by_phone(token, debug, '+79149569967')
@@ -285,6 +311,20 @@ async def main():
         #    'last_name': 'Slyapkin'
         #    })
         #pprint(response)
+
+        '''
+        response = await register_customer_public(debug, {
+            'email': 'asda@gdfdf.ru', 
+            'password': 'password1', 
+            'phone_number': '+79146667778',
+            'first_name': 'Fedya',
+            'last_name': 'Slyapkin'
+            })
+        pprint(response)
+        '''
+
+        #customers = await get_customers_public(debug)
+        #pprint(customers)
 
 
     except Exception as e:

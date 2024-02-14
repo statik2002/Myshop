@@ -3,13 +3,9 @@ import { createStore } from "vuex";
 
 export default createStore({
     state: () => ({
-        likes: 1,
-        isAuth: false,
         user: {},
         userPhone: '+79149569967',
         userPassword: 'obninsk1978#',
-        accessToken: '',
-        refreshToken: '',
         cart: [],
         cartProductsQuantity: 0,
         cartProductsTotal: 0,
@@ -194,6 +190,35 @@ export default createStore({
                 .then((response) => {
                     //console.log(response)
                     commit('setUser', {'phone': user.phone, 'password': user.password, 'isAuth': true, 'access': response.data.access})
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            })
+        },
+
+        registerUser({commit ,state}, user) {
+            return new Promise((resolve, reject) => {
+                axios(
+                    {
+                        method: 'post',
+                        url: 'http://127.0.0.1:8000/api/v1/customers/',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        data: JSON.stringify({
+                            'phone_number': user.phone, 
+                            'password': user.password, 
+                            'email': user.email,
+                            'first_name': 'Fedya',
+                            'last_name': 'Slyapkin'
+                        })
+                    }
+                )
+                .then((response) => {
+                    commit('setUser', {
+                        'phone': user.phone, 
+                        'password': user.password, 
+                        'isAuth': true, 
+                        'access': response.data.access})
                 })
                 .catch((error) => {
                     console.log(error)

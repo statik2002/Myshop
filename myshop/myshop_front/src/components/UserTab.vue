@@ -1,37 +1,31 @@
 <template>
     <div class="d-flex">
-        <div v-if="Object.entries($store.state.user).length === 0">
-            <a href="#" data-bs-title="Cabinet" @click="showLoginDialog"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a>
+        <div class="dropdown" v-if="Object.entries($store.state.user).length === 0">
+            <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
+            </a>
+            <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="#" @click="showRegistrationDialog">Registration</a></li>
+                <li><a class="dropdown-item" href="#" @click="showLoginDialog">Login</a></li>
+                <li><a class="dropdown-item" href="#">Rules</a></li>
+            </ul>
         </div>
-        <div v-else>Авторизованы</div>
-        <login-dialog v-model:show="loginModalVisible">
-            <form @submit.prevent>
-                <div class="d-flex flex-column">
-                    <div class="mb-3 row">
-                        <div class="col-sm-3">
-                            <label for="phone" class="col-sm-2 form-label">Phone number:</label>
-                        </div>
-                        
-                        <div class="col-sm-9">
-                            <input v-bind:value="phone" @input="inputPhone" type="text" class="form-control" autocomplete="tel-area-code" id="phone" value="+79999999999">
-                        </div>
-                    </div>
-                    <div class="mb-3 row">
-                        <div class="col-sm-3">
-                            <label for="inputPassword" class="col-sm-2 form-label">Password:</label>
-                        </div>
-                        
-                        <div class="col-sm-9">
-                        <input v-bind:value="password" @input="inputPassword" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
-                        </div>
-                    </div>
-                    <div class="row d-flex align-items-end">
-                        <button type="button" class="btn btn-success " @click="saveUserData">Save</button>
-                    </div>
-                    
-                </div>
-            </form>
-        </login-dialog>
+        <div class="dropdown" v-else>
+            <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+            </a>
+            <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="#">Cabinet</a></li>
+                <li><a class="dropdown-item" href="#">Cart</a></li>
+                <li><a class="dropdown-item" href="#">Delivery</a></li>
+            </ul>
+        </div>
+        <modal-component v-model:show="loginModalVisible">
+            <login-form v-model:show="loginModalVisible"></login-form>
+        </modal-component>
+        <modal-component v-model:show="registrationModalVisible">
+            <registration-form v-model:show="registrationModalVisible"></registration-form>
+        </modal-component>
     </div>
 </template>
 
@@ -41,6 +35,7 @@
             return {
                 userIsAuthenticated: false,
                 loginModalVisible: false,
+                registrationModalVisible: false,
                 phone: '',
                 password: ''
             }
@@ -48,6 +43,9 @@
         methods: {
             showLoginDialog() {
                 this.loginModalVisible = true
+            },
+            showRegistrationDialog() {
+                this.registrationModalVisible = true
             },
             inputPhone(event) {
                 this.phone = event.target.value

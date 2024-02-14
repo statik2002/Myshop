@@ -38,13 +38,24 @@
             <div class="text-truncate product-description"><small>{{ product.description }}</small></div>
             </div>
         </div>
-        <div class="d-flex text-secondary justify-content-start p-1">
-            <div class="stars">
-            <i class="bi bi-star-fill"></i>
-            {{ product.rating }}
+        <div class="row p-1">
+            <div v-if="product.his_rating.length > 0" class="d-flex flex-row">
+                <div class="stars">
+                    <i class="bi bi-star-fill"></i>
+                    {{ product.his_rating[0].value }}
+                </div>
+                    <div class="stars">
+                    &#x2022; {{ product.his_rating[0].count }} оценок
+                </div>
             </div>
-            <div class="stars">
-            &#x2022; 3224 оценок
+            <div v-else class="d-flex flex-row gap-1">
+                <div class="star-no">
+                    <i class="bi bi-star-fill"></i>
+                    0.0
+                </div>
+                    <div class="star-no">
+                    &#x2022; 0 оценок
+                </div>
             </div>
         </div>
     </div>

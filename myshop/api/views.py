@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.core.exceptions import ObjectDoesNotExist
-
+from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
 from main.models import Cart, Catalog, Customer, Product
 
@@ -110,16 +110,16 @@ class CustomersViewSet(viewsets.ModelViewSet):
             json: {'phone_number': phone_number a.k. +79999999999}    
 
     '''
-
-    permission_classes = (IsAuthenticated,)
+    permission_classes = []
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
     def create(self, request, *args, **kwargs):
         serialized_customer = CustomerSerializer(data=request.data)
         if serialized_customer.is_valid():
-            serialized_customer.save()
-            return Response({'status': 'OK'}, status=status.HTTP_200_OK)
+            user = serialized_customer.save()
+            token = self.get_tokens_for_user(user)
+            return Response({'status': 'OK', 'tokens': token}, status=status.HTTP_200_OK)
 
         else:
             return Response({'response': f'Error!: {serialized_customer.errors}'}, status=status.HTTP_400_BAD_REQUEST)
@@ -140,3 +140,19 @@ class CustomersViewSet(viewsets.ModelViewSet):
             return Response(CustomerSerializer(customer).data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response({'error': 'User with this phone number does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+    def get_permissions(self):
+        if self.action == 'create':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+    
+    def get_tokens_for_user(self, user):
+        refresh = RefreshToken.for_user(user)
+
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }

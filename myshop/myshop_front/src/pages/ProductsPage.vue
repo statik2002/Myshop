@@ -40,27 +40,17 @@
           try {
             this.productsPage += 1;
             this.productsOffest += this.productsLimit;
-            let response = await fetch(
-              'http://127.0.0.1:8000/api/token/', 
-              {method: 'POST', headers: {'Content-Type': 'application/json;charset=utf-8'}, body: JSON.stringify({'phone_number': this.$store.state.userPhone, 'password': this.$store.state.userPassword})}
-              );
-            if (response.ok) {
-              let json = await response.json();
-              let token = json.access;
-              let response2 = await fetch(
+              let response = await fetch(
                 'http://127.0.0.1:8000/api/v1/products/?' + new URLSearchParams({limit: this.productsLimit, offset: this.productsOffest, page: this.productsPage}),
-                {method: 'GET', headers: {'Authorization': `Bearer ${token}`}}
+                {method: 'GET',}
               );
-              if (response2.ok) {
-                let products = await response2.json();
+              if (response.ok) {
+                let products = await response.json();
                 this.products = [...this.products, ...products.results];
                 this.productsTotalPages = Math.ceil(products.count / this.productsLimit);
               } else {
                 Alert('Error get products');
               }
-            } else {
-              alert('Error');
-            }
           } catch(e) {
             alert('Connection error');
           }

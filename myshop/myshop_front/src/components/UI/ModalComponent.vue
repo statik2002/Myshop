@@ -8,7 +8,7 @@
 
 <script>
     export default {
-        name: 'login-dialog',
+        name: 'modal-component',
         props: {
             show: {
                 type: Boolean,
