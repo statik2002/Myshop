@@ -59,6 +59,19 @@ async def get_product_by_id(token, product_id: int, debug: bool = True):
     return response.json()
 
 
+async def get_product_by_id_public(product_id: int, debug: bool = True):
+    if debug:
+        url_send_shift = f'http://127.0.0.1:8000/api/v1/products/{product_id}/'
+    else:
+        url_send_shift = f'https://neit.ru/api/v1/update_products/'
+
+    response = requests.get(url_send_shift, timeout=500)
+    response.raise_for_status()
+    print(response)
+
+    return response.json()
+
+
 async def initial_catalogs_upload(token, catalogs, debug):
     if debug:
         url_send_shift = f'http://127.0.0.1:8000/api/v1/initial_upload_catalog/'
@@ -232,7 +245,7 @@ async def main():
     #leftovers_path = env.str('SMB_LEFTOVERS_PATH')
 
     try:
-        token = await get_token(api_login, api_password, debug)
+        #token = await get_token(api_login, api_password, debug)
         '''
         await fetch_file(
                     leftovers_path,
@@ -253,16 +266,16 @@ async def main():
         #products = await get_all_products_from_server(token, debug)
         #pprint(products)
 
-        #product_id = 2
-        #product = await get_product_by_id(token, product_id, debug)
-        #pprint(product)
+        product_id = 100
+        product = await get_product_by_id_public(product_id, debug)
+        pprint(product)
 
         #customers = await get_customers(token, debug)
         #pprint(customers)
         #customer = await get_customer_by_id(token, debug, 1)
         #pprint(customer)
-        customer = await get_customer_by_phone(token, debug, '+79149569967')
-        pprint(customer)
+        #customer = await get_customer_by_phone(token, debug, '+79149569967')
+        #pprint(customer)
 
         #response = await register_customer(token, debug, {
         #    'email': 'asda@gdfdf.ru', 

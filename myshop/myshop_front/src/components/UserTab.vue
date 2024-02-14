@@ -1,9 +1,10 @@
 <template>
     <div class="d-flex">
-        <div v-if="userIsAuthenticated">Авторизованы</div>
-        <div v-else><a href="#" data-bs-title="Cabinet" @click="showLoginDialog"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a></div>
+        <div v-if="Object.entries($store.state.user).length === 0">
+            <a href="#" data-bs-title="Cabinet" @click="showLoginDialog"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></a>
+        </div>
+        <div v-else>Авторизованы</div>
         <login-dialog v-model:show="loginModalVisible">
-            <button type="button" @click="$store.commit('incrementLikes')">add</button>
             <form @submit.prevent>
                 <div class="d-flex flex-column">
                     <div class="mb-3 row">
@@ -55,11 +56,11 @@
                 this.password = event.target.value
             },
             saveUserData() {
-                console.log(this.$store.state.userPhone, this.phone)
-                this.$store.dispatch('updatePhone', this.phone);
-                this.$store.commit('setUserPassword', this.password);
-                this.loginModalVisible = false;
-                
+                this.$store.dispatch('loginUser', {'phone': this.phone, 'password': this.password})
+                    .then(
+                        console.log('login OK')
+                    )
+                this.loginModalVisible = false
             }
         },
     }

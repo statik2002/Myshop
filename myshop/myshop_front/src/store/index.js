@@ -1,9 +1,11 @@
+import axios from "axios";
 import { createStore } from "vuex";
 
 export default createStore({
     state: () => ({
         likes: 1,
         isAuth: false,
+        user: {},
         userPhone: '+79149569967',
         userPassword: 'obninsk1978#',
         accessToken: '',
@@ -146,6 +148,10 @@ export default createStore({
             const productIndex = state.cart.findIndex((index) => index.id === id);
             state.cart.splice(productIndex, 1)
             localStorage.setItem('cart', JSON.stringify(state.cart))
+        },
+
+        setUser(state, user) {
+            state.user = user
         }
     },
 
@@ -154,6 +160,46 @@ export default createStore({
             console.log(tel)
             commit('setUserPhone', tel)
         },
+
+        registerUser({commit, state}, user) {
+            return new Promise((resolve, reject) => {
+                axios(
+                    {
+                        method: 'post',
+                        url: 'http://127.0.0.1:8000/api/v1/customers/',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        data: JSON.stringify(user)
+                    }
+                )
+                .then((response) => {
+                    console.log(response)
+                    commit('setUser', {'phone': user.phone_number, 'password': user.password, 'isAuth': true})
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            })
+        },
+
+        loginUser({commit, state}, user) {
+            return new Promise((resolve, reject) => {
+                axios(
+                    {
+                        method: 'post',
+                        url: 'http://127.0.0.1:8000/api/token/',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        data: JSON.stringify({'phone_number': user.phone, 'password': user.password})
+                    }
+                )
+                .then((response) => {
+                    //console.log(response)
+                    commit('setUser', {'phone': user.phone, 'password': user.password, 'isAuth': true, 'access': response.data.access})
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+            })
+        }
     },
 
     modules: {

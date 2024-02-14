@@ -29,7 +29,7 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'available', 'rating', 'show_count', 'create_date')
+    list_display = ('id', 'name', 'quantity', 'available', 'rating', 'show_count', 'create_date')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', )
     raw_id_fields = ('tags', )

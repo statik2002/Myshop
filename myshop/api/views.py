@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -18,7 +18,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         /api/v1/products/ - get all products
         /api/v1/products/{pk}/ - get product by pk
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = []
     queryset = Product.objects.filter(quantity__gt=0)
     serializer_class = ProductListSerializer
     #@method_decorator(cache_page(60 * 60 * 2))
@@ -119,12 +119,11 @@ class CustomersViewSet(viewsets.ModelViewSet):
         serialized_customer = CustomerSerializer(data=request.data)
         if serialized_customer.is_valid():
             serialized_customer.save()
-            return Response(serialized_customer.data, status=status.HTTP_200_OK)
+            return Response({'status': 'OK'}, status=status.HTTP_200_OK)
 
         else:
             return Response({'response': f'Error!: {serialized_customer.errors}'}, status=status.HTTP_400_BAD_REQUEST)
         
-
     def retrieve(self, request, pk):
         try:
             customer = Customer.objects.get(pk=pk)
