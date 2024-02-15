@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
 from main.models import Cart, Catalog, Customer, Product
+from main.email_functional import send_mail
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -118,8 +119,15 @@ class CustomersViewSet(viewsets.ModelViewSet):
         serialized_customer = CustomerSerializer(data=request.data)
         if serialized_customer.is_valid():
             user = serialized_customer.save()
+            user.is_active = False
+            user.save()
             token = self.get_tokens_for_user(user)
+
+            result = send_mail(request, user)
+            if result.get('response') != 'ok':
+                return Response({'status': 'BAD', 'error': result}, status=status.HTTP_400_BAD_REQUEST)    
             return Response({'status': 'OK', 'tokens': token}, status=status.HTTP_200_OK)
+            
 
         else:
             return Response({'response': f'Error!: {serialized_customer.errors}'}, status=status.HTTP_400_BAD_REQUEST)

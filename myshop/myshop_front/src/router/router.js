@@ -4,12 +4,15 @@ import AboutPage from '@/pages/AboutPage.vue';
 import ProductPage from '@/pages/ProductPage.vue';
 import CartPage from '@/pages/CartPage.vue'
 import RegistrationPage from '@/pages/RegistrationPage.vue'
+import EmailActivation from '@/pages/EmailActivation.vue'
+import UserActivation from '@/pages/UserActivation.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
     {
         path: '/',
-        component: Main
+        component: Main,
+        name: 'main'
     },
     {
         path: '/products',
@@ -35,6 +38,16 @@ const routes = [
         component: RegistrationPage,
         name: 'register_user'
     },
+    {
+        path: '/email_activation',
+        component: EmailActivation,
+        name: 'email_activation'
+    },
+    {
+        path: '/user_activation',
+        component: UserActivation,
+        name: 'user_activation'
+    }
 ]
 
 const router = createRouter({

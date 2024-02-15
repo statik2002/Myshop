@@ -168,11 +168,13 @@ export default createStore({
                     }
                 )
                 .then((response) => {
-                    console.log(response)
                     commit('setUser', {'phone': user.phone_number, 'password': user.password, 'isAuth': true})
+                    $router.push('email_activation')
                 })
                 .catch((error) => {
-                    console.log(error)
+                    if(error.response) {
+                        console.log(error.response.data)
+                    }
                 })
             })
         },
