@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
+from django.core.signing import Signer
+from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
@@ -108,7 +110,10 @@ class CustomersViewSet(viewsets.ModelViewSet):
 
         -   Get customers by phone number
             GET: http://127.0.0.1:8000/api/v1/customers/get_customer_by_phone/
-            json: {'phone_number': phone_number a.k. +79999999999}    
+            json: {'phone_number': phone_number a.k. +79999999999}
+
+        -   Activate Customer by token
+            POST: http://127.0.0.1:8000/api/v1/customers/user_activation/?q={token}
 
     '''
     permission_classes = []
@@ -128,9 +133,10 @@ class CustomersViewSet(viewsets.ModelViewSet):
                 return Response({'status': 'BAD', 'error': result}, status=status.HTTP_400_BAD_REQUEST)    
             return Response({'status': 'OK', 'tokens': token}, status=status.HTTP_200_OK)
             
-
         else:
-            return Response({'response': f'Error!: {serialized_customer.errors}'}, status=status.HTTP_400_BAD_REQUEST)
+            print(serialized_customer.error_messages)
+            print(serialized_customer.errors)
+            return Response({'response': {'error': serialized_customer.errors}}, status=status.HTTP_400_BAD_REQUEST)
         
     def retrieve(self, request, pk):
         try:
@@ -142,16 +148,42 @@ class CustomersViewSet(viewsets.ModelViewSet):
         
     @action(detail=False, methods=['get'])
     def get_customer_by_phone(self, request, pk=None):
-        print(request.data)
         try:
             customer = Customer.objects.get(phone_number=request.data.get('phone_number'))
             return Response(CustomerSerializer(customer).data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response({'error': 'User with this phone number does not exist'}, status=status.HTTP_400_BAD_REQUEST)
         
+    @action(detail=False, methods=['get'])
+    def user_activation(self, request, pk=None):
+        token = self.request.query_params.get('q')
+        if not token:
+            return Response({'error': 'At request have no token!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        signer = Signer()
+        try:
+            unsign_object = signer.unsign_object(token[:-1]) # Отбрасываем последний символ так как там слэш
+            user = Customer.objects.get(pk=unsign_object['user_id'])
+            user.is_active = True
+            user.save()
+
+            refresh_token = RefreshToken.for_user(user)
+            data = {
+                'access': str(refresh_token.access_token),
+                'refresh': str(refresh_token)
+            }
+
+            return Response({'data': data}, status=status.HTTP_200_OK)
+
+        except signing.BadSignature:
+            return Response({'error': 'Непраильный токен активации'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'Такого пользователя нет'}, status=status.HTTP_400_BAD_REQUEST)
+
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action == 'create' or 'user_activation':
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsAdminUser]

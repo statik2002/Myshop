@@ -1,4 +1,9 @@
 <template>
+    <div v-if="messages.length > 0">
+        <div class="alert alert-danger" role="alert" v-for="message in messages">
+            Ошибка в поле {{ message.field }} : {{ message.error }}
+        </div>
+    </div>
     <form @submit.prevent>
         <div class="d-flex flex-column">
             <div class="mb-3 row">
@@ -36,6 +41,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: 'registration-form',
         props: {
@@ -49,7 +55,8 @@
                 phone: '',
                 password: '',
                 confirmPassword: '',
-                email: ''
+                email: '',
+                messages: []
             }
         },
         methods: {
@@ -63,11 +70,26 @@
                 this.email = event.target.value
             },
             registerUser() {
-                this.$store.dispatch('registerUser', {'phone': this.phone, 'password': this.password, 'email': this.email})
-                    .then(
-                        console.log('register OK')
-                    )
-                this.$emit('update:show', false)
+                axios(
+                    {
+                        method: 'post',
+                        url: 'http://127.0.0.1:8000/api/v1/customers/',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        data: JSON.stringify({'phone_number': this.phone, 'password': this.password, 'email': this.email})
+                    }
+                )
+                .then((response) => {
+                    this.$emit('update:show', false)
+                    this.$router.push('email_activation')
+                })
+                .catch((error) => {
+                    if(error.response) {
+                        for(let key in error.response.data.response.error) {
+                            this.messages.push({'field': key, 'error': error.response.data.response.error[key]})
+                        }
+                        this.message = error.response
+                    }
+                })
             }
         }
     }

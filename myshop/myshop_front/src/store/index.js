@@ -157,28 +157,6 @@ export default createStore({
             commit('setUserPhone', tel)
         },
 
-        registerUser({commit, state}, user) {
-            return new Promise((resolve, reject) => {
-                axios(
-                    {
-                        method: 'post',
-                        url: 'http://127.0.0.1:8000/api/v1/customers/',
-                        headers: {'Content-Type': 'application/json;charset=utf-8'},
-                        data: JSON.stringify(user)
-                    }
-                )
-                .then((response) => {
-                    commit('setUser', {'phone': user.phone_number, 'password': user.password, 'isAuth': true})
-                    $router.push('email_activation')
-                })
-                .catch((error) => {
-                    if(error.response) {
-                        console.log(error.response.data)
-                    }
-                })
-            })
-        },
-
         loginUser({commit, state}, user) {
             return new Promise((resolve, reject) => {
                 axios(
@@ -199,34 +177,6 @@ export default createStore({
             })
         },
 
-        registerUser({commit ,state}, user) {
-            return new Promise((resolve, reject) => {
-                axios(
-                    {
-                        method: 'post',
-                        url: 'http://127.0.0.1:8000/api/v1/customers/',
-                        headers: {'Content-Type': 'application/json;charset=utf-8'},
-                        data: JSON.stringify({
-                            'phone_number': user.phone, 
-                            'password': user.password, 
-                            'email': user.email,
-                            'first_name': 'Fedya',
-                            'last_name': 'Slyapkin'
-                        })
-                    }
-                )
-                .then((response) => {
-                    commit('setUser', {
-                        'phone': user.phone, 
-                        'password': user.password, 
-                        'isAuth': true, 
-                        'access': response.data.access})
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-            })
-        }
     },
 
     modules: {
