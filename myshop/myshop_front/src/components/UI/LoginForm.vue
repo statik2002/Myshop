@@ -26,6 +26,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: 'login-form',
         props: {
@@ -36,7 +37,6 @@
         },
         data() {
             return {
-
                 phone: '',
                 password: '',
             }
@@ -48,15 +48,25 @@
             inputPassword(event) {
                 this.password = event.target.value
             },
-            registerUser() {
-                this.$store.dispatch('loginUser', {'phone': this.phone, 'password': this.password})
-                    .then(
-                        console.log('login OK')
-                    )
-                    .finally(
-                        this.$emit('update:show', false)
-                    )
-                
+            loginUser() {
+                console.log( JSON.stringify({'phone_number': this.phone, 'password': this.password}))
+                axios(
+                    {
+                        method: 'post',
+                        url: 'http://127.0.0.1:8000/api/token/',
+                        headers: {'Content-Type': 'application/json;charset=utf-8'},
+                        data: JSON.stringify({'phone_number': this.phone, 'password': this.password})
+                    }
+                )
+                .then((response) => {
+                    console.log(response)
+                    //commit('setUser', {'access_token': response.data.access})
+                    this.$store.dispatch('setUser', {'access_token': response.data.access})
+                    this.$emit('update:show', false)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
             }
         }
     }

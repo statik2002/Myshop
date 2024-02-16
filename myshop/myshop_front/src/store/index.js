@@ -156,26 +156,9 @@ export default createStore({
             console.log(tel)
             commit('setUserPhone', tel)
         },
-
-        loginUser({commit, state}, user) {
-            return new Promise((resolve, reject) => {
-                axios(
-                    {
-                        method: 'post',
-                        url: 'http://127.0.0.1:8000/api/token/',
-                        headers: {'Content-Type': 'application/json;charset=utf-8'},
-                        data: JSON.stringify({'phone_number': user.phone, 'password': user.password})
-                    }
-                )
-                .then((response) => {
-                    //console.log(response)
-                    commit('setUser', {'phone': user.phone, 'password': user.password, 'isAuth': true, 'access': response.data.access})
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-            })
-        },
+        setUser({commit, state}, user){
+            commit('setUser', user)
+        }
 
     },
 

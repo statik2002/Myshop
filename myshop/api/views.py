@@ -123,8 +123,17 @@ class CustomersViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         serialized_customer = CustomerSerializer(data=request.data)
         if serialized_customer.is_valid():
-            user = serialized_customer.save()
-            user.is_active = False
+            #user = serialized_customer.save()
+            user = Customer.objects.create_user(
+                password=serialized_customer.data.get('password'),
+                email=serialized_customer.data.get('email'),
+                first_name=serialized_customer.data.get('first_name', 'None'),
+                last_name=serialized_customer.data.get('last_name', 'None'),
+                is_read_pd=serialized_customer.data.get('is_read_pd', False),
+                phone_number=serialized_customer.data.get('phone_number'),
+                address=serialized_customer.data.get('address', 'none'),
+                is_active=False
+                )
             user.save()
             token = self.get_tokens_for_user(user)
 
