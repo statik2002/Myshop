@@ -58,6 +58,14 @@ export default createStore({
                 total += product.quantity * product.price
             }
             return total
+        },
+
+        isUserLogin(state) {
+            if (localStorage.getItem('user')){
+                return true
+            } else {
+                return false
+            }
         }
     },
 
@@ -158,6 +166,7 @@ export default createStore({
         },
         setUser({commit, state}, user){
             commit('setUser', user)
+            localStorage.setItem('user', JSON.stringify(user))
         }
 
     },

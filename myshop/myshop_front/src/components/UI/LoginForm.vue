@@ -49,7 +49,6 @@
                 this.password = event.target.value
             },
             loginUser() {
-                console.log( JSON.stringify({'phone_number': this.phone, 'password': this.password}))
                 axios(
                     {
                         method: 'post',
@@ -59,8 +58,6 @@
                     }
                 )
                 .then((response) => {
-                    console.log(response)
-                    //commit('setUser', {'access_token': response.data.access})
                     this.$store.dispatch('setUser', {'access_token': response.data.access})
                     this.$emit('update:show', false)
                 })
@@ -68,7 +65,7 @@
                     console.log(error)
                 })
             }
-        }
+        },
     }
 </script>
 

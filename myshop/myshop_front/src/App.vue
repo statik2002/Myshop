@@ -5,15 +5,18 @@
 </template>
 
 <script>
-  export default {
-    mounted() {
-        const localStorageCart = localStorage.getItem('cart')
-        if (localStorageCart) {
-            this.$store.state.cart = JSON.parse(localStorageCart)
-        } else {
-            localStorage.setItem('cart', JSON.stringify(this.$store.state.cart))
+    import { useStorage } from '@vueuse/core'
+    export default {
+        mounted() {
+            const localStorageCart = localStorage.getItem('cart')
+            if (localStorageCart) {
+                this.$store.state.cart = JSON.parse(localStorageCart)
+            } else {
+                localStorage.setItem('cart', JSON.stringify(this.$store.state.cart))
+            }
+
+            const myObj = useStorage('objStore', {'item': 'name'})
         }
-    }
   }
 </script>
 

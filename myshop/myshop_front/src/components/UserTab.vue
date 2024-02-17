@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex">
-        <div class="dropdown" v-if="Object.entries($store.state.user).length === 0">
+        <div class="dropdown" v-if="userIsAuthenticated == false ">
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
             </a>
@@ -53,12 +53,8 @@
             inputPassword(event) {
                 this.password = event.target.value
             },
-            saveUserData() {
-                this.$store.dispatch('loginUser', {'phone': this.phone, 'password': this.password})
-                    .then(
-                        console.log('login OK')
-                    )
-                this.loginModalVisible = false
+            changeUserAuthState() {
+                this.userIsAuthenticated = value
             }
         },
     }
