@@ -1,5 +1,7 @@
 
 Todo:
+  ☐ Make new view where get new token (block user if login and password is oncorrect 5 times)
+  ☐ Создать функционал Логин
   ☐ Создать функционал Логин
   ✔ Создать валидацию по почте после регистрации @done(24-02-16 15:57)
   ☐ Прописать все permissions в API
