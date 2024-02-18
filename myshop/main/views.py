@@ -1,8 +1,12 @@
+
 from django.shortcuts import render, get_object_or_404
+
 from django.db.models import Min
 
+
 from cart.forms import CartAddProductForm
-from main.models import ProductImage, ProductProperty, Product
+from main.models import ProductImage, ProductProperty, Product, Customer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 def product_serializer(products):

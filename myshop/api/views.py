@@ -13,6 +13,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
 from main.models import Cart, Catalog, Customer, Product
 from main.email_functional import send_mail
+from django.contrib.auth import authenticate
+from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -205,3 +208,21 @@ class CustomersViewSet(viewsets.ModelViewSet):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }
+        
+        
+def get_token(request):
+    try:
+        user = authenticate(user=request.data.get('phone_number'), password=request.data.get('password'))
+        #user = Customer.objects.get(phone_number=request.data.get('phone_number'))
+        
+        if user is not None:
+        
+            refresh = RefreshToken.for_user(user)
+        
+            return JsonResponse({'refresh': str(refresh), 'access': str(refresh.access_token)})
+        
+        else:
+            return JsonResponse({'error': 'tel or password is incorrect'})
+        
+    except PermissionDenied:
+        return JsonResponse({'error': 'This user does not exist'})
