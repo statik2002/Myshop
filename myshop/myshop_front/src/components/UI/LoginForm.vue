@@ -1,4 +1,9 @@
 <template>
+    <div v-if="messages.length > 0">
+        <div class="alert alert-danger" role="alert" v-for="message in messages">
+            {{ message }}
+        </div>
+    </div>
     <form @submit.prevent>
         <div class="d-flex flex-column">
             <div class="mb-3 row">
@@ -39,6 +44,7 @@
             return {
                 phone: '',
                 password: '',
+                messages: []
             }
         },
         methods: {
@@ -62,6 +68,9 @@
                     this.$emit('update:show', false)
                 })
                 .catch((error) => {
+                    if (error.response.data.detail) {
+                        this.messages.push(error.response.data.detail)
+                    }
                     console.log(error)
                 })
             }

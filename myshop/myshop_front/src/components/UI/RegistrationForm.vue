@@ -10,7 +10,6 @@
                 <div class="col-sm-3">
                     <label for="phone" class="col-sm-2 form-label">Phone number:</label>
                 </div>
-                
                 <div class="col-sm-9">
                     <input v-bind:value="phone" @input="inputPhone" type="text" class="form-control" autocomplete="tel-area-code" id="phone" value="+79999999999">
                 </div>
