@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+from http.client import BAD_REQUEST
 import logging
 from logging.handlers import RotatingFileHandler
 from pprint import pprint
@@ -11,7 +12,7 @@ from environs import Env
 
 async def get_token(login: str, password: str, debug: bool):
     if debug:
-        url = 'http://127.0.0.1:8000/api/token/'
+        url = 'http://127.0.0.1:8000/api/v1/token/get/'
     else:
         url = 'https://neit.ru/api/token/'
 
@@ -271,7 +272,8 @@ async def main():
     #leftovers_path = env.str('SMB_LEFTOVERS_PATH')
 
     try:
-        token = await get_token(api_login, api_password, debug)
+        token = await get_token('+79149569968', 'obninsk1978#', debug)
+        print(token)
         '''
         await fetch_file(
                     leftovers_path,
@@ -296,8 +298,8 @@ async def main():
         #product = await get_product_by_id_public(product_id, debug)
         #pprint(product)
 
-        customers = await get_customers(token, debug)
-        pprint(customers)
+        #customers = await get_customers(token, debug)
+        #pprint(customers)
         #customer = await get_customer_by_id(token, debug, 1)
         #pprint(customer)
         #customer = await get_customer_by_phone(token, debug, '+79149569967')
@@ -326,9 +328,12 @@ async def main():
         #customers = await get_customers_public(debug)
         #pprint(customers)
 
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 400:
+            print(e.response.json()['error'])
 
-    except Exception as e:
-        py_logger.critical(f'\n{datetime.datetime.now()} --- Connection Error: \n {e} \n')
+    #except Exception as e:
+    #    py_logger.critical(f'\n{datetime.datetime.now()} --- Connection Error: \n {e} \n')
 
 
 if __name__ == '__main__':

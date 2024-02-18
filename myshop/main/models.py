@@ -37,6 +37,9 @@ class Customer(AbstractUser):
     avatar = models.ImageField(blank=True, null=True, upload_to='media/avatars/', verbose_name='Аватар')
     likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары', blank=True)
 
+    login_fail_counter = models.SmallIntegerField(default=0, verbose_name='Счетчик неудачных входов')
+    ban_status = models.BooleanField(default=False, verbose_name='Бан или нет')
+
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'phone_number'
 
@@ -177,3 +180,41 @@ class ProductRating(models.Model):
 
     def __str__(self) -> str:
         return f'{self.product.name} : {self.value} ({self.counter})'
+
+
+class CustomerBan(models.Model):
+
+    def ban_delta():
+        return timezone.now() + timezone.timedelta(days=1)
+
+
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='bans')
+    ban_datetime = models.DateTimeField(default=timezone.now, verbose_name='Время бана')
+    ban_reazon = models.CharField(max_length=500, verbose_name='Причина бана')
+    ban_before = models.DateTimeField(default=ban_delta, verbose_name='Бан до:')
+
+    class Meta:
+        verbose_name = 'Бан пользователя'
+        verbose_name_plural = 'Баны пользователей'
+
+
+    def __str__(self) -> str:
+        return f'Пользователь: {self.customer.phone_number} забанен {self.ban_datetime} по причине {self.ban_reazon} до {self.ban_before}'
+    
+    
+
+class CustomerLoginFail(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='login_failed')
+    login_fail_last_time = models.DateTimeField(default=timezone.now, verbose_name='Время последннего неудачного входа')
+    login_fail_counter = models.SmallIntegerField(default=1, verbose_name='Счетчик неудачных входов')
+    login_fail_total_counter = models.PositiveIntegerField(default=1, verbose_name='Счетчик всех неудачных входов')
+
+    class Meta:
+        verbose_name = 'Счетчик неудачных входов пользователя'
+        verbose_name_plural = 'Счетчики неудачных входов пользователей'
+
+    def __str__(self) -> str:
+        return (f'Пользователь: {self.customer.phone_number}'
+                f'последний неудачный вход {self.login_fail_last_time},' 
+                f'кол-во неудачных входов до бана {self.login_fail_counter},'
+                f'всего неудачных входов {self.login_fail_total_counter}')

@@ -5,7 +5,7 @@ from main.models import Customer, Catalog, Product, ProductRating, Tag, ProductP
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'phone_number')
+    list_display = ('id', 'phone_number', 'login_fail_counter', 'ban_status')
 
 
 @admin.register(Catalog)

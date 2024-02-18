@@ -1,6 +1,7 @@
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
@@ -11,11 +12,12 @@ from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
-from main.models import Cart, Catalog, Customer, Product
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Product
 from main.email_functional import send_mail
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
+from rest_framework.views import APIView
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -209,20 +211,80 @@ class CustomersViewSet(viewsets.ModelViewSet):
             'access': str(refresh.access_token),
         }
         
-        
-def get_token(request):
-    try:
-        user = authenticate(user=request.data.get('phone_number'), password=request.data.get('password'))
-        #user = Customer.objects.get(phone_number=request.data.get('phone_number'))
-        
-        if user is not None:
-        
-            refresh = RefreshToken.for_user(user)
-        
-            return JsonResponse({'refresh': str(refresh), 'access': str(refresh.access_token)})
-        
-        else:
-            return JsonResponse({'error': 'tel or password is incorrect'})
-        
-    except PermissionDenied:
-        return JsonResponse({'error': 'This user does not exist'})
+
+ 
+class TokenView(viewsets.ViewSet):
+
+    LOGIN_FAIL_DELTA = timezone.timedelta(hours=1)
+
+    @action(methods=['post'], detail=False)
+    def get(self, request):
+        try:
+            user = authenticate(request, username=request.data.get('phone_number'), password=request.data.get('password'))
+            
+            if user is not None:
+                # Юзер такой есть
+                if not user.ban_status:
+                    # юзер не забанен
+                    refresh = RefreshToken.for_user(user)
+                    
+                    # юзер удачно зашел, обнуляем счетчик неудачных входов
+                    user.login_fail_counter = 0
+                    user.save()
+                
+                    return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'error': 'You are banned!'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            else:
+                # Такого юзера нет или неправильный пароль
+                try:
+                    find_user = Customer.objects.get(phone_number=request.data.get('phone_number'))
+                    # Такой пользователь есть, значит ошиблись с паролем.
+
+                    if find_user.login_fail_counter > 4:
+                        # это пятая и более попытка. Баним.
+                        find_user.ban_status = True
+                        find_user.login_fail_counter += 1
+                        find_user.save()
+                        return Response({'error': 'To much try! You banned!'}, status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        # Попытки еще есть
+                        find_user.login_fail_counter += 1
+                        find_user.save()
+                        return Response({'error': 'Wrong password!'}, status=status.HTTP_400_BAD_REQUEST)
+
+                except ObjectDoesNotExist:
+                    return Response({'error': 'User with this tel number is absent'}, status=status.HTTP_400_BAD_REQUEST)
+
+                '''
+                login_fail = CustomerLoginFail.objects.filter(customer=user)
+                if not login_fail:
+                    # неудачных входов не было
+                    obj = CustomerLoginFail.objects.create(
+                        customer=user,
+                    )
+                    obj.save()
+                    user.login_fail_counter = 1
+                    user.save()
+                    return Response({'error': 'tel or password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                else:
+                    # Очередной неудачный вход
+                    if user.login_fail_counter > 4:
+                        # Баним пользователя
+                        user.ban_status = True
+                        user.login_fail_counter += 1
+                        user.save()
+                        return Response({'error': 'To big incorrect try enter password! You are banned!'}, status=status.HTTP_400_BAD_REQUEST)
+                    
+                    else:
+                        # Сообщаем о неверном пароле и увеличиваем неудачных входов на 1
+                        user.login_fail_counter += 1
+                        user.save()
+                        return Response({'error': 'tel or password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+                '''    
+                return Response({'error': 'login or password is icorrect!'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        except PermissionDenied:
+            return Response({'error': 'This user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
