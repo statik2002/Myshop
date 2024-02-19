@@ -50,7 +50,7 @@ def send_mail(request, user: Customer) -> dict:
             return {'response': 'ok'}
 
     except SMTPRecipientsRefused:
-        return {'response': 'error', 'erorr': 'Указан несуществующий email'}
+        return {'email': 'Указан несуществующий email'}
     
     except SMTPDataError as error:
-        return {'response': 'error', 'error': error.with_traceback}
+        return {'email': error.with_traceback}

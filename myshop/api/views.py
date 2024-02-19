@@ -146,13 +146,13 @@ class CustomersViewSet(viewsets.ModelViewSet):
 
             result = send_mail(request, user)
             if result.get('response') != 'ok':
-                return Response({'status': 'BAD', 'error': result}, status=status.HTTP_400_BAD_REQUEST)    
-            return Response({'status': 'OK', 'tokens': token}, status=status.HTTP_200_OK)
+                return Response({'error': result}, status=status.HTTP_400_BAD_REQUEST)    
+            return Response({'response': {'tokens': token}}, status=status.HTTP_200_OK)
             
         else:
             print(serialized_customer.error_messages)
             print(serialized_customer.errors)
-            return Response({'response': {'error': serialized_customer.errors}}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': serialized_customer.errors}, status=status.HTTP_400_BAD_REQUEST)
         
     def retrieve(self, request, pk):
         try:

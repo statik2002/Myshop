@@ -11,7 +11,26 @@
                     <label for="phone" class="col-sm-2 form-label">Phone number:</label>
                 </div>
                 <div class="col-sm-9">
-                    <input v-bind:value="phone" @input="inputPhone" type="text" class="form-control" autocomplete="tel-area-code" id="phone" value="+79999999999">
+                    <!--
+                    <input 
+                        v-bind:value="phone" 
+                        @input="inputPhone" 
+                        type="text" 
+                        class="form-control" 
+                        autocomplete="tel-area-code" 
+                        id="phone" 
+                        value="+7(___)___-__-__"
+                        pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}"
+                        placeholder="+7(___)___-__-__">
+                    -->
+                    <input 
+                        type="tel"
+                        @input="inputPhone"
+                        class="form-control"
+                        autocomplete="tel-area-code"
+                        id="phone"
+                        value=""
+                        v-mask="['(+7) ###-###-##-##']">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -29,7 +48,7 @@
                 </div>
                 
                 <div class="col-sm-9">
-                <input v-bind:value="email" @input="inputEmail" type="email" autocomplete="email" class="form-control" id="inputEmial">
+                    <input v-bind:value="email" @input="inputEmail" type="email" autocomplete="email" class="form-control" id="inputEmial">
                 </div>
             </div>
             <div class="row d-flex align-items-end">
@@ -41,57 +60,59 @@
 
 <script>
     import axios from 'axios';
+    import { mask } from 'vue-the-mask';
     export default {
-        name: 'registration-form',
-        props: {
-            show: {
-                type: Boolean,
-                default: false
-            }
-        },
-        data() {
-            return {
-                phone: '',
-                password: '',
-                confirmPassword: '',
-                email: '',
-                messages: []
-            }
-        },
-        methods: {
-            inputPhone(event) {
-                this.phone = event.target.value
-            },
-            inputPassword(event) {
-                this.password = event.target.value
-            },
-            inputEmail(event) {
-                this.email = event.target.value
-            },
-            registerUser() {
-                axios(
-                    {
-                        method: 'post',
-                        url: 'http://127.0.0.1:8000/api/v1/customers/',
-                        headers: {'Content-Type': 'application/json;charset=utf-8'},
-                        data: JSON.stringify({'phone_number': this.phone, 'password': this.password, 'email': this.email})
-                    }
-                )
-                .then((response) => {
-                    this.$emit('update:show', false)
-                    this.$router.push('email_activation')
-                })
-                .catch((error) => {
-                    if(error.response) {
-                        for(let key in error.response.data.response.error) {
-                            this.messages.push({'field': key, 'error': error.response.data.response.error[key]})
-                        }
-                        this.message = error.response
-                    }
-                })
-            }
+    name: 'registration-form',
+    directives: { mask },
+    props: {
+        show: {
+            type: Boolean,
+            default: false
         }
-    }
+    },
+    data() {
+        return {
+            phone: '',
+            password: '',
+            confirmPassword: '',
+            email: '',
+            messages: []
+        };
+    },
+    methods: {
+        inputPhone(event) {
+            this.phone = event.target.value;
+            console.log(event.target.value)
+        },
+        inputPassword(event) {
+            this.password = event.target.value;
+        },
+        inputEmail(event) {
+            this.email = event.target.value;
+        },
+        registerUser() {
+            axios({
+                method: 'post',
+                url: 'http://127.0.0.1:8000/api/v1/customers/',
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                data: JSON.stringify({ 'phone_number': this.phone, 'password': this.password, 'email': this.email })
+            })
+                .then((response) => {
+                this.$emit('update:show', false);
+                this.$router.push('email_activation');
+            })
+                .catch((error) => {
+                if (error.response) {
+                    console.log(error.response)
+                    for (let key in error.response.data.error) {
+                        this.messages.push({ 'field': key, 'error': error.response.data.error[key] });
+                    }
+                    this.message = error.response;
+                }
+            });
+        }
+    },
+}
 </script>
 
 <style scoped>
