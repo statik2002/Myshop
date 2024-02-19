@@ -1,25 +1,19 @@
 import axios from "axios";
 import { createStore } from "vuex";
+import { useStorage } from "@vueuse/core";
 
 export default createStore({
+
     state: () => ({
         user: {},
         cart: [],
         cartProductsQuantity: 0,
         cartProductsTotal: 0,
+        some: useStorage('some', 0),
+        user2: useStorage('user2', {})
     }),
 
     getters: {
-        doubleLikes(state) {
-            return state.likes * 2;
-        },
-        checkUserLogin(state) {
-
-        },
-        getPhoneNumber(state) {
-            return state.userPhone;
-        },
-
         getCart(state) {
             return state.cart;
         },
@@ -59,11 +53,7 @@ export default createStore({
         },
 
         isUserLogin(state) {
-            if (localStorage.getItem('user')){
-                return true
-            } else {
-                return false
-            }
+            return Object.keys(state.user).length
         }
     },
 
@@ -94,7 +84,7 @@ export default createStore({
                 state.cart[productIndex].quantity += 1;
                 state.cartProductsQuantity += 1;
                 state.cartProductsTotal += state.cart[productIndex].quantity * product.price;
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                useStorage('cart', JSON.stringify(state.cart))
             } else {
                 const newCartItem = {
                     id: product.id,
@@ -116,7 +106,7 @@ export default createStore({
                 state.cart.push(newCartItem);
                 state.cartProductsQuantity += 1;
                 state.cartProductsTotal += 1 * product.price;
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                useStorage('cart', JSON.stringify(state.cart))
             }
         },
         removeProductFromCart(state, product) {
@@ -131,7 +121,7 @@ export default createStore({
             state.cart[productIndex].quantity += 1;
             state.cartProductsQuantity += 1;
             state.cartProductsTotal += Number(state.cart[productIndex].price)
-            localStorage.setItem('cart', JSON.stringify(state.cart))
+            useStorage('cart', JSON.stringify(state.cart))
         },
 
         subOne(state, id) {
@@ -141,7 +131,7 @@ export default createStore({
                 state.cart[productIndex].quantity -= 1;
                 state.cartProductsQuantity -= 1;
                 state.cartProductsTotal -= state.cart[productIndex].price
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                useStorage('cart', JSON.stringify(state.cart))
             }
             
         },
@@ -149,11 +139,16 @@ export default createStore({
         deleteProductFromCart(state, id) {
             const productIndex = state.cart.findIndex((index) => index.id === id);
             state.cart.splice(productIndex, 1)
-            localStorage.setItem('cart', JSON.stringify(state.cart))
+            useStorage('cart', JSON.stringify(state.cart))
         },
 
         setUser(state, user) {
             state.user = user
+            useStorage('user', JSON.stringify(user))
+        },
+
+        logoutUser(state) {
+            state.user = {}
         }
     },
 
@@ -162,14 +157,19 @@ export default createStore({
             console.log(tel)
             commit('setUserPhone', tel)
         },
+
         setUser({commit, state}, user){
             commit('setUser', user)
-            localStorage.setItem('user', JSON.stringify(user))
-        }
+            //useStorage('user', JSON.stringify(user))
+        },
 
+        userLogout({commit, state}) {
+            useStorage('user', null)
+            commit('logoutUser')
+        }
     },
 
     modules: {
 
-    }
+    },
 })

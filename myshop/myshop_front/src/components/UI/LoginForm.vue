@@ -32,6 +32,7 @@
 
 <script>
     import axios from 'axios';
+    import {useStorage} from '@vueuse/core'
     export default {
         name: 'login-form',
         props: {
@@ -65,9 +66,12 @@
                 )
                 .then((response) => {
                     this.$store.dispatch('setUser', {'access_token': response.data.access})
+                    //useStorage('user', JSON.stringify({'access_token': response.data.access}))
                     this.$emit('update:show', false)
+                    this.$router.push('/')
                 })
                 .catch((error) => {
+                    console.log(error)
                     if (error.response.data.detail) {
                         this.messages.push(error.response.data.detail)
                     }

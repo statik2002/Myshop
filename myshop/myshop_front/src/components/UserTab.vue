@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex">
-        <div class="dropdown" v-if="userIsAuthenticated == false ">
+        <div class="dropdown" v-if="!$store.getters.isUserLogin">
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
             </a>
@@ -18,6 +18,7 @@
                 <li><a class="dropdown-item" href="#">Cabinet</a></li>
                 <li><a class="dropdown-item" href="#">Cart</a></li>
                 <li><a class="dropdown-item" href="#">Delivery</a></li>
+                <li><a class="dropdown-item" href="#" @click="userLogout">Logout</a></li>
             </ul>
         </div>
         <modal-component v-model:show="loginModalVisible">
@@ -30,6 +31,7 @@
 </template>
 
 <script>
+    import { useStorage } from '@vueuse/core'
     export default {
         data() {
             return {
@@ -37,7 +39,8 @@
                 loginModalVisible: false,
                 registrationModalVisible: false,
                 phone: '',
-                password: ''
+                password: '',
+                user: useStorage('user')
             }
         },
         methods: {
@@ -55,8 +58,18 @@
             },
             changeUserAuthState() {
                 this.userIsAuthenticated = value
+            },
+            userLogout() {
+                this.$store.dispatch('userLogout')
+                const user = useStorage('user')
+                user.value = null
+            },
+            userLogin(){
+                return $store.getters.isUserLogin
             }
         },
+        mounted() {
+        }
     }
 </script>
 
