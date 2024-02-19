@@ -66,6 +66,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'myshop.urls'
 AUTH_USER_MODEL = 'main.Customer'
 CART_SESSION_ID = 'cart'
+USER_BAN_HOURS = 1 # Время бана в часах
 
 TEMPLATES = [
     {

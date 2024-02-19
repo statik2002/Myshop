@@ -39,6 +39,7 @@ class Customer(AbstractUser):
 
     login_fail_counter = models.SmallIntegerField(default=0, verbose_name='Счетчик неудачных входов')
     ban_status = models.BooleanField(default=False, verbose_name='Бан или нет')
+    ban_time = models.DateTimeField(verbose_name='Время бана', null=True, blank=True)
 
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'phone_number'

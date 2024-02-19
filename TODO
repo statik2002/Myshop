@@ -1,8 +1,11 @@
 
 Todo:
-  ☐ Make new view where get new token (block user if login and password is oncorrect 5 times)
-  ☐ Создать функционал Логин
-  ✔ Создать валидацию по почте после регистрации @done(24-02-16 15:57)
+  - Registration\Login\logout функционал
+    ✔ Make new view where get new token (block user if login and password is oncorrect 5 times) @done(24-02-19 09:01)
+    ✔ Создать функционал Логин @done(24-02-19 09:02)
+    ✔ Создать валидацию по почте после регистрации @done(24-02-16 15:57)
+    ☐ Создать функционал Logout
+    
   ☐ Прописать все permissions в API
   ☐ Создать хранение в LocalStorage
   ☐ Создать личный кабинет

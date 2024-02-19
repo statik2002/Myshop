@@ -19,6 +19,8 @@ from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from rest_framework.views import APIView
 
+from myshop.settings import USER_BAN_HOURS
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     """
@@ -234,7 +236,18 @@ class TokenView(viewsets.ViewSet):
                 
                     return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
                 else:
-                    return Response({'error': 'You are banned!'}, status=status.HTTP_400_BAD_REQUEST)
+                    # юзер забанен
+                    if user.ban_time + timezone.timedelta(hours=USER_BAN_HOURS) > timezone.now:
+                        # Время бана не прошло, указываем на это.
+                        return Response({'error': 'You are banned!'}, status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        # Время бана прошло обнуляем и даем токен
+                        user.ban_time = None
+                        user.ban_status = False
+                        user.login_fail_counter = 0
+                        user.save()
+                        refresh = RefreshToken.for_user(user)
+                        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
             
             else:
                 # Такого юзера нет или неправильный пароль
@@ -246,6 +259,7 @@ class TokenView(viewsets.ViewSet):
                         # это пятая и более попытка. Баним.
                         find_user.ban_status = True
                         find_user.login_fail_counter += 1
+                        find_user.ban_time = timezone.now
                         find_user.save()
                         return Response({'error': 'To much try! You banned!'}, status=status.HTTP_400_BAD_REQUEST)
                     else:
@@ -255,36 +269,8 @@ class TokenView(viewsets.ViewSet):
                         return Response({'error': 'Wrong password!'}, status=status.HTTP_400_BAD_REQUEST)
 
                 except ObjectDoesNotExist:
+                    # Пользователя с таким телефоном не существует
                     return Response({'error': 'User with this tel number is absent'}, status=status.HTTP_400_BAD_REQUEST)
-
-                '''
-                login_fail = CustomerLoginFail.objects.filter(customer=user)
-                if not login_fail:
-                    # неудачных входов не было
-                    obj = CustomerLoginFail.objects.create(
-                        customer=user,
-                    )
-                    obj.save()
-                    user.login_fail_counter = 1
-                    user.save()
-                    return Response({'error': 'tel or password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
-                
-                else:
-                    # Очередной неудачный вход
-                    if user.login_fail_counter > 4:
-                        # Баним пользователя
-                        user.ban_status = True
-                        user.login_fail_counter += 1
-                        user.save()
-                        return Response({'error': 'To big incorrect try enter password! You are banned!'}, status=status.HTTP_400_BAD_REQUEST)
-                    
-                    else:
-                        # Сообщаем о неверном пароле и увеличиваем неудачных входов на 1
-                        user.login_fail_counter += 1
-                        user.save()
-                        return Response({'error': 'tel or password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
-                '''    
-                return Response({'error': 'login or password is icorrect!'}, status=status.HTTP_400_BAD_REQUEST)
             
         except PermissionDenied:
             return Response({'error': 'This user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
