@@ -4,8 +4,6 @@ import { createStore } from "vuex";
 export default createStore({
     state: () => ({
         user: {},
-        userPhone: '+79149569967',
-        userPassword: 'obninsk1978#',
         cart: [],
         cartProductsQuantity: 0,
         cartProductsTotal: 0,

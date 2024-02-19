@@ -29,6 +29,13 @@
                     </div>
                 </div>
             </div>
+            <div class="row p-3 cart-product widget">
+                <div class="d-flex justify-content-between">
+                    <div>Удалить все</div>
+                    <div>Оформить все</div>
+                </div>
+                
+            </div>
         </div>
         
     </div>
