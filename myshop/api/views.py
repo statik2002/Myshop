@@ -237,7 +237,7 @@ class TokenView(viewsets.ViewSet):
                     return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
                 else:
                     # юзер забанен
-                    if user.ban_time + timezone.timedelta(hours=USER_BAN_HOURS) > timezone.now:
+                    if user.ban_time + timezone.timedelta(hours=USER_BAN_HOURS) > timezone.now():
                         # Время бана не прошло, указываем на это.
                         return Response({'error': 'You are banned!'}, status=status.HTTP_400_BAD_REQUEST)
                     else:
@@ -259,7 +259,7 @@ class TokenView(viewsets.ViewSet):
                         # это пятая и более попытка. Баним.
                         find_user.ban_status = True
                         find_user.login_fail_counter += 1
-                        find_user.ban_time = timezone.now
+                        find_user.ban_time = timezone.now()
                         find_user.save()
                         return Response({'error': 'To much try! You banned!'}, status=status.HTTP_400_BAD_REQUEST)
                     else:
