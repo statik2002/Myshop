@@ -65,10 +65,24 @@
                     }
                 )
                 .then((response) => {
-                    this.$store.dispatch('setUser', {'access_token': response.data.access})
-                    //useStorage('user', JSON.stringify({'access_token': response.data.access}))
-                    this.$emit('update:show', false)
-                    this.$router.push('/')
+                    const token = response.data.access
+                    axios(
+                        {
+                            method: 'get',
+                            url: `http://127.0.0.1:8000/api/v1/customers/${response.data.user_id}/`,
+                            headers: {'Content-Type': 'application/json;charset=utf-8', "Authorization" : `Bearer ${token}`},
+                        }
+                    )
+                    .then((response) => {
+                        console.log(response.data)
+                        this.$store.commit('setUser2', response.data)
+                        this.$store.dispatch('setUser', response.data)
+                        //useStorage('user', JSON.stringify({'access_token': response.data.access}))
+                        this.$emit('update:show', false)
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
                 })
                 .catch((error) => {
                     console.log(error)

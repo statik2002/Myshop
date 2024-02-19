@@ -4,14 +4,17 @@ import { useStorage } from "@vueuse/core";
 
 export default createStore({
 
-    state: () => ({
-        user: {},
-        cart: [],
-        cartProductsQuantity: 0,
-        cartProductsTotal: 0,
-        some: useStorage('some', 0),
-        user2: useStorage('user2', {})
-    }),
+    state() {
+        return {
+            user: {},
+            cart: [],
+            cartProductsQuantity: 0,
+            cartProductsTotal: 0,
+            some: useStorage('some', 0),
+            user2: useStorage('user2', {}),
+            some2: useStorage('some2', {'val1': 0, val2: [1,2,3]})
+        }
+    },
 
     getters: {
         getCart(state) {
@@ -143,12 +146,21 @@ export default createStore({
         },
 
         setUser(state, user) {
-            state.user = user
-            useStorage('user', JSON.stringify(user))
+            state.user = JSON.stringify(user)
+            //useStorage('user', JSON.stringify(user))
         },
 
         logoutUser(state) {
             state.user = {}
+        },
+
+        setUser2(state, user) {
+            state.user2 = JSON.stringify(user)
+            console.log(state.user2)
+        },
+
+        some2Add(state) {
+            state.some2.value.val1++
         }
     },
 

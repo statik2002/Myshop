@@ -15,6 +15,11 @@
                 {{ $store.state.some }}
                 <button type="button" class="btn btn-success" @click="changeValue">Change storage Value</button>
             </div>
+            <div>
+                <div>{{ some }}</div>
+                <div>{{ $store.state.some2 }}</div>
+                <div><button @click="addSome">Add +</button></div>
+            </div>
         </div>
         
     </div>
@@ -26,7 +31,8 @@
         components: {useStorage},
         data() {
             return {
-                user: useStorage('user')
+                user: useStorage('user'),
+                some: useStorage('some2')
             }
         },
         methods: {
@@ -34,6 +40,11 @@
                 let value = useStorage('some')
                 console.log(value.value)
                 useStorage('some', value.value++)
+            },
+            addSome() {
+                let data = JSON.parse(this.some)
+                data.val1++
+                this.some = JSON.stringify(data)
             }
         }
     }

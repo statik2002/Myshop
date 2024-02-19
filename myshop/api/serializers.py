@@ -57,4 +57,4 @@ class CartSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = '__all__'
+        fields = ('email', 'first_name', 'last_name', 'is_read_pd', 'phone_number', 'address', 'date_joined', 'avatar', 'likes')

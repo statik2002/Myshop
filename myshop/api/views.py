@@ -153,11 +153,15 @@ class CustomersViewSet(viewsets.ModelViewSet):
             print(serialized_customer.error_messages)
             print(serialized_customer.errors)
             return Response({'error': serialized_customer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        
+                
     def retrieve(self, request, pk):
         try:
             customer = Customer.objects.get(pk=pk)
-            return Response(CustomerSerializer(customer).data, status=status.HTTP_200_OK)
+            upended_data = CustomerSerializer(customer).data
+            refresh_token = RefreshToken.for_user(customer)
+            upended_data['access'] = str(refresh_token.access_token)
+            upended_data['refresh'] = str(refresh_token)
+            return Response(upended_data, status=status.HTTP_200_OK)
 
         except ObjectDoesNotExist:
             return Response({'error': 'User with this pk does not exist'}, status=status.HTTP_400_BAD_REQUEST)
@@ -202,7 +206,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
         if self.action == 'create' or 'user_activation':
             permission_classes = [AllowAny]
         else:
-            permission_classes = [IsAdminUser]
+            permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
     
     def get_tokens_for_user(self, user):
@@ -234,7 +238,7 @@ class TokenView(viewsets.ViewSet):
                     user.login_fail_counter = 0
                     user.save()
                 
-                    return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
+                    return Response({'user_id': user.pk, 'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
                 else:
                     # юзер забанен
                     if user.ban_time + timezone.timedelta(hours=USER_BAN_HOURS) > timezone.now():
