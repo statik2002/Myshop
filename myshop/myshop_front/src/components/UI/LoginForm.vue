@@ -11,7 +11,18 @@
                     <label for="phone" class="col-sm-2 form-label">Phone number:</label>
                 </div>
                 <div class="col-sm-9">
+                    <!--
                     <input v-bind:value="phone" @input="inputPhone" type="text" class="form-control" autocomplete="tel-area-code" id="phone" value="+79999999999">
+                    -->
+                    <input 
+                        type="tel"
+                        v-bind:value="phone"
+                        @input="inputPhone"
+                        class="form-control"
+                        autocomplete="tel-area-code"
+                        id="phone"
+                        value=""
+                        v-mask="['(+7) ###-###-##-##']">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -32,9 +43,10 @@
 
 <script>
     import axios from 'axios';
-    import {useStorage} from '@vueuse/core'
+    import { mask } from 'vue-the-mask';
     export default {
         name: 'login-form',
+        directives: { mask },
         props: {
             show: {
                 type: Boolean,
@@ -74,9 +86,9 @@
                         }
                     )
                     .then((response) => {
-                        console.log(response.data)
-                        this.$store.commit('setUser2', response.data)
-                        this.$store.dispatch('setUser', response.data)
+                        //console.log(response.data)
+                        //this.$store.commit('setUser2', response.data)
+                        this.$store.commit('setUser', response.data)
                         //useStorage('user', JSON.stringify({'access_token': response.data.access}))
                         this.$emit('update:show', false)
                     })

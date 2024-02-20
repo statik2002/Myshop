@@ -33,16 +33,21 @@
                   </button>
                 </div>
                 <div class="col">
-                  <form>
                     <div class="form-group has-search">
                       <!--
                         <span class="form-control-feedback">
                             <i class="bi bi-search"></i>
                         </span>
                       -->
-                        <input type="text" name="query" class="form-control rounded-9" placeholder="Нати на сайте Мозаика" value="">
+                        <input 
+                          v-model="searchQuery"
+                          type="text" 
+                          name="query" 
+                          class="form-control rounded-9" 
+                          placeholder="Нати на сайте Мозаика" 
+                          value=""
+                          @change="searh">
                     </div>
-                  </form>
                 </div>
                 <div class="col-md-auto d-none d-lg-block">
                   <div class="container">
@@ -84,8 +89,20 @@
 
 <script>
 import UserTab from '@/components/UserTab.vue'
+
     export default {
-    components: { UserTab }
+    components: { UserTab },
+    data() {
+      return {
+        searchQuery: ''
+      }
+    },
+    methods: {
+      searh() {
+        this.$router.push({name: 'search', params: {query: this.searchQuery}})
+      }
+
+    }
 }
 </script>
 

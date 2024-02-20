@@ -60,9 +60,7 @@
                 this.userIsAuthenticated = value
             },
             userLogout() {
-                this.$store.dispatch('userLogout')
-                const user = useStorage('user')
-                user.value = null
+                this.$store.commit('logoutUser')
             },
             userLogin(){
                 return $store.getters.isUserLogin

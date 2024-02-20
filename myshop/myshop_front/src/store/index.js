@@ -6,13 +6,11 @@ export default createStore({
 
     state() {
         return {
-            user: {},
+            user: useStorage('user', null),
+            userIsAuth: false,
             cart: [],
             cartProductsQuantity: 0,
             cartProductsTotal: 0,
-            some: useStorage('some', 0),
-            user2: useStorage('user2', {}),
-            some2: useStorage('some2', {'val1': 0, val2: [1,2,3]})
         }
     },
 
@@ -56,7 +54,7 @@ export default createStore({
         },
 
         isUserLogin(state) {
-            return Object.keys(state.user).length
+            return state.userIsAuth
         }
     },
 
@@ -87,7 +85,7 @@ export default createStore({
                 state.cart[productIndex].quantity += 1;
                 state.cartProductsQuantity += 1;
                 state.cartProductsTotal += state.cart[productIndex].quantity * product.price;
-                useStorage('cart', JSON.stringify(state.cart))
+                localStorage.setItem('cart', JSON.stringify(state.cart))
             } else {
                 const newCartItem = {
                     id: product.id,
@@ -109,7 +107,7 @@ export default createStore({
                 state.cart.push(newCartItem);
                 state.cartProductsQuantity += 1;
                 state.cartProductsTotal += 1 * product.price;
-                useStorage('cart', JSON.stringify(state.cart))
+                localStorage.setItem('cart', JSON.stringify(state.cart))
             }
         },
         removeProductFromCart(state, product) {
@@ -147,21 +145,13 @@ export default createStore({
 
         setUser(state, user) {
             state.user = JSON.stringify(user)
-            //useStorage('user', JSON.stringify(user))
+            state.userIsAuth = true
         },
 
         logoutUser(state) {
             state.user = {}
+            state.userIsAuth = false
         },
-
-        setUser2(state, user) {
-            state.user2 = JSON.stringify(user)
-            console.log(state.user2)
-        },
-
-        some2Add(state) {
-            state.some2.value.val1++
-        }
     },
 
     actions: {
@@ -169,16 +159,6 @@ export default createStore({
             console.log(tel)
             commit('setUserPhone', tel)
         },
-
-        setUser({commit, state}, user){
-            commit('setUser', user)
-            //useStorage('user', JSON.stringify(user))
-        },
-
-        userLogout({commit, state}) {
-            useStorage('user', null)
-            commit('logoutUser')
-        }
     },
 
     modules: {

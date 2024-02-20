@@ -37,10 +37,22 @@ class ProductViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk):
         product = Product.objects.get(pk=pk)
         return Response(ProductSerializer(product,  context={'request': request}).data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['post'], name='search')
+    def search(self, request):
+        query = request.data.get('query')
+        products = Product.objects.filter(name__icontains=query).filter(quantity__gt=0)
+        page = self.paginate_queryset(products)
+        if page is not None:
+            serialized_products = ProductSerializer(page, many=True, context={'request': request})
+            return self.get_paginated_response(serialized_products.data)
+        
+        serialized_products = ProductSerializer(page, many=True, context={'request': request})
+        return Response(serialized_products.data, status=status.HTTP_200_OK)
 
 
 class InitialUploadCatalog(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,) 
     serializer_class = CatalogSerializer(many=True)
 
     def create(self, request, *args, **kwargs):

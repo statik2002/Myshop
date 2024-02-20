@@ -6,6 +6,7 @@ import CartPage from '@/pages/CartPage.vue'
 import RegistrationPage from '@/pages/RegistrationPage.vue'
 import EmailActivation from '@/pages/EmailActivation.vue'
 import UserActivation from '@/pages/UserActivation.vue'
+import SearchPage from '@/pages/SearchPage.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -47,6 +48,11 @@ const routes = [
         path: '/user_activation',
         component: UserActivation,
         name: 'user_activation'
+    },
+    {
+        path: '/search/:query',
+        component: SearchPage,
+        name: 'search',
     }
 ]
 
