@@ -393,6 +393,12 @@
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
+    <modal-component v-model:show="modalIsVisible">
+      <div class="d-flex flex-column gap-3">
+        <div>{{ product.name }} Добавлен</div>
+        <div><router-link to="/cart">Посмотреть корзину</router-link></div>
+      </div>
+    </modal-component>
     <footer-component></footer-component>
 </template>
 
@@ -400,8 +406,9 @@
     import axios from 'axios'
     import HeaderComponent from '@/components/HeaderComponent.vue'
     import FooterComponent from '@/components/FooterComponent.vue'
+    import ModalComponent from '@/components/UI/ModalComponent.vue'
     export default {
-        components: {HeaderComponent, FooterComponent},
+        components: {HeaderComponent, FooterComponent, ModalComponent},
         data() {
             return {
                 isProductLoading: false,
@@ -422,7 +429,8 @@
                   slug: "",
                   tags: [],
                   his_rating: []
-                }
+                },
+                modalIsVisible: false
             }
         },
         methods: {
@@ -463,6 +471,7 @@
 
             addToCart() {
               this.$store.commit('addProductToCart', this.product);
+              this.modalIsVisible = true
             }
         },
         mounted() {

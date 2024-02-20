@@ -32,8 +32,9 @@
                             <span class="total">{{ total }}</span>
                         </div>
                         <div class="">
+                            {{ this.id }}
                             <div class="d-flex gap-3 ms-auto cart-product-icons align-items-start">
-                            <button type="button" class="btn btn-success btn-light" @click=""><i class="bi bi-cart-check"></i></button>
+                            <button type="button" class="btn btn-success btn-light" @click="checkOut"><i class="bi bi-cart-check"></i></button>
                             <button type="button" class="btn btn-success btn-light" @click="$store.commit('deleteProductFromCart', id)"><i class="bi bi-trash3"></i></button>
                             </div>
                         </div>
@@ -75,6 +76,9 @@
             },
             sub() {
                 this.$store.commit('subOne', this.id)
+            },
+            checkOut() {
+                this.$router.push({name: 'checkout', params: {product: this.id}})
             }
         }
     }
