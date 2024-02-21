@@ -15,7 +15,17 @@
                 localStorage.setItem('cart', JSON.stringify(this.$store.state.cart))
             }
 
-            const myObj = useStorage('objStore', {'item': 'name'})
+            //Load user from useStorage
+            const user = localStorage.getItem('user')
+            if (user) {
+                this.$store.state.user = JSON.parse(user)
+                this.$store.state.userIsAuth = true
+            } else {
+                this.$store.state.userIsAuth = false
+            }
+            
+            
+            
         }
   }
 </script>

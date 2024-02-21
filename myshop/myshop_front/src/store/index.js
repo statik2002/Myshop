@@ -6,7 +6,7 @@ export default createStore({
 
     state() {
         return {
-            user: useStorage('user', null),
+            user: {},
             userIsAuth: false,
             cart: [],
             cartProductsQuantity: 0,
@@ -122,7 +122,7 @@ export default createStore({
             state.cart[productIndex].quantity += 1;
             state.cartProductsQuantity += 1;
             state.cartProductsTotal += Number(state.cart[productIndex].price)
-            useStorage('cart', JSON.stringify(state.cart))
+            localStorage.setItem('cart', JSON.stringify(state.cart))
         },
 
         subOne(state, id) {
@@ -132,7 +132,7 @@ export default createStore({
                 state.cart[productIndex].quantity -= 1;
                 state.cartProductsQuantity -= 1;
                 state.cartProductsTotal -= state.cart[productIndex].price
-                useStorage('cart', JSON.stringify(state.cart))
+                localStorage.setItem('cart', JSON.stringify(state.cart))
             }
             
         },
@@ -140,11 +140,12 @@ export default createStore({
         deleteProductFromCart(state, id) {
             const productIndex = state.cart.findIndex((index) => index.id === id);
             state.cart.splice(productIndex, 1)
-            useStorage('cart', JSON.stringify(state.cart))
+            localStorage.setItem('cart', JSON.stringify(state.cart))
         },
 
         setUser(state, user) {
-            state.user = JSON.stringify(user)
+            state.user = user
+            localStorage.setItem('user', JSON.stringify(user))
             state.userIsAuth = true
         },
 
@@ -152,6 +153,9 @@ export default createStore({
             state.user = {}
             state.userIsAuth = false
         },
+        setUserState(state, flag){
+            state.userIsAuth = flag
+        }
     },
 
     actions: {

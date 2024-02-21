@@ -15,7 +15,7 @@
                 <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Cabinet</a></li>
+                <li><routerLink to="/cabinet" class="dropdown-item">Cabinet</routerLink></li>
                 <li><a class="dropdown-item" href="#">Cart</a></li>
                 <li><a class="dropdown-item" href="#">Delivery</a></li>
                 <li><a class="dropdown-item" href="#" @click="userLogout">Logout</a></li>

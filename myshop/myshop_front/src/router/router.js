@@ -8,6 +8,7 @@ import EmailActivation from '@/pages/EmailActivation.vue'
 import UserActivation from '@/pages/UserActivation.vue'
 import SearchPage from '@/pages/SearchPage.vue'
 import CheckoutPage from "@/pages/CheckoutPage.vue"
+import CabinetPage from '@/pages/CabinetPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -59,6 +60,11 @@ const routes = [
         path: '/checkout/:product',
         component: CheckoutPage,
         name: 'checkout'
+    },
+    {
+        path: '/cabinet',
+        component: CabinetPage,
+        name: 'cabinet'
     }
 ]
 

@@ -11,8 +11,8 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Product
+from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product
 from main.email_functional import send_mail
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
@@ -27,6 +27,10 @@ class ProductViewSet(viewsets.ModelViewSet):
         *** Get Products ***
         /api/v1/products/ - get all products
         /api/v1/products/{pk}/ - get product by pk
+
+        - Search products
+            POST: /api/v1/products/search/
+            JSON: {query: [searc_param]}
     """
     permission_classes = []
     queryset = Product.objects.filter(quantity__gt=0).order_by('?')
@@ -162,8 +166,6 @@ class CustomersViewSet(viewsets.ModelViewSet):
             return Response({'response': {'tokens': token}}, status=status.HTTP_200_OK)
             
         else:
-            print(serialized_customer.error_messages)
-            print(serialized_customer.errors)
             return Response({'error': serialized_customer.errors}, status=status.HTTP_400_BAD_REQUEST)
                 
     def retrieve(self, request, pk):
@@ -230,7 +232,6 @@ class CustomersViewSet(viewsets.ModelViewSet):
         }
         
 
- 
 class TokenView(viewsets.ViewSet):
 
     LOGIN_FAIL_DELTA = timezone.timedelta(hours=1)
@@ -290,3 +291,50 @@ class TokenView(viewsets.ViewSet):
             
         except PermissionDenied:
             return Response({'error': 'This user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    '''
+        -   Get all orders
+            GET: http://127.0.0.1:8000/api/v1/order/
+
+        -   Get order by id
+            GET: http://127.0.0.1:8000/api/v1/{pk}/order/
+
+        -   Get user orders
+            POST: http://127.0.0.1:8000/api/v1/order/user_orders/
+            JSON: {user: user_id}
+
+        -   Create new order
+            POST: http://127.0.0.1:8000/api/v1/order/
+            JSON: {order: order}
+    '''
+    permission_classes = (IsAuthenticated,)
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def create(self, request, *args, **kwargs):
+
+        serialized_order = OrderSerializer(data=request.data)
+        if serialized_order.is_valid():
+            serialized_order.save()
+            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
+        
+        else:
+            return Response({'error': serialized_order.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def retrieve(self, request, pk):
+        order = Order.objects.get(pk=pk)
+        return Response(ProductSerializer(order,  context={'request': request}).data, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['post'], name='user_orders')
+    def get_orders(self, request):
+        try:
+            user_id = request.data.get('user')
+            user = Customer.objects.get(pk=user_id)
+            orders = Order.objects.filter(customer=user)
+            return Response(OrderSerializer(orders, context={'request': request}).data, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
