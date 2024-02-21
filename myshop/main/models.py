@@ -203,7 +203,6 @@ class CustomerBan(models.Model):
         return f'Пользователь: {self.customer.phone_number} забанен {self.ban_datetime} по причине {self.ban_reazon} до {self.ban_before}'
     
     
-
 class CustomerLoginFail(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='login_failed')
     login_fail_last_time = models.DateTimeField(default=timezone.now, verbose_name='Время последннего неудачного входа')
@@ -219,3 +218,32 @@ class CustomerLoginFail(models.Model):
                 f'последний неудачный вход {self.login_fail_last_time},' 
                 f'кол-во неудачных входов до бана {self.login_fail_counter},'
                 f'всего неудачных входов {self.login_fail_total_counter}')
+    
+
+class OrderStatus(models.Model):
+    status = models.CharField(max_length=100, verbose_name='Наименование статуса заказа')
+
+    class Meta:
+        verbose_name = 'Статус заказа'
+        verbose_name_plural= 'Статусы заказов'
+
+    def __str__(self) -> str:
+        return self.status
+
+
+class Order(models.Model):
+    order_create = models.DateTimeField(default=timezone.now, verbose_name='Дата и время заказа')
+    order_update = models.DateTimeField(default=timezone.now, verbose_name='Дата и время изменения заказа')
+    order_status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, related_name='orders')
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='user_orders', default=None)
+    #products = 
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
+    def __str__(self) -> str:
+        return (
+                f'Заказ №: {self.pk} от пользователя: {self.customer.phone_number},'
+                f' дата создания: {self.order_create} c статусом: {self.order_status.status}'
+            )
