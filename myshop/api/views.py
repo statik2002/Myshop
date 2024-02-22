@@ -1,3 +1,4 @@
+import pprint
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
@@ -314,14 +315,14 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def create(self, request, *args, **kwargs):
-
-        serialized_order = OrderSerializer(data=request.data)
+        print(request.data.get('order_products'))
+        serialized_order = OrderSerializer(data=request.data.get('order_products'))
         if serialized_order.is_valid():
             serialized_order.save()
             return Response({'response': 'ok'}, status=status.HTTP_200_OK)
         
         else:
-            return Response({'error': serialized_order.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': serialized_order.error_messages}, status=status.HTTP_400_BAD_REQUEST)
 
 
     def retrieve(self, request, pk):
@@ -330,9 +331,10 @@ class OrderViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['post'], name='user_orders')
     def get_orders(self, request):
+        print(request.data)
         try:
-            user_id = request.data.get('user')
-            user = Customer.objects.get(pk=user_id)
+            user_phone = request.data.get('user')
+            user = Customer.objects.get(phone_number=user_phone)
             orders = Order.objects.filter(customer=user)
             return Response(OrderSerializer(orders, context={'request': request}).data, status=status.HTTP_200_OK)
         

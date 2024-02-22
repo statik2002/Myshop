@@ -45,7 +45,7 @@
                         <div>{{ item.name }} - {{ item.quantity }} Шт. = {{ item.quantity * item.price }} Руб.</div>
                     </div>
                     <div>На сумму: {{ $store.getters.getTotalProductsAmount }} Руб.</div>
-                    <div><button type="button" class="btn btn-success ">Оформить</button></div>
+                    <div><button type="button" class="btn btn-success" @click="sendOrder">Оформить</button></div>
                 </div>
             </div>
         </modal-component>
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import HeaderComponent from '@/components/HeaderComponent.vue'
     import FooterComponent from '@/components/FooterComponent.vue'
     import CartCard from '@/components/ProductInCartComponent.vue'
@@ -76,6 +77,42 @@
         methods: {
             orderAll() {
                 this.orderModalVisible = true
+            },
+            async sendOrder() {
+                console.log(this.$store.state.user.access)
+                let order_products = []
+                for (const key in this.$store.state.cart){
+                    order_products.push({
+                        'poduct': this.$store.state.cart[key].id,
+                        'quantity': this.$store.state.cart[key].quantity,
+                        'fixed_price': this.$store.state.cart[key].price,
+                    })
+                }
+                console.log(order_products)
+                console.log(JSON.stringify(order_products))
+                const order = {
+                    'user': this.$store.state.user.phone_number,
+                    'order_products': order_products
+                }
+                console.log(JSON.stringify(order))
+
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/`,
+                          method: 'post',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          data: order
+                        }
+                      ).then((response) => {
+                            console.log(response)
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
             }
         }
     }
