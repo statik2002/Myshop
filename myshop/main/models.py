@@ -234,7 +234,7 @@ class OrderStatus(models.Model):
 class ProductInOrder(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products_in_order')
     quantity = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Количество в корзине', default='1.0')
-    fixed_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Зафиксированая цена')
+    fixed_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Зафиксированая цена', default='0.00')
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='order_products')
 
     def total(self) -> decimal:
@@ -244,7 +244,7 @@ class ProductInOrder(models.Model):
 class Order(models.Model):
     order_create = models.DateTimeField(default=timezone.now, verbose_name='Дата и время заказа')
     order_update = models.DateTimeField(default=timezone.now, verbose_name='Дата и время изменения заказа')
-    order_status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, related_name='orders', default=None)
+    order_status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, related_name='orders', default=1)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='user_orders', default=None)
 
     class Meta:

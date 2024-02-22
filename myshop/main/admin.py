@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
-from main.models import Customer, Catalog, Product, ProductRating, Tag, ProductProperty, ProductImage
+from main.models import Customer, Catalog, Order, OrderStatus, Product, ProductInOrder, ProductRating, Tag, ProductProperty, ProductImage
 
 
 @admin.register(Customer)
@@ -49,4 +49,16 @@ class ProductAdmin(admin.ModelAdmin):
             return 0.0
 
 
+class ProductsInOrderInline(admin.StackedInline):
+    model = ProductInOrder
+    extra = 0
 
+
+@admin.register(Order)
+class OrderAmin(admin.ModelAdmin):
+    inlines = (ProductsInOrderInline, )
+
+
+@admin.register(OrderStatus)
+class OrderStatusAdmin(admin.ModelAdmin):
+    list_display = ('id', 'status')

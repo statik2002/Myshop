@@ -57,21 +57,25 @@ class CartSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('email', 'first_name', 'last_name', 'is_read_pd', 'phone_number', 'address', 'date_joined', 'avatar', 'likes')
+        fields = ('id', 'email', 'first_name', 'last_name', 'is_read_pd', 'phone_number', 'address', 'date_joined', 'avatar', 'likes')
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Order
+        fields = '__all__'
 
 
 class OrderProductSerializer(serializers.ModelSerializer):
+
+    products_in_order = ProductSerializer(many=True, read_only=True)
+    order_products = OrderSerializer(many=True, read_only=True)
 
     class Meta:
         model = ProductInOrder
         fields = '__all__'
 
 
-class OrderSerializer(serializers.ModelSerializer):
 
-    order_products = OrderProductSerializer(many=True)
-
-    class Meta:
-        model = Order
-        fields = '__all__'
 

@@ -83,7 +83,7 @@
                 let order_products = []
                 for (const key in this.$store.state.cart){
                     order_products.push({
-                        'poduct': this.$store.state.cart[key].id,
+                        'product': this.$store.state.cart[key].id,
                         'quantity': this.$store.state.cart[key].quantity,
                         'fixed_price': this.$store.state.cart[key].price,
                     })
@@ -91,8 +91,8 @@
                 console.log(order_products)
                 console.log(JSON.stringify(order_products))
                 const order = {
-                    'user': this.$store.state.user.phone_number,
-                    'order_products': order_products
+                    'user': this.$store.state.user.id,
+                    'products_in_order': order_products
                 }
                 console.log(JSON.stringify(order))
 

@@ -1,3 +1,4 @@
+import json
 import pprint
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
@@ -12,8 +13,8 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product
+from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product, ProductInOrder
 from main.email_functional import send_mail
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
@@ -315,15 +316,21 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def create(self, request, *args, **kwargs):
-        print(request.data.get('order_products'))
-        serialized_order = OrderSerializer(data=request.data.get('order_products'))
-        if serialized_order.is_valid():
-            serialized_order.save()
+        try:
+            user = Customer.objects.get(pk=request.data.get('user'))
+            order2 = Order.objects.create(customer=user)
+            for item in request.data.get('products_in_order'):               
+                item['order']=order2.pk
+                item_serialized = OrderProductSerializer(data=item)
+                if item_serialized.is_valid():
+                    item_serialized.save()
+                else:
+                    print(item_serialized.errors)
+                    
             return Response({'response': 'ok'}, status=status.HTTP_200_OK)
-        
-        else:
-            return Response({'error': serialized_order.error_messages}, status=status.HTTP_400_BAD_REQUEST)
-
+            
+        except Exception as e:
+            return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk):
         order = Order.objects.get(pk=pk)
