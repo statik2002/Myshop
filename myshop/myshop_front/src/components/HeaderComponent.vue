@@ -52,10 +52,10 @@
                 <div class="col-md-auto d-none d-lg-block">
                   <div class="container">
                     <div class="row menu1">
-                      <div class="col">
+                      <div class="col border">
                         <UserTab></UserTab>
                       </div>
-                      <div class="col">
+                      <div class="col border">
                         <router-link to="/cart">
                           <i class="bi bi-bag position-relative" style="font-size: 1.5rem;">
                             <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
@@ -65,8 +65,10 @@
                           </i>
                         </router-link>
                       </div>
-                      <div class="col">
-                        <a href="#" data-bs-title="Your likes"><i class="bi bi-heart" style="font-size: 1.5rem;"></i></a>
+                      <div class="col border">
+                        <router-link to="/">
+                          <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
+                        </router-link>
                       </div>
                     </div>
                   </div>

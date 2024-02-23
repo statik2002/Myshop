@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex">
+    <div class="border">
         <div class="dropdown" v-if="!$store.getters.isUserLogin">
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>

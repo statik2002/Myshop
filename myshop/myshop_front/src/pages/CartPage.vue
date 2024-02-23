@@ -1,6 +1,7 @@
 <template>
     <header-component></header-component>
     <div class="container-lg pt-5">
+        <div class="mb-5" v-if="!$store.state.userIsAuth">Необходимо зарегистрироваться или войти в аккаунт что бы оформить заказ</div>
         <div class="d-flex flex-column gap-3">
             <cart-card v-for="cartItem in productsInCart"
                 :name='cartItem.name'
@@ -32,7 +33,8 @@
             <div class="row p-3 cart-product widget">
                 <div class="d-flex justify-content-between">
                     <div><button type="button" class="btn btn-secondary">Удалить все</button></div>
-                    <div><button type="button" class="btn btn-success" @click="orderAll">Оформить все</button></div>
+                    <div v-if="$store.state.userIsAuth"><button type="button" class="btn btn-success" @click="orderAll">Оформить все</button></div>
+                    <div v-else><button type="button" class="btn btn-success" @click="">Регистрация/Логин</button></div>
                 </div>
                 
             </div>
