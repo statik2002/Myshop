@@ -15,11 +15,11 @@
                 <!--
                 <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                 -->
-                <img :src="$store.state.user.avatar" width="25" alt="avatar">
+                <img :src="$store.state.user.avatar" width="30" alt="avatar" class="menu-avatar">
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
                 <li><routerLink to="/cabinet" class="dropdown-item">Cabinet</routerLink></li>
-                <li><a class="dropdown-item" href="#">Cart</a></li>
+                <li><router-link class="dropdown-item" to="/cart">Cart</router-link></li>
                 <li><a class="dropdown-item" href="#">Delivery</a></li>
                 <li><a class="dropdown-item" href="#" @click="userLogout">Logout</a></li>
             </ul>
@@ -64,6 +64,7 @@
             },
             userLogout() {
                 this.$store.commit('logoutUser')
+                this.$router.push('/')
             },
             userLogin(){
                 return $store.getters.isUserLogin

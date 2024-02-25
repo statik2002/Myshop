@@ -396,7 +396,10 @@
     <modal-component v-model:show="modalIsVisible">
       <div class="d-flex flex-column gap-3">
         <div>{{ product.name }} Добавлен</div>
-        <div><router-link to="/cart">Посмотреть корзину</router-link></div>
+        <div class="d-flex justify-content-between">
+          <router-link to="/cart">Посмотреть корзину</router-link>
+          <a href="#" @click="closeModal">Продолжить покупки</a>
+        </div>
       </div>
     </modal-component>
     <footer-component></footer-component>
@@ -472,6 +475,9 @@
             addToCart() {
               this.$store.commit('addProductToCart', this.product);
               this.modalIsVisible = true
+            }, 
+            closeModal() {
+              this.modalIsVisible = false
             }
         },
         mounted() {

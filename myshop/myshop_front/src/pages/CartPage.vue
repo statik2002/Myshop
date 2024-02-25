@@ -81,7 +81,7 @@
                 this.orderModalVisible = true
             },
             async sendOrder() {
-                console.log(this.$store.state.user.access)
+                //console.log(this.$store.state.user.access)
                 let order_products = []
                 for (const key in this.$store.state.cart){
                     order_products.push({
@@ -90,13 +90,13 @@
                         'fixed_price': this.$store.state.cart[key].price,
                     })
                 }
-                console.log(order_products)
-                console.log(JSON.stringify(order_products))
+                //console.log(order_products)
+                //console.log(JSON.stringify(order_products))
                 const order = {
                     'user': this.$store.state.user.id,
                     'products_in_order': order_products
                 }
-                console.log(JSON.stringify(order))
+                //console.log(JSON.stringify(order))
 
                 try {
                       axios(
@@ -107,7 +107,9 @@
                           data: order
                         }
                       ).then((response) => {
-                            console.log(response)
+                            //console.log(response)
+                            this.$store.commit('clearCart')
+                            this.orderModalVisible = false
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);

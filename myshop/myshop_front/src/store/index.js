@@ -155,6 +155,11 @@ export default createStore({
         },
         setUserState(state, flag){
             state.userIsAuth = flag
+        },
+
+        clearCart(state) {
+            state.cart = []
+            localStorage.setItem('cart', [])
         }
     },
 
