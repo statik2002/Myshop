@@ -32,7 +32,7 @@
             </div>
             <div class="row p-3 cart-product widget">
                 <div class="d-flex justify-content-between">
-                    <div><button type="button" class="btn btn-secondary">Удалить все</button></div>
+                    <div><button type="button" class="btn btn-secondary" @click="clearCart">Удалить все</button></div>
                     <div v-if="$store.state.userIsAuth"><button type="button" class="btn btn-success" @click="orderAll">Оформить все</button></div>
                     <div v-else><button type="button" class="btn btn-success" @click="">Регистрация/Логин</button></div>
                 </div>
@@ -80,6 +80,7 @@
             orderAll() {
                 this.orderModalVisible = true
             },
+            
             async sendOrder() {
                 //console.log(this.$store.state.user.access)
                 let order_products = []
@@ -117,6 +118,10 @@
                 finally {
         
                 }
+            },
+
+            clearCart() {
+                this.$store.commit('clearCart')
             }
         }
     }

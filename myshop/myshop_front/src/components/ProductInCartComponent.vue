@@ -42,11 +42,21 @@
                 </div>
             </div>
         </div>
+        <modal-component v-model:show="dialogMessageShow">
+            <div>Ваш заказ отправлен</div>
+            <div><button type="button" class="btn btn-success " @click="deleteItemFromCart">Ok</button></div>
+        </modal-component>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
+        data() {
+            return {
+                dialogMessageShow: false
+            }
+        },
         props: {
             id: Number,
             name: String,
@@ -77,9 +87,42 @@
                 this.$store.commit('subOne', this.id)
             },
             checkOut() {
-                this.$router.push({name: 'checkout', params: {product: this.id}})
+               const order_product = [{
+                'product': this.id,
+                'quantity': this.quantity,
+                'fixed_price': this.price
+               }]
+
+               const order = {
+                'user': this.$store.state.user.id,
+                'products_in_order': order_product
+               }
+
+               try {
+                axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/`,
+                          method: 'post',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          data: order
+                        }
+                      ).then((response) => {
+                            //console.log(response)
+                            this.dialogMessageShow = true
+                            //this.$store.commit('deleteProductFromCart', this.id)
+                            
+                        })
+               } catch (e) {
+                    console.log(`Connection error: ${e}`);
+               } finally {
+
+               }
+            },
+            deleteItemFromCart() {
+                this.$store.commit('deleteProductFromCart', this.id)
+                this.dialogMessageShow = false
             }
-        }
+        },
     }
 </script>
 
