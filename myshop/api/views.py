@@ -146,7 +146,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
 
     def create(self, request, *args, **kwargs):
-        serialized_customer = CustomerSerializer(data=request.data)
+        serialized_customer = CustomerSerializer(data=request.data, )
         if serialized_customer.is_valid():
             #user = serialized_customer.save()
             user = Customer.objects.create_user(
@@ -173,7 +173,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk):
         try:
             customer = Customer.objects.get(pk=pk)
-            upended_data = CustomerSerializer(customer).data
+            upended_data = CustomerSerializer(customer, context={'request': request}).data
             refresh_token = RefreshToken.for_user(customer)
             upended_data['access'] = str(refresh_token.access_token)
             upended_data['refresh'] = str(refresh_token)
@@ -186,7 +186,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
     def get_customer_by_phone(self, request, pk=None):
         try:
             customer = Customer.objects.get(phone_number=request.data.get('phone_number'))
-            return Response(CustomerSerializer(customer).data, status=status.HTTP_200_OK)
+            return Response(CustomerSerializer(customer, context={'request': request}).data, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response({'error': 'User with this phone number does not exist'}, status=status.HTTP_400_BAD_REQUEST)
         

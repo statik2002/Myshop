@@ -1,5 +1,5 @@
 <template>
-    <div class="border">
+    <div class="">
         <div class="dropdown" v-if="!$store.getters.isUserLogin">
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
@@ -12,7 +12,10 @@
         </div>
         <div class="dropdown" v-else>
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <!--
                 <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                -->
+                <img :src="$store.state.user.avatar" width="25" alt="avatar">
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
                 <li><routerLink to="/cabinet" class="dropdown-item">Cabinet</routerLink></li>

@@ -36,7 +36,10 @@
                             <div class="d-flex">
                                 <div class="col-auto">
                                 <div class="circle">
-                                    <div class="cabinet-avatar"><img src="@/assets/avatar_blank.webp" alt="avatar" class=""></div>
+                                    <div v-if="$store.state.user.avatar">
+                                        <div class="cabinet-avatar"><img :src="$store.state.user.avatar" alt="avatar" class=""></div>
+                                    </div>
+                                    <div v-else class="cabinet-avatar"><img src="@/assets/avatar_blank.webp" alt="avatar" class=""></div>
                                 </div>
                                 </div>
                                 <div class="col align-self-center">

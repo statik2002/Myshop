@@ -34,7 +34,7 @@ class Customer(AbstractUser):
         'Дата регистрации',
         default=timezone.now
     )
-    avatar = models.ImageField(blank=True, null=True, upload_to='media/avatars/', verbose_name='Аватар')
+    avatar = models.ImageField(blank=True, null=True, upload_to='avatars/', verbose_name='Аватар')
     likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары', blank=True)
 
     login_fail_counter = models.SmallIntegerField(default=0, verbose_name='Счетчик неудачных входов')
