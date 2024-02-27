@@ -411,6 +411,20 @@
     </modal-component>
     <product-edit-component v-model:show="editProductModal">
       {{ editProductData }}
+      <div class="d-flex flex-column">
+        <div class="d-flex gap-2">
+          <label for="productId">ID</label>
+          <div><input type="text" id="productID" readonly v-model="editProductData.id"></div>
+        </div>
+        <div class="d-flex gap-2">
+          <label for="productName">Name</label>
+          <div><input type="text" id="productName" v-model="editProductData.name"></div>
+        </div>
+        <div class="d-flex gap-2">
+          <label for="productDescription">Description</label>
+          <div><input type="text" id="productDescription" v-model="editProductData.description"></div>
+        </div>
+      </div>
     </product-edit-component>
     <footer-component></footer-component>
 </template>
@@ -482,10 +496,6 @@
                           method: 'get'
                         }
                       ).then((response) => {
-                        if(response.data.his_rating.length != null)
-                        {
-                          response.data.his_rating.push({'value': 0.0, 'counter': 0})
-                        }
                         this.editProductData = response.data;
                         //this.isProductLoading=true
                         })
