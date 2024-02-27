@@ -304,7 +304,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             GET: http://127.0.0.1:8000/api/v1/{pk}/order/
 
         -   Get user orders
-            POST: http://127.0.0.1:8000/api/v1/order/user_orders/
+            POST: http://127.0.0.1:8000/api/v1/order/get_orders/
             JSON: {user: user_id}
 
         -   Create new order
@@ -340,10 +340,10 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_orders(self, request):
         print(request.data)
         try:
-            user_phone = request.data.get('user')
-            user = Customer.objects.get(phone_number=user_phone)
-            orders = Order.objects.filter(customer=user)
-            return Response(OrderSerializer(orders, context={'request': request}).data, status=status.HTTP_200_OK)
+            user_id = request.data.get('user')
+            user = Customer.objects.get(pk=user_id)
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status=1).order_by('-order_create')
+            return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
         
         except ObjectDoesNotExist:
             return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)

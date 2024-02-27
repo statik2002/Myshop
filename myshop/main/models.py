@@ -2,8 +2,11 @@ import decimal
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import Count, Sum
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
+
+
 
 
 class CustomerManager(BaseUserManager):
@@ -256,3 +259,14 @@ class Order(models.Model):
                 f'Заказ №: {self.pk} от пользователя: {self.customer.phone_number},'
                 f' дата создания: {self.order_create} c статусом: {self.order_status.status}'
             )
+    
+    def get_position_count_order(self) -> int:
+        position_count = ProductInOrder.objects.annotate(Count('product'))
+        return position_count
+
+    def get_total_amount(self) -> decimal:
+        products = ProductInOrder.objects.filter(order=self)
+        total = 0
+        for product in products:
+            total += product.quantity * product.fixed_price
+        return total

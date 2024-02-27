@@ -22,8 +22,8 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <span class="text-secondary">Ближайшие</span>
-                                <span>Не ожидается</span>
+                                <span class="text-secondary">{{ orders.length }} Активных заказов</span>
+                                <span>Ожидают получения</span>
                             </div>
                             </div>
                         </div>
@@ -172,16 +172,11 @@
                     <div class="col-lg-6 col-md-12 mb-3">
                         <div class="widget p-3 h-100">
                             <div class="d-flex flex-column align-items-start gap-2 h-100">
-                            <div class="fw-bold">Ваши  последние покупки</div>
-                            <div class="d-flex justify-content-start">
-                                <div class="">21.10.2023</div>
-                                <div class="ms-5">Товаров: 5</div>
-                                <div class="ms-5">На сумму: 2321 &#8381;</div>
-                            </div>
-                            <div class="d-flex justify-content-start">
-                                <div class="">11.11.2023</div>
-                                <div class="ms-5">Товаров: 1</div>
-                                <div class="ms-5">На сумму: 245 &#8381;</div>
+                            <div class="fw-bold">Ваши последние заказы</div>
+                            <div v-for="order in orders.slice(0,3)" class="d-flex justify-content-start">
+                                <div class="">{{ Date(order.order_create) }}</div>
+                                <div class="ms-5">Товаров: {{ order.order_products.length }}</div>
+                                <div class="ms-5">На сумму: {{ order.get_total_amount }} &#8381;</div>
                             </div>
                             <div class="mt-auto">
                                 <a href="#">История покупок</a>
@@ -227,10 +222,45 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import HeaderComponent from '@/components/HeaderComponent.vue'
     import FooterComponent from '@/components/FooterComponent.vue'
     export default {
         components: { HeaderComponent, FooterComponent },
+        data() {
+            return {
+                orders: []
+            }
+        },
+        methods: {
+            async getUserOrders() {
+                const request_data = {
+                    'user': this.$store.state.user.id
+                }
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/get_orders/`,
+                          method: 'post',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          data: request_data
+                        }
+                      ).then((response) => {
+                            console.log(response.data)
+                            this.orders = response.data
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            fromatDate: d => d.toLocalString('ru-Ru').repalace(',', '').slice(0 ,-3)
+        },
+        mounted() {
+            this.getUserOrders()
+        }
     }
 </script>
 
