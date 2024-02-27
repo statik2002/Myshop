@@ -1,5 +1,45 @@
 <template>
     <div>
+        <!--Правая панель-->
+        <aside class="offcanvas offcanvas-start right-menu" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Каталог</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="row pt-2">
+              <div class="col">
+                <a href="#"><i class="bi bi-caret-right pe-2"></i> Сантехника</a>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div class="col">
+                <a href="#"> <i class="bi bi-caret-right pe-2"></i> Обои</a>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div class="col">
+                <a href="#"><i class="bi bi-caret-right pe-2"></i> Ванны</a>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div class="col">
+                <a href="#"><i class="bi bi-caret-right pe-2"></i> Потолочная плитка</a>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div class="col">
+                <a href="#"><i class="bi bi-caret-right pe-2"></i> Линолеум</a>
+              </div>
+            </div>
+            <div class="row pt-2">
+              <div class="col">
+                <a href="#"><i class="bi bi-paint-bucket pe-2"></i> Краски</a>
+              </div>
+            </div>
+          </div>
+        </aside>
+        <!--end Off Canvas-->
         <ul class="nav flex-column bg-dark menu-background">
         <div class="container-xl">
           <!--Top line of links-->
@@ -28,7 +68,7 @@
                 </div>
                 <!--Off canvas button-->
                 <div class="col-md-auto text-light d-none d-lg-block">
-                  <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#" aria-controls="">
+                  <button class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="">
                     <i class="bi bi-list"></i>
                   </button>
                 </div>

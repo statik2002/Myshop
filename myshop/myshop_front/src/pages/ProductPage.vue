@@ -118,13 +118,20 @@
             </div>
           </div>
           <div class="row my-3">
-            <div class="col-10">
-              <div class="d-grid">
-                <button type="button" class="btn btn-success" @click="addToCart">Добавить в корзину  <i class="bi bi-cart"></i></button>
+            <div v-if="$store.state.user.is_staff">
+              <div class="col-12">
+                <button type="button" class="btn btn-success" @click="editProduct">Редактировать<i class="bi bi-pencil-square"></i></button>
               </div>
             </div>
-            <div class="col-2">
-              <button type="button" class="btn btn-outline-danger"><i class="bi bi-heart"></i></button>
+            <div v-else>
+              <div class="col-8">
+                <div class="d-grid">
+                  <button type="button" class="btn btn-success" @click="addToCart">Добавить в корзину  <i class="bi bi-cart"></i></button>
+                </div>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-outline-danger"><i class="bi bi-heart"></i></button>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -402,6 +409,9 @@
         </div>
       </div>
     </modal-component>
+    <product-edit-component v-model:show="editProductModal">
+      {{ editProductData }}
+    </product-edit-component>
     <footer-component></footer-component>
 </template>
 
@@ -433,7 +443,11 @@
                   tags: [],
                   his_rating: []
                 },
-                modalIsVisible: false
+                editProductData: {
+                  type: Object
+                },
+                modalIsVisible: false,
+                editProductModal: false
             }
         },
         methods: {
@@ -451,6 +465,29 @@
                         }
                         this.product = response.data;
                         this.isProductLoading=true
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+
+            async uploadProductEdit() {
+              try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/products/${this.$route.params.id}/`,
+                          method: 'get'
+                        }
+                      ).then((response) => {
+                        if(response.data.his_rating.length != null)
+                        {
+                          response.data.his_rating.push({'value': 0.0, 'counter': 0})
+                        }
+                        this.editProductData = response.data;
+                        //this.isProductLoading=true
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);
@@ -478,6 +515,10 @@
             }, 
             closeModal() {
               this.modalIsVisible = false
+            },
+            editProduct() {
+              this.uploadProductEdit()
+              this.editProductModal = true
             }
         },
         mounted() {
