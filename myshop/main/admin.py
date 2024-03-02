@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import Customer, Catalog, Order, OrderStatus, Product, ProductInOrder, ProductRating, Tag, ProductProperty, ProductImage
+from django.contrib.auth.admin import UserAdmin
 
 
 @admin.register(Customer)

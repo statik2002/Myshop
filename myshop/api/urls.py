@@ -14,6 +14,7 @@ router.register(r'initial_upload_catalog', InitialUploadCatalog, basename='initi
 router.register(r'carts', CartsViewSet, basename='carts')
 router.register(r'customers', CustomersViewSet, basename='customers')
 router.register(r'token', TokenView, basename='token')
+router.register(r'token2', GetTokenViewSet, basename='token2')
 router.register(r'order', OrderViewSet, basename='order')
 
 

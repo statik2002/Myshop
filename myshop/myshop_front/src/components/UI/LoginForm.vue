@@ -71,7 +71,7 @@
                 axios(
                     {
                         method: 'post',
-                        url: 'http://127.0.0.1:8000/api/v1/token/get/',
+                        url: 'http://127.0.0.1:8000/api/token/',
                         headers: {'Content-Type': 'application/json;charset=utf-8'},
                         data: JSON.stringify({'phone_number': this.phone, 'password': this.password})
                     }

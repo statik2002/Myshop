@@ -1,38 +1,40 @@
 import decimal
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.db.models import Count, Sum
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
-
-
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import PermissionsMixin
 
 
 class CustomerManager(BaseUserManager):
+
     def create_user(self, phone_number, password=None, **extra_fields):
-        if not phone_number:
-            raise ValueError('Необходимо указать номер телефона')
         user = self.model(phone_number=phone_number, **extra_fields)
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone_number,  password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
-        return self.create_user(phone_number,  password, **extra_fields)
+    def create_superuser(self, phone_number,  password=None, **extra_fields):
+        user = self.create_user(phone_number, password=password, **extra_fields)
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
 
-class Customer(AbstractUser):
-    username = None
-    email = models.EmailField(max_length=256, unique=True, verbose_name='Email')
+class Customer(AbstractBaseUser):
+    username=None
     first_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Имя')
     last_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Фамилия')
     is_read_pd = models.BooleanField(default=False, verbose_name='Соглашение прочтено')
     phone_number = PhoneNumberField(unique=True, verbose_name='Номер телефона')
     address = models.CharField(max_length=500, null=True, blank=True, verbose_name='Адрес')
+    is_active = models.BooleanField('is_active', default=True)
+    is_admin = models.BooleanField(default=False)
+    email = models.EmailField('email')
     date_joined = models.DateTimeField(
         'Дата регистрации',
         default=timezone.now
@@ -55,6 +57,22 @@ class Customer(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        # Simplest possible answer: All admins are staff
+        return self.is_admin    
 
 
 class Catalog(models.Model):

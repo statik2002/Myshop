@@ -55,9 +55,18 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class CustomerSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = Customer
-        fields = ('id', 'email', 'first_name', 'last_name', 'is_read_pd', 'phone_number', 'address', 'date_joined', 'avatar', 'likes', 'is_staff')
+        fields = ('email', 'first_name', 'last_name', 'is_read_pd', 'phone_number', 'address', 'date_joined', 'avatar', 'likes', 'is_staff', 'password')
+
+    def create(self, validated_data):
+        user = super(CustomerSerializer, self).create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 
 class OrderProductSerializer(serializers.ModelSerializer):

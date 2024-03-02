@@ -16,10 +16,10 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
 from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product, ProductInOrder
 from main.email_functional import send_mail
-from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from rest_framework.views import APIView
+from django.contrib.auth import authenticate
 
 from myshop.settings import USER_BAN_HOURS
 
@@ -144,31 +144,6 @@ class CustomersViewSet(viewsets.ModelViewSet):
     permission_classes = []
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-
-    def create(self, request, *args, **kwargs):
-        serialized_customer = CustomerSerializer(data=request.data, )
-        if serialized_customer.is_valid():
-            #user = serialized_customer.save()
-            user = Customer.objects.create_user(
-                password=serialized_customer.data.get('password'),
-                email=serialized_customer.data.get('email'),
-                first_name=serialized_customer.data.get('first_name', 'None'),
-                last_name=serialized_customer.data.get('last_name', 'None'),
-                is_read_pd=serialized_customer.data.get('is_read_pd', False),
-                phone_number=serialized_customer.data.get('phone_number'),
-                address=serialized_customer.data.get('address', 'none'),
-                is_active=False
-                )
-            user.save()
-            token = self.get_tokens_for_user(user)
-
-            result = send_mail(request, user)
-            if result.get('response') != 'ok':
-                return Response({'error': result}, status=status.HTTP_400_BAD_REQUEST)    
-            return Response({'response': {'tokens': token}}, status=status.HTTP_200_OK)
-            
-        else:
-            return Response({'error': serialized_customer.errors}, status=status.HTTP_400_BAD_REQUEST)
                 
     def retrieve(self, request, pk):
         try:
@@ -237,11 +212,13 @@ class CustomersViewSet(viewsets.ModelViewSet):
 class TokenView(viewsets.ViewSet):
 
     LOGIN_FAIL_DELTA = timezone.timedelta(hours=1)
+    permission_classes = [AllowAny]
 
     @action(methods=['post'], detail=False)
     def get(self, request):
+        print(request.data.get('phone_number', None))
         try:
-            user = authenticate(request, username=request.data.get('phone_number'), password=request.data.get('password'))
+            user = authenticate(request, phone_number=request.data.get('phone_number'), password=request.data.get('password'))
             
             if user is not None:
                 # Юзер такой есть
@@ -293,6 +270,22 @@ class TokenView(viewsets.ViewSet):
             
         except PermissionDenied:
             return Response({'error': 'This user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetTokenViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+    serializer_class = CustomerSerializer
+    queryset = Customer.objects.all()
+
+    @action(methods=['post'], detail=False)
+    def login(self, request):
+        print(request.data)
+        user = authenticate(phone_number=request.data.get('phone_number'), password=request.data.get('password'))
+        if user is not None:
+            return Response({'user': CustomerSerializer(data=user)}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'wrong tel or password'}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class OrderViewSet(viewsets.ModelViewSet):
