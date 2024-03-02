@@ -19,6 +19,7 @@ from main.email_functional import send_mail
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from rest_framework.views import APIView
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate
 
 from myshop.settings import USER_BAN_HOURS
@@ -208,7 +209,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
             'access': str(refresh.access_token),
         }
         
-
+'''
 class TokenView(viewsets.ViewSet):
 
     LOGIN_FAIL_DELTA = timezone.timedelta(hours=1)
@@ -270,7 +271,7 @@ class TokenView(viewsets.ViewSet):
             
         except PermissionDenied:
             return Response({'error': 'This user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-
+'''
 
 class GetTokenViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -279,10 +280,13 @@ class GetTokenViewSet(viewsets.ModelViewSet):
 
     @action(methods=['post'], detail=False)
     def login(self, request):
-        print(request.data)
-        user = authenticate(phone_number=request.data.get('phone_number'), password=request.data.get('password'))
-        if user is not None:
-            return Response({'user': CustomerSerializer(data=user)}, status=status.HTTP_200_OK)
+        #user = authenticate(phone_number=request.data.get('phone_number'), password=request.data.get('password'))
+        user = Customer.objects.get(phone_number=request.data.get('phone_number'))
+        print(check_password(request.data.get('password'), user.password))
+        if user is not None and check_password(request.data.get('password'), user.password):
+            refresh = RefreshToken.for_user(user)
+
+            return Response({'user_id': user.pk, 'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'wrong tel or password'}, status=status.HTTP_400_BAD_REQUEST)
 

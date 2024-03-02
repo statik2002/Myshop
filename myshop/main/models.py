@@ -8,6 +8,7 @@ from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
+import uuid
 
 
 class CustomerManager(BaseUserManager):
@@ -26,6 +27,7 @@ class CustomerManager(BaseUserManager):
 
 
 class Customer(AbstractBaseUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     username=None
     first_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Имя')
     last_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Фамилия')

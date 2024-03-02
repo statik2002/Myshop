@@ -82,7 +82,6 @@
     methods: {
         inputPhone(event) {
             this.phone = event.target.value;
-            console.log(event.target.value)
         },
         inputPassword(event) {
             this.password = event.target.value;

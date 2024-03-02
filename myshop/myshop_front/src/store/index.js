@@ -152,6 +152,7 @@ export default createStore({
         logoutUser(state) {
             state.user = {}
             state.userIsAuth = false
+            localStorage.removeItem('user')
         },
         setUserState(state, flag){
             state.userIsAuth = flag
