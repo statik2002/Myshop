@@ -34,7 +34,7 @@ class Customer(AbstractBaseUser):
     is_read_pd = models.BooleanField(default=False, verbose_name='Соглашение прочтено')
     phone_number = PhoneNumberField(unique=True, verbose_name='Номер телефона')
     address = models.CharField(max_length=500, null=True, blank=True, verbose_name='Адрес')
-    is_active = models.BooleanField('is_active', default=True)
+    is_active = models.BooleanField('is_active', default=False)
     is_admin = models.BooleanField(default=False)
     email = models.EmailField('email')
     date_joined = models.DateTimeField(

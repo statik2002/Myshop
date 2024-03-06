@@ -246,7 +246,6 @@
                           data: request_data
                         }
                       ).then((response) => {
-                            console.log(response.data)
                             this.orders = response.data
                         })
                 } catch(e) {

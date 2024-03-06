@@ -100,6 +100,7 @@
             this.confirmPassword = event.target.value;
         },
         registerUser() {
+            this.messages = []
             if (this.password === this.confirmPassword){
                 axios({
                     method: 'post',
@@ -107,15 +108,14 @@
                     headers: { 'Content-Type': 'application/json;charset=utf-8' },
                     data: JSON.stringify({ 'phone_number': this.phone, 'password': this.password, 'email': this.email })
                 })
-                    .then((response) => {
+                .then((response) => {
                     this.$emit('update:show', false);
                     this.$router.push('email_activation');
                 })
-                    .catch((error) => {
+                .catch((error) => {
                     if (error.response) {
-                        console.log(error.response)
-                        for (let key in error.response.data.error) {
-                            this.messages.push({ 'field': key, 'error': error.response.data.error[key] });
+                        for (let index in error.response.data) {
+                            this.messages.push({ 'field': index, 'error': error.response.data[index] });
                         }
                         this.message = error.response;
                     }

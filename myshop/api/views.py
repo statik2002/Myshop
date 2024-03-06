@@ -282,14 +282,16 @@ class GetTokenViewSet(viewsets.ModelViewSet):
     def login(self, request):
         #user = authenticate(phone_number=request.data.get('phone_number'), password=request.data.get('password'))
         user = Customer.objects.get(phone_number=request.data.get('phone_number'))
-        print(check_password(request.data.get('password'), user.password))
+
+        if not user.is_active:
+            return Response({'error': 'User is not active! Activate account from email.'}, status=status.HTTP_401_UNAUTHORIZED)
+        
         if user is not None and check_password(request.data.get('password'), user.password):
             refresh = RefreshToken.for_user(user)
 
             return Response({'user_id': user.pk, 'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'wrong tel or password'}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -322,7 +324,7 @@ class OrderViewSet(viewsets.ModelViewSet):
                 if item_serialized.is_valid():
                     item_serialized.save()
                 else:
-                    print(item_serialized.errors)
+                    return Response({'error': item_serialized.errors}, status=status.HTTP_400_BAD_REQUEST)
                     
             return Response({'response': 'ok'}, status=status.HTTP_200_OK)
             
@@ -336,7 +338,6 @@ class OrderViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['post'], name='user_orders')
     def get_orders(self, request):
-        print(request.data)
         try:
             user_id = request.data.get('user')
             user = Customer.objects.get(pk=user_id)

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from main.models import Cart, Catalog, Customer, Order, Product, ProductImage, ProductInOrder, ProductRating
+from main.email_functional import send_mail
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -66,7 +67,14 @@ class CustomerSerializer(serializers.ModelSerializer):
         user = super(CustomerSerializer, self).create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
-        return user
+        print(self.context)
+        result = send_mail(self.context['request'], user)
+        try:
+            status = result['response']
+            return user
+        except:
+            user.delete()
+            raise serializers.ValidationError('This email do not exist!')
 
 
 class OrderProductSerializer(serializers.ModelSerializer):
@@ -74,7 +82,6 @@ class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductInOrder
         fields = '__all__'
-
 
 
 class OrderSerializer(serializers.ModelSerializer):

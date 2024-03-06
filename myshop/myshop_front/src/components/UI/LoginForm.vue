@@ -68,6 +68,7 @@
                 this.password = event.target.value
             },
             loginUser() {
+                this.messages = []
                 axios(
                     {
                         method: 'post',
@@ -97,11 +98,9 @@
                     })
                 })
                 .catch((error) => {
-                    console.log(error)
-                    if (error.response.data.detail) {
-                        this.messages.push(error.response.data.detail)
+                    if (error.response.data.error) {
+                        this.messages.push(error.response.data.error)
                     }
-                    console.log(error)
                 })
             }
         },
