@@ -98,7 +98,7 @@
                       <div class="col">
                         <router-link to="/cart">
                           <i class="bi bi-bag position-relative" style="font-size: 1.5rem;">
-                            <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                            <span v-if="$store.getters.getCartPositionCount>0" class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
                               {{ $store.getters.getCartPositionCount }}
                               <span class="visually-hidden">unread messages</span>
                             </span>

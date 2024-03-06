@@ -37,9 +37,16 @@
                 <div class="col-sm-3">
                     <label for="inputPassword" class="col-sm-2 form-label">Password:</label>
                 </div>
-                
                 <div class="col-sm-9">
                 <input v-bind:value="password" @input="inputPassword" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-3">
+                    <label for="inputPasswordConfirm" class="col-sm-2 form-label">Confirm password:</label>
+                </div>
+                <div class="col-sm-9">
+                <input v-bind:value="confirmPassword" @input="inputPasswordConfirm" type="password" autocomplete="new-password" class="form-control" id="inputPasswordConfirm">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -89,26 +96,34 @@
         inputEmail(event) {
             this.email = event.target.value;
         },
+        inputPasswordConfirm(event) {
+            this.confirmPassword = event.target.value;
+        },
         registerUser() {
-            axios({
-                method: 'post',
-                url: 'http://127.0.0.1:8000/api/v1/customers/',
-                headers: { 'Content-Type': 'application/json;charset=utf-8' },
-                data: JSON.stringify({ 'phone_number': this.phone, 'password': this.password, 'email': this.email })
-            })
-                .then((response) => {
-                this.$emit('update:show', false);
-                this.$router.push('email_activation');
-            })
-                .catch((error) => {
-                if (error.response) {
-                    console.log(error.response)
-                    for (let key in error.response.data.error) {
-                        this.messages.push({ 'field': key, 'error': error.response.data.error[key] });
+            if (this.password === this.confirmPassword){
+                axios({
+                    method: 'post',
+                    url: 'http://127.0.0.1:8000/api/v1/customers/',
+                    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                    data: JSON.stringify({ 'phone_number': this.phone, 'password': this.password, 'email': this.email })
+                })
+                    .then((response) => {
+                    this.$emit('update:show', false);
+                    this.$router.push('email_activation');
+                })
+                    .catch((error) => {
+                    if (error.response) {
+                        console.log(error.response)
+                        for (let key in error.response.data.error) {
+                            this.messages.push({ 'field': key, 'error': error.response.data.error[key] });
+                        }
+                        this.message = error.response;
                     }
-                    this.message = error.response;
-                }
-            });
+                });
+            }
+            else {
+                this.messages.push({'field': 'pasword', 'error': 'Passwords not same!'})
+            }
         }
     },
 }
