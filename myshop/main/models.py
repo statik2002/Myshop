@@ -22,6 +22,7 @@ class CustomerManager(BaseUserManager):
     def create_superuser(self, phone_number,  password=None, **extra_fields):
         user = self.create_user(phone_number, password=password, **extra_fields)
         user.is_admin = True
+        user.is_active = True
         user.save(using=self._db)
         return user
 
@@ -182,11 +183,9 @@ class Cart(models.Model):
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
 
-
     def products_count(self) -> int:
         products_count = ProductInCart.objects.filter(cart=self).count
         return products_count
-
 
     def __str__(self) -> str:
         return f'Корзина пользователя: {self.customer.phone_number}, кол-во товаров: {self.products_count}'
@@ -208,9 +207,8 @@ class ProductRating(models.Model):
 
 class CustomerBan(models.Model):
 
-    def ban_delta():
+    def ban_delta(self):
         return timezone.now() + timezone.timedelta(days=1)
-
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='bans')
     ban_datetime = models.DateTimeField(default=timezone.now, verbose_name='Время бана')
@@ -220,7 +218,6 @@ class CustomerBan(models.Model):
     class Meta:
         verbose_name = 'Бан пользователя'
         verbose_name_plural = 'Баны пользователей'
-
 
     def __str__(self) -> str:
         return f'Пользователь: {self.customer.phone_number} забанен {self.ban_datetime} по причине {self.ban_reazon} до {self.ban_before}'

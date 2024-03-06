@@ -49,7 +49,7 @@
                 <router-link to="/about">&#8226; About</router-link>
               </li>
               <li class="nav-link menu1">
-                <router-link to="/cart">&#8226; My Cart ({{ $store.getters.getCartPositionCount }})</router-link>
+                <router-link to="/">&#8226; My Cart</router-link>
               </li>
               <li class="nav-link menu1">
                 <router-link to="/">&#8226; {{ $store.state.likes }}</router-link>
@@ -74,11 +74,9 @@
                 </div>
                 <div class="col">
                     <div class="form-group has-search">
-                      <!--
-                        <span class="form-control-feedback">
+                        <div class="form-control-feedback">
                             <i class="bi bi-search"></i>
-                        </span>
-                      -->
+                        </div>
                         <input 
                           v-model="searchQuery"
                           type="text" 

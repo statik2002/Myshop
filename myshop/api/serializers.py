@@ -5,7 +5,7 @@ from main.email_functional import send_mail
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = ProductImage
         fields = '__all__'
@@ -70,9 +70,10 @@ class CustomerSerializer(serializers.ModelSerializer):
         print(self.context)
         result = send_mail(self.context['request'], user)
         try:
-            status = result['response']
+            status = result.get('response')
             return user
-        except:
+
+        except KeyError:
             user.delete()
             raise serializers.ValidationError('This email do not exist!')
 
