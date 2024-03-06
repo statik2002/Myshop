@@ -35,7 +35,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             POST: /api/v1/products/search/
             JSON: {query: [searc_param]}
     """
-    permission_classes = []
+    permission_classes = (AllowAny,)
     queryset = Product.objects.filter(quantity__gt=0).order_by('?')
     serializer_class = ProductListSerializer
     #@method_decorator(cache_page(60 * 60 * 2))
@@ -208,70 +208,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         }
-        
-'''
-class TokenView(viewsets.ViewSet):
 
-    LOGIN_FAIL_DELTA = timezone.timedelta(hours=1)
-    permission_classes = [AllowAny]
-
-    @action(methods=['post'], detail=False)
-    def get(self, request):
-        print(request.data.get('phone_number', None))
-        try:
-            user = authenticate(request, phone_number=request.data.get('phone_number'), password=request.data.get('password'))
-            
-            if user is not None:
-                # Юзер такой есть
-                if not user.ban_status:
-                    # юзер не забанен
-                    refresh = RefreshToken.for_user(user)
-                    
-                    # юзер удачно зашел, обнуляем счетчик неудачных входов
-                    user.login_fail_counter = 0
-                    user.save()
-                
-                    return Response({'user_id': user.pk, 'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
-                else:
-                    # юзер забанен
-                    if user.ban_time + timezone.timedelta(hours=USER_BAN_HOURS) > timezone.now():
-                        # Время бана не прошло, указываем на это.
-                        return Response({'error': 'You are banned!'}, status=status.HTTP_400_BAD_REQUEST)
-                    else:
-                        # Время бана прошло обнуляем и даем токен
-                        user.ban_time = None
-                        user.ban_status = False
-                        user.login_fail_counter = 0
-                        user.save()
-                        refresh = RefreshToken.for_user(user)
-                        return Response({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
-            
-            else:
-                # Такого юзера нет или неправильный пароль
-                try:
-                    find_user = Customer.objects.get(phone_number=request.data.get('phone_number'))
-                    # Такой пользователь есть, значит ошиблись с паролем.
-
-                    if find_user.login_fail_counter > 4:
-                        # это пятая и более попытка. Баним.
-                        find_user.ban_status = True
-                        find_user.login_fail_counter += 1
-                        find_user.ban_time = timezone.now()
-                        find_user.save()
-                        return Response({'error': 'To much try! You banned!'}, status=status.HTTP_400_BAD_REQUEST)
-                    else:
-                        # Попытки еще есть
-                        find_user.login_fail_counter += 1
-                        find_user.save()
-                        return Response({'error': 'Wrong password!'}, status=status.HTTP_400_BAD_REQUEST)
-
-                except ObjectDoesNotExist:
-                    # Пользователя с таким телефоном не существует
-                    return Response({'error': 'User with this tel number is absent'}, status=status.HTTP_400_BAD_REQUEST)
-            
-        except PermissionDenied:
-            return Response({'error': 'This user does not exist'}, status=status.HTTP_400_BAD_REQUEST)
-'''
 
 class GetTokenViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -328,8 +265,8 @@ class OrderViewSet(viewsets.ModelViewSet):
                     
             return Response({'response': 'ok'}, status=status.HTTP_200_OK)
             
-        except Exception as e:
-            return Response({'error': e.args}, status=status.HTTP_400_BAD_REQUEST)
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
 
             
     def retrieve(self, request, pk):
