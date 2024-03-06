@@ -118,7 +118,7 @@
               </div>
             </div>
           </div>
-          <div class="row my-3">
+          <div class="row my-3" v-if="$store.state.userIsAuth">
             <div v-if="$store.state.user.is_staff" class="col-12">
               <button type="button" class="btn btn-success" @click="editProduct">Редактировать<i class="bi bi-pencil-square"></i></button>
             </div>
@@ -131,6 +131,11 @@
                   <button type="button" class="btn btn-danger" @click="dislike"><i class="bi bi-heart-fill"></i></button>
                 </div>
                 
+            </div>
+          </div>
+          <div class="row my-3" v-else>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-success" @click="addToCart">Добавить в корзину  <i class="bi bi-cart"></i></button>
             </div>
           </div>
           <div class="row">
