@@ -80,10 +80,11 @@ class OrderProductSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
 
     order_products = OrderProductSerializer(many=True, read_only=True)
+    #customer = CustomerSerializer(read_only=True)
 
     class Meta:
         model = Order
-        fields = ('order_create', 'order_update', 'order_status', 'customer', 'order_products', 'get_total_amount')
+        fields = '__all__'
 
 
 

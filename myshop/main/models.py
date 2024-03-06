@@ -27,7 +27,7 @@ class CustomerManager(BaseUserManager):
 
 
 class Customer(AbstractBaseUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.AutoField(primary_key=True)
     username=None
     first_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Имя')
     last_name = models.CharField(max_length=256, null=True, blank=True, verbose_name='Фамилия')
@@ -277,12 +277,14 @@ class Order(models.Model):
     def __str__(self) -> str:
         return (
                 f'Заказ №: {self.pk} от пользователя: {self.customer.phone_number},'
-                f' дата создания: {self.order_create} c статусом: {self.order_status.status}'
+                f' дата создания: {self.order_create.strftime("%Y-%m-%d %H:%M")} co статусом: {self.order_status.status},'
+                f' Позиций: {self.get_position_count_order()},'
+                f' На сумму: {self.get_total_amount():.2f} Руб.'
             )
     
     def get_position_count_order(self) -> int:
-        position_count = ProductInOrder.objects.annotate(Count('product'))
-        return position_count
+        position_count = ProductInOrder.objects.filter(order=self).annotate(Count('product'))
+        return len(position_count)
 
     def get_total_amount(self) -> decimal:
         products = ProductInOrder.objects.filter(order=self)

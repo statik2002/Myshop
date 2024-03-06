@@ -13,8 +13,8 @@ router.register(r'initial_upload_products', InitialUploadProducts, basename='ini
 router.register(r'initial_upload_catalog', InitialUploadCatalog, basename='initial_upload_catalog')
 router.register(r'carts', CartsViewSet, basename='carts')
 router.register(r'customers', CustomersViewSet, basename='customers')
-#router.register(r'token', TokenView, basename='token')
-router.register(r'token2', GetTokenViewSet, basename='token2')
+router.register(r'token', GetTokenViewSet, basename='token')
+#router.register(r'token2', GetTokenViewSet, basename='token2')
 router.register(r'order', OrderViewSet, basename='order')
 
 

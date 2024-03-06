@@ -314,10 +314,10 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            user = Customer.objects.get(pk=request.data.get('user'))
-            order2 = Order.objects.create(customer=user)
-            for item in request.data.get('products_in_order'):               
-                item['order']=order2.pk
+            user = Customer.objects.get(pk=request.data.get('customer'))
+            order = Order.objects.create(customer=user)
+            for item in request.data.get('order_products'):               
+                item['order']=order.pk
                 item_serialized = OrderProductSerializer(data=item)
                 if item_serialized.is_valid():
                     item_serialized.save()
@@ -327,8 +327,9 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response({'response': 'ok'}, status=status.HTTP_200_OK)
             
         except Exception as e:
-            return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': e.args}, status=status.HTTP_400_BAD_REQUEST)
 
+            
     def retrieve(self, request, pk):
         order = Order.objects.get(pk=pk)
         return Response(ProductSerializer(order,  context={'request': request}).data, status=status.HTTP_200_OK)

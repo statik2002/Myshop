@@ -33,7 +33,7 @@
                         </div>
                         <div class="">
                             <div class="d-flex gap-3 ms-auto cart-product-icons align-items-start">
-                            <button v-if="$store.state.isUserAuth" type="button" class="btn btn-success btn-light" @click="checkOut"><i class="bi bi-cart-check"></i></button>
+                            <button v-if="$store.state.userIsAuth" type="button" class="btn btn-success btn-light" @click="checkOut"><i class="bi bi-cart-check"></i></button>
                             <button type="button" class="btn btn-success btn-light" @click="$store.commit('deleteProductFromCart', id)"><i class="bi bi-trash3"></i></button>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <modal-component v-model:show="dialogMessageShow">
-            <div>Ваш заказ отправлен</div>
+            <div>{{ message }}</div>
             <div><button type="button" class="btn btn-success " @click="deleteItemFromCart">Ok</button></div>
         </modal-component>
     </div>
@@ -54,7 +54,8 @@
     export default {
         data() {
             return {
-                dialogMessageShow: false
+                dialogMessageShow: false,
+                message: ''
             }
         },
         props: {
@@ -94,8 +95,8 @@
                }]
 
                const order = {
-                'user': this.$store.state.user.id,
-                'products_in_order': order_product
+                'customer': this.$store.state.user.id,
+                'order_products': order_product
                }
 
                try {
@@ -107,10 +108,15 @@
                           data: order
                         }
                       ).then((response) => {
-                            //console.log(response)
-                            this.dialogMessageShow = true
-                            //this.$store.commit('deleteProductFromCart', this.id)
-                            
+                            //console.log(response.status)
+                            if (response.status == 200){
+                                this.message = 'Ваш заказ отправлен!'
+                                this.dialogMessageShow = true
+                            }
+                            else {
+                                this.message = 'При отправке заказа произошла ошибка!'
+                                this.dialogMessageShow = true
+                            }
                         })
                } catch (e) {
                     console.log(`Connection error: ${e}`);

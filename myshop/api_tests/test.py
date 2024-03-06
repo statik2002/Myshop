@@ -12,7 +12,7 @@ from environs import Env
 
 async def get_token(login: str, password: str, debug: bool):
     if debug:
-        url = 'http://127.0.0.1:8000/api/v1/token/get/'
+        url = 'http://127.0.0.1:8000/api/v1/token/login/'
     else:
         url = 'https://neit.ru/api/token/'
 
@@ -270,9 +270,10 @@ async def main():
     #password = env.str('SMB_PASSWORD')
     #remote_name = env.str('SMB_REMOTE_NAME')
     #leftovers_path = env.str('SMB_LEFTOVERS_PATH')
+    token=''
 
     try:
-        token = await get_token('+79149569968', 'obninsk1978#', debug)
+        token = await get_token(api_login, api_password, debug)
         print(token)
         '''
         await fetch_file(
@@ -286,11 +287,11 @@ async def main():
                     my_name
                 )
         '''                
-        #catalogs, products = await parse_leftovers_for_site('ostatki.txt')
-        #response = await initial_catalogs_upload(token, catalogs, debug)
-        #print(response)
-        #response = await initial_upload_products(token, products, debug)
-        #print(response)
+        catalogs, products = await parse_leftovers_for_site('ostatki.txt')
+        response = await initial_catalogs_upload(token, catalogs, debug)
+        print(response)
+        response = await initial_upload_products(token, products, debug)
+        print(response)
         #products = await get_all_products_from_server(token, debug)
         #pprint(products)
 

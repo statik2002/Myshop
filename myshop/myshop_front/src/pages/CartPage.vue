@@ -94,8 +94,8 @@
                 //console.log(order_products)
                 //console.log(JSON.stringify(order_products))
                 const order = {
-                    'user': this.$store.state.user.id,
-                    'products_in_order': order_products
+                    'customer': this.$store.state.user.id,
+                    'order_products': order_products
                 }
                 //console.log(JSON.stringify(order))
 
