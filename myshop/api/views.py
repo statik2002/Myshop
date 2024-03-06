@@ -346,3 +346,42 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         except ObjectDoesNotExist:
             return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class AddLike(viewsets.ViewSet):
+
+    """
+        -   Add like
+            POST: http://127.0.0.1:8000/api/v1/like/
+            data: {'user_id': id, 'product_id': id, 'operation': 'like/dislike'}
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request):
+        try:
+            customer = Customer.objects.get(pk=request.data.get('user_id'))
+            if not customer.is_active:
+                return Response({'error': 'This user is not active!'}, status=status.HTTP_401_UNAUTHORIZED)
+            
+            product = Product.objects.get(pk=request.data.get('product_id'))
+
+            if request.data.get('operation') == 'like':
+                customer.likes.add(product)
+            else:
+                customer.likes.remove(product)
+
+            customer.save()
+            return Response({'response': 'Liked!'}, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'This user is not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    @action(detail=False, methods=['post'], name='liked_sliced_products')
+    def get_sliced_liked_products(self, request):
+        liked_products = Product.objects.filter(pk__in=request.data)
+        return Response(ProductSerializer(liked_products, many=True).data, status=status.HTTP_200_OK)

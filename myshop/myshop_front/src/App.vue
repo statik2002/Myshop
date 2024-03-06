@@ -23,9 +23,6 @@
             } else {
                 this.$store.state.userIsAuth = false
             }
-            
-            
-            
         }
   }
 </script>

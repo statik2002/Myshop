@@ -145,18 +145,9 @@
                         <div class="widget p-3 h-100">
                             <div class="d-flex flex-column align-items-start gap-2 h-100">
                                 <div class="fw-bold">Ваши любимые товары</div>
-                                <div class="" style="font-size: 0.8em;">
+                                <div class="" style="font-size: 0.8em;" v-for="item in likedProducts">
                                     <a href="#" class="d-flex gap-2">
-                                    <div class=""><i class="bi bi-paint-bucket"></i></div>
-                                    <div class="">Краска Текс 1,5кг</div>
-                                    </a>
-                                    <a href="#" class="d-flex gap-2">
-                                    <i class="bi bi-brush"></i>
-                                    Кисть мялярная 23см
-                                    </a>
-                                    <a href="#" class="d-flex gap-2">
-                                    <i class="bi bi-hammer"></i>
-                                    Молоток слесарный 250гр.
+                                        <router-link :to="{name: 'product', params: {id: item.id}}">{{ item.name }}</router-link>
                                     </a>
                                 </div>
                                 <div class="mt-auto">
@@ -229,7 +220,8 @@
         components: { HeaderComponent, FooterComponent },
         data() {
             return {
-                orders: []
+                orders: [],
+                likedProducts: []
             }
         },
         methods: {
@@ -255,10 +247,33 @@
         
                 }
             },
-            fromatDate: d => d.toLocalString('ru-Ru').repalace(',', '').slice(0 ,-3)
+
+            fromatDate: d => d.toLocalString('ru-Ru').repalace(',', '').slice(0 ,-3),
+
+            async get_likes_products(num) {
+                const likedProducts = this.$store.state.user.likes.slice(0, num)
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/like/get_sliced_liked_products/`,
+                          method: 'post',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          data: likedProducts
+                        }
+                      ).then((response) => {
+                            this.likedProducts=response.data
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            }
         },
         mounted() {
             this.getUserOrders()
+            this.get_likes_products(3)
         }
     }
 </script>

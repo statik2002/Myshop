@@ -4,9 +4,16 @@ from main.models import Customer, Catalog, Order, OrderStatus, Product, ProductI
 from django.contrib.auth.admin import UserAdmin
 
 
+class LikedProductsInline(admin.StackedInline):
+    model = Product
+
+
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('id', 'phone_number', 'login_fail_counter', 'ban_status')
+    readonly_fields = ('id',)
+    raw_id_fields = ('likes', )
+
 
 
 @admin.register(Catalog)
@@ -34,8 +41,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'quantity', 'available', 'rating', 'show_count', 'create_date', 'get_rating')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', )
-    raw_id_fields = ('tags', )
-    search_fields = ['name', 'code_1c']
+    raw_id_fields = ('tags',)
+    search_fields = ['name', 'code_1c', 'id']
     search_help_text = 'Поиск по наименованию или коду из 1С'
     readonly_fields = ('show_count', 'rating')
     list_filter = ('available', )

@@ -161,6 +161,14 @@ export default createStore({
         clearCart(state) {
             state.cart = []
             localStorage.setItem('cart', [])
+        },
+        like(state, product_id){
+            state.user.likes.push(product_id)
+            localStorage.setItem('user', JSON.stringify(state.user))
+        },
+        dislike(state, product_id){
+            state.user.likes.pop(product_id)
+            localStorage.setItem('user', JSON.stringify(state.user))
         }
     },
 

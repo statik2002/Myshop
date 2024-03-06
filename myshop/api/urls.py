@@ -16,6 +16,7 @@ router.register(r'customers', CustomersViewSet, basename='customers')
 router.register(r'token', GetTokenViewSet, basename='token')
 #router.register(r'token2', GetTokenViewSet, basename='token2')
 router.register(r'order', OrderViewSet, basename='order')
+router.register(r'like', AddLike, basename='like')
 
 
 urlpatterns = [

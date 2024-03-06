@@ -78,6 +78,7 @@
               <span class="badge bg-danger">Выгодное предложение</span>
             </div>
           </div>
+          {{ product.id }}
           <div class="d-flex align-items-end" v-if="product.discount > 0">
               <h1><b>{{ product.discount }} &#8381;</b></h1>
               <h3 class="mx-2 "><s class="text-secondary"><small>{{ product.price }} &#8381;</small></s></h3>
@@ -118,20 +119,18 @@
             </div>
           </div>
           <div class="row my-3">
-            <div v-if="$store.state.user.is_staff">
-              <div class="col-12">
-                <button type="button" class="btn btn-success" @click="editProduct">Редактировать<i class="bi bi-pencil-square"></i></button>
-              </div>
+            <div v-if="$store.state.user.is_staff" class="col-12">
+              <button type="button" class="btn btn-success" @click="editProduct">Редактировать<i class="bi bi-pencil-square"></i></button>
             </div>
-            <div v-else>
-              <div class="col-8">
-                <div class="d-grid">
-                  <button type="button" class="btn btn-success" @click="addToCart">Добавить в корзину  <i class="bi bi-cart"></i></button>
+            <div v-else class="d-flex gap-2">
+                <button type="button" class="btn btn-success" @click="addToCart">Добавить в корзину  <i class="bi bi-cart"></i></button>
+                <div v-if="!$store.state.user.likes.includes(product.id)">
+                    <button  type="button" class="btn btn-outline-success" @click="like"><i class="bi bi-heart"></i></button>
                 </div>
-              </div>
-              <div class="col-2">
-                <button type="button" class="btn btn-outline-danger"><i class="bi bi-heart"></i></button>
-              </div>
+                <div v-else>
+                  <button type="button" class="btn btn-danger" @click="dislike"><i class="bi bi-heart-fill"></i></button>
+                </div>
+                
             </div>
           </div>
           <div class="row">
@@ -522,7 +521,64 @@
             addToCart() {
               this.$store.commit('addProductToCart', this.product);
               this.modalIsVisible = true
-            }, 
+            },
+
+            like() {
+              // Implement send to backend like product
+              const like = {
+                'user_id': this.$store.state.user.id,
+                'product_id': this.product.id,
+                'operation': 'like'
+              }
+              try {
+                    axios(
+                      {
+                        url: `http://127.0.0.1:8000/api/v1/like/`,
+                        method: 'post',
+                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                        data: like
+                      }
+                    ).then((response) => {
+                          //console.log(response)
+                          if (!this.$store.state.user.likes.includes(this.product.id)) {
+                            this.$store.commit('like', this.product.id)
+                          }
+                          
+                      })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            dislike() {
+              // Implement send to backend like product
+              const like = {
+                'user_id': this.$store.state.user.id,
+                'product_id': this.product.id,
+                'operation': 'dislike'
+              }
+              try {
+                    axios(
+                      {
+                        url: `http://127.0.0.1:8000/api/v1/like/`,
+                        method: 'post',
+                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                        data: like
+                      }
+                    ).then((response) => {
+                          //console.log(response)
+                          this.$store.commit('dislike', this.product.id)
+                      })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+
             closeModal() {
               this.modalIsVisible = false
             },
