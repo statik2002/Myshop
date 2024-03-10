@@ -55,7 +55,7 @@
                 </div>
                 
                 <div class="col-sm-9">
-                    <input v-bind:value="email" @input="inputEmail" type="email" autocomplete="email" class="form-control" id="inputEmial">
+                    <input v-bind:value="email" @input="inputEmail" type="email" @keyup.enter="registerUser" autocomplete="email" class="form-control" id="inputEmial">
                 </div>
             </div>
             <div class="row d-flex align-items-end">
@@ -101,6 +101,10 @@
         },
         registerUser() {
             this.messages = []
+            if (this.phone.length < 12) {
+                this.messages.push('Wrong phone number!')
+                return
+            }
             if (this.password === this.confirmPassword){
                 axios({
                     method: 'post',

@@ -22,7 +22,8 @@
                         autocomplete="tel-area-code"
                         id="phone"
                         value=""
-                        v-mask="['(+7) ###-###-##-##']">
+                        v-mask="['(+7) ###-###-##-##']"
+                        @keyup.enter="loginUser">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -31,11 +32,11 @@
                 </div>
                 
                 <div class="col-sm-9">
-                <input v-bind:value="password" @input="inputPassword" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
+                <input v-bind:value="password" @input="inputPassword" @keyup.enter="loginUser" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
                 </div>
             </div>
             <div class="row d-flex align-items-end">
-                <button type="button" class="btn btn-success " @click="loginUser">Login</button>
+                <button type="button" class="btn btn-success " @click="loginUser" >Login</button>
             </div>
         </div>
     </form>
@@ -69,6 +70,14 @@
             },
             loginUser() {
                 this.messages = []
+                if (this.phone.length<12) {
+                    this.messages.push('Phone number wrong!')
+                    return
+                }
+                if (this.password.length<3) {
+                    this.messages.push('Password wrong!')
+                    return
+                }
                 axios(
                     {
                         method: 'post',
