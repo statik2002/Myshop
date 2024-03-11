@@ -10,6 +10,7 @@ import SearchPage from '@/pages/SearchPage.vue'
 import CheckoutPage from "@/pages/CheckoutPage.vue"
 import CabinetPage from '@/pages/CabinetPage.vue';
 import OrdersPage from '@/pages/OrdersPage.vue'
+import LikePage from '@/pages/LikePage.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -71,6 +72,11 @@ const routes = [
         path: '/orders',
         component: OrdersPage,
         name: 'orders'
+    },
+    {
+        path: '/likes',
+        component: LikePage,
+        name: 'likes'
     }
 ]
 

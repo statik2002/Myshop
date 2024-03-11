@@ -291,7 +291,7 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
         
 
-class AddLike(viewsets.ViewSet):
+class Likes(viewsets.ViewSet):
 
     """
         -   Add like
@@ -328,3 +328,4 @@ class AddLike(viewsets.ViewSet):
     def get_sliced_liked_products(self, request):
         liked_products = Product.objects.filter(pk__in=request.data)
         return Response(ProductSerializer(liked_products, many=True).data, status=status.HTTP_200_OK)
+    
