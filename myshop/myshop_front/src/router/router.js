@@ -9,6 +9,7 @@ import UserActivation from '@/pages/UserActivation.vue'
 import SearchPage from '@/pages/SearchPage.vue'
 import CheckoutPage from "@/pages/CheckoutPage.vue"
 import CabinetPage from '@/pages/CabinetPage.vue';
+import OrdersPage from '@/pages/OrdersPage.vue'
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -65,6 +66,11 @@ const routes = [
         path: '/cabinet',
         component: CabinetPage,
         name: 'cabinet'
+    },
+    {
+        path: '/orders',
+        component: OrdersPage,
+        name: 'orders'
     }
 ]
 
