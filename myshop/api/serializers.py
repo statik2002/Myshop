@@ -1,3 +1,4 @@
+import decimal
 from rest_framework import serializers
 
 from main.models import Cart, Catalog, Customer, Order, Product, ProductImage, ProductInOrder, ProductRating
@@ -80,6 +81,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class OrderProductSerializer(serializers.ModelSerializer):
 
+    
+
     class Meta:
         model = ProductInOrder
         fields = '__all__'
@@ -89,11 +92,14 @@ class OrderSerializer(serializers.ModelSerializer):
 
     order_products = OrderProductSerializer(many=True, read_only=True)
     #customer = CustomerSerializer(read_only=True)
+    total_amount = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
         fields = '__all__'
 
+    def get_total_amount(self, obj) -> decimal:
+        return obj.get_total_amount()
 
 
 

@@ -105,6 +105,10 @@
                 this.messages.push('Wrong phone number!')
                 return
             }
+            if (this.password.length < 3){
+                this.messages.push('Wrong password!')
+                return
+            }
             if (this.password === this.confirmPassword){
                 axios({
                     method: 'post',

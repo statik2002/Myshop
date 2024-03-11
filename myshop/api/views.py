@@ -267,6 +267,9 @@ class OrderViewSet(viewsets.ModelViewSet):
             
         except KeyError:
             return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'Bad request! User does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
 
             
     def retrieve(self, request, pk):
@@ -283,6 +286,9 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         except ObjectDoesNotExist:
             return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
         
 
 class AddLike(viewsets.ViewSet):
