@@ -248,8 +248,6 @@
                 }
             },
 
-            fromatDate: d => d.toLocalString('ru-Ru').repalace(',', '').slice(0 ,-3),
-
             async get_likes_products(num) {
                 const likedProducts = this.$store.state.user.likes.slice(0, num)
                 try {

@@ -9,11 +9,8 @@
         <div class="py-5">
             <div class="d-flex flex-column gap-3">
                 <div v-for="order in orders">
-                    <div>
-                        <div class="widget p-3">
-                            {{ order }}
-                        </div>
-                    </div>
+                    <order-item :order="order">
+                    </order-item>
                 </div>
             </div>
             
