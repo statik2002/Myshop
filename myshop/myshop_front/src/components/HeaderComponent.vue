@@ -63,7 +63,7 @@
                 <!--Logo-->
                 <div class="col-md-auto logo d-none d-lg-block">
                   <router-link to="/">
-                    <h2><span class="logoM">М</span><span class="logo-end">озаика</span></h2>
+                    <h2><span class="logo-end">MyShop</span></h2>
                   </router-link>
                 </div>
                 <!--Off canvas button-->
