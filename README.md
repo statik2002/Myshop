@@ -34,3 +34,7 @@
 - Запускаем frontend командой `npm run dev`
 
 По адресу `http://127.0.0.1:8000/admin` доступна админ панель Django, по адресу `http://localhost:5173/` доступен непосредственно frontend.
+
+## Поддержи автора
+
+<img src="qrCode.png" width=200>
