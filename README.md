@@ -14,7 +14,7 @@
 2. Создаем виртуальное окружение `python3 -m venv env` и активируем командой `source env/bin/activate`
 3. Устанавливаем python зависимости `pip install -r requirements.txt`
 4. Устанавливаем завивимости NodeJS командой `npm install`
-5. Создаем файл `.env` в котором прописывваем:
+5. Создаем файл `.env` в котором прописываем:
 
     * SECRET_KEY=[you secret key]
     * DEBUG=True
