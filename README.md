@@ -15,16 +15,17 @@
 3. Устанавливаем python зависимости `pip install -r requirements.txt`
 4. Устанавливаем завивимости NodeJS командой `npm install`
 5. Создаем файл `.env` в котором прописывваем:
-    SECRET_KEY=[you secret key]
-    DEBUG=True
-    ALLOWED_HOSTS='127.0.0.1,localhost'
 
-    EMAIL_HOST=[you smpt server]
-    EMAIL_HOST_USER=[you email]
-    EMAIL_HOST_PASSWORD=[you password]
-    EMAIL_USE_SSL=True
-    EMAIL_PORT=465
-    DEFAULT_FROM_EMAIL=[you from email]
+    * SECRET_KEY=[you secret key]
+    * DEBUG=True
+    * ALLOWED_HOSTS='127.0.0.1,localhost'
+
+    * EMAIL_HOST=[you smpt server]
+    * EMAIL_HOST_USER=[you email]
+    * EMAIL_HOST_PASSWORD=[you password]
+    * EMAIL_USE_SSL=True
+    * EMAIL_PORT=465
+    * DEFAULT_FROM_EMAIL=[you from email]
 6. Выполняем миграции командой `python manage.py migrate`
 7. Создаем супер пользователя командой `python manage.py createsuperuser`
 
