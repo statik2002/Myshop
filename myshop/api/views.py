@@ -21,6 +21,7 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate
+from django.db.models import Q
 
 from myshop.settings import USER_BAN_HOURS
 
@@ -281,7 +282,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         try:
             user_id = request.data.get('user')
             user = Customer.objects.get(pk=user_id)
-            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status=1).order_by('-order_create')
+            # Статус №4 - выдан
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(~Q(order_status=4)).order_by('-order_create')
             return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
         
         except ObjectDoesNotExist:
