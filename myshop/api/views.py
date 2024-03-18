@@ -292,6 +292,21 @@ class OrderViewSet(viewsets.ModelViewSet):
         except KeyError:
             return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
         
+    @action(detail=False, methods=['post'], name='user_ready_orders')
+    def get_ready_orders(self, request):
+        try:
+            user_id = request.data.get('user')
+            user = Customer.objects.get(pk=user_id)
+            # Выдаем заказы с статуса 'Готов к выдаче'
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status__status='Готов к выдаче').order_by('-order_create')
+            return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)    
+        
 
 class Likes(viewsets.ViewSet):
 

@@ -17,7 +17,7 @@
                                     </div>
                                 </div>
                                 <div class="col align-self-center">
-                                    <div class="h4">Заказы</div>
+                                    <div class="h4">Заказы к выдаче</div>
                                 </div>
                                 </div>
                             </div>
@@ -232,13 +232,14 @@
                 try {
                       axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/order/get_orders/`,
+                          url: `http://127.0.0.1:8000/api/v1/order/get_ready_orders/`,
                           method: 'post',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                           data: request_data
                         }
                       ).then((response) => {
                             this.orders = response.data
+                            console.log(response.data)
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);

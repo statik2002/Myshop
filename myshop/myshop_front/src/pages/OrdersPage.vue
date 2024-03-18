@@ -46,7 +46,6 @@
                             data: request_data
                         }
                       ).then((response) => {
-                            console.log(response.data)
                             this.messages = []
                             this.orders = response.data
                             console.log(response.data)
