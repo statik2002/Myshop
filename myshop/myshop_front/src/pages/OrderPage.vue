@@ -5,11 +5,13 @@
             <div>ID: {{ order.id }}</div>
             <div>Date: {{ order.order_create }}</div>
             <div>Status: {{ order.order_status.status }}</div>
-            <div>Total: {{ order.total_amount }}</div>
+            <div>Total: {{ order.total_amount }} Руб.</div>
             <div><QrcodeVue :value=orderId></QrcodeVue></div>
             <div v-for="order_product in order.order_products">
                 <div class="d-flex flex-row gap-2 border">
-                    <div><img :src=order_product.product.product_images[0].image :alt=order_product.product.product_images[0].alt :width="100"></div>
+                    <div v-if="order_product.product.product_images.length > 0">
+                        <img :src=order_product.product.product_images[0].image :alt=order_product.product.product_images[0].alt :width="100">
+                    </div>
                     <div>{{ order_product.product.name }}</div>
                     <div>{{ order_product.fixed_price }} Руб. </div>
                     <div>{{ order_product.quantity }} Шт.</div>

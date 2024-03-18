@@ -9,7 +9,7 @@
         <div class="py-5">
             <div class="d-flex flex-column gap-3">
                 <div v-for="order in orders">
-                    <order-item :order="order">
+                    <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})">
                     </order-item>
                 </div>
             </div>

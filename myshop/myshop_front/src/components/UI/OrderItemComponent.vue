@@ -3,6 +3,7 @@
         <div class="d-flex gap-3 p-2">
             <div><i class="bi bi-list-ol"></i> {{ order.id }}</div>
             <div><i class="bi bi-clock"></i> {{ formatDate(order.order_create) }}</div>
+            <div>Товаров: {{ order.order_products.length }} Шт.</div>
             <div v-if="order.order_products[0].product.product_images.length > 0">
                 <img :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt width="50">
             </div>
