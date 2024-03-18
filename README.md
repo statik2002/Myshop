@@ -28,16 +28,11 @@
     * DEFAULT_FROM_EMAIL=[you from email]
 6. Выполняем миграции командой `python manage.py migrate`
 7. Создаем супер пользователя командой `python manage.py createsuperuser`
+8. Загружаем данные для первоначальной инициализации командой `python manage.py loaddata initial.json`
 
 ## Использование
 - Запускаем Django командой `python manage.py runserver`
 - Запускаем frontend командой `npm run dev`
-
-Для корректоной работы заполнить статусы заказов
-- Принят
-- Сборка
-- На выдаче
-- Выдан
 
 По адресу `http://127.0.0.1:8000/admin` доступна админ панель Django, по адресу `http://localhost:5173/` доступен непосредственно frontend.
 

@@ -1,0 +1,44 @@
+[
+    {
+        "model": "main.orderstatus",
+        "pk": 1,
+        "fields": {
+            "status": "Принят"
+        }
+    },
+    {
+        "model": "main.orderstatus",
+        "pk": 2,
+        "fields": {
+            "status": "В обработке"
+        }
+    },
+    {
+        "model": "main.orderstatus",
+        "pk": 3,
+        "fields": {
+            "status": "В сборке"
+        }
+    },
+    {
+        "model": "main.orderstatus",
+        "pk": 4,
+        "fields": {
+            "status": "Отказ"
+        }
+    },
+    {
+        "model": "main.orderstatus",
+        "pk": 5,
+        "fields": {
+            "status": "Готов к выдаче"
+        }
+    },
+    {
+        "model": "main.orderstatus",
+        "pk": 6,
+        "fields": {
+            "status": "Выдан"
+        }
+    }
+]
