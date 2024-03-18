@@ -1,6 +1,6 @@
 <template>
     <div class="widget">
-        <div class="d-flex gap-3 p-2">
+        <div class="d-flex gap-3 p-2" v-if="order.order_products.length > 0">
             <div><i class="bi bi-list-ol"></i> {{ order.id }}</div>
             <div><i class="bi bi-clock"></i> {{ formatDate(order.order_create) }}</div>
             <div>Товаров: {{ order.order_products.length }} Шт.</div>

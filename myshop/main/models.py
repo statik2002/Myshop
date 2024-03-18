@@ -266,6 +266,7 @@ class Order(models.Model):
     order_update = models.DateTimeField(default=timezone.now, verbose_name='Дата и время изменения заказа')
     order_status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, related_name='orders_status', default=1)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='user_orders', default=None)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
         verbose_name = 'Заказ'

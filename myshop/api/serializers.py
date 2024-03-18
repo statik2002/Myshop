@@ -87,6 +87,12 @@ class OrderProductSerializer(serializers.ModelSerializer):
         model = ProductInOrder
         fields = '__all__'
 
+class CreateOrderProductSerializer(serializers.ModelSerializer):   
+
+    class Meta:
+        model = ProductInOrder
+        fields = '__all__'        
+
 
 class OrderStatusSerializer(serializers.ModelSerializer):
 

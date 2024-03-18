@@ -13,7 +13,7 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
+from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
 from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product, ProductInOrder
 from main.email_functional import send_mail
 from django.http import JsonResponse
@@ -256,9 +256,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         try:
             user = Customer.objects.get(pk=request.data.get('customer'))
             order = Order.objects.create(customer=user)
+            print(request.data.get('order_products'))
             for item in request.data.get('order_products'):               
                 item['order']=order.pk
-                item_serialized = OrderProductSerializer(data=item)
+                item_serialized = CreateOrderProductSerializer(data=item)
                 if item_serialized.is_valid():
                     item_serialized.save()
                 else:
