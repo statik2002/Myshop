@@ -1,7 +1,7 @@
 import decimal
 from rest_framework import serializers
 
-from main.models import Cart, Catalog, Customer, Order, Product, ProductImage, ProductInOrder, ProductRating
+from main.models import Cart, Catalog, Customer, Order, OrderStatus, Product, ProductImage, ProductInOrder, ProductRating
 from main.email_functional import send_mail
 
 
@@ -81,10 +81,17 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class OrderProductSerializer(serializers.ModelSerializer):
 
-    
+    product = ProductSerializer(read_only=True)    
 
     class Meta:
         model = ProductInOrder
+        fields = '__all__'
+
+
+class OrderStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = OrderStatus
         fields = '__all__'
 
 
@@ -92,6 +99,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     order_products = OrderProductSerializer(many=True, read_only=True)
     #customer = CustomerSerializer(read_only=True)
+    order_status = OrderStatusSerializer()
     total_amount = serializers.SerializerMethodField()
 
     class Meta:

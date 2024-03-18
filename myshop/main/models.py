@@ -264,7 +264,7 @@ class ProductInOrder(models.Model):
 class Order(models.Model):
     order_create = models.DateTimeField(default=timezone.now, verbose_name='Дата и время заказа')
     order_update = models.DateTimeField(default=timezone.now, verbose_name='Дата и время изменения заказа')
-    order_status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, related_name='orders', default=1)
+    order_status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, related_name='orders_status', default=1)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='user_orders', default=None)
 
     class Meta:

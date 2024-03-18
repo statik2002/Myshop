@@ -282,8 +282,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         try:
             user_id = request.data.get('user')
             user = Customer.objects.get(pk=user_id)
-            # Статус №4 - выдан
-            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(~Q(order_status=4)).order_by('-order_create')
+            # Выдаем заказы без статуса 'Выдан'
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(~Q(order_status__status='Выдан')).order_by('-order_create')
             return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
         
         except ObjectDoesNotExist:

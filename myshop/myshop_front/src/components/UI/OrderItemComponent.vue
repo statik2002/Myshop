@@ -1,10 +1,14 @@
 <template>
     <div class="widget">
         <div class="d-flex gap-3 p-2">
-            <div>ID: {{ order.id }}</div>
-            <div>Created: {{ formatDate(order.order_create) }}</div>
-            <div>Status: {{ order.order_status }}</div>
-            <div>Total: {{ order.total_amount }} Руб.</div>
+            <div><i class="bi bi-list-ol"></i> {{ order.id }}</div>
+            <div><i class="bi bi-clock"></i> {{ formatDate(order.order_create) }}</div>
+            <div v-if="order.order_products[0].product.product_images.length > 0">
+                <img :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt width="50">
+            </div>
+            <div v-else>No Image</div>
+            <div><i class="bi bi-patch-check"></i> {{ order.order_status.status }}</div>
+            <div><i class="bi bi-wallet2"></i> {{ order.total_amount }} Руб.</div>
         </div>
     </div>
 </template>
