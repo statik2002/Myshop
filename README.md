@@ -5,7 +5,7 @@
 Для создания применяется Django (backend) и Vuejs (frontend). Взаимодействие происходит с примененением Django REST Framework.
 
 ## Требования
-- Django 5.0
+- Django 5.0.2
 - NodeJS 20
 
 ## Установка
