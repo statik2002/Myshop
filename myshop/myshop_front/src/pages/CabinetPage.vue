@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <span class="text-secondary">{{ orders.length }} Активных заказов</span>
+                                <a href="#" @click="showReadyOrders">{{ orders.length }} Активных заказов</a>
                                 <span>Ожидают получения</span>
                             </div>
                             </div>
@@ -209,6 +209,13 @@
     <div class="container-lg widget-area" v-else>
         User in not login!
     </div>
+    <modal-component v-model:show="showReadyOrdersModal">
+        <div class="d-flex flex-column gap-2">
+            <div v-for="order in orders">
+                <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})"></order-item>
+            </div>
+        </div>
+    </modal-component>
     <FooterComponent></FooterComponent>
 </template>
 
@@ -221,7 +228,8 @@
         data() {
             return {
                 orders: [],
-                likedProducts: []
+                likedProducts: [],
+                showReadyOrdersModal: false
             }
         },
         methods: {
@@ -278,6 +286,10 @@
                 let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
                 let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
                 return `${day} ${month} ${year} ${hour}:${minute}`
+            },
+
+            showReadyOrders() {
+                this.showReadyOrdersModal = true
             }
         },
         mounted() {

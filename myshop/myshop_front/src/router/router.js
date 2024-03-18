@@ -11,6 +11,7 @@ import CheckoutPage from "@/pages/CheckoutPage.vue"
 import CabinetPage from '@/pages/CabinetPage.vue';
 import OrdersPage from '@/pages/OrdersPage.vue'
 import LikePage from '@/pages/LikePage.vue'
+import OrderPage from '@/pages/OrderPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -77,6 +78,11 @@ const routes = [
         path: '/likes',
         component: LikePage,
         name: 'likes'
+    },
+    {
+        path: '/order/:id',
+        component: OrderPage,
+        name: 'show_order'
     }
 ]
 

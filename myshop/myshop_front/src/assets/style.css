@@ -333,6 +333,11 @@ h2 {
 
 .widget a:hover {
     color: red;
+    cursor: pointer;
+}
+
+.widget:hover {
+    background-color: rgb(226, 226, 226)
 }
 
 .circle {
@@ -551,4 +556,8 @@ h2 {
 .menu-avatar {
     border-radius: 50%;
     border: solid rgba(255, 255, 255, 0.5) 2px;
+}
+
+.order-item:hover {
+    color: black;
 }

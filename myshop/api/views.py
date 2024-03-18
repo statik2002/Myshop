@@ -275,8 +275,8 @@ class OrderViewSet(viewsets.ModelViewSet):
             
     def retrieve(self, request, pk):
         order = Order.objects.get(pk=pk)
-        return Response(ProductSerializer(order,  context={'request': request}).data, status=status.HTTP_200_OK)
-    
+        return Response(OrderSerializer(order,  context={'request': request}).data, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=['post'], name='user_orders')
     def get_orders(self, request):
         try:
