@@ -201,6 +201,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
             customer = Customer.objects.get(pk=request.data.get('customer_id'))
             customer.first_name = request.data.get('firstName')
             customer.last_name = request.data.get('lastName')
+            customer.address = request.data.get('address')
             customer.save()
             return Response({'response': 'ok'}, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:

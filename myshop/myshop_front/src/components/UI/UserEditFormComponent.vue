@@ -37,6 +37,14 @@
                 <input v-bind:value="lastName" @input="inputLastName" type="text" autocomplete="last-name" class="form-control" id="inputLastName">
                 </div>
             </div>
+            <div class="mb-3 row">
+                <div class="col-sm-3">
+                    <label for="inputAddress" class="col-sm-2 form-label">Address:</label>
+                </div>
+                <div class="col-sm-9">
+                    <input v-bind:value="address" @input="inputAddress" type="text" autocomplete="address" class="form-control" id="inputAddress">
+                </div>
+            </div>
             <div class="row d-flex align-items-end">
                 <button type="button" class="btn btn-success " @click="saveUser">Save</button>
             </div>
@@ -61,7 +69,8 @@
                 messages: [],
                 firstName: '',
                 lastName: '',
-                phoneNumber: ''
+                phoneNumber: '',
+                address: '',
             }
         },
         methods: {
@@ -74,6 +83,9 @@
             inputLastName(event) {
                 this.lastName = event.target.value;
             },
+            inputAddress(event) {
+                this.address = event.target.value;
+            },
             saveUser() {
                 axios({
                     method: 'post',
@@ -84,12 +96,13 @@
                         'phone_number': this.phoneNumber, 
                         'firstName': this.firstName, 
                         'lastName': this.lastName,
-                        'email': this.$store.state.email
+                        'email': this.$store.state.email,
+                        'address': this.address
                     })
                 })
                 .then((response) => {
                     if (response.data.response == 'ok') {
-                        this.$store.commit('updateUser', {'first_name': this.firstName, 'last_name': this.lastName})
+                        this.$store.commit('updateUser', {'first_name': this.firstName, 'last_name': this.lastName, 'address': this.address})
                         this.$emit('update:show', false);
                     }
                     
@@ -111,6 +124,7 @@
             this.firstName = this.$store.state.user.first_name
             this.lastName = this.$store.state.user.last_name
             this.phoneNumber = this.$store.state.user.phone_number
+            this.addess = this.$store.state.address
         }
     }
 </script>

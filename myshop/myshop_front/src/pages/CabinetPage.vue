@@ -49,8 +49,10 @@
                                 </div>
                                 </div>
                                 <div class="col align-self-center">
-                                <div class="ms-2">{{ $store.state.user.first_name }}</div>
-                                <div class="ms-2">{{ $store.state.user.last_name }}</div>
+                                    <div class="ms-2">{{ $store.state.user.first_name }}</div>
+                                    <div class="ms-2">{{ $store.state.user.last_name }}</div>
+                                    <div class="ms-2">{{ $store.state.user.email }}</div>
+                                    <div class="ms-2">{{ $store.state.user.address }}</div>
                                 </div>
                                 <div class="col-auto">
                                 <div class="ms-auto"><a href="#" @click="showUserEdit"><i class="bi bi-pencil"></i></a></div>

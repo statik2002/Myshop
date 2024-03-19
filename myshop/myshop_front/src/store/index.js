@@ -82,6 +82,7 @@ export default createStore({
         updateUser(state, user) {
             state.user.first_name = user.first_name
             state.user.last_name = user.last_name
+            state.user.address = user.address
             localStorage.setItem('user', JSON.stringify(state.user))
         },
 
