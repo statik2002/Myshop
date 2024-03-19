@@ -193,6 +193,20 @@ class CustomersViewSet(viewsets.ModelViewSet):
         
         except ObjectDoesNotExist:
             return Response({'error': 'Такого пользователя нет'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+    @action(detail=False, methods=['post'])
+    def customer_update(self, request):
+        try:
+            customer = Customer.objects.get(pk=request.data.get('customer_id'))
+            customer.first_name = request.data.get('firstName')
+            customer.last_name = request.data.get('lastName')
+            customer.save()
+            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response({'error': 'User error'}, status=status.HTTP_400_BAD_REQUEST)
+        except KeyError:
+            return Response({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
 
 
     def get_permissions(self):

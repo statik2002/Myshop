@@ -53,7 +53,7 @@
                                 <div class="ms-2">{{ $store.state.user.last_name }}</div>
                                 </div>
                                 <div class="col-auto">
-                                <div class="ms-auto"><a href="#"><i class="bi bi-bell text-success"></i></a></div>
+                                <div class="ms-auto"><a href="#" @click="showUserEdit"><i class="bi bi-bell text-success"></i></a></div>
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -236,6 +236,11 @@
             </div>
         </div>
     </modal-component>
+    <modal-component v-model:show="showUserEditModal">
+        <div class="d-flex flex-column gap-2">
+            <user-edit v-model:show="showUserEditModal"></user-edit>
+        </div>
+    </modal-component>
     <FooterComponent></FooterComponent>
 </template>
 
@@ -253,6 +258,7 @@ import router from '@/router/router'
                 likedProducts: [],
                 showReadyOrdersModal: false,
                 showProcessingOrdersModal: false,
+                showUserEditModal: false
             }
         },
         methods: {
@@ -341,6 +347,10 @@ import router from '@/router/router'
 
             showProcessingOrders() {
                 this.showProcessingOrdersModal = true
+            },
+
+            showUserEdit() {
+                this.showUserEditModal = true
             }
         },
         mounted() {

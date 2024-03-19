@@ -79,6 +79,12 @@ export default createStore({
             state.accessToken = token
         },
 
+        updateUser(state, user) {
+            state.user.first_name = user.first_name
+            state.user.last_name = user.last_name
+            localStorage.setItem('user', JSON.stringify(state.user))
+        },
+
         addProductToCart(state, product) {
             const productIndex = state.cart.findIndex((index) => index.id === product.id);
             if (productIndex >= 0) {

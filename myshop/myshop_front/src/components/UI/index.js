@@ -4,6 +4,7 @@ import RegistrationForm from '@/components/UI/RegistrationForm.vue'
 import WidgetComponent from '@/components/UI/WidgetComponent.vue'
 import ProductEditComponent from '@/components/UI/ProductEditComponent.vue'
 import OrderItemComponent from '@/components/UI/OrderItemComponent.vue'
+import UserEditFormComponent from '@/components/UI/UserEditFormComponent.vue'
 
 export default [
     ModalComponent,
@@ -11,5 +12,6 @@ export default [
     RegistrationForm,
     WidgetComponent,
     ProductEditComponent,
-    OrderItemComponent
+    OrderItemComponent,
+    UserEditFormComponent
 ]
