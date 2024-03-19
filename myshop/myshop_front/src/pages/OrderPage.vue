@@ -6,7 +6,7 @@
             <div>Date: {{ order.order_create }}</div>
             <div>Status: {{ order.order_status.status }}</div>
             <div>Total: {{ order.total_amount }} Руб.</div>
-            <div><QrcodeVue :value=order.uuid></QrcodeVue></div>
+            <div v-if="order.order_status.id==5"><QrcodeVue :value=order.uuid></QrcodeVue></div>
             <div v-for="order_product in order.order_products">
                 <div class="d-flex flex-row gap-2 border">
                     <div v-if="order_product.product.product_images.length > 0">
