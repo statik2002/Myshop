@@ -283,8 +283,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         try:
             user_id = request.data.get('user')
             user = Customer.objects.get(pk=user_id)
-            # Выдаем заказы без статуса 'Выдан'
-            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(~Q(order_status__status='Выдан')).order_by('-order_create')
+            # Выдаем все заказы
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').order_by('-order_create')
             return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
         
         except ObjectDoesNotExist:
@@ -307,6 +307,21 @@ class OrderViewSet(viewsets.ModelViewSet):
         
         except KeyError:
             return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)    
+        
+    @action(detail=False, methods=['post'], name='user_proccessing_orders')
+    def get_proccessing_orders(self, request):
+        try:
+            user_id = request.data.get('user')
+            user = Customer.objects.get(pk=user_id)
+            # Выдаем заказы с статусом 'Принят, В обработке, в сборке'
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status__status__in=['Принят', 'В обработке', 'В сборке']).order_by('-order_create')
+            return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)      
         
 
 class Likes(viewsets.ViewSet):

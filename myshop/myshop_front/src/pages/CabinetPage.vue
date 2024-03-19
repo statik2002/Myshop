@@ -3,6 +3,7 @@
     <div class="container-lg widget-area" v-if="$store.state.userIsAuth">
         <div class="d-flex flex-column mb-2" style="font-size: 0.9em;">
             <div class="row pt-5">
+                <!--Active orders-->
                 <widget-component>
                     <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-3">
                         <div class="widget p-3 h-100">
@@ -17,18 +18,23 @@
                                     </div>
                                 </div>
                                 <div class="col align-self-center">
-                                    <div class="h4">Заказы к выдаче</div>
+                                    <div class="h4">Активные заказы</div>
                                 </div>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <a href="#" @click="showReadyOrders">{{ orders.length }} Активных заказов</a>
+                                <a href="#" @click="showReadyOrders">{{ ready_orders.length }} заказа</a>
                                 <span>Ожидают получения</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" @click="showProcessingOrders">{{ processing_orders.length }} заказа</a>
+                                <span>В процессе</span>
                             </div>
                             </div>
                         </div>
                         </div>
                 </widget-component>
+                <!--User wodget-->
                 <widget-component>
                     <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-3">
                         <div class="widget p-3 h-100">
@@ -62,6 +68,7 @@
                         </div>
                         </div>
                 </widget-component>
+                <!--Discount widget-->
                 <widget-component>
                     <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 mb-3">
                         <div class="widget p-3 h-100">
@@ -87,6 +94,7 @@
                 </widget-component>
             </div>
             <div class="row mt-3">
+                <!--Payment-->
                 <widget-component>
                     <div class="col-lg-3 col-md-6 mb-3">
                         <div class="widget p-3 h-100">
@@ -103,6 +111,7 @@
                         </div>
                         </div>
                 </widget-component>
+                <!--Address widget-->
                 <widget-component>
                     <div class="col-lg-3 col-md-6 mb-3">
                         <div class="widget p-3 h-100">
@@ -124,6 +133,7 @@
                         </div>
                     </div>
                 </widget-component>
+                <!--Pick point widget-->
                 <widget-component>
                     <div class="col-lg-3 col-md-6 mb-3">
                         <div class="widget p-3 h-100">
@@ -140,6 +150,7 @@
                         </div>
                     </div>
                 </widget-component>
+                <!--Likes widget-->
                 <widget-component>
                     <div class="col-lg-3 col-md-6 mb-3">
                         <div class="widget p-3 h-100">
@@ -159,24 +170,26 @@
                 </widget-component>
             </div>
             <div class="row mt-3">
+                <!--Last orders-->
                 <widget-component>
                     <div class="col-lg-6 col-md-12 mb-3">
                         <div class="widget p-3 h-100">
                             <div class="d-flex flex-column align-items-start gap-2 h-100">
                             <div class="fw-bold">Ваши последние заказы</div>
-                            <div v-for="order in orders.slice(0,3)" class="d-flex justify-content-start">
+                            <div v-for="order in ready_orders.slice(0,3)" class="d-flex justify-content-start">
                                 <div class="">{{ formatDate(order.order_create) }}</div>
                                 <div class="ms-5">Товаров: {{ order.order_products.length }}</div>
                                 <div class="ms-5">На сумму: {{ order.total_amount }} &#8381;</div>
                             </div>
                             <div class="mt-auto">
-                                <a href="#">История покупок</a>
+                                <router-link to="/orders">История заказов</router-link>
                             </div>
                             </div>
                             
                         </div>
                     </div>
                 </widget-component>
+                <!--Some widget-->
                 <widget-component>
                     <div class="col-lg-6 col-md-12 mb-3">
                         <div class="widget p-3 w-100">
@@ -211,7 +224,14 @@
     </div>
     <modal-component v-model:show="showReadyOrdersModal">
         <div class="d-flex flex-column gap-2">
-            <div v-for="order in orders">
+            <div v-for="order in ready_orders">
+                <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})"></order-item>
+            </div>
+        </div>
+    </modal-component>
+    <modal-component v-model:show="showProcessingOrdersModal">
+        <div class="d-flex flex-column gap-2">
+            <div v-for="order in processing_orders">
                 <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})"></order-item>
             </div>
         </div>
@@ -223,13 +243,16 @@
     import axios from 'axios'
     import HeaderComponent from '@/components/HeaderComponent.vue'
     import FooterComponent from '@/components/FooterComponent.vue'
+import router from '@/router/router'
     export default {
         components: { HeaderComponent, FooterComponent },
         data() {
             return {
-                orders: [],
+                ready_orders: [],
+                processing_orders: [],
                 likedProducts: [],
-                showReadyOrdersModal: false
+                showReadyOrdersModal: false,
+                showProcessingOrdersModal: false,
             }
         },
         methods: {
@@ -240,13 +263,37 @@
                 try {
                       axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/order/get_orders/`,
+                          url: `http://127.0.0.1:8000/api/v1/order/get_ready_orders/`,
                           method: 'post',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                           data: request_data
                         }
                       ).then((response) => {
-                            this.orders = response.data
+                            this.ready_orders = response.data
+                            console.log(response.data)
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+
+            async getProcessingOrders() {
+                const request_data = {
+                    'user': this.$store.state.user.id
+                }
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/get_proccessing_orders/`,
+                          method: 'post',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          data: request_data
+                        }
+                      ).then((response) => {
+                            this.processing_orders = response.data
                             console.log(response.data)
                         })
                 } catch(e) {
@@ -290,10 +337,15 @@
 
             showReadyOrders() {
                 this.showReadyOrdersModal = true
+            },
+
+            showProcessingOrders() {
+                this.showProcessingOrdersModal = true
             }
         },
         mounted() {
             this.getUserOrders()
+            this.getProcessingOrders()
             this.get_likes_products(3)
         }
     }
