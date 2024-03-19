@@ -79,7 +79,7 @@
                                 <div class="row">
                                 <div class="col-auto">
                                     <div class="circle">
-                                    <div class="text-at-circle">5%</div>
+                                    <div class="text-at-circle">{{ $store.state.user.personal_discount }}%</div>
                                     </div>
                                 </div>
                                 <div class="col align-self-center">

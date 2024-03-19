@@ -44,6 +44,7 @@ class Customer(AbstractBaseUser):
     )
     avatar = models.ImageField(blank=True, null=True, upload_to='avatars/', verbose_name='Аватар')
     likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары', blank=True)
+    personal_discount = models.SmallIntegerField(verbose_name='Персональная скидка', default=0)
 
     login_fail_counter = models.SmallIntegerField(default=0, verbose_name='Счетчик неудачных входов')
     ban_status = models.BooleanField(default=False, verbose_name='Бан или нет')
