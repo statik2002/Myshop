@@ -108,8 +108,8 @@
             }
         },
         mounted() {
-            this.firstName = this.$store.state.user.firstName
-            this.lastName = this.$store.state.user.lastName
+            this.firstName = this.$store.state.user.first_name
+            this.lastName = this.$store.state.user.last_name
             this.phoneNumber = this.$store.state.user.phone_number
         }
     }

@@ -53,7 +53,7 @@
                                 <div class="ms-2">{{ $store.state.user.last_name }}</div>
                                 </div>
                                 <div class="col-auto">
-                                <div class="ms-auto"><a href="#" @click="showUserEdit"><i class="bi bi-bell text-success"></i></a></div>
+                                <div class="ms-auto"><a href="#" @click="showUserEdit"><i class="bi bi-pencil"></i></a></div>
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -61,7 +61,7 @@
                                 <div class=""><span class="text-secondary">Телефон:</span>{{ $store.state.user.phone_number }}</div>
                                 </div>
                                 <div class="col-auto">
-                                <div class="ms-auto"><a href="#">Выйти</a></div>
+                                <div class="ms-auto"><a href="#" @click="userLogout">Выйти</a></div>
                                 </div>
                             </div>
                             </div>
@@ -351,7 +351,12 @@ import router from '@/router/router'
 
             showUserEdit() {
                 this.showUserEditModal = true
-            }
+            },
+
+            userLogout() {
+                this.$store.commit('logoutUser')
+                this.$router.push('/')
+            },
         },
         mounted() {
             this.getUserOrders()
