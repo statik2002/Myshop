@@ -164,7 +164,7 @@
                                     </a>
                                 </div>
                                 <div class="mt-auto">
-                                    <a href="#">Все любимые товары</a>
+                                    <router-link to="/likes">Все любимые товары</router-link>
                                 </div>
                             </div>
                         </div>
