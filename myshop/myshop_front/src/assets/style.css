@@ -326,18 +326,18 @@ h2 {
     box-shadow: 0 2px 16px 5px rgba(0, 0, 0, 0.08);
 }
 
-.widget a:link {
-    color: green;
-    text-decoration: none;
-}
-
-.widget a:hover {
-    color: red;
-    cursor: pointer;
-}
-
 .widget:hover {
-    background-color: rgb(226, 226, 226)
+    background-color: rgb(247, 247, 247);
+}
+
+.order-item {
+    border-radius: 10px;
+    box-shadow: 0 2px 5px 5px rgba(0, 0, 0, 0.08);
+}
+
+.order-item:hover {
+    background-color: rgb(247, 247, 247);
+    cursor: pointer
 }
 
 .circle {
