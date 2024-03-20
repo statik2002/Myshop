@@ -283,7 +283,7 @@ import router from '@/router/router'
                         }
                       ).then((response) => {
                             this.ready_orders = response.data
-                            console.log(response.data)
+                            //console.log(response.data)
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);
@@ -307,7 +307,7 @@ import router from '@/router/router'
                         }
                       ).then((response) => {
                             this.processing_orders = response.data
-                            console.log(response.data)
+                            //console.log(response.data)
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);

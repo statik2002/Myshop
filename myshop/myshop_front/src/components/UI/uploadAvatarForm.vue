@@ -7,8 +7,9 @@
     <form @submit.prevent>
         <div class="d-flex flex-column">
             <div class="d-flex flex-column gap-2">
-                <input type="file" @change="onFileChanged">
-                <button type="button" class="btn btn-success" @click="onUpload">Upload!</button>
+                <label for="uploadedFile" class="form-label">Выберите файл с аватаркой</label>
+                <input type="file" class="form-control" @change="onFileChanged" id="uploadedFile">
+                <button type="button" class="btn btn-success mt-3" @click="onUpload">Загрузить</button>
             </div>
         </div>
     </form>

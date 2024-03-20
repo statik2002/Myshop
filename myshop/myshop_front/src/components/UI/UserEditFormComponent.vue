@@ -8,7 +8,7 @@
         <div class="d-flex flex-column">
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="phone" class="col-sm-2 form-label">Phone number:</label>
+                    <label for="phone" class="col-sm-2 form-label">Номер телефона:</label>
                 </div>
                 <div class="col-sm-9">
                     <input 
@@ -23,7 +23,7 @@
             </div>
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="inputFirstName" class="col-sm-2 form-label">First name:</label>
+                    <label for="inputFirstName" class="col-sm-2 form-label">Имя:</label>
                 </div>
                 <div class="col-sm-9">
                 <input v-bind:value="firstName" @input="inputFirstName" type="text" autocomplete="first name" class="form-control" id="inputFirstName">
@@ -31,7 +31,7 @@
             </div>
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="inputLastName" class="col-sm-2 form-label">Last name:</label>
+                    <label for="inputLastName" class="col-sm-2 form-label">Фамилия:</label>
                 </div>
                 <div class="col-sm-9">
                 <input v-bind:value="lastName" @input="inputLastName" type="text" autocomplete="last-name" class="form-control" id="inputLastName">
@@ -39,14 +39,14 @@
             </div>
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="inputAddress" class="col-sm-2 form-label">Address:</label>
+                    <label for="inputAddress" class="col-sm-2 form-label">Адрес:</label>
                 </div>
                 <div class="col-sm-9">
                     <input v-bind:value="address" @input="inputAddress" type="text" autocomplete="address" class="form-control" id="inputAddress">
                 </div>
             </div>
             <div class="row d-flex align-items-end">
-                <button type="button" class="btn btn-success " @click="saveUser">Save</button>
+                <button type="button" class="btn btn-success " @click="saveUser">Сохранить</button>
             </div>
         </div>
     </form>
@@ -124,7 +124,7 @@
             this.firstName = this.$store.state.user.first_name
             this.lastName = this.$store.state.user.last_name
             this.phoneNumber = this.$store.state.user.phone_number
-            this.addess = this.$store.state.address
+            this.address = this.$store.state.user.address
         }
     }
 </script>
