@@ -90,9 +90,8 @@
                 axios({
                     method: 'post',
                     url: 'http://127.0.0.1:8000/api/v1/customers/customer_update/',
-                    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+                    headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                     data: JSON.stringify({
-                        'customer_id': this.$store.state.user.id, 
                         'phone_number': this.phoneNumber, 
                         'firstName': this.firstName, 
                         'lastName': this.lastName,

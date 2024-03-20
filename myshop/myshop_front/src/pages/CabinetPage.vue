@@ -270,16 +270,12 @@ import router from '@/router/router'
         },
         methods: {
             async getUserOrders() {
-                const request_data = {
-                    'user': this.$store.state.user.id
-                }
                 try {
                       axios(
                         {
                           url: `http://127.0.0.1:8000/api/v1/order/get_ready_orders/`,
-                          method: 'post',
+                          method: 'get',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                          data: request_data
                         }
                       ).then((response) => {
                             this.ready_orders = response.data
@@ -294,16 +290,12 @@ import router from '@/router/router'
             },
 
             async getProcessingOrders() {
-                const request_data = {
-                    'user': this.$store.state.user.id
-                }
                 try {
                       axios(
                         {
                           url: `http://127.0.0.1:8000/api/v1/order/get_proccessing_orders/`,
-                          method: 'post',
+                          method: 'get',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                          data: request_data
                         }
                       ).then((response) => {
                             this.processing_orders = response.data

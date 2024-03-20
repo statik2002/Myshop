@@ -30,18 +30,16 @@ from myshop.settings import USER_BAN_HOURS
 class ProductViewSet(viewsets.ModelViewSet):
     """
         *** Get Products ***
-        /api/v1/products/ - get all products
+        /api/v1/products/ - get all products (random order)
         /api/v1/products/{pk}/ - get product by pk
 
-        - Search products
+        *** Search products ***
             POST: /api/v1/products/search/
-            JSON: {query: [searc_param]}
+            JSON: {query: [search_param]}
     """
     permission_classes = (AllowAny,)
     queryset = Product.objects.filter(quantity__gt=0).order_by('?')
     serializer_class = ProductListSerializer
-    #@method_decorator(cache_page(60 * 60 * 2))
-    #@method_decorator(vary_on_cookie)
 
     def retrieve(self, request, pk):
         product = Product.objects.get(pk=pk)
@@ -61,6 +59,14 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class InitialUploadCatalog(viewsets.ModelViewSet):
+
+    """
+        *** Upload catalog ***
+        POST: /api/v1/initial_upload_catalog/
+        HEADER: 'Authorization': f'Bearer {token}'
+        JSON: {data: [catalog]}
+    """
+
     permission_classes = (IsAuthenticated,) 
     serializer_class = CatalogSerializer(many=True)
 
@@ -82,6 +88,12 @@ class InitialUploadCatalog(viewsets.ModelViewSet):
 
 
 class InitialUploadProducts(viewsets.ModelViewSet):
+    """
+        *** Upload products ***
+        POST: /api/v1/initial_upload_products/
+        HEADER: 'Authorization': f'Bearer {token}'
+        JSON: {data: [products]}
+    """
 
     permission_classes = (IsAuthenticated,)
     serializer_class = ProductInitialSerializer(many=True)
@@ -114,6 +126,12 @@ class InitialUploadProducts(viewsets.ModelViewSet):
 
 class CartsViewSet(viewsets.ModelViewSet):
 
+    """
+        *** Get all carts ***
+        GET: /api/v1/carts/
+        HEADER: 'Authorization': f'Bearer {token}'
+    """    
+
     permission_classes = (IsAuthenticated,)
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
@@ -124,20 +142,33 @@ class CustomersViewSet(viewsets.ModelViewSet):
     '''
         -   Create Customer
             POST: http://127.0.0.1:8000/api/v1/customers/
-            json: {customer}
+            JSON: {customer}
 
         -   Get all customers
             GET: http://127.0.0.1:8000/api/v1/customers/
+            HEADER: 'Authorization': f'Bearer {token}'
 
         -   Get customers by pk
             GET: http://127.0.0.1:8000/api/v1/customers/{pk}/
+            HEADER: 'Authorization': f'Bearer {token}'
 
         -   Get customers by phone number
             GET: http://127.0.0.1:8000/api/v1/customers/get_customer_by_phone/
+            HEADER: 'Authorization': f'Bearer {token}'
             json: {'phone_number': phone_number a.k. +79999999999}
 
         -   Activate Customer by token
             POST: http://127.0.0.1:8000/api/v1/customers/user_activation/?q={token}
+
+        -   Update customer information
+            POST: http://127.0.0.1:8000/api/v1/customers/customer_update/
+            HEADER: 'Authorization': f'Bearer {token}'
+            json: {'phone_number': phone number, 'firstName': first name, 'lastName': last name, 'email': email, 'address': address}
+
+        -   Upload customer avatar
+            POST: http://127.0.0.1:8000/api/v1/customers/update_avatar/
+            HEADER: {'Authorization': `Bearer ${token}`, 'Content-Type': 'multipart/form-data'}
+            data: formData
 
     '''
     permission_classes = []
@@ -195,7 +226,7 @@ class CustomersViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def customer_update(self, request):
         try:
-            customer = Customer.objects.get(pk=request.data.get('customer_id'))
+            customer = request.user
             customer.first_name = request.data.get('firstName')
             customer.last_name = request.data.get('lastName')
             customer.address = request.data.get('address')
@@ -235,6 +266,15 @@ class CustomersViewSet(viewsets.ModelViewSet):
 
 
 class GetTokenViewSet(viewsets.ModelViewSet):
+
+    """
+        - User login
+        POST: /api/v1/token/
+        HEADER: {'Content-Type': 'application/json;charset=utf-8'}
+        DATA: {'phone_number': phone number, 'password': password}
+
+    """
+
     permission_classes = [AllowAny]
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
@@ -259,18 +299,30 @@ class OrderViewSet(viewsets.ModelViewSet):
     '''
         -   Get all orders
             GET: http://127.0.0.1:8000/api/v1/order/
+            headers: {'Authorization': Bearer token},
 
         -   Get order by id
             GET: http://127.0.0.1:8000/api/v1/{pk}/order/
+            headers: {'Authorization': Bearer token},
 
         -   Get user orders
-            POST: http://127.0.0.1:8000/api/v1/order/get_orders/
-            JSON: {user: user_id}
+            GET: http://127.0.0.1:8000/api/v1/order/get_orders/
+            headers: {'Authorization': Bearer token},
 
         -   Create new order
             POST: http://127.0.0.1:8000/api/v1/order/
-            JSON: {order: order}
+            headers: {'Authorization': Bearer token},
+            JSON: {'order_products': [order_products]}
+
+        -   Get order with status ready
+            GET: /api/v1/order/get_ready_orders/
+            headers: {'Authorization': Bearer token},
+
+        -   Get order with status processing
+            GET: /api/v1/order/get_proccessing_orders/
+            headers: {'Authorization': Bearer token},    
     '''
+
     permission_classes = (IsAuthenticated,)
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -278,7 +330,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         order = None
         try:
-            user = Customer.objects.get(pk=request.data.get('customer'))
+            user = request.user
             order = Order.objects.create(customer=user)
             for item in request.data.get('order_products'):               
                 item['order']=order.pk
@@ -305,11 +357,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         order = Order.objects.get(pk=pk)
         return Response(OrderSerializer(order,  context={'request': request}).data, status=status.HTTP_200_OK)
 
-    @action(detail=False, methods=['post'], name='user_orders')
+    @action(detail=False, methods=['get'], name='user_orders')
     def get_orders(self, request):
         try:
-            user_id = request.data.get('user')
-            user = Customer.objects.get(pk=user_id)
+            user = request.user
             # Выдаем все заказы
             orders = Order.objects.filter(customer=user).prefetch_related('order_products').order_by('-order_create')
             return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
@@ -320,11 +371,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         except KeyError:
             return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
         
-    @action(detail=False, methods=['post'], name='user_ready_orders')
+    @action(detail=False, methods=['get'], name='user_ready_orders')
     def get_ready_orders(self, request):
         try:
-            user_id = request.data.get('user')
-            user = Customer.objects.get(pk=user_id)
+            user = request.user
             # Выдаем заказы с статуса 'Готов к выдаче'
             orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status__status='Готов к выдаче').order_by('-order_create')
             return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
@@ -335,11 +385,10 @@ class OrderViewSet(viewsets.ModelViewSet):
         except KeyError:
             return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)    
         
-    @action(detail=False, methods=['post'], name='user_proccessing_orders')
+    @action(detail=False, methods=['get'], name='user_proccessing_orders')
     def get_proccessing_orders(self, request):
         try:
-            user_id = request.data.get('user')
-            user = Customer.objects.get(pk=user_id)
+            user = request.user
             # Выдаем заказы с статусом 'Принят, В обработке, в сборке'
             orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status__status__in=['Принят', 'В обработке', 'В сборке']).order_by('-order_create')
             return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
@@ -354,16 +403,22 @@ class OrderViewSet(viewsets.ModelViewSet):
 class Likes(viewsets.ViewSet):
 
     """
-        -   Add like
+        -   Add like/dislike
             POST: http://127.0.0.1:8000/api/v1/like/
-            data: {'user_id': id, 'product_id': id, 'operation': 'like/dislike'}
+            headers: {'Authorization': Bearer token},
+            data: {'product_id': id, 'operation': 'like/dislike'}
+
+        -   Get liked products
+            POST: /api/v1/like/get_sliced_liked_products/
+            headers: {'Authorization': Bearer token},
+            data: [likedProducts] (list of user liked id products)
     """
 
     permission_classes = (IsAuthenticated,)
 
     def create(self, request):
         try:
-            customer = Customer.objects.get(pk=request.data.get('user_id'))
+            customer = request.user
             if not customer.is_active:
                 return Response({'error': 'This user is not active!'}, status=status.HTTP_401_UNAUTHORIZED)
             

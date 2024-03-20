@@ -7,13 +7,17 @@
             </div>
         </div>
         <div class="py-5">
-            <div class="d-flex flex-column gap-3">
+            <div class="d-flex flex-column gap-3" v-if="isOrdersLoaded">
                 <div v-for="order in orders">
                     <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})">
                     </order-item>
                 </div>
             </div>
-            
+            <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+                <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -29,25 +33,23 @@
         data() {
             return {
                 messages: [],
-                orders: []
+                orders: [],
+                isOrdersLoaded: false
             }
         },
         methods: {
             loadOrders(){
                 try {
-                    const request_data = {
-                        'user': this.$store.state.user.id
-                    }
                       axios(
                         {
                           url: `http://127.0.0.1:8000/api/v1/order/get_orders/`,
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                          method: 'post',
-                            data: request_data
+                          method: 'get',
                         }
                       ).then((response) => {
                             this.messages = []
                             this.orders = response.data
+                            this.isOrdersLoaded = true
                             //console.log(response.data)
                         })
                 } catch(e) {

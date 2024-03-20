@@ -531,7 +531,6 @@
             like() {
               // Implement send to backend like product
               const like = {
-                'user_id': this.$store.state.user.id,
                 'product_id': this.product.id,
                 'operation': 'like'
               }
