@@ -48,7 +48,7 @@
                       ).then((response) => {
                             this.messages = []
                             this.orders = response.data
-                            console.log(response.data)
+                            //console.log(response.data)
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);

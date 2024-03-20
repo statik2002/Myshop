@@ -407,7 +407,7 @@
     <modal-component v-model:show="modalIsVisible">
       <div class="d-flex flex-column gap-3">
         <div>{{ product.name }} Добавлен</div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between gap-4">
           <router-link to="/cart">Посмотреть корзину</router-link>
           <a href="#" @click="closeModal">Продолжить покупки</a>
         </div>

@@ -8,7 +8,7 @@
         <div class="d-flex flex-column">
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="phone" class="col-sm-2 form-label">Phone number:</label>
+                    <label for="phoneInput" class="col-sm-2 form-label">Номер телефона:</label>
                 </div>
                 <div class="col-sm-9">
                     <!--
@@ -28,14 +28,14 @@
                         @input="inputPhone"
                         class="form-control"
                         autocomplete="tel-area-code"
-                        id="phone"
+                        id="phoneInput"
                         value=""
                         v-mask="['(+7) ###-###-##-##']">
                 </div>
             </div>
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="inputPassword" class="col-sm-2 form-label">Password:</label>
+                    <label for="inputPassword" class="col-sm-2 form-label">Пароль:</label>
                 </div>
                 <div class="col-sm-9">
                 <input v-bind:value="password" @input="inputPassword" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
@@ -43,7 +43,7 @@
             </div>
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="inputPasswordConfirm" class="col-sm-2 form-label">Confirm password:</label>
+                    <label for="inputPasswordConfirm" class="col-sm-2 form-label">Подтвердить пароль:</label>
                 </div>
                 <div class="col-sm-9">
                 <input v-bind:value="confirmPassword" @input="inputPasswordConfirm" type="password" autocomplete="new-password" class="form-control" id="inputPasswordConfirm">
@@ -55,11 +55,11 @@
                 </div>
                 
                 <div class="col-sm-9">
-                    <input v-bind:value="email" @input="inputEmail" type="email" @keyup.enter="registerUser" autocomplete="email" class="form-control" id="inputEmial">
+                    <input v-bind:value="email" @input="inputEmail" type="email" @keyup.enter="registerUser" autocomplete="email" class="form-control" id="inputEmail">
                 </div>
             </div>
-            <div class="row d-flex align-items-end">
-                <button type="button" class="btn btn-success " @click="registerUser">Registration</button>
+            <div class="row d-flex align-items-end mb-3">
+                <button type="button" class="btn btn-success " @click="registerUser">Регистрация</button>
             </div>
         </div>
     </form>
@@ -102,11 +102,15 @@
         registerUser() {
             this.messages = []
             if (this.phone.length < 12) {
-                this.messages.push('Wrong phone number!')
+                this.messages.push({'field': '"Номер телефона"', 'error': 'Неправильный номер телефона!'})
                 return
             }
             if (this.password.length < 3){
-                this.messages.push('Wrong password!')
+                this.messages.push({'field': 'Пароль', 'error': 'Пароль не соответствует требованиям!'})
+                return
+            }
+            if (this.email.length < 8) {
+                this.messages.push({'field': 'Email', 'error': 'Не правильный email!'})
                 return
             }
             if (this.password === this.confirmPassword){
@@ -130,7 +134,7 @@
                 });
             }
             else {
-                this.messages.push({'field': 'pasword', 'error': 'Passwords not same!'})
+                this.messages.push({'field': 'Пароль', 'error': 'Пароли не совпадают!'})
             }
         }
     },

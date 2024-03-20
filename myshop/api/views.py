@@ -88,13 +88,10 @@ class InitialUploadProducts(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         for product in request.data:
-            print(product)
             serialized_product = ProductInitialSerializer(data=product)
-            print(serialized_product)
             if serialized_product.is_valid():
                 print(product.get('catalog'))
                 catalog = Catalog.objects.get(code_1c=product.get('catalog'))
-                print(catalog)
                 obj, created = Product.objects.update_or_create(
                     code_1c=serialized_product.data.get('code_1c'),
                     defaults={
@@ -110,7 +107,6 @@ class InitialUploadProducts(viewsets.ModelViewSet):
 
             else:
                 #logger.error(f'Product serialized error! wit error={serialized_product_in_catalog.errors}')
-                print(serialized_product.errors)
                 return Response({'response': f'Error!: {serialized_product.error_messages}'}, status=status.HTTP_200_OK)
         
         return Response({'response': 'OK!'}, status=status.HTTP_200_OK)
@@ -283,7 +279,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         try:
             user = Customer.objects.get(pk=request.data.get('customer'))
             order = Order.objects.create(customer=user)
-            print(request.data.get('order_products'))
             for item in request.data.get('order_products'):               
                 item['order']=order.pk
                 item_serialized = CreateOrderProductSerializer(data=item)

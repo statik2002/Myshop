@@ -34,7 +34,7 @@
                     <label for="inputLastName" class="col-sm-2 form-label">Фамилия:</label>
                 </div>
                 <div class="col-sm-9">
-                <input v-bind:value="lastName" @input="inputLastName" type="text" autocomplete="last-name" class="form-control" id="inputLastName">
+                <input v-bind:value="lastName" @input="inputLastName" type="text" autocomplete="last name" class="form-control" id="inputLastName">
                 </div>
             </div>
             <div class="mb-3 row">

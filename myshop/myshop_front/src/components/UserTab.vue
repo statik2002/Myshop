@@ -5,9 +5,9 @@
                 <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
-                <li><a class="dropdown-item" href="#" @click="showRegistrationDialog">Registration</a></li>
-                <li><a class="dropdown-item" href="#" @click="showLoginDialog">Login</a></li>
-                <li><a class="dropdown-item" href="#">Rules</a></li>
+                <li><a class="dropdown-item" href="#" @click="showRegistrationDialog">Регистрация</a></li>
+                <li><a class="dropdown-item" href="#" @click="showLoginDialog">Логин</a></li>
+                <li><a class="dropdown-item" href="#">Правила</a></li>
             </ul>
         </div>
         <div class="dropdown" v-else>
@@ -18,9 +18,10 @@
                 <img :src="$store.state.user.avatar" width="30" alt="avatar" class="menu-avatar">
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
-                <li><routerLink to="/cabinet" class="dropdown-item">Cabinet</routerLink></li>
-                <li><router-link class="dropdown-item" to="/cart">Cart</router-link></li>
-                <li><a class="dropdown-item" href="#">Delivery</a></li>
+                <li><routerLink to="/cabinet" class="dropdown-item">Кабинет</routerLink></li>
+                <li><router-link to="/cart" class="dropdown-item">Корзина</router-link></li>
+                <li><router-link to="/orders" class="dropdown-item">Заказы</router-link></li>
+                <li><router-link to="/likes" class="dropdown-item">Избранное</router-link></li>
                 <li><a class="dropdown-item" href="#" @click="userLogout">Logout</a></li>
             </ul>
         </div>

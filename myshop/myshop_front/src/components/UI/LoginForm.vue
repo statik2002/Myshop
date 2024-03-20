@@ -8,7 +8,7 @@
         <div class="d-flex flex-column">
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="phone" class="col-sm-2 form-label">Phone number:</label>
+                    <label for="phone" class="col-sm-2 form-label">Номер телефона:</label>
                 </div>
                 <div class="col-sm-9">
                     <!--
@@ -28,7 +28,7 @@
             </div>
             <div class="mb-3 row">
                 <div class="col-sm-3">
-                    <label for="inputPassword" class="col-sm-2 form-label">Password:</label>
+                    <label for="inputPassword" class="col-sm-2 form-label">Пароль:</label>
                 </div>
                 
                 <div class="col-sm-9">
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="row d-flex align-items-end">
-                <button type="button" class="btn btn-success " @click="loginUser" >Login</button>
+                <button type="button" class="btn btn-success " @click="loginUser" >Войти</button>
             </div>
         </div>
     </form>

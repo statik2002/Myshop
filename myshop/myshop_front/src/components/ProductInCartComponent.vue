@@ -43,8 +43,10 @@
             </div>
         </div>
         <modal-component v-model:show="dialogMessageShow">
-            <div>{{ message }}</div>
-            <div><button type="button" class="btn btn-success " @click="deleteItemFromCart">Ok</button></div>
+            <div class="d-flex flex-column gap-3 justify-content-center">
+                <div class="d-flex justify-content-center">{{ message }}</div>
+                <div class="d-flex justify-content-center"><button type="button" class="btn btn-success " @click="deleteItemFromCart">Ok</button></div>
+            </div>
         </modal-component>
     </div>
 </template>
