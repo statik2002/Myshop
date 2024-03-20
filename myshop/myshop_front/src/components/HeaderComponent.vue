@@ -82,7 +82,7 @@
                           type="text" 
                           name="query" 
                           class="form-control rounded-9" 
-                          placeholder="Нати на сайте Мозаика" 
+                          placeholder="Нати на сайте MyShop" 
                           value=""
                           @change="searh">
                     </div>
