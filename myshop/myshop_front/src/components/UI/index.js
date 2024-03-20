@@ -6,6 +6,7 @@ import ProductEditComponent from '@/components/UI/ProductEditComponent.vue'
 import OrderItemComponent from '@/components/UI/OrderItemComponent.vue'
 import UserEditFormComponent from '@/components/UI/UserEditFormComponent.vue'
 import UploadAvatarForm from '@/components/UI/uploadAvatarForm.vue'
+import ScrollToTopComponent from '@/components/UI/ScrollToTopComponent.vue'
 
 export default [
     ModalComponent,
@@ -15,5 +16,6 @@ export default [
     ProductEditComponent,
     OrderItemComponent,
     UserEditFormComponent,
-    UploadAvatarForm
+    UploadAvatarForm,
+    ScrollToTopComponent
 ]

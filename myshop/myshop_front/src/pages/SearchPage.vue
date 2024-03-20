@@ -17,6 +17,7 @@
             </div>
             <div ref="observer" class="observer"></div>
         </div>
+        <scroll-to-top></scroll-to-top>
     <footer-component/>
 </template>
 

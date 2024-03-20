@@ -1,6 +1,8 @@
 <template>
   <div class="app">
-    <router-view></router-view>
+    <router-view>
+    </router-view>
+    <scroll-to-top></scroll-to-top>
   </div>
 </template>
 
