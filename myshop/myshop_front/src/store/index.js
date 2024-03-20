@@ -176,6 +176,33 @@ export default createStore({
         dislike(state, product_id){
             state.user.likes.pop(product_id)
             localStorage.setItem('user', JSON.stringify(state.user))
+        },
+        reloadUser(state) {
+            if (state.userIsAuth)
+            {
+                try {
+                    axios(
+                        {
+                        url: `http://127.0.0.1:8000/api/v1/customers/${state.user.id}/`,
+                        method: 'get',
+                        headers: {'Authorization': `Bearer ${state.user.access}`},
+                        }
+                    ).then((response) => {
+                            //console.log(response.status)
+                            if (response.status == 200){
+                                state.user = response.data
+                                localStorage.setItem('user', JSON.stringify(state.user))
+                            }
+                            else {
+                                console.log('Error')
+                            }
+                        })
+                } catch (e) {
+                        console.log(`Connection error: ${e}`);
+                } finally {
+
+                }
+            }
         }
     },
 

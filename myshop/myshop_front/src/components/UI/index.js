@@ -5,6 +5,7 @@ import WidgetComponent from '@/components/UI/WidgetComponent.vue'
 import ProductEditComponent from '@/components/UI/ProductEditComponent.vue'
 import OrderItemComponent from '@/components/UI/OrderItemComponent.vue'
 import UserEditFormComponent from '@/components/UI/UserEditFormComponent.vue'
+import UploadAvatarForm from '@/components/UI/uploadAvatarForm.vue'
 
 export default [
     ModalComponent,
@@ -13,5 +14,6 @@ export default [
     WidgetComponent,
     ProductEditComponent,
     OrderItemComponent,
-    UserEditFormComponent
+    UserEditFormComponent,
+    UploadAvatarForm
 ]

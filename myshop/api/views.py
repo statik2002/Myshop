@@ -22,6 +22,7 @@ from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate
 from django.db.models import Q
+from django.core.files.storage import FileSystemStorage
 
 from myshop.settings import USER_BAN_HOURS
 
@@ -208,10 +209,21 @@ class CustomersViewSet(viewsets.ModelViewSet):
             return Response({'error': 'User error'}, status=status.HTTP_400_BAD_REQUEST)
         except KeyError:
             return Response({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+    @action(detail=False, methods=['post'], name='update_avatar')
+    def update_avatar(self, request):
+        try:
+            customer = request.user
+            customer.avatar = request.FILES.get('file')
+            customer.save()
+            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
+        except KeyError:
+            return Response({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
 
 
     def get_permissions(self):
-        if self.action == 'create' or 'user_activation':
+        if self.action == 'create' or self.action == 'user_activation':
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsAuthenticated]

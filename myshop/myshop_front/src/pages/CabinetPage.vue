@@ -41,12 +41,12 @@
                             <div class="d-flex flex-column justify-content-between h-100">
                             <div class="d-flex">
                                 <div class="col-auto">
-                                <div class="circle">
-                                    <div v-if="$store.state.user.avatar">
-                                        <div class="cabinet-avatar"><img :src="$store.state.user.avatar" alt="avatar" class=""></div>
+                                    <div class="circle" @click="uploadAvatar">
+                                        <div v-if="$store.state.user.avatar">
+                                            <div class="cabinet-avatar"><img :src="$store.state.user.avatar" alt="avatar" class=""></div>
+                                        </div>
+                                        <div v-else class="cabinet-avatar"><img src="@/assets/avatar_blank.webp" alt="avatar" class=""></div>
                                     </div>
-                                    <div v-else class="cabinet-avatar"><img src="@/assets/avatar_blank.webp" alt="avatar" class=""></div>
-                                </div>
                                 </div>
                                 <div class="col align-self-center">
                                     <div class="ms-2">{{ $store.state.user.first_name }}</div>
@@ -243,6 +243,10 @@
             <user-edit v-model:show="showUserEditModal"></user-edit>
         </div>
     </modal-component>
+    <modal-component v-model:show="showUploadAvatar">
+        <upload-avatar-form v-model:show="showUploadAvatar">
+        </upload-avatar-form>
+    </modal-component>
     <FooterComponent></FooterComponent>
 </template>
 
@@ -260,7 +264,8 @@ import router from '@/router/router'
                 likedProducts: [],
                 showReadyOrdersModal: false,
                 showProcessingOrdersModal: false,
-                showUserEditModal: false
+                showUserEditModal: false,
+                showUploadAvatar: false,
             }
         },
         methods: {
@@ -359,6 +364,10 @@ import router from '@/router/router'
                 this.$store.commit('logoutUser')
                 this.$router.push('/')
             },
+
+            uploadAvatar() {
+                this.showUploadAvatar = true
+            }
         },
         mounted() {
             this.getUserOrders()
