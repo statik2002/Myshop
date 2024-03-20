@@ -276,6 +276,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def create(self, request, *args, **kwargs):
+        order = None
         try:
             user = Customer.objects.get(pk=request.data.get('customer'))
             order = Order.objects.create(customer=user)
@@ -290,9 +291,13 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response({'response': 'ok'}, status=status.HTTP_200_OK)
             
         except KeyError:
+            if order is not None:
+                order.delete()
             return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
         
         except ObjectDoesNotExist:
+            if order is not None:
+                order.delete()
             return Response({'error': 'Bad request! User does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
 
             
