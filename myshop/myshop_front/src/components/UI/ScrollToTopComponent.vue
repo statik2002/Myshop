@@ -1,17 +1,21 @@
 <template>
-    <button v-if="isVisible" type="button" @click="scrollToTop" class="btn btn-success gotopbtn">
+    <button v-if="isVisible" type="button" @click="scrollToTop" class="btn btn-success gotopbtn" id="scrollButton">
         <i class="bi bi-arrow-up-square"></i>
-        {{ isVisible }}
     </button>
 </template>
 
 <script>
     export default {
         name: 'scroll-to-top',
+        props: {
+            productsContainer: {
+                type: Object,
+                required: true
+            }
+        },
         data() {
             return {
-                isVisible: false,
-                winHeigth: 0,
+                isVisible: true,
             }
         },
         methods: {
@@ -19,28 +23,77 @@
                 window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
             },
             onResize() {
-                console.log(window.scrollbars.visible )
-                if(window.scrollbars.visible == true) {
+                if(this.getHeigth() > window.innerHeight) {
                     this.isVisible = true
+                    let button = document.getElementById('scrollButton')
+                    if (this.productsContainer.innerContainer.getBoundingClientRect().bottom > window.innerHeight) {
+                        if (button) {
+                            button.style.position = 'fixed'
+                            button.style.right = 20+'px'
+                            button.style.bottom = 20+'px'
+                        }
+                        
+                    } else {
+                       this.isVisible = false
+                    }
                 } else {
                     this.isVisible = false
                 }
-            }
+
+            },
+            onScroll() {
+                if(this.getHeigth() > window.innerHeight) {
+                    this.isVisible = true
+                    let button = document.getElementById('scrollButton')
+                    if (this.productsContainer.innerContainer.getBoundingClientRect().bottom > window.innerHeight) {
+                        button.style.position = 'fixed'
+                        button.style.right = 20+'px'
+                        button.style.bottom = 20+'px'
+                    } else {
+                        if (button) {
+                            button.style.position = 'fixed'
+                            button.style.right = 20+'px'
+                            button.style.bottom = window.innerHeight - this.productsContainer.innerContainer.getBoundingClientRect().bottom+20+'px'
+                        }
+                    }
+                } else {
+                    this.isVisible = false
+                }
+            },
+
+            getHeigth() {
+                return Math.max(
+                    document.body.scrollHeight, document.documentElement.scrollHeight,
+                    document.body.offsetHeight, document.documentElement.offsetHeight,
+                    document.body.clientHeight, document.documentElement.clientHeight
+                    );
+            },
         },
         computed: {
 
         },
         watch: {
-            changeVisivility() {
-
+            productsContainer(newProductContainer, oldProductContainer) {         
+                if (newProductContainer.isLoaded) {
+                    if(this.getHeigth() > window.innerHeight) {
+                        this.isVisible = true
+                        let button = document.getElementById('scrollButton')
+                        if (this.productsContainer.innerContainer.getBoundingClientRect().bottom > window.innerHeight) {
+                            button.style.position = 'absolute'
+                            button.style.bottom = 20+'px'
+                        } else {
+                           this.isVisible = false
+                        }
+                    } else {
+                        this.isVisible = false
+                    }
+                }
             }
         },
         mounted() {
-            if(window.scrollbars.visible == true) {
-                this.isVisible = true
-            }
             this.$nextTick(() => {
                 window.addEventListener('resize', this.onResize);
+                window.addEventListener('scroll', this.onScroll);
             })
         }
     }
@@ -50,8 +103,8 @@
     .gotopbtn {
         position: fixed;
         font-size: 1.5em;
-        bottom: 40px;
-        right: 5vw;
+        bottom: 20px;
+        right: 20px;
         z-index: 9999;
     }
 </style>

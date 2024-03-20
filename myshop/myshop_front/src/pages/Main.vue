@@ -1,11 +1,12 @@
 <template>
     <div>
         <header-component/>
-        <div class="container-xl pt-3">
+        <div class="container-xl pt-3" id="productContainer">
             <ProductsList 
                 :products="products"
                 v-if="isProductsLoading"
-            />
+            >
+            </ProductsList>
             <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
                 <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -13,6 +14,7 @@
             </div>
             <div ref="observer" class="observer"></div>
         </div>
+        <scroll-to-top :productsContainer="productsContainer"></scroll-to-top>
         <footer-component/>
     </div>
 </template>
@@ -31,6 +33,7 @@
                 productsLimit: 30,
                 productsTotalPages: 0,
                 productsOffest: -30,
+                productsContainer: {},
             }
         },
         methods: {
@@ -46,6 +49,12 @@
                         let products = await response.json();
                         this.products = [...this.products, ...products.results];
                         this.productsTotalPages = Math.ceil(products.count / this.productsLimit);
+                        this.isProductsLoading=true;
+                        this.productsContainer = {
+                            'isLoaded': true, 
+                            'container': document.getElementById("productContainer").getBoundingClientRect(),
+                            'innerContainer': document.getElementById("productContainer")
+                        }
                     } else {
                         alert('Error get products');
                     }
