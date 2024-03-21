@@ -6,12 +6,14 @@
                 :products="likedProducts"
                 v-if="isLikedProductsLoad"
             />
+            <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+                <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
         <div v-else>Небходимо зарегистрироваться или войти в аккаунт!</div>
     </div>
-    
-    
-    
     <FooterComponent></FooterComponent>
 </template>
 

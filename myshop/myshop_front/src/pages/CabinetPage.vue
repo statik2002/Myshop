@@ -32,7 +32,7 @@
                             </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                 </widget-component>
                 <!--User wodget-->
                 <widget-component>

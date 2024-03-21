@@ -65,7 +65,7 @@
         components: {HeaderComponent, FooterComponent, CartCard, ModalComponent},
         data() {
             return {
-                orderModalVisible: false
+                orderModalVisible: false,
             }
         },
         computed: {

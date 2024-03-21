@@ -17,5 +17,5 @@ export default [
     OrderItemComponent,
     UserEditFormComponent,
     UploadAvatarForm,
-    ScrollToTopComponent
+    ScrollToTopComponent,
 ]

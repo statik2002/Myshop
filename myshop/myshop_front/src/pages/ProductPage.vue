@@ -413,23 +413,12 @@
         </div>
       </div>
     </modal-component>
-    <product-edit-component v-model:show="editProductModal">
-      {{ editProductData }}
-      <div class="d-flex flex-column">
-        <div class="d-flex gap-2">
-          <label for="productId">ID</label>
-          <div><input type="text" id="productID" readonly v-model="editProductData.id"></div>
-        </div>
-        <div class="d-flex gap-2">
-          <label for="productName">Name</label>
-          <div><input type="text" id="productName" v-model="editProductData.name"></div>
-        </div>
-        <div class="d-flex gap-2">
-          <label for="productDescription">Description</label>
-          <div><input type="text" id="productDescription" v-model="editProductData.description"></div>
-        </div>
-      </div>
-    </product-edit-component>
+
+    <modal-component v-model:show="editProductModal">
+      <product-edit-component v-model:show="editProductModal" :product="product">
+      </product-edit-component>
+    </modal-component>
+
     <footer-component></footer-component>
 </template>
 
@@ -437,9 +426,8 @@
     import axios from 'axios'
     import HeaderComponent from '@/components/HeaderComponent.vue'
     import FooterComponent from '@/components/FooterComponent.vue'
-    import ModalComponent from '@/components/UI/ModalComponent.vue'
     export default {
-        components: {HeaderComponent, FooterComponent, ModalComponent},
+        components: {HeaderComponent, FooterComponent},
         data() {
             return {
                 isProductLoading: false,
@@ -462,7 +450,7 @@
                   his_rating: []
                 },
                 editProductData: {
-                  type: Object
+                  product: this.product
                 },
                 modalIsVisible: false,
                 editProductModal: false

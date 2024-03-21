@@ -36,6 +36,10 @@ class ProductViewSet(viewsets.ModelViewSet):
         *** Search products ***
             POST: /api/v1/products/search/
             JSON: {query: [search_param]}
+
+        *** Update product ***
+            PUT: /api/v1/products/{id}/
+            JSON: {product}    
     """
     permission_classes = (AllowAny,)
     queryset = Product.objects.filter(quantity__gt=0).order_by('?')
@@ -44,6 +48,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk):
         product = Product.objects.get(pk=pk)
         return Response(ProductSerializer(product,  context={'request': request}).data, status=status.HTTP_200_OK)
+    
+
+    def update(self, request, pk=None):
+        print(request.data)
+        return Response({'data': 'ok'}, status=status.HTTP_200_OK)
+
     
     @action(detail=False, methods=['post'], name='search')
     def search(self, request):
@@ -56,6 +66,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         
         serialized_products = ProductSerializer(page, many=True, context={'request': request})
         return Response(serialized_products.data, status=status.HTTP_200_OK)
+    
+    def get_permissions(self):
+        if self.action == 'update':
+            permission_classes = [IsAuthenticated, IsAdminUser]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
 
 
 class InitialUploadCatalog(viewsets.ModelViewSet):
