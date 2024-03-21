@@ -42,6 +42,11 @@
                         return
                     }
                     formData.append('file', this.selectedFile);
+                    const fileMetadata = this.readMetadata(this.selectedFile)
+                    if (fileMetadata.size > 300000) {
+                        this.messages.push('Слишком большой файл!')
+                        return
+                    }
                     axios(
                         {
                           url: `http://127.0.0.1:8000/api/v1/customers/update_avatar/`,
@@ -70,6 +75,14 @@
             },
             onFileChanged(event) {
                 this.selectedFile = event.target.files[0]
+            },
+
+            readMetadata(file) {
+                const name = file.name ? file.name : 'Not supported'
+                const type = file.type ? file.type : 'Not supported'
+                const size = file.size ? file.size : 'Not supported'
+
+                return {'name': name, 'type': type, 'size': size}
             }
         }
     }
