@@ -52,7 +52,11 @@
         },
 
         mounted() {
-            this.getLikedProducts()
+            if (this.$store.state.userIsAuth)
+            {
+                this.getLikedProducts()
+            }
+            
         }
     }
 </script>

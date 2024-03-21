@@ -96,7 +96,7 @@
                       <div class="col">
                         <router-link to="/cart">
                           <i class="bi bi-bag position-relative" style="font-size: 1.5rem;">
-                            <span v-if="$store.getters.getCartPositionCount>0" class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                            <span v-if="$store.getters.getCartPositionCount>0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
                               {{ $store.getters.getCartPositionCount }}
                               <span class="visually-hidden">unread messages</span>
                             </span>
@@ -104,8 +104,15 @@
                         </router-link>
                       </div>
                       <div class="col">
-                        <router-link to="/">
-                          <i class="bi bi-heart" style="font-size: 1.5rem;"></i>
+                        <router-link to="/likes">
+                          <i class="bi bi-heart position-relative" style="font-size: 1.5rem;">
+                            <div v-if="$store.state.userIsAuth">
+                              <span v-if="$store.state.user.likes.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                                {{ $store.state.user.likes.length }}
+                                <span class="visually-hidden">unread messages</span>
+                              </span>
+                            </div>
+                          </i>
                         </router-link>
                       </div>
                     </div>

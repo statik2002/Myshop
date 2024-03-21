@@ -26,13 +26,11 @@
                 if(this.getHeigth() > window.innerHeight) {
                     this.isVisible = true
                     let button = document.getElementById('scrollButton')
+                    if (!button) return
                     if (this.productsContainer.innerContainer.getBoundingClientRect().bottom > window.innerHeight) {
-                        if (button) {
                             button.style.position = 'fixed'
                             button.style.right = 20+'px'
                             button.style.bottom = 20+'px'
-                        }
-                        
                     } else {
                        this.isVisible = false
                     }
@@ -45,16 +43,18 @@
                 if(this.getHeigth() > window.innerHeight) {
                     this.isVisible = true
                     let button = document.getElementById('scrollButton')
+
+                    if (!button) return
+                    if (!this.isEmptyObject(this.productsContainer.innerContainer)) return
+
                     if (this.productsContainer.innerContainer.getBoundingClientRect().bottom > window.innerHeight) {
                         button.style.position = 'fixed'
                         button.style.right = 20+'px'
                         button.style.bottom = 20+'px'
                     } else {
-                        if (button) {
-                            button.style.position = 'fixed'
-                            button.style.right = 20+'px'
-                            button.style.bottom = window.innerHeight - this.productsContainer.innerContainer.getBoundingClientRect().bottom+20+'px'
-                        }
+                        button.style.position = 'fixed'
+                        button.style.right = 20+'px'
+                        button.style.bottom = window.innerHeight - this.productsContainer.innerContainer.getBoundingClientRect().bottom+20+'px'
                     }
                 } else {
                     this.isVisible = false
@@ -68,6 +68,10 @@
                     document.body.clientHeight, document.documentElement.clientHeight
                     );
             },
+
+            isEmptyObject(obj) {
+                return JSON.stringify(obj) ==='{}';
+            }
         },
         computed: {
 
