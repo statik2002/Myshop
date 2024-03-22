@@ -11,24 +11,19 @@
         </div>
         <div class="d-flex flex-row gap-2">
             <label for="productPrice" class="form-label">Цена</label>
-            <input type="text" class="form-control" id="productPrice" :value=product.price>
+            <input type="text" class="form-control" id="productPrice" :value=product.price @input="productPriceInput">
         </div>
         <div class="d-flex flex-row gap-2">
             <label for="productDescription" class="form-label">Описание</label>
-            <textarea class="form-control" aria-label="With textarea" id="productDescription">{{ product.description }}</textarea>
-        </div>
-        <div class="d-flex flex-row gap-2">
-            <label for="productAvailable" class="form-label">Доступен</label>
-            <input v-if="product.available" class="form-check-input" type="checkbox" value="" id="productAvailable" checked>
-            <input v-else class="form-check-input" type="checkbox" value="" id="productAvailable" checked>
+            <textarea class="form-control" aria-label="With textarea" id="productDescription" @input="productDescriptionInput">{{ product.description }}</textarea>
         </div>
         <div class="d-flex flex-row gap-2">
             <label for="productDiscount" class="form-label">Скидка в %</label>
-            <input type="text" class="form-control" id="productDiscount" :value=product.discount>
+            <input type="text" class="form-control" id="productDiscount" :value=product.discount @input="productDiscountInput">
         </div>
         <div class="d-flex flex-row gap-2">
             <label for="productQuantity" class="form-label">Остаток</label>
-            <input type="text" class="form-control" id="productQuantity" :value=product.quantity>
+            <input type="text" class="form-control" id="productQuantity" :value=product.quantity @input="productQuantityInput">
         </div>
         <div class="d-flex flex-row justify-content-between pt-5">
             <button class="btn btn-success" @click="updateProduct">Сохранить</button>
@@ -64,6 +59,22 @@
                 this.product.name = event.target.value
             },
 
+            productDescriptionInput(event) {
+                this.product.description = event.target.value
+            },
+
+            productDiscountInput(event) {
+                this.product.discount = event.target.value
+            },
+
+            productPriceInput(event) {
+                this.product.price = event.target.value
+            },
+
+            productQuantityInput(event) {
+                this.product.quantity = event.target.value
+            },
+
             updateProduct() {
                 try {
                     axios(
@@ -74,7 +85,6 @@
                         data: this.product
                       }
                     ).then((response) => {
-                          console.log(response)
                           this.$emit('update:show', false)
                         }
                           
@@ -88,7 +98,7 @@
             }
         },
         mounted() {
-            console.log(this.product)
+            //console.log(this.product)
         }
     }
 </script>

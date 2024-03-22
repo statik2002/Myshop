@@ -1,9 +1,4 @@
 <template>
-    <!--
-    <div class="pt-5" v-for="item in data">
-        <div class="pt-3">{{ item }}</div>
-    </div>
-    -->
     <header-component/>
         <div class="container-xl pt-3">
             <ProductsList 

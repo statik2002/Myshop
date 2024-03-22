@@ -64,6 +64,7 @@
                 this.userIsAuthenticated = value
             },
             userLogout() {
+                this.$store.dispatch('saveUserCartToServer')
                 this.$store.commit('logoutUser')
                 this.$router.push('/')
             },

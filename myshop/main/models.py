@@ -129,7 +129,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name='Описание', default='Нет описания', null=True, blank=True)
     available = models.BooleanField(verbose_name='Показывается', default=True)
     catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE, related_name='products', verbose_name='В каталоге')
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, blank=True, null=True)
     rating = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Рейтинг', default=0.0)  # 0.0
     tags = models.ManyToManyField(Tag, verbose_name='Тэг', blank=True)
     show_count = models.BigIntegerField(verbose_name='Кол-во показов', default=0)
@@ -140,6 +140,7 @@ class Product(models.Model):
     code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
     quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество',
                                    default=0.0)  # 000 000.000
+    production_origin = models.CharField('Страна производитель', max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Товар'
@@ -154,10 +155,11 @@ class ProductProperty(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties')
     color = models.CharField(max_length=50, verbose_name='Color')
     weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Weight')
-    width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина см')  # 000.00 в см
-    height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота см')  # 000.00 в см
-    length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна см')  # 000.00 в см
-    image = models.ImageField(upload_to='media/products/')
+    width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина м')  # 000.00 в см
+    height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота м')  # 000.00 в см
+    length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна м')  # 000.00 в см
+    image = models.ImageField(upload_to='media/products/', blank=True, null=True)
+    description = models.TextField(verbose_name='Описание для свойства', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Product property'
@@ -184,12 +186,8 @@ class Cart(models.Model):
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
 
-    def products_count(self) -> int:
-        products_count = ProductInCart.objects.filter(cart=self).count
-        return products_count
-
     def __str__(self) -> str:
-        return f'Корзина пользователя: {self.customer.phone_number}, кол-во товаров: {self.products_count}'
+        return f'Корзина пользователя: {self.customer.phone_number}, кол-во товаров: '
     
 
 class ProductRating(models.Model):

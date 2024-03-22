@@ -14,7 +14,7 @@ from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product, ProductInOrder
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product, ProductInCart, ProductInOrder
 from main.email_functional import send_mail
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -43,16 +43,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     """
     permission_classes = (AllowAny,)
     queryset = Product.objects.filter(quantity__gt=0).order_by('?')
-    serializer_class = ProductListSerializer
+    serializer_class = ProductSerializer
 
     def retrieve(self, request, pk):
         product = Product.objects.get(pk=pk)
         return Response(ProductSerializer(product,  context={'request': request}).data, status=status.HTTP_200_OK)
-    
-
-    def update(self, request, pk=None):
-        print(request.data)
-        return Response({'data': 'ok'}, status=status.HTTP_200_OK)
 
     
     @action(detail=False, methods=['post'], name='search')
@@ -153,6 +148,23 @@ class CartsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+
+    def create(self, request):
+        try:
+            cart = Cart.objects.get(customer=request.user)
+            products_in_cart = ProductInCart.objects.filter(cart=cart).delete()
+
+            for product in request.data.get('cart'):
+                print(product)
+
+            cart.save()
+
+            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            cart = Cart.objects.create(customer=request.user)
+            cart.save()
+            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
 
 
 class CustomersViewSet(viewsets.ModelViewSet):

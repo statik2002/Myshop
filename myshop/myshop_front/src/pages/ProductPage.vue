@@ -113,7 +113,7 @@
                   <div class="text-secondary">Страна производства</div>
                 </div>
                 <div class="col-7">
-                  <div class="">Россия</div>
+                  <div class="">{{ product.production_origin }}</div>
                 </div>
               </div>
             </div>
@@ -217,17 +217,33 @@
         </div>
         <div class="col mt-3">
           <span><b>Характеристики</b></span>
-          <div class="row mt-3">
+          <div class="row mt-3" v-for="property in product.properties">
             <div class="d-flex justify-content-between">
-              <div class="text-secondary">Модель</div>
-              <div class="justify-content-start">Краска Текс 1,5л</div>
+              <div class="text-secondary">Цвет</div>
+              <div class="justify-content-start">{{ property.color }}</div>
             </div>
-          </div>
-          <div class="row mt-3">
             <div class="d-flex justify-content-between">
-              <div class="text-secondary">Дополнительная информация</div>
-              <div class="ms-3" style="text-align: justify; font-size: 0.9em;">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut faucibus pulvinar elementum integer enim neque volutpat. In iaculis nunc sed augue lacus viverra vitae congue eu. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus. Ac felis donec et odio pellentesque diam. Eget nunc scelerisque viverra mauris in aliquam. Nunc sed augue lacus viverra. Quam elementum pulvinar etiam non quam. Mattis pellentesque id nibh tortor id aliquet lectus. Sem nulla pharetra diam sit amet nisl. Eu scelerisque felis imperdiet proin fermentum leo vel orci porta.
+              <div class="text-secondary">Вес</div>
+              <div class="justify-content-start">{{ property.weight }} кг</div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="text-secondary">Длинна</div>
+              <div class="justify-content-start">{{ property.length }} м</div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="text-secondary">Ширина</div>
+              <div class="justify-content-start">{{ property.width }} м</div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div class="text-secondary">Высота</div>
+              <div class="justify-content-start">{{ property.height }} м</div>
+            </div>
+            <div class="row mt-3">
+              <div class="d-flex justify-content-between">
+                <div class="text-secondary">Дополнительная информация</div>
+                <div class="ms-3" style="text-align: justify; font-size: 0.9em;">
+                  {{ property.description }}
+                </div>
               </div>
             </div>
           </div>
@@ -235,7 +251,7 @@
         <div class="col mt-3 ms-3">
           <span><b>Описание</b></span>
           <div class="row mt-3" style="text-align: justify; font-size: 0.9em;">
-            <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut faucibus pulvinar elementum integer enim neque volutpat. In iaculis nunc sed augue lacus viverra vitae congue eu. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus. Ac felis donec et odio pellentesque diam. Eget nunc scelerisque viverra mauris in aliquam. Nunc sed augue lacus viverra. Quam elementum pulvinar etiam non quam. Mattis pellentesque id nibh tortor id aliquet lectus. Sem nulla pharetra diam sit amet nisl. Eu scelerisque felis imperdiet proin fermentum leo vel orci porta.</div>
+            <div>{{ product.description }}</div>
           </div>
         </div>
       </div>
@@ -431,24 +447,7 @@
         data() {
             return {
                 isProductLoading: false,
-                product: {
-                  available: true,
-                  catalog: 0,
-                  code_1c: 0,
-                  create_date: "",
-                  description: "Нет описания",
-                  discount: "0.00",
-                  id: 0,
-                  name: "",
-                  price: "0.00",
-                  product_images: [],
-                  quantity: "1.000",
-                  rating: "0.0",
-                  show_count: 0,
-                  slug: "",
-                  tags: [],
-                  his_rating: []
-                },
+                product: {},
                 editProductData: {
                   product: this.product
                 },
@@ -575,7 +574,8 @@
               this.modalIsVisible = false
             },
             editProduct() {
-              this.uploadProductEdit()
+              //this.uploadProductEdit()
+              //console.log(this.product)
               this.editProductModal = true
             }
         },

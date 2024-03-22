@@ -160,11 +160,11 @@ export default createStore({
             state.user = {}
             state.userIsAuth = false
             localStorage.removeItem('user')
+            localStorage.removeItem('cart')
         },
         setUserState(state, flag){
             state.userIsAuth = flag
         },
-
         clearCart(state) {
             state.cart = []
             localStorage.setItem('cart', [])
@@ -203,13 +203,36 @@ export default createStore({
 
                 }
             }
-        }
+        },
+        
     },
 
     actions: {
         updatePhone({commit, state}, tel) {
             console.log(tel)
             commit('setUserPhone', tel)
+        },
+
+        saveUserCartToServer({state}) {
+            let cart = JSON.parse(localStorage.getItem('cart'))
+            console.log({'customer': state.user.id,  'cart': cart})
+            try {
+                axios(
+                  {
+                    url: `http://127.0.0.1:8000/api/v1/carts/`,
+                    method: 'post',
+                    headers: {'Authorization': `Bearer ${state.user.access}`},
+                    data: JSON.stringify({'customer': state.user.id,  'cart': cart})
+                  }
+                ).then((response) => {
+                  console.log(response.data)
+                  })
+            } catch(e) {
+                console.log(`Connection error: ${e}`);
+            }
+            finally {
+    
+            }
         },
     },
 

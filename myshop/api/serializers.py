@@ -1,8 +1,16 @@
 import decimal
 from rest_framework import serializers
+from django.utils.text import slugify
+from django.core.exceptions import ObjectDoesNotExist
 
-from main.models import Cart, Catalog, Customer, Order, OrderStatus, Product, ProductImage, ProductInOrder, ProductRating
+from main.models import Cart, Catalog, Customer, Order, OrderStatus, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductRating
 from main.email_functional import send_mail
+
+
+class ProductPropertySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductProperty
+        fields = '__all__'
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -32,10 +40,24 @@ class ProductListSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(many=True, read_only=True)
     his_rating = ProductRatingSerializer(many=True, read_only=True)
+    properties = ProductPropertySerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
         fields = '__all__'
+
+    def update(self, instance, validated_data):
+
+        instance.name = validated_data.get('name')
+        instance.price = validated_data.get('price')
+        instance.description = validated_data.get('description')
+        instance.available = validated_data.get('available')
+        instance.discount = validated_data.get('discount')
+        instance.quantity = validated_data.get('quantity')
+
+        instance.save()
+
+        return instance
 
 
 class ProductInitialSerializer(serializers.ModelSerializer):
@@ -50,10 +72,37 @@ class CatalogSerializer(serializers.ModelSerializer):
         fields = ('name', 'code_1c')
 
 
+class ProductInCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductInCart
+        fields = '__all__'
+
+
 class CartSerializer(serializers.ModelSerializer):
+    
+    # products = ProductInCartSerializer(many=True, read_only=True)
+
     class Meta:
         model = Cart
         fields = '__all__'
+
+    def create(self, validated_data):
+        print(validated_data)
+        try:
+            cart = Cart.objects.get(customer=validated_data.get('customer'))
+            products_in_cart = ProductInCart.objects.filter(cart=cart).delete()
+
+            for product in validated_data.get('cart'):
+                print(product)
+
+            cart.save()
+
+            return cart
+        
+        except ObjectDoesNotExist:
+            cart = Cart.objects.create(customer=validated_data.get('customer'))
+            cart.save()
+            return cart
 
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -88,6 +137,7 @@ class OrderProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductInOrder
         fields = '__all__'
+
 
 class CreateOrderProductSerializer(serializers.ModelSerializer):   
 
