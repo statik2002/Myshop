@@ -212,6 +212,16 @@ class CustomersViewSet(viewsets.ModelViewSet):
             refresh_token = RefreshToken.for_user(customer)
             upended_data['access'] = str(refresh_token.access_token)
             upended_data['refresh'] = str(refresh_token)
+            try:
+                cart = Cart.objects.get(customer=customer)
+            except ObjectDoesNotExist:
+                cart = Cart.objects.create(customer=customer)
+            cart_serialize = CartSerializer(data=cart)
+            if cart_serialize.is_valid():
+                upended_data['cart'] = cart_serialize.data
+            else:
+                print(cart_serialize.errors)
+
             return Response(upended_data, status=status.HTTP_200_OK)
 
         except ObjectDoesNotExist:

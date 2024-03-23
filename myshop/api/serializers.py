@@ -108,18 +108,20 @@ class CartSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
+    cart = CartSerializer
 
     class Meta:
         model = Customer
         fields = ('id', 'email', 'first_name', 'last_name', 
                   'is_read_pd', 'phone_number', 'address', 'date_joined', 
-                  'avatar', 'likes', 'is_staff', 'password', 'personal_discount')
+                  'avatar', 'likes', 'is_staff', 'password', 'personal_discount', 'cart')
 
     def create(self, validated_data):
         user = super(CustomerSerializer, self).create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
-        print(self.context)
+        cart = Cart.objects.create(customer=user)
+        cart.save()
         result = send_mail(self.context['request'], user)
         try:
             status = result.get('response')

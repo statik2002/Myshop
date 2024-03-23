@@ -181,6 +181,7 @@ class ProductInCart(models.Model):
 
 class Cart(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='cart')
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     
     class Meta:
         verbose_name = 'Корзина'
