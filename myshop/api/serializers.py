@@ -80,35 +80,17 @@ class ProductInCartSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
     
-    # products = ProductInCartSerializer(many=True, read_only=True)
+    products = ProductInCartSerializer(many=True, read_only=True)
 
     class Meta:
         model = Cart
         fields = '__all__'
 
-    def create(self, validated_data):
-        print(validated_data)
-        try:
-            cart = Cart.objects.get(customer=validated_data.get('customer'))
-            products_in_cart = ProductInCart.objects.filter(cart=cart).delete()
-
-            for product in validated_data.get('cart'):
-                print(product)
-
-            cart.save()
-
-            return cart
-        
-        except ObjectDoesNotExist:
-            cart = Cart.objects.create(customer=validated_data.get('customer'))
-            cart.save()
-            return cart
-
 
 class CustomerSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
-    cart = CartSerializer
+    cart = CartSerializer(required=False, read_only=True)
 
     class Meta:
         model = Customer
@@ -117,11 +99,13 @@ class CustomerSerializer(serializers.ModelSerializer):
                   'avatar', 'likes', 'is_staff', 'password', 'personal_discount', 'cart')
 
     def create(self, validated_data):
+        cart = Cart.objects.create()
+        validated_data['cart']=cart
         user = super(CustomerSerializer, self).create(validated_data)
         user.set_password(validated_data['password'])
         user.save()
-        cart = Cart.objects.create(customer=user)
-        cart.save()
+        #cart = Cart.objects.create(customer=user)
+        #cart.save()
         result = send_mail(self.context['request'], user)
         try:
             status = result.get('response')

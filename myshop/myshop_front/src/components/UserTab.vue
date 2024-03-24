@@ -35,7 +35,6 @@
 </template>
 
 <script>
-    import { useStorage } from '@vueuse/core'
     export default {
         data() {
             return {
@@ -44,7 +43,6 @@
                 registrationModalVisible: false,
                 phone: '',
                 password: '',
-                user: useStorage('user')
             }
         },
         methods: {

@@ -53,7 +53,6 @@
                       ).then((response) => {
                             //this.orders = response.data
                             this.order = response.data
-                            console.log(response.data)
                             this.isLoad = true
                         })
                 } catch(e) {

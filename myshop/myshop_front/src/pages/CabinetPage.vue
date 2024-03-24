@@ -178,7 +178,7 @@
                         <div class="widget p-3 h-100">
                             <div class="d-flex flex-column align-items-start gap-2 h-100">
                             <div class="fw-bold">Ваши последние заказы</div>
-                            <div v-for="order in ready_orders.slice(0,3)" class="d-flex justify-content-start">
+                            <div v-for="order in processing_orders.slice(0,3)" class="d-flex justify-content-start">
                                 <div class="">{{ formatDate(order.order_create) }}</div>
                                 <div class="ms-5">Товаров: {{ order.order_products.length }}</div>
                                 <div class="ms-5">На сумму: {{ order.total_amount }} &#8381;</div>

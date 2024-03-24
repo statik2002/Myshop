@@ -23,10 +23,10 @@
             <div class="row p-3 cart-product widget">
                 <div class="d-flex justify-content-between">
                     <div>
-                        Кол-во товаров: <b>{{ $store.getters.getTotalProductQuantity }}</b>
+                        Кол-во товаров: <b>{{ $store.getters.getCartProductsCount }}</b>
                     </div>
                     <div>
-                        Общая сумма: <b>{{ $store.getters.getTotalProductsAmount }} &#8381;</b>
+                        Общая сумма: <b>{{ $store.getters.getCartTotal }} &#8381;</b>
                     </div>
                 </div>
             </div>
@@ -70,10 +70,10 @@
         },
         computed: {
             productsInCart() {
-                return this.$store.getters['getCart'];
+                return this.$store.state.user.cart.products;
             },
             getProductsCount() {
-                return this.$store.cartProductQuantity;
+                return this.$store.state.user.cart.cartProductQuantity;
             }
         },
         methods: {
@@ -84,14 +84,13 @@
             async sendOrder() {
                 //console.log(this.$store.state.user.access)
                 let order_products = []
-                for (const key in this.$store.state.cart){
+                for (const key in this.$store.state.user.cart.products){
                     order_products.push({
-                        'product': this.$store.state.cart[key].id,
-                        'quantity': this.$store.state.cart[key].quantity,
-                        'fixed_price': this.$store.state.cart[key].price,
+                        'product': this.$store.state.user.cart.products[key].id,
+                        'quantity': this.$store.state.user.cart.products[key].quantity,
+                        'fixed_price': this.$store.state.user.cart.products[key].price,
                     })
                 }
-                //console.log(order_products)
                 //console.log(JSON.stringify(order_products))
                 const order = {
                     'order_products': order_products
@@ -108,7 +107,8 @@
                         }
                       ).then((response) => {
                             //console.log(response)
-                            this.$store.commit('clearCart')
+                            //this.$store.commit('clearCart')
+                            this.$store.commit('deleteProductsFromCart', order_products)
                             this.orderModalVisible = false
                         })
                 } catch(e) {

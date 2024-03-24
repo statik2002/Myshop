@@ -149,23 +149,6 @@ class CartsViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
 
-    def create(self, request):
-        try:
-            cart = Cart.objects.get(customer=request.user)
-            products_in_cart = ProductInCart.objects.filter(cart=cart).delete()
-
-            for product in request.data.get('cart'):
-                print(product)
-
-            cart.save()
-
-            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
-        
-        except ObjectDoesNotExist:
-            cart = Cart.objects.create(customer=request.user)
-            cart.save()
-            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
-
 
 class CustomersViewSet(viewsets.ModelViewSet):
 
@@ -482,5 +465,5 @@ class Likes(viewsets.ViewSet):
     @action(detail=False, methods=['post'], name='liked_sliced_products')
     def get_sliced_liked_products(self, request):
         liked_products = Product.objects.filter(pk__in=request.data)
-        return Response(ProductSerializer(liked_products, many=True).data, status=status.HTTP_200_OK)
+        return Response(ProductSerializer(liked_products, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
     

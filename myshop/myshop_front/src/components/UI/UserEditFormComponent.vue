@@ -104,8 +104,6 @@
                         this.$store.commit('updateUser', {'first_name': this.firstName, 'last_name': this.lastName, 'address': this.address})
                         this.$emit('update:show', false);
                     }
-                    
-                    console.log(response)
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -113,7 +111,6 @@
                             this.messages.push({ 'field': index, 'error': error.response.data[index] });
                         }
                         this.message = error.response;
-                        console.log(error)
                     }
                 });
                 this.$emit('update:show', false);

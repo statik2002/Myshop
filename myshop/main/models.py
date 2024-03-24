@@ -14,8 +14,10 @@ import uuid
 class CustomerManager(BaseUserManager):
 
     def create_user(self, phone_number, password=None, **extra_fields):
+        cart = Cart.objects.create()
         user = self.model(phone_number=phone_number, **extra_fields)
         user.set_password(password)
+        user.cart = cart
         user.save(using=self._db)
         return user
 
@@ -45,6 +47,7 @@ class Customer(AbstractBaseUser):
     avatar = models.ImageField(blank=True, null=True, upload_to='avatars/', verbose_name='Аватар')
     likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары', blank=True)
     personal_discount = models.SmallIntegerField(verbose_name='Персональная скидка', default=0)
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='customer')
 
     login_fail_counter = models.SmallIntegerField(default=0, verbose_name='Счетчик неудачных входов')
     ban_status = models.BooleanField(default=False, verbose_name='Бан или нет')
@@ -180,7 +183,6 @@ class ProductInCart(models.Model):
 
 
 class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='cart')
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     
     class Meta:
@@ -188,7 +190,7 @@ class Cart(models.Model):
         verbose_name_plural = 'Корзины'
 
     def __str__(self) -> str:
-        return f'Корзина пользователя: {self.customer.phone_number}, кол-во товаров: '
+        return f'Корзина пользователя: {self.uuid}, кол-во товаров: '
     
 
 class ProductRating(models.Model):

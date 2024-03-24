@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createStore } from "vuex";
-import { useStorage } from "@vueuse/core";
 
 export default createStore({
 
@@ -8,49 +7,54 @@ export default createStore({
         return {
             user: {},
             userIsAuth: false,
-            cart: [],
-            cartProductsQuantity: 0,
-            cartProductsTotal: 0,
         }
     },
 
     getters: {
         getCart(state) {
-            return state.cart;
+            return state.user.cart;
         },
 
         getCartTotal(state) {
-            return state.cartProductsTotal;
+            let total = 0
+            if (state.user.cart.products.length > 0){
+                for(const product of state.user.cart.products){
+                    total += product.quantity * product.price
+                }
+                return total
+            } else {
+                return 0
+            }
         },
 
         getCartProductsCount(state) {
-            return state.cartProductsQuantity;
+            if(!state.userIsAuth) return 0
+            
+            let total = 0
+            for (const product of state.user.cart.products){
+                total += product.quantity
+            }
+
+            return total
         },
 
         getCartPositionCount(state) {
-            return state.cart.length;
+            if (!state.userIsAuth) return 0
+
+            return state.user.cart.products.length;
         },
         getProductQuantity(state, id) {
-            const productIndex = state.cart.findIndex((index) => index.id === id);
-            return state.cart[productIndex].quantity;
+            if (state.user.cart.products > 0) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+                return state.user.cart.products[productIndex].quantity;
+            } else {
+                return 0
+            }
+            
         },
         getProductInCart(state, id) {
-            const productIndex = state.cart.findIndex((index) => index.id === id);
-            return state.cart[productIndex];
-        },
-        getTotalProductQuantity(state) {
-            let total = 0
-            for (let product of state.cart) {
-                total += product.quantity
-            }
-            return total
-        },
-        getTotalProductsAmount(state) {
-            let total = 0
-            for (let product of state.cart) {
-                total += product.quantity * product.price
-            }
-            return total
+            const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+            return state.user.cart.products[productIndex];
         },
 
         isUserLogin(state) {
@@ -87,12 +91,12 @@ export default createStore({
         },
 
         addProductToCart(state, product) {
-            const productIndex = state.cart.findIndex((index) => index.id === product.id);
+            const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
             if (productIndex >= 0) {
-                state.cart[productIndex].quantity += 1;
-                state.cartProductsQuantity += 1;
-                state.cartProductsTotal += state.cart[productIndex].quantity * product.price;
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                state.user.cart.products[productIndex].quantity += 1;
+                state.user.cart.cartProductsQuantity += 1;
+                state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.price;
+                localStorage.setItem('user', JSON.stringify(state.user))
             } else {
                 const newCartItem = {
                     id: product.id,
@@ -111,43 +115,47 @@ export default createStore({
                     catalog: product.catalog,
                     tags: product.tags
                 };
-                state.cart.push(newCartItem);
-                state.cartProductsQuantity += 1;
-                state.cartProductsTotal += 1 * product.price;
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                state.user.cart.products.push(newCartItem);
+                localStorage.setItem('user', JSON.stringify(state.user))
             }
         },
         removeProductFromCart(state, product) {
-            const productIndex = state.cart.findIndex((index) => index.id === product.id);
-            state.cart.splice(productIndex, 1);
-            state.cartProductsQuantity -= 1;
-            state.cartProductsTotal -= Number(state.cartProductsTotal - product.price)
+            const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+            state.user.cart.products.splice(productIndex, 1);
+            localStorage.setItem('user', JSON.stringify(state.user))
         },
 
         addOne(state, id) {
-            const productIndex = state.cart.findIndex((index) => index.id === id);
-            state.cart[productIndex].quantity += 1;
-            state.cartProductsQuantity += 1;
-            state.cartProductsTotal += Number(state.cart[productIndex].price)
-            localStorage.setItem('cart', JSON.stringify(state.cart))
+            const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+            state.user.cart.products[productIndex].quantity += 1;
+            localStorage.setItem('user', JSON.stringify(state.user))
         },
 
         subOne(state, id) {
-            const productIndex = state.cart.findIndex((index) => index.id === id);
-            if (state.cart[productIndex].quantity > 1)
+            const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+            if (state.user.cart.products[productIndex].quantity > 1)
             {
-                state.cart[productIndex].quantity -= 1;
-                state.cartProductsQuantity -= 1;
-                state.cartProductsTotal -= state.cart[productIndex].price
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                state.user.cart.products[productIndex].quantity -= 1;
+                localStorage.setItem('user', JSON.stringify(state.user))
             }
             
         },
 
         deleteProductFromCart(state, id) {
-            const productIndex = state.cart.findIndex((index) => index.id === id);
-            state.cart.splice(productIndex, 1)
-            localStorage.setItem('cart', JSON.stringify(state.cart))
+            const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+            state.user.cart.products.splice(productIndex, 1)
+            localStorage.setItem('user', JSON.stringify(state.user))
+        },
+
+        deleteProductsFromCart(state, products){
+
+            for (const product in products) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+                state.user.cart.products.splice(productIndex, 1)
+            }
+            localStorage.setItem('user', JSON.stringify(state.user))
+
+
         },
 
         setUser(state, user) {
@@ -160,14 +168,15 @@ export default createStore({
             state.user = {}
             state.userIsAuth = false
             localStorage.removeItem('user')
-            localStorage.removeItem('cart')
         },
         setUserState(state, flag){
             state.userIsAuth = flag
         },
         clearCart(state) {
-            state.cart = []
-            localStorage.setItem('cart', [])
+            state.user.cart.products = []
+            state.user.cart.cartProductsQuantity = 0
+            state.user.cart.cartProductsTotal = 0
+            localStorage.setItem('user', state.user)
         },
         like(state, product_id){
             state.user.likes.push(product_id)
