@@ -46,7 +46,7 @@
                     <div v-for="item in $store.state.cart">
                         <div>{{ item.name }} - {{ item.quantity }} Шт. = {{ item.quantity * item.price }} Руб.</div>
                     </div>
-                    <div>На сумму: {{ $store.getters.getTotalProductsAmount }} Руб.</div>
+                    <div>На сумму: {{ $store.getters.getCartTotal }} Руб.</div>
                     <div><button type="button" class="btn btn-success" @click="sendOrder">Оформить</button></div>
                 </div>
             </div>

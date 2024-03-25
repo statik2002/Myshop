@@ -73,9 +73,13 @@ class CatalogSerializer(serializers.ModelSerializer):
 
 
 class ProductInCartSerializer(serializers.ModelSerializer):
+
+    product_image = ProductImageSerializer(many=True, read_only=True, required=False)
+
     class Meta:
         model = ProductInCart
-        fields = '__all__'
+        fields = ('product', 'quantity', 'fixed_price', 'cart', 'product_image')
+
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -85,6 +89,7 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = '__all__'
+
 
 
 class CustomerSerializer(serializers.ModelSerializer):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
-from main.models import Cart, Customer, Catalog, Order, OrderStatus, Product, ProductInOrder, ProductRating, Tag, ProductProperty, ProductImage
+from main.models import Cart, Customer, Catalog, Order, OrderStatus, Product, ProductInCart, ProductInOrder, ProductRating, Tag, ProductProperty, ProductImage
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -72,6 +72,10 @@ class OrderStatusAdmin(admin.ModelAdmin):
     list_display = ('id', 'status')
 
 
+class ProductsInCartAdmin(admin.StackedInline):
+    model = ProductInCart
+    extra = 0
+
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    pass
+    inlines = [ProductsInCartAdmin]

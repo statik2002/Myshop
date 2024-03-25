@@ -164,7 +164,7 @@ export default createStore({
             state.userIsAuth = true
         },
 
-        logoutUser(state) {
+        logoutUser(state,actions) {
             state.user = {}
             state.userIsAuth = false
             localStorage.removeItem('user')
@@ -223,15 +223,24 @@ export default createStore({
         },
 
         saveUserCartToServer({state}) {
-            let cart = JSON.parse(localStorage.getItem('cart'))
-            console.log({'customer': state.user.id,  'cart': cart})
+            const cart = state.user.cart
+            console.log(JSON.stringify(cart))
+            let cart_products = []
+            for (const key in state.user.cart.products){
+                cart_products.push({
+                    'product': state.user.cart.products[key].id,
+                    'quantity': state.user.cart.products[key].quantity,
+                    'fixed_price': state.user.cart.products[key].price,
+                    'cart': cart.id
+                })
+            }
             try {
                 axios(
                   {
-                    url: `http://127.0.0.1:8000/api/v1/carts/`,
-                    method: 'post',
+                    url: `http://127.0.0.1:8000/api/v1/carts/${cart.id}/`,
+                    method: 'put',
                     headers: {'Authorization': `Bearer ${state.user.access}`},
-                    data: JSON.stringify({'customer': state.user.id,  'cart': cart})
+                    data: cart_products
                   }
                 ).then((response) => {
                   console.log(response.data)

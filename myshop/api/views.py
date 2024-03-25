@@ -13,7 +13,7 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
+from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
 from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product, ProductInCart, ProductInOrder
 from main.email_functional import send_mail
 from django.http import JsonResponse
@@ -146,9 +146,19 @@ class CartsViewSet(viewsets.ModelViewSet):
     """    
 
     permission_classes = (IsAuthenticated,)
-    queryset = Cart.objects.all()
+    queryset = Cart.objects.all().prefetch_related('products')
     serializer_class = CartSerializer
 
+    def update(self, request, pk=None):
+        cart = Cart.objects.get(pk=pk)
+        products_in_cart = ProductInCart.objects.filter(cart=cart).delete()
+        products_in_cart = ProductInCartSerializer(data=request.data, many=True)
+        if products_in_cart.is_valid():
+            products_in_cart.save()
+            return Response(products_in_cart.data, status=status.HTTP_200_OK)    
+        else:
+            return Response(products_in_cart.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class CustomersViewSet(viewsets.ModelViewSet):
 
