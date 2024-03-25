@@ -276,6 +276,7 @@ import router from '@/router/router'
                           url: `http://127.0.0.1:8000/api/v1/order/get_ready_orders/`,
                           method: 'get',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          timeout: 1000
                         }
                       ).then((response) => {
                             this.ready_orders = response.data
@@ -296,6 +297,7 @@ import router from '@/router/router'
                           url: `http://127.0.0.1:8000/api/v1/order/get_proccessing_orders/`,
                           method: 'get',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          timeout: 1000
                         }
                       ).then((response) => {
                             this.processing_orders = response.data
@@ -317,7 +319,8 @@ import router from '@/router/router'
                           url: `http://127.0.0.1:8000/api/v1/like/get_sliced_liked_products/`,
                           method: 'post',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                          data: likedProducts
+                          data: likedProducts,
+                          timeout: 1000
                         }
                       ).then((response) => {
                             this.likedProducts=response.data

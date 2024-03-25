@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'main.apps.MainConfig',
     'cart.apps.CartConfig',
+    'guard.apps.GuardConfig',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'myshop.custommiddleware.stat_middleware',
+    'guard.middleware.GuardMiddleware'
 ]
 
 ROOT_URLCONF = 'myshop.urls'
@@ -94,6 +96,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        "timeout": 20,
     }
 }
 
