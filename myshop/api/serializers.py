@@ -41,6 +41,7 @@ class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(many=True, read_only=True)
     his_rating = ProductRatingSerializer(many=True, read_only=True)
     properties = ProductPropertySerializer(many=True, read_only=True)
+    id = serializers.IntegerField()
 
     class Meta:
         model = Product
@@ -74,12 +75,22 @@ class CatalogSerializer(serializers.ModelSerializer):
 
 class ProductInCartSerializer(serializers.ModelSerializer):
 
-    product_image = ProductImageSerializer(many=True, read_only=True, required=False)
+    product = ProductSerializer()
 
     class Meta:
         model = ProductInCart
-        fields = ('product', 'quantity', 'fixed_price', 'cart', 'product_image')
+        fields = '__all__'
 
+    def create(self, validated_data):
+        product = Product.objects.get(pk=validated_data.get('product').get('id'))
+        product_in_cart = ProductInCart.objects.create(
+            product = product,
+            quantity = validated_data.get('quantity'),
+            fixed_price = validated_data.get('fixed_price'),
+            cart = validated_data.get('cart')
+        )
+        product_in_cart.save()
+        return product_in_cart
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -89,7 +100,6 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = '__all__'
-
 
 
 class CustomerSerializer(serializers.ModelSerializer):

@@ -115,7 +115,6 @@ class InitialUploadProducts(viewsets.ModelViewSet):
         for product in request.data:
             serialized_product = ProductInitialSerializer(data=product)
             if serialized_product.is_valid():
-                print(product.get('catalog'))
                 catalog = Catalog.objects.get(code_1c=product.get('catalog'))
                 obj, created = Product.objects.update_or_create(
                     code_1c=serialized_product.data.get('code_1c'),
@@ -151,13 +150,13 @@ class CartsViewSet(viewsets.ModelViewSet):
 
     def update(self, request, pk=None):
         cart = Cart.objects.get(pk=pk)
-        products_in_cart = ProductInCart.objects.filter(cart=cart).delete()
-        products_in_cart = ProductInCartSerializer(data=request.data, many=True)
-        if products_in_cart.is_valid():
-            products_in_cart.save()
-            return Response(products_in_cart.data, status=status.HTTP_200_OK)    
-        else:
-            return Response(products_in_cart.errors, status=status.HTTP_400_BAD_REQUEST)
+        ProductInCart.objects.filter(cart=cart).delete()
+        products_serializsed = ProductInCartSerializer(data=request.data.get('products'), many=True)
+        if products_serializsed.is_valid():
+            products_serializsed.save()
+            return Response('ok', status=status.HTTP_200_OK)
+        else: 
+            return Response(products_serializsed.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
 class CustomersViewSet(viewsets.ModelViewSet):
@@ -205,15 +204,6 @@ class CustomersViewSet(viewsets.ModelViewSet):
             refresh_token = RefreshToken.for_user(customer)
             upended_data['access'] = str(refresh_token.access_token)
             upended_data['refresh'] = str(refresh_token)
-            try:
-                cart = Cart.objects.get(customer=customer)
-            except ObjectDoesNotExist:
-                cart = Cart.objects.create(customer=customer)
-            cart_serialize = CartSerializer(data=cart)
-            if cart_serialize.is_valid():
-                upended_data['cart'] = cart_serialize.data
-            else:
-                print(cart_serialize.errors)
 
             return Response(upended_data, status=status.HTTP_200_OK)
 
@@ -315,7 +305,11 @@ class GetTokenViewSet(viewsets.ModelViewSet):
     @action(methods=['post'], detail=False)
     def login(self, request):
         #user = authenticate(phone_number=request.data.get('phone_number'), password=request.data.get('password'))
-        user = Customer.objects.get(phone_number=request.data.get('phone_number'))
+        user = None
+        try:
+            user = Customer.objects.get(phone_number=request.data.get('phone_number'))
+        except ObjectDoesNotExist:
+            return Response({'error': 'wrong tel or password'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.is_active:
             return Response({'error': 'User is not active! Activate account from email.'}, status=status.HTTP_401_UNAUTHORIZED)

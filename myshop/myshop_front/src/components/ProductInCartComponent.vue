@@ -1,15 +1,15 @@
 <template>
-    <div class="row p-2 cart-product widget" :id="id">
+    <div class="row p-2 cart-product widget" :id="cart_product.id">
         <div class="col pe-5">
             <div class="row">
-                <div class="col-auto" v-if="product_images.length > 0">
-                    <img class="" :src="product_images[0].image" :alt="product_images[0].alt" style="max-height: 100px; width: auto;">
+                <div class="col-auto" v-if="cart_product.product.product_images.length > 0">
+                    <img class="" :src="cart_product.product.product_images[0].image" :alt="cart_product.product.product_images[0].alt" style="max-height: 100px; width: auto;">
                 </div>
                 <div class="col-auto" v-else>
                     <img class="" src="@/assets/no_image.png" alt="no image" style="max-height: 100px; width: auto;">
                 </div>
                 <div class="col">
-                    <div class="col product-description">{{name}}</div>
+                    <div class="col product-description">{{cart_product.product.name}}</div>
                 </div>
             </div>
         </div>
@@ -18,12 +18,12 @@
                 <div class="col-auto">
                     <div class="d-flex gap-3 h-100">
                         <div>
-                            {{price}}
+                            {{cart_product.fixed_price}}
                         </div>
                         <div class="d-flex align-items-start pe-5">
                         <div class="d-flex gap-2 align-items-center">
                             <a href="#" class="minus-button" @click="sub"><i class="bi bi-dash-square fs-3 text-dark"></i></a>
-                            <div class="px-1 input-wrapper"><input size="2" type="text" :name="id" class="quantity" disabled :value="quantity" maxlength="2" min="1"></div>
+                            <div class="px-1 input-wrapper"><input size="2" type="text" :name="cart_product.id" class="quantity" disabled :value="cart_product.quantity" maxlength="2" min="1"></div>
                             <a href="#" class="plus-button" @click="add"><i class="bi bi-plus-square fs-3 text-dark"></i></a>
                         </div>
                         </div>
@@ -34,7 +34,7 @@
                         <div class="">
                             <div class="d-flex gap-3 ms-auto cart-product-icons align-items-start">
                             <button v-if="$store.state.userIsAuth" type="button" class="btn btn-success btn-light" @click="checkOut"><i class="bi bi-cart-check"></i></button>
-                            <button type="button" class="btn btn-success btn-light" @click="$store.commit('deleteProductFromCart', id)"><i class="bi bi-trash3"></i></button>
+                            <button type="button" class="btn btn-success btn-light" @click="$store.commit('deleteProductFromCart', cart_product.id)"><i class="bi bi-trash3"></i></button>
                             </div>
                         </div>
                         </div>
@@ -61,39 +61,28 @@
             }
         },
         props: {
-            id: Number,
-            name: String,
-            product_images: Array,
-            description: String,
-            available: Boolean,
-            slug: String,
-            rating: String,
-            show_count: Number,
-            create_date: String,
-            price: String,
-            discount: String,
-            code_1c: Number,
-            quantity: Number,
-            catalog: Number,
-            tags: Array
+            cart_product: {
+                type: Object,
+                required: true
+            }
         },
         computed: {
             total() {
-                return (this.price * this.quantity).toFixed(2);
+                return (this.cart_product.fixed_price * this.cart_product.quantity).toFixed(2);
             }
         },
         methods: {
             add() {
-                this.$store.commit('addOne', this.id)
+                this.$store.commit('addOne', this.cart_product.id)
             },
             sub() {
-                this.$store.commit('subOne', this.id)
+                this.$store.commit('subOne', this.cart_product.id)
             },
             checkOut() {
                const order_product = [{
-                'product': this.id,
-                'quantity': this.quantity,
-                'fixed_price': this.price
+                'product': this.cart_product.id,
+                'quantity': this.cart_product.quantity,
+                'fixed_price': this.cart_product.fixed_price
                }]
 
                const order = {
@@ -127,7 +116,7 @@
                }
             },
             deleteItemFromCart() {
-                this.$store.commit('deleteProductFromCart', this.id)
+                this.$store.commit('deleteProductFromCart', this.cart_product.id)
                 this.dialogMessageShow = false
             }
         },

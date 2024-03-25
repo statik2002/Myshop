@@ -19,7 +19,7 @@ export default createStore({
             let total = 0
             if (state.user.cart.products.length > 0){
                 for(const product of state.user.cart.products){
-                    total += product.quantity * product.price
+                    total += product.quantity * product.fixed_price
                 }
                 return total
             } else {
@@ -100,20 +100,10 @@ export default createStore({
             } else {
                 const newCartItem = {
                     id: product.id,
-                    name: product.name,
-                    product_images: product.product_images,
-                    description: product.description,
-                    available: product.available,
-                    slug: product.slug,
-                    rating: product.rating,
-                    show_count: product.show_count,
-                    create_date: product.create_date,
-                    price: product.price,
-                    discount: product.discount,
-                    code_1c: product.code_1c,
+                    product: product,
                     quantity: 1,
-                    catalog: product.catalog,
-                    tags: product.tags
+                    fixed_price: product.price,
+                    cart: state.user.cart.id
                 };
                 state.user.cart.products.push(newCartItem);
                 localStorage.setItem('user', JSON.stringify(state.user))
@@ -218,20 +208,18 @@ export default createStore({
 
     actions: {
         updatePhone({commit, state}, tel) {
-            console.log(tel)
             commit('setUserPhone', tel)
         },
 
         saveUserCartToServer({state}) {
             const cart = state.user.cart
-            console.log(JSON.stringify(cart))
             let cart_products = []
             for (const key in state.user.cart.products){
                 cart_products.push({
-                    'product': state.user.cart.products[key].id,
+                    'product': state.user.cart.products[key],
                     'quantity': state.user.cart.products[key].quantity,
-                    'fixed_price': state.user.cart.products[key].price,
-                    'cart': cart.id
+                    'fixed_price': state.user.cart.products[key].fixed_price,
+                    'cart': cart.id,
                 })
             }
             try {
@@ -240,10 +228,11 @@ export default createStore({
                     url: `http://127.0.0.1:8000/api/v1/carts/${cart.id}/`,
                     method: 'put',
                     headers: {'Authorization': `Bearer ${state.user.access}`},
-                    data: cart_products
+                    data: cart
                   }
                 ).then((response) => {
-                  console.log(response.data)
+                  //console.log(response.data)
+                  return
                   })
             } catch(e) {
                 console.log(`Connection error: ${e}`);

@@ -96,7 +96,6 @@
                         }
                     )
                     .then((response) => {
-                        console.log(response.data)
                         //this.$store.commit('setUser2', response.data)
                         this.$store.commit('setUser', response.data)
                         //useStorage('user', JSON.stringify({'access_token': response.data.access}))

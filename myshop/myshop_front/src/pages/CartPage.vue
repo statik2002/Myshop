@@ -2,23 +2,9 @@
     <header-component></header-component>
     <div class="container-lg pt-5">
         <div class="mb-5" v-if="!$store.state.userIsAuth">Необходимо зарегистрироваться или войти в аккаунт что бы оформить заказ</div>
-        <div class="d-flex flex-column gap-3">
+        <div class="d-flex flex-column gap-3" v-else>
             <cart-card v-for="cartItem in productsInCart"
-                :name='cartItem.name'
-                :description='cartItem.description'
-                :id='cartItem.id'
-                :product_images='cartItem.product_images'
-                :available='cartItem.available'
-                :slug='cartItem.slug'
-                :rating='cartItem.rating'
-                :show_count='cartItem.show_count'
-                :create_date='cartItem.create_date'
-                :price='cartItem.price'
-                :discount='cartItem.price'
-                :code_1c='cartItem.code_1c'
-                :quantity='cartItem.quantity'
-                :catalog='cartItem.catalog'
-                :tags="cartItem.tags">
+                :cart_product="cartItem">
             </cart-card>
             <div class="row p-3 cart-product widget">
                 <div class="d-flex justify-content-between">
@@ -88,7 +74,7 @@
                     order_products.push({
                         'product': this.$store.state.user.cart.products[key].id,
                         'quantity': this.$store.state.user.cart.products[key].quantity,
-                        'fixed_price': this.$store.state.user.cart.products[key].price,
+                        'fixed_price': this.$store.state.user.cart.products[key].fixed_price,
                     })
                 }
                 //console.log(JSON.stringify(order_products))
