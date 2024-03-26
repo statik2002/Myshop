@@ -272,7 +272,7 @@
         <div class="tab-content mx-0" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="mt-3 d-flex flex-row gap-2">
-                <div class="card mx-0 rounded-3" v-for="feedback in product.product_feedbacks">
+                <div class="card mx-0 rounded-3" v-for="feedback in product.product_feedbacks" v-if="product.product_feedbacks.length > 0">
                   <div class="card-body">
                       <div class="row">
                         <div class="col-auto">
@@ -289,6 +289,9 @@
                       </div>
                     <p class="card-text mt-3">{{ feedback.summary }}</p>
                   </div>
+                </div>
+                <div v-else>
+                  Отзывов нет
                 </div>
             </div>
           </div>
