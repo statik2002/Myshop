@@ -12,7 +12,7 @@
         <div class="col-12 px-3">
           <div class="d-flex text-secondary justify-content-start p-1">
             <div class="product-stars">
-              <i class="bi bi-star-fill star"></i>
+              <i class="bi bi-star-fill star">{{ product.rating }}</i>
               {{ product.his_rating[0].value }}
             </div>
             <div class="product-stars ps-1">
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="row mt-5 d-flex">
+      <div class="row mt-5 d-flex" v-if="isProductLoading">
         <!--Carousel-->
         <div class="col-sm-6 col-lg-4 col-md-6">
           <div id="carouselFade" class="carousel slide carousel-fade">
@@ -271,68 +271,23 @@
         </ul>
         <div class="tab-content mx-0" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <div class="mt-3 d-flex gap-2">
-                <div class="card mx-0 rounded-3" style="width: 800px;">
+            <div class="mt-3 d-flex flex-row gap-2">
+                <div class="card mx-0 rounded-3" v-for="feedback in product.product_feedbacks">
                   <div class="card-body">
                       <div class="row">
                         <div class="col-auto">
                           <img src="..." alt="" height="40">
                         </div>
                         <div class="col">
-                          <div class="row">Василий</div>
-                          <div class="row datetime">11 ноября 2023г. 23:15</div>
+                          <div class="row">{{ feedback.customer.first_name }} {{ feedback.customer.last_name }}</div>
+                          <div class="row">{{ feedback.customer.phone_number }}</div>
+                          <div class="row datetime">{{ formatDate(feedback.post_at) }}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star-no"></i>
+                            <rating-component :rating="feedback.rating"></rating-component>
                         </div>
                       </div>
-                    <p class="card-text mt-3">Краска отличная но не дотягивает до Тикуриллы. За эти деньги вполне отличная краска.</p>
-                  </div>
-                </div>
-                <div class="card mx-0 rounded-3" style="width: 800px;">
-                  <div class="card-body">
-                      <div class="row">
-                        <div class="col-auto">
-                          <img src="..." alt="" height="40">
-                        </div>
-                        <div class="col">
-                          <div class="row">Василий</div>
-                          <div class="row datetime">11 ноября 2023г. 23:15</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star-no"></i>
-                        </div>
-                      </div>
-                    <p class="card-text mt-3">Краска отличная но не дотягивает до Тикуриллы. За эти деньги вполне отличная краска.</p>
-                  </div>
-                </div>
-                <div class="card mx-0 rounded-3" style="width: 800px;">
-                  <div class="card-body">
-                      <div class="row">
-                        <div class="col-auto">
-                          <img src="..." alt="" height="40">
-                        </div>
-                        <div class="col">
-                          <div class="row">Василий</div>
-                          <div class="row datetime">11 ноября 2023г. 23:15</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star"></i>
-                            <i class="bi bi-star-fill star-no"></i>
-                        </div>
-                      </div>
-                    <p class="card-text mt-3">Краска отличная но не дотягивает до Тикуриллы. За эти деньги вполне отличная краска.</p>
+                    <p class="card-text mt-3">{{ feedback.summary }}</p>
                   </div>
                 </div>
             </div>
@@ -577,7 +532,16 @@
               //this.uploadProductEdit()
               //console.log(this.product)
               this.editProductModal = true
-            }
+            },
+            formatDate(date){
+                date = new Date(date)
+                let year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(date);
+                let month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(date);
+                let day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(date);
+                let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
+                let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
+                return `${day} ${month} ${year} ${hour}:${minute}`
+            },
         },
         mounted() {
             this.routeParamId = this.$route.params.id;

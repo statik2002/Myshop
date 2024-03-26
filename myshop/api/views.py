@@ -13,8 +13,8 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Order, Product, ProductInCart, ProductInOrder
+from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, Order, Product, ProductInCart, ProductInOrder
 from main.email_functional import send_mail
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -23,6 +23,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import authenticate
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Prefetch
 
 from myshop.settings import USER_BAN_HOURS
 
@@ -42,7 +43,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             JSON: {product}    
     """
     permission_classes = (AllowAny,)
-    queryset = Product.objects.filter(quantity__gt=0).order_by('?')
+    queryset = Product.objects.filter(quantity__gt=0).prefetch_related(Prefetch('product_feedbacks', queryset=Feedback.objects.filter(is_show=True))).order_by('?')
     serializer_class = ProductSerializer
 
     def retrieve(self, request, pk):
@@ -358,8 +359,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         order = None
         try:
             user = request.user
-            order = Order.objects.create(customer=user)
-            for item in request.data.get('order_products'):               
+            for item in request.data.get('order_products'): 
+                order = Order.objects.create(customer=user)              
                 item['order']=order.pk
                 item_serialized = CreateOrderProductSerializer(data=item)
                 if item_serialized.is_valid():
@@ -471,3 +472,27 @@ class Likes(viewsets.ViewSet):
         liked_products = Product.objects.filter(pk__in=request.data)
         return Response(ProductSerializer(liked_products, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
     
+
+class FeedbackViewSet(viewsets.ModelViewSet):
+    
+    """
+        *** Get all published Feedbacks ***
+        - GET: /api/v1/feedbacks/
+        - Premissions: AllowAny
+
+        *** Send feedback ***
+        - POST: /api/v1/feedbacks/
+        - Permissions: IsAuthenticated
+
+    """
+
+    queryset = Feedback.objects.filter(is_show=True)
+    serializer_class = FeedbackSerializer
+
+    def get_permissions(self):
+        if self.action in ['update', 'create']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]

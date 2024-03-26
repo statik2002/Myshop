@@ -1,19 +1,21 @@
 <template>
-    <header-component/>
-        <div class="container-xl pt-3">
-            <ProductsList 
-                :products="products"
-                v-if="isProductsLoading"
+    <header-component></header-component>
+    <div class="container-xl pt-3">
+        <div v-if="isProductsLoading">
+            <ProductsList
+            :products="products"
+            v-if="products.length > 0"
             />
-            <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-                <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-            <div ref="observer" class="observer"></div>
+            <div v-else>Товаров с заросом [{{ $route.params.query }}] не найдено!</div>
         </div>
-        <scroll-to-top></scroll-to-top>
-    <footer-component/>
+        <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+            <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div ref="observer" class="observer"></div>
+    </div>
+    <footer-component></footer-component>
 </template>
 
 <script>
@@ -31,10 +33,11 @@
                 productsLimit: 30,
                 productsTotalPages: 0,
                 productsOffest: -30,
+                query: this.$route.params.query
             }
         },
         methods: {
-            async uploadProducts() {
+            async uploadProducts(query) {
                 try {
                     this.productsPage += 1;
                     this.productsOffest += this.productsLimit;
@@ -43,26 +46,38 @@
                         {
                             method: 'POST',
                             headers: {'Content-Type': 'application/json;charset=utf-8'},
-                            body: JSON.stringify({query: this.$route.params.query})
+                            body: JSON.stringify({query: query})
                         }
                     );
                     if (response.ok) {
                         let products = await response.json();
                         this.products = [...this.products, ...products.results];
                         this.productsTotalPages = Math.ceil(products.count / this.productsLimit);
+                        this.isProductsLoading=true;
                     } else {
                         alert('Error get products');
                     }
                 } catch(e) {
-                    alert('Connection error');
+                    console.log(e)
                 }
                 finally {
                     this.isProductsLoading=true;
                 }
             }
         },
+        watch: {
+            $route (to, from) {
+                this.isProductsLoading=false
+                this.products = []
+                this.productsPage = 0
+                this.productsLimit = 30,
+                this.productsTotalPages = 0,
+                this.productsOffest = -30,
+                this.uploadProducts(to.params.query)
+            }
+        },
         mounted() {
-            this.uploadProducts()
+            this.uploadProducts(this.$route.params.query)
             const options = {
                 rootMargin: '0px',
                 thresold: 1.0

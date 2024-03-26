@@ -3,6 +3,7 @@
     <div class="container py-3">
         <div class="d-flex flex-column gap-2" v-if="isLoad">
             <div>ID: {{ order.id }}</div>
+            <div>Product ID: {{ order.order_products[0].product.id }}</div>
             <div>Date: {{ order.order_create }}</div>
             <div>Status: {{ order.order_status.status }}</div>
             <div>Total: {{ order.total_amount }} Руб.</div>
@@ -16,10 +17,15 @@
                     <div>{{ order_product.fixed_price }} Руб. </div>
                     <div>{{ order_product.quantity }} Шт.</div>
                 </div>
-                
+            </div>
+            <div v-if="order.order_status.id==6">
+                <button class="btn btn-success" @click="feedback">Оставить отзыв</button>
             </div>
         </div>
     </div>
+    <modal-component v-model:show="feedbackModalVisible">
+        <feedback-form v-model:show="feedbackModalVisible" :product_id="order.order_products[0].product.id"></feedback-form>
+    </modal-component>
     <FooterComponent></FooterComponent>
 </template>
 
@@ -34,7 +40,8 @@
             return {
                 orderId: 0,
                 order: {},
-                isLoad: false
+                isLoad: false,
+                feedbackModalVisible: false
             }
         },
         methods: {
@@ -71,6 +78,10 @@
                 let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
                 return `${day} ${month} ${year} ${hour}:${minute}`
             },
+
+            feedback() {
+                this.feedbackModalVisible = true
+            }
         },
         mounted() {
             this.orderId = this.$route.params.id

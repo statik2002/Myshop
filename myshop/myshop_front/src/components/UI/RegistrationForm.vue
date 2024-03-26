@@ -27,7 +27,7 @@
                         type="tel"
                         @input="inputPhone"
                         class="form-control"
-                        autocomplete="tel-area-code"
+                        autocomplete="tel-national"
                         id="phoneInput"
                         value=""
                         v-mask="['(+7) ###-###-##-##']">
@@ -47,6 +47,22 @@
                 </div>
                 <div class="col-sm-9">
                 <input v-bind:value="confirmPassword" @input="inputPasswordConfirm" type="password" autocomplete="new-password" class="form-control" id="inputPasswordConfirm">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-3">
+                    <label for="inputFirstName" class="col-sm-2 form-label">Имя</label>
+                </div>
+                <div class="col-sm-9">
+                    <input v-bind:value="firstName" @input="inputFirstName" type="text" autocomplete="given-name" class="form-control" id="inputFirstName">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-sm-3">
+                    <label for="inputLastName" class="col-sm-2 form-label">Фамилия</label>
+                </div>
+                <div class="col-sm-9">
+                    <input v-bind:value="lastName" @input="inputLastName" type="text" autocomplete="family-name" class="form-control" id="inputLastName">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -83,6 +99,8 @@
             password: '',
             confirmPassword: '',
             email: '',
+            firstName: '',
+            lastName: '',
             messages: []
         };
     },
@@ -99,6 +117,12 @@
         inputPasswordConfirm(event) {
             this.confirmPassword = event.target.value;
         },
+        inputFirstName(event) {
+            this.firstName = event.target.value;
+        },
+        inputLastName(event) {
+            this.lastName = event.target.value;
+        },
         registerUser() {
             this.messages = []
             if (this.phone.length < 12) {
@@ -113,12 +137,26 @@
                 this.messages.push({'field': 'Email', 'error': 'Не правильный email!'})
                 return
             }
+            if (this.firstName.length < 2) {
+                this.messages.push({'field': 'Имя', 'error': 'Введите ваше имя!'})
+                return
+            }
+            if (this.lastName.length < 2) {
+                this.messages.push({'field': 'Фамилия', 'error': 'Введите вашу фамилию!'})
+                return
+            }
             if (this.password === this.confirmPassword){
                 axios({
                     method: 'post',
                     url: 'http://127.0.0.1:8000/api/v1/customers/',
                     headers: { 'Content-Type': 'application/json;charset=utf-8' },
-                    data: JSON.stringify({ 'phone_number': this.phone, 'password': this.password, 'email': this.email })
+                    data: JSON.stringify({
+                        'phone_number': this.phone, 
+                        'password': this.password, 
+                        'email': this.email,
+                        'first_name': this.firstName,
+                        'last_name': this.lastName
+                    })
                 })
                 .then((response) => {
                     this.$emit('update:show', false);

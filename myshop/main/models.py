@@ -59,7 +59,7 @@ class Customer(AbstractBaseUser):
     objects = CustomerManager()
 
     def __str__(self) -> str:
-        return f'{self.first_name} {self.last_name} : {self.phone_number}'
+        return f'{self.first_name} {self.last_name} : {self.phone_number} : {self.email}'
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -292,3 +292,22 @@ class Order(models.Model):
         for product in products:
             total += product.quantity * product.fixed_price
         return total
+
+
+class Feedback(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_feedbacks', verbose_name='Товар')
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='customer_feedbacks', verbose_name='Покупатель')
+    post_at = models.DateTimeField(default=timezone.now, verbose_name='Дата отзыва')
+    positive = models.TextField(verbose_name='Положительные моменты', blank=True, null=True)
+    negative = models.TextField(verbose_name='Отрицательные моменты', blank=True, null=True)
+    summary = models.TextField(verbose_name='Общий отзыв')
+    rating = models.SmallIntegerField(verbose_name='Рейтинг')
+
+    is_show = models.BooleanField(verbose_name='Отображается', default=False)
+
+    class Meta:
+        verbose_name='Отзыв'
+        verbose_name_plural='Отзывы'
+
+    def __str__(self) -> str:
+        return f'Отзыв пользователя: {self.customer.phone_number}, Дата: {self.post_at}, Рейтинг: {self.rating}, Показ: {self.is_show}'

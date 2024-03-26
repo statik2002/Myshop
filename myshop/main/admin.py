@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
-from main.models import Cart, Customer, Catalog, Order, OrderStatus, Product, ProductInCart, ProductInOrder, ProductRating, Tag, ProductProperty, ProductImage
+from main.models import (
+        Cart, Customer, Catalog, Feedback, Order, OrderStatus, Product, 
+        ProductInCart, ProductInOrder, ProductRating, Tag, ProductProperty, 
+        ProductImage
+    )
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -10,7 +14,7 @@ class LikedProductsInline(admin.StackedInline):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'phone_number', 'login_fail_counter', 'ban_status')
+    list_display = ('id', 'phone_number', 'first_name', 'last_name', 'login_fail_counter', 'ban_status')
     readonly_fields = ('id',)
     raw_id_fields = ('likes', )
 
@@ -79,3 +83,10 @@ class ProductsInCartAdmin(admin.StackedInline):
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     inlines = [ProductsInCartAdmin]
+
+
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'customer', 'post_at', 'rating', 'is_show')
+    readonly_fields = ('product', )
+    list_editable = ('is_show',)

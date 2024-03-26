@@ -7,6 +7,8 @@ import OrderItemComponent from '@/components/UI/OrderItemComponent.vue'
 import UserEditFormComponent from '@/components/UI/UserEditFormComponent.vue'
 import UploadAvatarForm from '@/components/UI/uploadAvatarForm.vue'
 import ScrollToTopComponent from '@/components/UI/ScrollToTopComponent.vue'
+import FeedbackFormComponent from '@/components/UI/FeedbackFormComponent.vue'
+import RatingComponent from '@/components/UI/RatingComponent.vue'
 
 export default [
     ModalComponent,
@@ -18,4 +20,6 @@ export default [
     UserEditFormComponent,
     UploadAvatarForm,
     ScrollToTopComponent,
+    FeedbackFormComponent,
+    RatingComponent
 ]

@@ -15,7 +15,7 @@
                         type="tel"
                         @input="inputPhone"
                         class="form-control"
-                        autocomplete="tel-area-code"
+                        autocomplete="tel-national"
                         id="phone"
                         :value=phoneNumber
                         v-mask="['(+7) ###-###-##-##']">
@@ -26,7 +26,7 @@
                     <label for="inputFirstName" class="col-sm-2 form-label">Имя:</label>
                 </div>
                 <div class="col-sm-9">
-                <input v-bind:value="firstName" @input="inputFirstName" type="text" autocomplete="first name" class="form-control" id="inputFirstName">
+                <input v-bind:value="firstName" @input="inputFirstName" type="text" autocomplete="given-name" class="form-control" id="inputFirstName">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -34,7 +34,7 @@
                     <label for="inputLastName" class="col-sm-2 form-label">Фамилия:</label>
                 </div>
                 <div class="col-sm-9">
-                <input v-bind:value="lastName" @input="inputLastName" type="text" autocomplete="last name" class="form-control" id="inputLastName">
+                <input v-bind:value="lastName" @input="inputLastName" type="text" autocomplete="family-name" class="form-control" id="inputLastName">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -42,7 +42,7 @@
                     <label for="inputAddress" class="col-sm-2 form-label">Адрес:</label>
                 </div>
                 <div class="col-sm-9">
-                    <input v-bind:value="address" @input="inputAddress" type="text" autocomplete="address" class="form-control" id="inputAddress">
+                    <input v-bind:value="address" @input="inputAddress" type="text" autocomplete="address-level1" class="form-control" id="inputAddress">
                 </div>
             </div>
             <div class="row d-flex align-items-end">
@@ -91,13 +91,13 @@
                     method: 'post',
                     url: 'http://127.0.0.1:8000/api/v1/customers/customer_update/',
                     headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                    data: JSON.stringify({
+                    data: {
                         'phone_number': this.phoneNumber, 
                         'firstName': this.firstName, 
                         'lastName': this.lastName,
                         'email': this.$store.state.email,
                         'address': this.address
-                    })
+                    }
                 })
                 .then((response) => {
                     if (response.data.response == 'ok') {

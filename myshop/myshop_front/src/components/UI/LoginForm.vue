@@ -19,7 +19,7 @@
                         v-bind:value="phone"
                         @input="inputPhone"
                         class="form-control"
-                        autocomplete="tel-area-code"
+                        autocomplete="tel-national"
                         id="phone"
                         value=""
                         v-mask="['(+7) ###-###-##-##']"

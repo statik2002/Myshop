@@ -8,7 +8,7 @@
         <div class="d-flex flex-column">
             <div class="d-flex flex-column gap-2">
                 <label for="uploadedFile" class="form-label">Выберите файл с аватаркой</label>
-                <input type="file" class="form-control" @change="onFileChanged" id="uploadedFile">
+                <input type="file" class="form-control" @change="onFileChanged" id="uploadedFile" autocomplete="photo">
                 <button type="button" class="btn btn-success mt-3" @click="onUpload">Загрузить</button>
             </div>
         </div>

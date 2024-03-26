@@ -84,7 +84,9 @@
                           class="form-control rounded-9" 
                           placeholder="Нати на сайте MyShop" 
                           value=""
-                          @change="searh">
+                          @change="searh"
+                          @input="searchInput"
+                          >
                     </div>
                 </div>
                 <div class="col-md-auto d-none d-lg-block">
@@ -145,6 +147,9 @@ import UserTab from '@/components/UserTab.vue'
       }
     },
     methods: {
+      searchInput(event){
+        this.searchQuery = event.target.value
+      },
       searh() {
         this.$router.push({name: 'search', params: {query: this.searchQuery}})
       }

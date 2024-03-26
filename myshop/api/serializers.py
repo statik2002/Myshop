@@ -3,8 +3,56 @@ from rest_framework import serializers
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
 
-from main.models import Cart, Catalog, Customer, Order, OrderStatus, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductRating
+from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductRating
 from main.email_functional import send_mail
+from django.db.models import Avg
+
+
+class FeedbackCustomerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = ('id', 'phone_number', 'first_name', 'last_name')
+
+
+class ProductFeedbackSerializer(serializers.ListSerializer):
+    customer = FeedbackCustomerSerializer(read_only=True, required=False)
+    product = serializers.IntegerField()
+    post_at = serializers.DateTimeField()
+    positive = serializers.CharField(max_length=1000)
+    negative = serializers.CharField(max_length=1000)
+    summary = serializers.CharField(max_length=1000)
+    rating = serializers.IntegerField()
+    is_show = serializers.BooleanField()
+    ratingex = serializers.SerializerMethodField()
+
+    def to_representation(self, data):
+        data = data.filter(is_show=True)
+        return super(ProductFeedbackSerializer, self).to_representation(data)
+
+
+class FeedbackSerializer(serializers.ModelSerializer):
+
+    customer = FeedbackCustomerSerializer(read_only=True, required=False)
+
+    class Meta:
+        model = Feedback
+        fields = '__all__'
+
+
+    def create(self, validated_data):
+        if not self.context.get('request').user:
+            return None
+        feedback = Feedback.objects.create(
+            product=validated_data.get('product'),
+            customer=self.context.get('request').user,
+            positive=validated_data.get('positive'),
+            negative=validated_data.get('negative'),
+            summary=validated_data.get('summary'),
+            rating=validated_data.get('rating'),
+        )
+
+        return feedback
 
 
 class ProductPropertySerializer(serializers.ModelSerializer):
@@ -42,10 +90,17 @@ class ProductSerializer(serializers.ModelSerializer):
     his_rating = ProductRatingSerializer(many=True, read_only=True)
     properties = ProductPropertySerializer(many=True, read_only=True)
     id = serializers.IntegerField()
+    product_feedbacks = ProductFeedbackSerializer(child=FeedbackSerializer())
+    rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = '__all__'
+
+    def get_rating(self, obj):
+        feedbacks_avg = Feedback.objects.filter(product=obj).filter(is_show=True).aggregate(Avg('rating', default=0))
+        return feedbacks_avg.get('rating__avg')
+
 
     def update(self, instance, validated_data):
 
@@ -167,8 +222,3 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_total_amount(self, obj) -> decimal:
         return obj.get_total_amount()
-
-
-
-
-
