@@ -156,8 +156,8 @@ class Product(models.Model):
 
 class ProductProperty(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties')
-    color = models.CharField(max_length=50, verbose_name='Color')
-    weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Weight')
+    color = models.CharField(max_length=50, verbose_name='Color', null=True, blank=True)
+    weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Вес кг')
     width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина м')  # 000.00 в см
     height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота м')  # 000.00 в см
     length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна м')  # 000.00 в см

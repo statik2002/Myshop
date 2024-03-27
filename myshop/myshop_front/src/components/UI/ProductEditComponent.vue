@@ -27,7 +27,7 @@
         </div>
         <div class="d-flex flex-row justify-content-between pt-5">
             <button class="btn btn-success" @click="updateProduct">Сохранить</button>
-            <button class="btn btn-success">Галя! У нас отмена</button>
+            <button class="btn btn-success" @click="$emit('update:show', false)">Галя! У нас отмена</button>
         </div>
     </div>
     

@@ -21,46 +21,29 @@
       <div class="row mt-2 d-flex">
         <!--Carousel-->
         <div class="col-sm-6 col-lg-4 col-md-6">
-          <div id="carouselFade" class="carousel slide carousel-fade">
+          <div id="carouselFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner">
-              <div v-for="(image, index) in product.product_images">
+              <div v-for="(image, index) in product.product_images" v-if="product.product_images.length > 0" >
                 <div class="carousel-item active carousel-item-zoomed" v-if="index === 0" @mousemove="zoom($event)" style="background-image: url(image.image);">
                   <img :src="image.image" class="d-block w-100" :alt="image.alt">
-                  <!--
-                  <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
-                  <img v-else src="..." class="card-img-top product-image" alt="...">
-                  -->
                 </div>
                 <div class="carousel-item carousel-item-zoomed" v-else @mousemove="zoom($event)" style="background-image: url(image.image);">
                   <img :src="image.image" class="d-block w-100" :alt="image.alt">
-                  <!--
-                  <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
-                  <img v-else src="..." class="card-img-top product-image" alt="...">
-                  -->
                 </div>
               </div>
-              <!--
-              <div class="carousel-item carousel-item-zoomed" onmousemove="zoom(event)" style="background-image: url(/media/avatar.webp);">
-                <img src="..." class="d-block w-100" alt="...">
+              <div v-else>
+                <div class="carousel-item active carousel-item-zoomed" @mousemove="zoom($event)" style="background-image: url(@/assets/no_image.png);">
+                  <img src="@/assets/no_image.png" class="d-block w-100" alt="No image">
+                </div>
               </div>
-              <div class="carousel-item carousel-item-zoomed" onmousemove="zoom(event)" style="background-image: url(/media/oboi.webp);">
-                <img src="..." class="d-block w-100" alt="...">
-              </div>
-              -->
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselFade" data-bs-slide="prev">
-              <!--
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              -->
               <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="-1 -1 18 18">
                 <path class="bold-icon-carousel" fill-rule="evenodd" d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
               </svg>
               <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselFade" data-bs-slide="next">
-              <!--
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              -->
               <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" fill="currentColor" class="bi bi-arrow-right-circle-fill" viewBox="-1 -1 18 18">
                 <path class="bold-icon-carousel" fill-rule="evenodd" d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
               </svg>
@@ -101,7 +84,7 @@
                   <div class="text-secondary">Вес товара</div>
                 </div>
                 <div class="col-7">
-                  <div class="">1,5 кг</div>
+                  <div class="">{{ humanViewNumber(product.properties[0].weight) }} кг</div>
                 </div>
               </div>
               <div class="row g-1 my-2">
@@ -137,11 +120,11 @@
           <div class="row">
             <div class="col-auto">
               <span class="text-secondary" style="font-size: 0.8em;"><i class="bi bi-box"></i></span>
-              <span class="text-secondary" style="font-size: 0.8em;">27 ноября</span>
+              <span class="text-secondary ps-2" style="font-size: 0.8em;">27 ноября</span>
             </div>
             <div class="col">
               <span class="text-secondary" style="font-size: 0.8em;"><i class="bi bi-shop"></i></span>
-              <span class="text-secondary" style="font-size: 0.8em;">Пункт выдачи: ул. Ленина д.1</span>
+              <span class="text-secondary ps-2" style="font-size: 0.8em;">Пункт выдачи: ул. Ленина д.1</span>
             </div>
           </div>
         </div>
@@ -220,7 +203,7 @@
             </div>
             <div class="d-flex justify-content-between">
               <div class="text-secondary">Вес</div>
-              <div class="justify-content-start">{{ property.weight }} кг</div>
+              <div class="justify-content-start">{{ humanViewNumber(property.weight) }} кг</div>
             </div>
             <div class="d-flex justify-content-between">
               <div class="text-secondary">Длинна</div>
@@ -244,7 +227,7 @@
             </div>
           </div>
         </div>
-        <div class="col mt-3 ms-3">
+        <div class="col-auto mt-3 ms-3">
           <span><b>Описание</b></span>
           <div class="row mt-3" style="text-align: justify; font-size: 0.9em;">
             <div>{{ product.description }}</div>
@@ -527,6 +510,9 @@
                 let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
                 return `${day} ${month} ${year} ${hour}:${minute}`
             },
+            humanViewNumber(number) {
+              return Number.parseFloat(number)
+            }
         },
         mounted() {
             this.routeParamId = this.$route.params.id;
