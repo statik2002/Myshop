@@ -73,21 +73,19 @@
                   </button>
                 </div>
                 <div class="col">
-                    <div class="form-group has-search">
-                        <div class="form-control-feedback">
-                            <i class="bi bi-search"></i>
-                        </div>
-                        <input 
-                          v-model="searchQuery"
-                          type="text" 
-                          name="query" 
-                          class="form-control rounded-9" 
-                          placeholder="Нати на сайте MyShop" 
-                          value=""
-                          @change="searh"
-                          @input="searchInput"
-                          >
-                    </div>
+                  <div class="form-group has-search">
+                      <i class="bi bi-search form-control-search"></i>
+                      <input 
+                        v-model="searchQuery"
+                        type="text" 
+                        name="query" 
+                        class="form-control rounded-9" 
+                        placeholder="Нати на сайте MyShop" 
+                        value=""
+                        @change="searh"
+                        @input="searchInput"
+                        >
+                  </div>
                 </div>
                 <div class="col-md-auto d-none d-lg-block">
                   <div class="container">
