@@ -226,15 +226,21 @@
     </div>
     <modal-component v-model:show="showReadyOrdersModal">
         <div class="d-flex flex-column gap-2">
-            <div v-for="order in ready_orders">
+            <div v-for="order in ready_orders" v-if="ready_orders.length > 0">
                 <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})"></order-item>
+            </div>
+            <div v-else>
+                Готовых к выдаче заказов нет
             </div>
         </div>
     </modal-component>
     <modal-component v-model:show="showProcessingOrdersModal">
         <div class="d-flex flex-column gap-2">
-            <div v-for="order in processing_orders">
+            <div v-for="order in processing_orders" v-if="processing_orders.length > 0">
                 <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})"></order-item>
+            </div>
+            <div v-else>
+                Заказов в обработке нет
             </div>
         </div>
     </modal-component>

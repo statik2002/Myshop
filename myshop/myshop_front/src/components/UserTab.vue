@@ -13,7 +13,8 @@
         </div>
         <div class="dropdown" v-else>
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                <img :src="$store.state.user.avatar" alt="avatar" class="menu-avatar">
+                <img :src="$store.state.user.avatar" alt="avatar" class="menu-avatar" v-if="$store.state.user.avatar">
+                <img src="@/assets/avatar_blank.webp" alt="avatar" class="menu-avatar" v-else>
                 <span>Кабинет</span>
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">

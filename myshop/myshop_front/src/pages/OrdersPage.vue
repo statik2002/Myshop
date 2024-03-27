@@ -8,9 +8,12 @@
         </div>
         <div class="py-5">
             <div class="d-flex flex-column gap-3" v-if="isOrdersLoaded">
-                <div v-for="order in orders">
+                <div v-for="order in orders" v-if="orders.length > 0">
                     <order-item :order="order" @click="$router.push({name: 'show_order', params: {'id': order.id}})">
                     </order-item>
+                </div>
+                <div v-else>
+                    Вы не делали заказов
                 </div>
             </div>
             <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">

@@ -2,10 +2,15 @@
     <HeaderComponent></HeaderComponent>
     <div class="container py-3">
         <div v-if="$store.state.userIsAuth">
-            <ProductsList 
+            <div v-if="isLikedProductsLoad">
+                <ProductsList 
                 :products="likedProducts"
-                v-if="isLikedProductsLoad"
-            />
+                v-if="likedProducts.length > 0"
+                />
+                <div v-else>
+                    У вас пока нет любимых товаров
+                </div>
+            </div>
             <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
                 <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
                     <span class="visually-hidden">Loading...</span>
