@@ -43,6 +43,7 @@
         <ul class="nav flex-column bg-dark menu-background">
         <div class="container-xl">
           <!--Top line of links-->
+          <!--
           <li class="nav-item d-none d-lg-block">
             <ul class="nav">
               <li class="nav-link menu1">
@@ -56,10 +57,11 @@
               </li>
             </ul>
           </li>
+          -->
           <!--Middle navbar-->
-          <li class="nav-item">
+          <li class="nav-item pt-5">
             <div class="container-fluid py-1">
-              <div class="row pe-2 align-items-center">
+              <div class="row align-items-center">
                 <!--Logo-->
                 <div class="col-md-auto logo d-none d-lg-block">
                   <router-link to="/">
@@ -100,6 +102,7 @@
                               {{ $store.getters.getCartPositionCount }}
                             </span>
                           </i>
+                          Корзина
                         </router-link>
                       </div>
                       <div class="col">
@@ -112,6 +115,7 @@
                               </span>
                             </div>
                           </i>
+                          Избранное
                         </router-link>
                       </div>
                     </div>
