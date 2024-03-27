@@ -11,17 +11,14 @@
       <div class="row">
         <div class="col-12 px-3">
           <div class="d-flex text-secondary justify-content-start p-1">
-            <div class="product-stars">
-              <i class="bi bi-star-fill star">{{ product.rating }}</i>
-              {{ product.his_rating[0].value }}
-            </div>
-            <div class="product-stars ps-1">
-              &#x2022; {{ product.his_rating[0].counter }} оценок
+            <rating-component :rating="product.rating"></rating-component>
+            <div class="ps-1 fw-lighter fst-italic">
+              &#x2022; {{ product.num_ratings }} оценок
             </div>
           </div>
         </div>
       </div>
-      <div class="row mt-5 d-flex" v-if="isProductLoading">
+      <div class="row mt-2 d-flex">
         <!--Carousel-->
         <div class="col-sm-6 col-lg-4 col-md-6">
           <div id="carouselFade" class="carousel slide carousel-fade">
@@ -78,7 +75,6 @@
               <span class="badge bg-danger">Выгодное предложение</span>
             </div>
           </div>
-          {{ product.id }}
           <div class="d-flex align-items-end" v-if="product.discount > 0">
               <h1><b>{{ product.discount }} &#8381;</b></h1>
               <h3 class="mx-2 "><s class="text-secondary"><small>{{ product.price }} &#8381;</small></s></h3>
@@ -273,22 +269,8 @@
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="mt-3 d-flex flex-row gap-2">
                 <div class="card mx-0 rounded-3" v-for="feedback in product.product_feedbacks" v-if="product.product_feedbacks.length > 0">
-                  <div class="card-body">
-                      <div class="row">
-                        <div class="col-auto">
-                          <img src="..." alt="" height="40">
-                        </div>
-                        <div class="col">
-                          <div class="row">{{ feedback.customer.first_name }} {{ feedback.customer.last_name }}</div>
-                          <div class="row">{{ feedback.customer.phone_number }}</div>
-                          <div class="row datetime">{{ formatDate(feedback.post_at) }}</div>
-                        </div>
-                        <div class="col-auto">
-                            <rating-component :rating="feedback.rating"></rating-component>
-                        </div>
-                      </div>
-                    <p class="card-text mt-3">{{ feedback.summary }}</p>
-                  </div>
+                  <feedback-widget :feedback="feedback">
+                  </feedback-widget>
                 </div>
                 <div v-else>
                   Отзывов нет

@@ -42,11 +42,18 @@ h2 {
 
 .product-image {
     border-radius: 5%;
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.row-image {
+    height: 15vw;
 }
 
 .card-img-top {
     width: 100%;
-    height: 205px;
+    height: 15vw;
     object-fit: cover;
 }
 
@@ -152,10 +159,12 @@ h2 {
 
 .star {
     color: gold;
+    font-size: 0.7.em;
 }
 
 .star-no {
     color: rgb(187, 187, 187);
+    font-size: 0.7.em;
 }
 
 .product-stars {
@@ -553,6 +562,7 @@ h2 {
 .menu-avatar {
     border-radius: 50%;
     border: solid rgba(255, 255, 255, 0.5) 2px;
+    height: 40px;
 }
 
 .order-item:hover {

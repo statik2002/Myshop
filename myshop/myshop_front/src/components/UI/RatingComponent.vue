@@ -4,6 +4,10 @@
             <i class="bi bi-star-fill star" v-if="blank_rating[index]===1"></i>
             <i class="bi bi-star star-no" v-else></i>
         </div>
+        <div class="star-no">
+            ({{ rating }})
+        </div>
+        
     </div>
     
 </template>

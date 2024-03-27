@@ -16,12 +16,12 @@
                 </div>
             </a>
         </div>
-        <div class="row">
+        <div class="row vw-25">
             <div class="col-12">
-            <a href="#" @click="$router.push({name: 'product', params: {id: product.id}})" class="stretched-link">
-                <img v-if="product.product_images.length > 0" :src=product.product_images[0].image class="card-img-top product-image" alt="...">
-                <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
-            </a>
+                <a href="#" @click="$router.push({name: 'product', params: {id: product.id}})" class="stretched-link">
+                    <img v-if="product.product_images.length > 0" :src=product.product_images[0].image class="card-img-top product-image" alt="...">
+                    <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
+                </a>
             </div>
         </div>
         <div class="row p-0 m-0">

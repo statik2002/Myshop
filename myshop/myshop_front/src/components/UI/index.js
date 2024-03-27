@@ -9,6 +9,7 @@ import UploadAvatarForm from '@/components/UI/uploadAvatarForm.vue'
 import ScrollToTopComponent from '@/components/UI/ScrollToTopComponent.vue'
 import FeedbackFormComponent from '@/components/UI/FeedbackFormComponent.vue'
 import RatingComponent from '@/components/UI/RatingComponent.vue'
+import FeedbackWidgetComponent from '@/components/UI/FeedbackWidgetComponent.vue'
 
 export default [
     ModalComponent,
@@ -21,5 +22,6 @@ export default [
     UploadAvatarForm,
     ScrollToTopComponent,
     FeedbackFormComponent,
-    RatingComponent
+    RatingComponent,
+    FeedbackWidgetComponent
 ]

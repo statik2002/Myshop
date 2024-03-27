@@ -59,7 +59,7 @@
           </li>
           -->
           <!--Middle navbar-->
-          <li class="nav-item pt-5">
+          <li class="nav-item pt-2">
             <div class="container-fluid py-1">
               <div class="row align-items-center">
                 <!--Logo-->
@@ -125,6 +125,7 @@
             </div>
           </li>
           <!--Bottom nav element-->
+          <!--
           <li class="nav-item d-none d-lg-block">
             <div class="container-fluid text-light">
               <div class="p-2">
@@ -132,6 +133,7 @@
               </div>
             </div>
           </li>
+          -->
         </div>
       </ul>
     </div>

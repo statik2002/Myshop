@@ -1,11 +1,9 @@
 <template>
+    <div class="">
         <div class="dropdown" v-if="!$store.getters.isUserLogin">
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="d-flex flex-column">
-                    <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
-                    <span>Войти</span> 
-                </div>
-                
+                <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
+                <span>Войти</span>
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
                 <li><a class="dropdown-item" href="#" @click="showRegistrationDialog">Регистрация</a></li>
@@ -15,10 +13,8 @@
         </div>
         <div class="dropdown" v-else>
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="d-flex flex-column">
-                    <img :src="$store.state.user.avatar" width="30" alt="avatar" class="menu-avatar">
-                    <span>Войти</span> 
-                </div>
+                <img :src="$store.state.user.avatar" alt="avatar" class="menu-avatar">
+                <span>Кабинет</span>
             </a>
             <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
                 <li><routerLink to="/cabinet" class="dropdown-item">Кабинет</routerLink></li>
@@ -34,6 +30,7 @@
         <modal-component v-model:show="registrationModalVisible">
             <registration-form v-model:show="registrationModalVisible"></registration-form>
         </modal-component>
+    </div>
 </template>
 
 <script>

@@ -12,7 +12,7 @@ class FeedbackCustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ('id', 'phone_number', 'first_name', 'last_name')
+        fields = ('id', 'phone_number', 'first_name', 'last_name', 'avatar')
 
 
 class ProductFeedbackSerializer(serializers.ListSerializer):
@@ -92,6 +92,7 @@ class ProductSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     product_feedbacks = ProductFeedbackSerializer(child=FeedbackSerializer())
     rating = serializers.SerializerMethodField()
+    num_ratings = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -100,6 +101,10 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_rating(self, obj):
         feedbacks_avg = Feedback.objects.filter(product=obj).filter(is_show=True).aggregate(Avg('rating', default=0))
         return feedbacks_avg.get('rating__avg')
+    
+    def get_num_ratings(self, obj):
+        feedbacks_count = Feedback.objects.filter(product=obj).filter(is_show=True).count()
+        return feedbacks_count
 
 
     def update(self, instance, validated_data):
