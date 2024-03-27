@@ -10,6 +10,8 @@ import ScrollToTopComponent from '@/components/UI/ScrollToTopComponent.vue'
 import FeedbackFormComponent from '@/components/UI/FeedbackFormComponent.vue'
 import RatingComponent from '@/components/UI/RatingComponent.vue'
 import FeedbackWidgetComponent from '@/components/UI/FeedbackWidgetComponent.vue'
+import ProoductQuestionFormComponent from '@/components/UI/ProoductQuestionFormComponent.vue'
+import QuestionWidgetComponent from '@/components/UI/QuestionWidgetComponent.vue'
 
 export default [
     ModalComponent,
@@ -23,5 +25,7 @@ export default [
     ScrollToTopComponent,
     FeedbackFormComponent,
     RatingComponent,
-    FeedbackWidgetComponent
+    FeedbackWidgetComponent,
+    ProoductQuestionFormComponent,
+    QuestionWidgetComponent
 ]

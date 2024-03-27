@@ -13,8 +13,8 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, Order, Product, ProductInCart, ProductInOrder
+from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, Order, Product, ProductInCart, ProductInOrder, ProductQuestion
 from main.email_functional import send_mail
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -488,6 +488,31 @@ class FeedbackViewSet(viewsets.ModelViewSet):
 
     queryset = Feedback.objects.filter(is_show=True)
     serializer_class = FeedbackSerializer
+
+    def get_permissions(self):
+        if self.action in ['update', 'create']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+    
+
+class ProductQuestionViewSet(viewsets.ModelViewSet):
+
+    '''
+        *** Get all questions ***
+        - GET: '/api/v1/questions/'
+        - Permissions: AllowAny
+
+        *** Create question ***
+        - POST: '/api/v1/questions/'
+        - Permissions: IsAuthenticated
+        - Data: {'product': id, 'customer': id, 'text': text}
+    '''
+
+    queryset = ProductQuestion.objects.all()
+    serializer_class = ProductQuestionSerializer
 
     def get_permissions(self):
         if self.action in ['update', 'create']:

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
         Cart, Customer, Catalog, Feedback, Order, OrderStatus, Product, 
-        ProductInCart, ProductInOrder, ProductRating, Tag, ProductProperty, 
+        ProductInCart, ProductInOrder, ProductQuestion, ProductRating, Tag, ProductProperty, 
         ProductImage
     )
 from django.contrib.auth.admin import UserAdmin
@@ -89,4 +89,10 @@ class CartAdmin(admin.ModelAdmin):
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('id', 'product', 'customer', 'post_at', 'rating', 'is_show')
     readonly_fields = ('product', )
+    list_editable = ('is_show',)
+
+
+@admin.register(ProductQuestion)
+class ProductQuestion(admin.ModelAdmin):
+    list_display = ('id', 'product', 'customer', 'created', 'is_show')
     list_editable = ('is_show',)

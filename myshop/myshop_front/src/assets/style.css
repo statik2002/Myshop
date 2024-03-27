@@ -562,7 +562,7 @@ h2 {
 .menu-avatar {
     border-radius: 50%;
     border: solid rgba(255, 255, 255, 0.5) 2px;
-    height: 40px;
+    height: 35px;
 }
 
 .order-item:hover {

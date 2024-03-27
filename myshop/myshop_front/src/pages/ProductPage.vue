@@ -84,7 +84,8 @@
                   <div class="text-secondary">Вес товара</div>
                 </div>
                 <div class="col-7">
-                  <div class="">{{ humanViewNumber(product.properties[0].weight) }} кг</div>
+                  <div class="" v-if="product.properties.length > 0">{{ humanViewNumber(product.properties[0].weight) }} кг</div>
+                  <div class="" v-else>{{ 0 }} кг</div>
                 </div>
               </div>
               <div class="row g-1 my-2">
@@ -134,59 +135,6 @@
         </div>
         <!--End Widget-->
       </div>
-      <!--Color slider-->
-      <!--
-      <div class="row">
-        <div class="container">
-          <div class="px-5">Выбор цвета</div>
-          <div id="carouselColorSlider" class="carousel px-5" data-bs-ride="carousel">
-            <div class="carousel-inner">
-              <div class="carousel-item active p-1" style="min-width: 150px !important; max-width: 150px !important;" id="carouselColorItem">
-                <div class="">
-                  <a href="#">
-                    <img src="..." class="d-block w-100" alt="...">
-                  </a>
-                  <div class="text-center" style="font-size: 0.7em;">205 Дуб капучино</div>
-                </div>
-              </div>
-              <div class="carousel-item p-1" style="min-width: 150px !important; max-width: 150px !important;">
-                <div class="">
-                  <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="text-center" style="font-size: 0.7em;">217 Дуб темный</div>
-              </div>
-              <div class="carousel-item p-1" style="min-width: 150px !important; max-width: 150px !important;">
-                <div class="">
-                  <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="text-center" style="font-size: 0.7em;">253 Ясень серый</div>
-              </div>
-              <div class="carousel-item p-1" style="min-width: 150px !important; max-width: 150px !important;">
-                <div class="">
-                  <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="text-center" style="font-size: 0.7em;">262 Клен вермонт</div>
-              </div>
-              <div class="carousel-item p-1" style="min-width: 150px !important; max-width: 150px !important;">
-                <div class="">
-                  <img src="..." class="d-block w-100" alt="...">
-                </div>
-                <div class="text-center" style="font-size: 0.7em;">302 Венге черный</div>
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselColorSlider" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselColorSlider" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-        </div>
-      </div>
-      -->
-      <!--End color slider-->
       <!--About Product-->
       <div class="row mt-5">
         <div class="row">
@@ -227,7 +175,7 @@
             </div>
           </div>
         </div>
-        <div class="col-auto mt-3 ms-3">
+        <div class="col mt-3 ms-3">
           <span><b>Описание</b></span>
           <div class="row mt-3" style="text-align: justify; font-size: 0.9em;">
             <div>{{ product.description }}</div>
@@ -262,51 +210,12 @@
           </div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="col-12 mt-3">
-              <form action="">
-                <textarea class="form-control" id="question" rows=3 placeholder="Задайте вопрос"></textarea>
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success mt-2">Задать вопрос</button>
-                    <button type="submit" class="btn btn-light mt-2">Отменить</button>
-                </div>
-              </form>
+              <product-question-form :user_id="$store.state.user.id" :product_id="product.id">
+              </product-question-form>
             </div>
-            <div class="mt-3 d-flex gap-2">
-              <div class="card mx-0 rounded-3" style="width: 300px;">
-                <div class="card-body">
-                    <div class="row">
-                      <div class="col-auto">
-                        <img src="..." alt="" height="40">
-                      </div>
-                      <div class="col">
-                        <div class="row">Василий</div>
-                        <div class="row datetime">11 ноября 2023г. 23:15</div>
-                      </div>
-                    </div>
-                  <p class="card-text mt-3">В наличии есть 20 штук?</p>
-                  <div class="card-text">
-                    <i class="bi bi-hourglass"></i> Ждем ответ продавца
-                  </div>
-                </div>
-              </div>
-              <div class="card mx-0 rounded-3" style="width: 300px;">
-                <div class="card-body">
-                    <div class="row">
-                      <div class="col-auto">
-                        <img src="..." alt="" height="40">
-                      </div>
-                      <div class="col">
-                        <div class="row">Валя</div>
-                        <div class="row datetime">10 ноября 2023г. 10:45</div>
-                      </div>
-                    </div>
-                  <p class="card-text mt-3">Подойдет для потолка?</p>
-                  <div class="card-text">
-                    <b><i class="bi bi-check"></i> Ответ продавца</b>
-                  </div>
-                  <div class="card-text">
-                    Да. Данная краска подходит для покраски потолков.
-                  </div>
-                </div>
+            <div class="mt-3 d-flex flex-row gap-2">
+              <div v-for="question in product.questions">
+                <question-widget :question="question"></question-widget>
               </div>
             </div>
           </div>

@@ -3,9 +3,48 @@ from rest_framework import serializers
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
 
-from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductRating
+from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating
 from main.email_functional import send_mail
 from django.db.models import Avg
+
+
+class QuestionCustomerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = ('first_name', 'last_name', 'avatar')
+
+
+class ProductQuestionSerializer(serializers.ModelSerializer):
+
+    customer = QuestionCustomerSerializer(read_only=True, required=False)
+
+    class Meta:
+        model = ProductQuestion
+        fields = '__all__'
+
+    
+    def create(self, validated_data):
+        question = ProductQuestion.objects.create(
+            product = validated_data.get('product'),
+            customer = self.context.get('request').user,
+            question_text = validated_data.get('question_text'),
+        )
+        return question
+
+
+class ProductQuestionsSerializer(serializers.ListSerializer):
+
+    product = serializers.IntegerField()
+    customer = QuestionCustomerSerializer(read_only=True, required=False)
+    question_text = serializers.CharField(max_length=2000)
+    created = serializers.DateTimeField()
+    is_show = serializers.BooleanField()
+
+
+    def to_representation(self, data):
+        data = data.filter(is_show=True)
+        return super(ProductQuestionsSerializer, self).to_representation(data)
 
 
 class FeedbackCustomerSerializer(serializers.ModelSerializer):
@@ -90,9 +129,10 @@ class ProductSerializer(serializers.ModelSerializer):
     his_rating = ProductRatingSerializer(many=True, read_only=True)
     properties = ProductPropertySerializer(many=True, read_only=True)
     id = serializers.IntegerField()
-    product_feedbacks = ProductFeedbackSerializer(child=FeedbackSerializer())
+    product_feedbacks = ProductFeedbackSerializer(child=FeedbackSerializer(), required=False)
     rating = serializers.SerializerMethodField()
     num_ratings = serializers.SerializerMethodField()
+    questions = ProductQuestionsSerializer(child=ProductQuestionSerializer(), required=False)
 
     class Meta:
         model = Product

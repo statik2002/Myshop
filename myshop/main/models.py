@@ -311,3 +311,19 @@ class Feedback(models.Model):
 
     def __str__(self) -> str:
         return f'Отзыв пользователя: {self.customer.phone_number}, Дата: {self.post_at}, Рейтинг: {self.rating}, Показ: {self.is_show}'
+
+
+class ProductQuestion(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='questions', verbose_name='Товар')
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='customer_questions', verbose_name='Покупатель')
+    question_text = models.TextField(verbose_name='Тескт вопроса')
+    created = models.DateTimeField(default=timezone.now, verbose_name='Дата и время создания')
+    is_show = models.BooleanField(default=False, verbose_name='Опубликован')
+
+
+    class Meta:
+        verbose_name = 'Вопрос к товару'
+        verbose_name_plural = 'Вопросы к тоаварам'
+
+    def __str__(self) -> str:
+        return f'Вопрос от пользователя: {self.customer.first_name} {self.customer.last_name}, к товару: {self.product.pk}, {self.created}'
