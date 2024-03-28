@@ -246,6 +246,8 @@ h2 {
     transition: opacity .5s;
     display: block;
     width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .carousel-item-zoomed img:hover {

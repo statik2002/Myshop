@@ -73,19 +73,10 @@
               </div>
               <div class="row g-1 my-2">
                 <div class="col">
-                  <div class="text-secondary">Модель</div>
+                  <div class="text-secondary">Артикул: </div>
                 </div>
                 <div class="col-7">
-                  <div class="">Высокая укрывистость</div>
-                </div>
-              </div>
-              <div class="row g-1 my-2">
-                <div class="col">
-                  <div class="text-secondary">Вес товара</div>
-                </div>
-                <div class="col-7">
-                  <div class="" v-if="product.properties.length > 0">{{ humanViewNumber(product.properties[0].weight) }} кг</div>
-                  <div class="" v-else>{{ 0 }} кг</div>
+                  <div class="">{{ product.id }}</div>
                 </div>
               </div>
               <div class="row g-1 my-2">
@@ -94,6 +85,32 @@
                 </div>
                 <div class="col-7">
                   <div class="">{{ product.production_origin }}</div>
+                </div>
+              </div>
+              <div v-if="product.properties.length > 0">
+                <div class="row g-1 my-2" v-if="product.properties[0].hasOwnProperty('weight')">
+                  <div class="col">
+                    <div class="text-secondary">Вес товара</div>
+                  </div>
+                  <div class="col-7">
+                    <div class="">{{ humanViewNumber(product.properties[0].weight) }} кг</div>
+                  </div>
+                </div>
+                <div class="row g-1 my-2" v-if="product.properties[0].hasOwnProperty('material')">
+                  <div class="col">
+                    <div class="text-secondary">Состав/материал</div>
+                  </div>
+                  <div class="col-7">
+                    <div class="">{{ product.properties[0].material }}</div>
+                  </div>
+                </div>
+                <div class="row g-1 my-2" v-if="product.properties[0].hasOwnProperty('expiration_date')">
+                  <div class="col">
+                    <div class="text-secondary">Срок годности</div>
+                  </div>
+                  <div class="col-7">
+                    <div class="">{{ product.properties[0].expiration_date }} месяцев</div>
+                  </div>
                 </div>
               </div>
             </div>

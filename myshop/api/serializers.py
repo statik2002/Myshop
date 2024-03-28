@@ -155,6 +155,7 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.available = validated_data.get('available')
         instance.discount = validated_data.get('discount')
         instance.quantity = validated_data.get('quantity')
+        instance.production_origin = validated_data.get('production_origin')
 
         instance.save()
 
