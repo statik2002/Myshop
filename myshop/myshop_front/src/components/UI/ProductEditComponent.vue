@@ -8,33 +8,60 @@
         <div class="d-flex flex-column gap-2">
             <div class="d-flex flex-row gap-2">
                 <label for="productName" class="form-label">Наименование</label>
-                <input type="text" class="form-control" id="productName" v-bind:value="product.name" @input="productNameInput">
+                <input type="text" class="form-control" id="productName" v-model=product.name>
             </div>
             <div class="d-flex flex-row gap-2">
                 <label for="productPrice" class="form-label">Цена</label>
-                <input type="text" class="form-control" id="productPrice" :value=product.price @input="productPriceInput">
+                <input type="text" class="form-control" id="productPrice" v-model=product.price>
             </div>
             <div class="d-flex flex-row gap-2">
                 <label for="productDescription" class="form-label">Описание</label>
-                <textarea class="form-control" aria-label="With textarea" id="productDescription" @input="productDescriptionInput">{{ product.description }}</textarea>
+                <textarea class="form-control" aria-label="With textarea" id="productDescription" v-model=product.description></textarea>
             </div>
             <div class="d-flex flex-row gap-2">
                 <label for="productDiscount" class="form-label">Скидка в %</label>
-                <input type="text" class="form-control" id="productDiscount" :value=product.discount @input="productDiscountInput">
+                <input type="text" class="form-control" id="productDiscount" v-model=product.discount>
             </div>
             <div class="d-flex flex-row gap-2">
                 <label for="productQuantity" class="form-label">Остаток</label>
-                <input type="text" class="form-control" id="productQuantity" :value=product.quantity @input="productQuantityInput">
-            </div>
-            <div class="d-flex flex-row gap-2">
-                <label for="productOrigin" class="form-label">Производство</label>
-                <input type="text" class="form-control" id="productOrigin" :value=product.production_origin @input="productOrigin">
+                <input type="text" class="form-control" id="productQuantity" v-model=product.quantity>
             </div>
             <div v-if="product.properties.length > 0">
-                <div class="d-flex flex-column gap-2" v-for="property in product.properties">
-                    <div v-for="key of Object.keys(property)">
-                        {{ key }} + {{ property[key] }}
-                    </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyColor" class="form-label">Цвет</label>
+                    <input type="text" class="form-control" id="productPropertyColor" v-model=product.properties[0].color>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyWeight" class="form-label">Вес</label>
+                    <input type="text" class="form-control" id="productPropertyWeight" v-model=product.properties[0].weight>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyWidth" class="form-label">Ширина</label>
+                    <input type="text" class="form-control" id="productPropertyWidth" v-model=product.properties[0].width>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyHeight" class="form-label">Высота</label>
+                    <input type="text" class="form-control" id="productPropertyHeight" v-model=product.properties[0].height>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyLenght" class="form-label">Длинна</label>
+                    <input type="text" class="form-control" id="productPropertyLenght" v-model=product.properties[0].length>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyDescription" class="form-label">Описание</label>
+                    <input type="text" class="form-control" id="productPropertyDescription" v-model=product.properties[0].description>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyMaterial" class="form-label">Материал/состав</label>
+                    <input type="text" class="form-control" id="productPropertyMaterial" v-model=product.properties[0].material>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyExpiration" class="form-label">Срок годности</label>
+                    <input type="text" class="form-control" id="productPropertyExpiration" v-model=product.properties[0].expiration_date>
+                </div>
+                <div class="d-flex flex-row gap-2">
+                    <label for="productPropertyOrigin" class="form-label">Производство</label>
+                    <input type="text" class="form-control" id="productPropertyOrigin" v-model=product.properties[0].production_origin>
                 </div>
             </div>
             <div v-if="product.product_images.length > 0" class="d-flex gap-2 pt-2">
@@ -72,8 +99,8 @@
         data() {
             return {
                 messages: [],
-                productName: this.product.name,
-                uploadedFile: null
+                uploadedFile: null,
+                properties: {}
             }
         },
         methods: {
@@ -81,30 +108,25 @@
                 this.$emit('update:show', false)
             },
 
-            productNameInput(event) {
-                this.product.name = event.target.value
-            },
-
-            productDescriptionInput(event) {
-                this.product.description = event.target.value
-            },
-
-            productDiscountInput(event) {
-                this.product.discount = event.target.value
-            },
-
-            productPriceInput(event) {
-                this.product.price = event.target.value
-            },
-
-            productQuantityInput(event) {
-                this.product.quantity = event.target.value
-            },
-            productOrigin(event) {
-                this.product.production_origin = event.target.value
-            },
-            onFileChanged(event) {
-                //console.log(event.target.file)
+            productPropertyInput(event) {
+                switch(event.target.id) {
+                    case "color": {
+                        this.properties.color.value = event.target.value; break
+                    }
+                    case "weight": {
+                        this.properties.weight.value = event.target.value; break
+                    }
+                    case "width": this.properties.width.value = event.target.value; break
+                    case "height": this.properties.height.value = event.target.value; break
+                    case "length": this.properties.length.value = event.target.value; break
+                    case "image": this.properties.image.value = event.target.value; break
+                    case "description": this.properties.description.value = event.target.value; break
+                    case "material": this.properties.material.value = event.target.value; break
+                    case "expiration_date": this.properties.expiration_date.value = event.target.value; break
+                    case "production_origin": this.properties.production_origin.value = event.target.value; break
+                }
+                //console.log(event.target.value)
+                //console.log(event.target.id)
             },
 
             updateProduct() {
@@ -118,7 +140,7 @@
                       }
                     ).then((response) => {
                           this.$emit('update:show', false)
-                          this.$router.go()
+                          //this.$router.go()
                         }
                           
                       )
@@ -202,6 +224,7 @@
         },
         mounted() {
             //console.log(this.product)
+            
         }
     }
 </script>

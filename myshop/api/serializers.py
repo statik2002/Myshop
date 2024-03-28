@@ -70,6 +70,20 @@ class ProductFeedbackSerializer(serializers.ListSerializer):
         return super(ProductFeedbackSerializer, self).to_representation(data)
 
 
+class ProductPropertiesSerializer(serializers.ListSerializer):
+    id = serializers.IntegerField()
+    product = serializers.IntegerField()
+    color = serializers.CharField(max_length=50)
+    weight = serializers.DecimalField(max_digits=6, decimal_places=3)
+    width =  serializers.DecimalField(max_digits=5, decimal_places=3)
+    height = serializers.DecimalField(max_digits=5, decimal_places=3)
+    length = serializers.DecimalField(max_digits=5, decimal_places=3)
+    description = serializers.CharField(max_length=2000)
+    material = serializers.CharField(max_length=250)
+    expiration_date = serializers.IntegerField()
+    production_origin = serializers.CharField(max_length=200)
+
+
 class FeedbackSerializer(serializers.ModelSerializer):
 
     customer = FeedbackCustomerSerializer(read_only=True, required=False)
@@ -95,6 +109,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 
 class ProductPropertySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
     class Meta:
         model = ProductProperty
         fields = '__all__'
@@ -127,7 +142,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(many=True, read_only=True)
     his_rating = ProductRatingSerializer(many=True, read_only=True)
-    properties = ProductPropertySerializer(many=True, read_only=True)
+    properties = ProductPropertiesSerializer(child=ProductPropertySerializer(), required=False)
     id = serializers.IntegerField()
     product_feedbacks = ProductFeedbackSerializer(child=FeedbackSerializer(), required=False)
     rating = serializers.SerializerMethodField()
@@ -155,9 +170,23 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.available = validated_data.get('available')
         instance.discount = validated_data.get('discount')
         instance.quantity = validated_data.get('quantity')
-        instance.production_origin = validated_data.get('production_origin')
-
         instance.save()
+
+        if not validated_data.get('properties'):
+            return instance
+        
+        property = dict(validated_data.get('properties')[0])
+        properties = ProductProperty.objects.get(pk=property.get('id'))
+        properties.color = property.get('color')
+        properties.weight = property.get('weight')
+        properties.width = property.get('width')
+        properties.height = property.get('height')
+        properties.length = property.get('length')
+        properties.description = property.get('description')
+        properties.material = property.get('material')
+        properties.expiration_date = property.get('expiration_date')
+        properties.production_origin = property.get('production_origin')
+        properties.save()
 
         return instance
 

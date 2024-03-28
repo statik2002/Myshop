@@ -143,7 +143,7 @@ class Product(models.Model):
     code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
     quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество',
                                    default=0.0)  # 000 000.000
-    production_origin = models.CharField('Страна производитель', max_length=200, blank=True, null=True)
+    
 
     class Meta:
         verbose_name = 'Товар'
@@ -161,10 +161,10 @@ class ProductProperty(models.Model):
     width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина м')  # 000.00 в см
     height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота м')  # 000.00 в см
     length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна м')  # 000.00 в см
-    image = models.ImageField(upload_to='media/products/', blank=True, null=True)
     description = models.TextField(verbose_name='Описание для свойства', null=True, blank=True)
     material = models.CharField(max_length=250, verbose_name='Материал\состав', blank=True, null=True)
     expiration_date = models.SmallIntegerField(verbose_name='Срок годности. Месяцев', blank=True, null=True)
+    production_origin = models.CharField('Страна производитель', max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Product property'

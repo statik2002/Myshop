@@ -79,15 +79,15 @@
                   <div class="">{{ product.id }}</div>
                 </div>
               </div>
-              <div class="row g-1 my-2">
-                <div class="col">
-                  <div class="text-secondary">Страна производства</div>
-                </div>
-                <div class="col-7">
-                  <div class="">{{ product.production_origin }}</div>
-                </div>
-              </div>
               <div v-if="product.properties.length > 0">
+                <div class="row g-1 my-2" v-if="product.properties[0].hasOwnProperty('production_origin')">
+                  <div class="col">
+                    <div class="text-secondary">Страна производства</div>
+                  </div>
+                  <div class="col-7">
+                    <div class="">{{ product.properties[0].production_origin }}</div>
+                  </div>
+                </div>
                 <div class="row g-1 my-2" v-if="product.properties[0].hasOwnProperty('weight')">
                   <div class="col">
                     <div class="text-secondary">Вес товара</div>
