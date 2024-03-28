@@ -92,11 +92,11 @@
                 <div class="col-md-auto d-none d-lg-block">
                   <div class="container">
                     <div class="row menu1">
-                      <div class="col border">
+                      <div class="col">
                         <UserTab></UserTab>
                       </div>
-                      <div class="col border">
-                        <router-link to="/cart" class="btn border">
+                      <div class="col">
+                        <router-link to="/cart" class="btn">
                           <div class="d-flex flex-column">
                             <i class="bi bi-bag position-relative" style="font-size: 1.5rem;">
                               <span v-if="$store.getters.getCartPositionCount>0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
@@ -108,8 +108,8 @@
                           
                         </router-link>
                       </div>
-                      <div class="col border">
-                        <router-link to="/likes" class="btn border">
+                      <div class="col">
+                        <router-link to="/likes" class="btn">
                           <div class="d-flex flex-column">
                             <i class="bi bi-heart position-relative" style="font-size: 1.5rem;" v-if="$store.state.userIsAuth">
                               <span v-if="$store.state.user.likes.length > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">

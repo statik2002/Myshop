@@ -55,11 +55,11 @@
         <div class="col-sm-6 col-lg-5 col-md-6 pe-4">
           <div class="row my-2" v-if="product.discount > 0">
             <div class="col-12">
-              <span class="badge bg-danger">Выгодное предложение</span>
+              <span class="badge bg-danger">Выгодное предложение {{ humanViewNumber(product.discount) }}% скидка</span>
             </div>
           </div>
           <div class="d-flex align-items-end" v-if="product.discount > 0">
-              <h1><b>{{ product.discount }} &#8381;</b></h1>
+              <h1><b>{{ product.price - product.price * product.discount/100 }} &#8381;</b></h1>
               <h3 class="mx-2 "><s class="text-secondary"><small>{{ product.price }} &#8381;</small></s></h3>
           </div>
           <div class="d-flex align-items-end" v-else>
@@ -209,13 +209,16 @@
             </div>
           </div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="col-12 mt-3">
+            <div class="col-12 mt-3" v-if="$store.state.userIsAuth">
               <product-question-form :user_id="$store.state.user.id" :product_id="product.id">
               </product-question-form>
             </div>
             <div class="mt-3 d-flex flex-row gap-2">
-              <div v-for="question in product.questions">
+              <div v-for="question in product.questions" v-if="product.questions.length > 0">
                 <question-widget :question="question"></question-widget>
+              </div>
+              <div v-else>
+                Вопросов по данному товару нет
               </div>
             </div>
           </div>
@@ -267,6 +270,10 @@
       </product-edit-component>
     </modal-component>
 
+    <modal-component v-model:show="uploadImagesModal">
+      <upload-image v-model:show="uploadImagesModal" :product_id="product.id"></upload-image>
+    </modal-component>
+
     <footer-component></footer-component>
 </template>
 
@@ -284,7 +291,8 @@
                   product: this.product
                 },
                 modalIsVisible: false,
-                editProductModal: false
+                editProductModal: false,
+                uploadImagesModal: false,
             }
         },
         methods: {
@@ -409,6 +417,9 @@
               //this.uploadProductEdit()
               //console.log(this.product)
               this.editProductModal = true
+            },
+            uploadImages() {
+              this.uploadImagesModal = true
             },
             formatDate(date){
                 date = new Date(date)

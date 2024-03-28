@@ -1,4 +1,5 @@
 import json
+import os
 import pprint
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
@@ -14,7 +15,7 @@ from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
 from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, Order, Product, ProductInCart, ProductInOrder, ProductQuestion
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, Order, Product, ProductImage, ProductInCart, ProductInOrder, ProductQuestion
 from main.email_functional import send_mail
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -63,8 +64,40 @@ class ProductViewSet(viewsets.ModelViewSet):
         serialized_products = ProductSerializer(page, many=True, context={'request': request})
         return Response(serialized_products.data, status=status.HTTP_200_OK)
     
+    
+    @action(detail=False, methods=['post'], name='upload_image')
+    def upload_image(self, request):
+        try:
+            product = Product.objects.get(pk=request.data.get('product_id'))
+            product_image = ProductImage.objects.create(
+                product=product,
+                alt=product.name,
+                image=request.FILES.get('file')
+            )
+            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
+        except KeyError:
+            return Response({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    
+    @action(detail=False, methods=['post'], name='delete_image')
+    def delete_image(self, request):
+        try:
+            product_image = ProductImage.objects.get(pk=request.data.get('id'))
+            path = product_image.image.path
+            product_image.delete()
+            os.remove(product_image.image.path)
+            return Response({'response': 'ok'}, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'This image is absent!'}, status=status.HTTP_400_BAD_REQUEST)
+        except OSError:
+            return Response({'error': 'Can`t delete image file!'}, status=status.HTTP_400_BAD_REQUEST)
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
+
+    
     def get_permissions(self):
-        if self.action == 'update':
+        if self.action in ['update', 'upload_image']:
             permission_classes = [IsAuthenticated, IsAdminUser]
         else:
             permission_classes = [AllowAny]

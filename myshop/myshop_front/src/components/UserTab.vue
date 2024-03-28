@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="btn border" v-if="!$store.getters.isUserLogin">
+        <div class="btn" v-if="!$store.getters.isUserLogin">
             <a class="btn btn-link" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-door-open" style="font-size: 1.5rem;"></i>
                 <span>Войти</span>
@@ -11,7 +11,7 @@
                 <li><a class="dropdown-item" href="#">Правила</a></li>
             </ul>
         </div>
-        <div class="btn border" v-else>
+        <div class="btn" v-else>
             <a class="" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                 <img :src="$store.state.user.avatar" alt="avatar" class="menu-avatar" v-if="$store.state.user.avatar">
                 <img src="@/assets/avatar_blank.webp" alt="avatar" class="menu-avatar" v-else>
