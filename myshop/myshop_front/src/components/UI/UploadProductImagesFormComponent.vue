@@ -6,6 +6,14 @@
     </div>
     <form @submit.prevent>
         <div class="d-flex flex-column">
+            <div v-if="product.product_images.length > 0" class="d-flex gap-2 pt-2">
+                <div v-for="image in product.product_images">
+                    <div class="d-flex flex-column gap-2">
+                        <img :src=image.image :alt=image.alt height="50px">
+                        <button class="btn btn-sm btn-danger" @click="deleteImage(image)">Удалить</button>
+                    </div>
+                </div>
+            </div>
             <div class="d-flex flex-column gap-2">
                 <label for="uploadedFile" class="form-label">Выберите файл с Изображением</label>
                 <input type="file" class="form-control" @change="onFileChanged" id="uploadedFile" autocomplete="photo">
@@ -24,8 +32,8 @@
                 type: Boolean,
                 default: false
             },
-            product_id: {
-                type: Number,
+            product: {
+                type: Object,
                 required: true
             }
         },
@@ -51,7 +59,7 @@
                         this.messages.push('Слишком большой файл!')
                         return
                     }
-                    formData.append('product_id', this.product_id)
+                    formData.append('product_id', this.product.id)
                     axios(
                         {
                           url: `http://127.0.0.1:8000/api/v1/products/upload_image/`,
@@ -62,7 +70,7 @@
                       ).then((response) => {
                             console.log(response)
                             this.$emit('update:show', false)
-                            this.$router.push({name: 'product', params: {id: this.product_id}})
+                            this.$router.go()
                         })
                } catch (e) {
                     console.log(`Connection error: ${e}`);
@@ -71,6 +79,30 @@
                }
                 
             },
+
+            deleteImage(image) {
+                try {
+                    axios(
+                      {
+                        url: `http://127.0.0.1:8000/api/v1/products/delete_image/`,
+                        method: 'post',
+                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                        data: image
+                      }
+                    ).then((response) => {
+                            //console.log(response)
+                            this.$router.go()
+                          //this.$emit('update:show', false)
+                        }
+                      )
+                } catch(e) {
+                    messages.push(`Error: ${e}`)
+                }
+                finally {
+        
+                }
+            },
+
             onFileChanged(event) {
                 this.selectedFile = event.target.files[0]
             },

@@ -176,18 +176,34 @@ class ProductSerializer(serializers.ModelSerializer):
             return instance
         
         property = dict(validated_data.get('properties')[0])
-        properties = ProductProperty.objects.get(pk=property.get('id'))
-        properties.color = property.get('color')
-        properties.weight = property.get('weight')
-        properties.width = property.get('width')
-        properties.height = property.get('height')
-        properties.length = property.get('length')
-        properties.description = property.get('description')
-        properties.material = property.get('material')
-        properties.expiration_date = property.get('expiration_date')
-        properties.production_origin = property.get('production_origin')
-        properties.save()
 
+        if property.get('id') != 0:
+            properties = ProductProperty.objects.get(pk=property.get('id'))
+            properties.color = property.get('color')
+            properties.weight = property.get('weight')
+            properties.width = property.get('width')
+            properties.height = property.get('height')
+            properties.length = property.get('length')
+            properties.description = property.get('description')
+            properties.material = property.get('material')
+            properties.expiration_date = property.get('expiration_date')
+            properties.production_origin = property.get('production_origin')
+            properties.save()
+
+        else:
+            properties = ProductProperty.objects.create(
+                product=property.get('product'),
+                color=property.get('color'),
+                weight=property.get('weight'),
+                width=property.get('width'),
+                height=property.get('height'),
+                length=property.get('length'),
+                description=property.get('description'),
+                material=property.get('material'),
+                expiration_date=property.get('expiration_date'),
+                production_origin=property.get('production_origin')
+            )
+        
         return instance
 
 

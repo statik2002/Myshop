@@ -27,7 +27,7 @@
         <div class="row p-0 m-0">
             <div class="col-12 p-0">
                 <div class="d-flex justyfy-content-start" v-if="product.discount > 0">
-                    <b class="pe-1 product-price-list">{{ product.discount }} &#8381;</b>
+                    <b class="pe-1 product-price-list">{{ product.price - product.price * product.discount/100 }} &#8381;</b>
                     <s class="text-secondary"><small>{{ product.price }} &#8381;</small></s>
                 </div>
                 <div class="d-flex justyfy-content-start" v-else>

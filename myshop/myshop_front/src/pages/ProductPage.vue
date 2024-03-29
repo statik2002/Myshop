@@ -118,6 +118,7 @@
           <div class="row my-3" v-if="$store.state.userIsAuth">
             <div v-if="$store.state.user.is_staff" class="col-12">
               <button type="button" class="btn btn-success" @click="editProduct">Редактировать<i class="bi bi-pencil-square"></i></button>
+              <button type="button" class="btn btn-success" @click="uploadImages">Изображения<i class="bi bi-pencil-square"></i></button>
             </div>
             <div v-else class="d-flex gap-2">
                 <button type="button" class="btn btn-success" @click="addToCart">Добавить в корзину  <i class="bi bi-cart"></i></button>
@@ -288,7 +289,7 @@
     </modal-component>
 
     <modal-component v-model:show="uploadImagesModal">
-      <upload-image v-model:show="uploadImagesModal" :product_id="product.id"></upload-image>
+      <upload-image v-model:show="uploadImagesModal" :product="product"></upload-image>
     </modal-component>
 
     <footer-component></footer-component>
