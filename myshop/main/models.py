@@ -155,16 +155,16 @@ class Product(models.Model):
 
 
 class ProductProperty(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties')
-    color = models.CharField(max_length=50, verbose_name='Color', null=True, blank=True)
-    weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Вес кг')
-    width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина м')  # 000.00 в см
-    height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота м')  # 000.00 в см
-    length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна м')  # 000.00 в см
-    description = models.TextField(verbose_name='Описание для свойства', null=True, blank=True)
-    material = models.CharField(max_length=250, verbose_name='Материал\состав', blank=True, null=True)
-    expiration_date = models.SmallIntegerField(verbose_name='Срок годности. Месяцев', blank=True, null=True)
-    production_origin = models.CharField('Страна производитель', max_length=200, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties', verbose_name='Товар')
+    color = models.CharField(max_length=50, verbose_name='Цвет', default='')
+    weight = models.DecimalField(max_digits=6, decimal_places=3, verbose_name='Вес кг.', default=0)
+    width = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Ширина м.', default=0)  # 000.00 в см
+    height = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Высота м.', default=0)  # 000.00 в см
+    length = models.DecimalField(max_digits=5, decimal_places=3, verbose_name='Длинна м.', default=0)  # 000.00 в см
+    description = models.TextField(verbose_name='Описание для свойства', default='', blank=True)
+    material = models.CharField(max_length=250, verbose_name='Материал\состав', default='')
+    expiration_date = models.SmallIntegerField(verbose_name='Срок годности. Месяцев', default=0)
+    production_origin = models.CharField('Страна производитель', max_length=200, default='')
 
     class Meta:
         verbose_name = 'Product property'

@@ -2,7 +2,7 @@ import decimal
 from rest_framework import serializers
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
-
+from rest_framework.fields import SerializerMethodField
 from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating
 from main.email_functional import send_mail
 from django.db.models import Avg
@@ -110,9 +110,25 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 class ProductPropertySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
+    property_labels = SerializerMethodField()
+
     class Meta:
         model = ProductProperty
         fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(ProductPropertySerializer, self).__init__(*args, **kwargs)
+        self.fields['property_labels'] = SerializerMethodField()
+
+    def get_property_labels(self, *args):
+        labels = {}
+
+        print(self.fields)
+        for field in self.Meta.model._meta.get_fields():
+            if field.name in self.fields:
+                labels[field.name] = field.verbose_name
+        
+        return labels       
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -151,7 +167,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = '__all__'     
 
     def get_rating(self, obj):
         feedbacks_avg = Feedback.objects.filter(product=obj).filter(is_show=True).aggregate(Avg('rating', default=0))
