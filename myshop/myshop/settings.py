@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'myshop.custommiddleware.stat_middleware',
-    'guard.middleware.GuardMiddleware'
+    #'guard.middleware.GuardMiddleware'
 ]
 
 ROOT_URLCONF = 'myshop.urls'
