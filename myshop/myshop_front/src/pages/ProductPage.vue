@@ -11,10 +11,7 @@
       <div class="row">
         <div class="col-12 px-3">
           <div class="d-flex text-secondary justify-content-start p-1">
-            <rating-component :rating="product.rating"></rating-component>
-            <div class="ps-1 fw-lighter fst-italic">
-              &#x2022; {{ product.num_ratings }} оценок
-            </div>
+            <rating-component :rating="product.rating" :num_rating="product.num_ratings"></rating-component>
           </div>
         </div>
       </div>

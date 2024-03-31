@@ -1,14 +1,15 @@
 <template>
-    <div class="d-flex flex-row">
-        <div v-for="(value, index) in blank_rating">
-            <i class="bi bi-star-fill star" v-if="blank_rating[index]===1"></i>
-            <i class="bi bi-star star-no" v-else></i>
+    <div class="d-flex flex-row" v-if="num_rating>0">
+        <div>
+            <i class="bi bi-star-fill star"></i>
+            {{ rating }}
         </div>
-        <div class="star-no">
-            ({{ rating }})
+        <div class="ps-1 fw-lighter fst-italic" v-if="num_rating">
+            &#x2022; {{ num_rating }} 
+            <span v-if="num_rating==1 || num_rating/10==1">оценка</span><span v-else>оценок</span> 
         </div>
-        
     </div>
+    <div v-else> &nbsp;</div>
     
 </template>
 
@@ -16,7 +17,8 @@
     export default {
         name: 'rating-component',
         props: {
-            rating: Number
+            rating: Number,
+            num_rating: Number
         },
         data() {
             return {

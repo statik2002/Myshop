@@ -14,11 +14,13 @@
                             <p class="card-text">Order date: {{ order.order_create }}</p>
                             <p class="card-text">Status: {{ order.order_status.status }}</p>
                             <p class="card-text">Total: {{ order.total_amount }} Rub</p>
+                            <button class="btn btn-success" @click="feedback">Feedback</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
     </div>
     <modal-component v-model:show="feedbackModalVisible">
         <feedback-form v-model:show="feedbackModalVisible" :product_id="order.order_products[0].product.id"></feedback-form>

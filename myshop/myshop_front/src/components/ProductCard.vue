@@ -25,15 +25,16 @@
             </div>
         </div>
         <div class="row p-0 m-0">
-            <div class="col-12 p-0">
-                <div class="d-flex justyfy-content-start" v-if="product.discount > 0">
+            <div class="col p-0">
+                <div class="d-flex" v-if="product.discount > 0">
                     <b class="pe-1 product-price-list">{{ product.price - product.price * product.discount/100 }} &#8381;</b>
-                    <s class="text-secondary"><small>{{ product.price }} &#8381;</small></s>
+                    <s class="text-secondary">{{ product.price }} &#8381;</s>
+                    <span class="badge bg-danger align-self-center ms-auto">- {{ Number(product.discount) }}%</span>
                 </div>
                 <div class="d-flex justyfy-content-start" v-else>
                     <b class="pe-1 product-price-list">{{ product.price }} &#8381;</b>
                     <!--<s class="text-secondary"><small>{{ product.price }} &#8381;</small></s>-->
-                </div>                    
+                </div>                     
                 <div class="text-truncate product-name ps-0">{{ product.name }}</div>
             </div>
         </div>
@@ -48,23 +49,8 @@
             </div>
         </div>
         <div class="row p-1">
-            <div v-if="product.his_rating.length > 0" class="d-flex flex-row">
-                <div class="stars">
-                    <i class="bi bi-star-fill"></i>
-                    {{ product.his_rating[0].value }}
-                </div>
-                    <div class="stars">
-                    &#x2022; {{ product.his_rating[0].count }} оценок
-                </div>
-            </div>
-            <div v-else class="d-flex flex-row gap-1">
-                <div class="star-no">
-                    <i class="bi bi-star-fill"></i>
-                    0.0
-                </div>
-                    <div class="star-no">
-                    &#x2022; 0 оценок
-                </div>
+            <div class="d-flex text-secondary justify-content-start">
+                <rating-component :rating="product.rating" :num_rating="product.num_ratings"></rating-component>
             </div>
         </div>
     </div>

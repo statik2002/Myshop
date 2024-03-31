@@ -1,15 +1,20 @@
 <template>
     <div class="card-body p-3">
-        <div class="row">
-            <rating-component :rating="feedback.rating"></rating-component>
-        </div>
         <div class="row pe-2 pt-2">
             <div class="col-auto" v-if="feedback.customer.avatar">
                 <img :src=feedback.customer.avatar :alt=feedback.customer.id height="40">
             </div> 
             <div class="col">
-                <div class="row">{{ feedback.customer.first_name }} {{ feedback.customer.last_name }}</div>
-                <div class="row datetime">{{ formatDate(feedback.post_at) }}</div>
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        {{ feedback.customer.first_name }} {{ feedback.customer.last_name }}
+                    </div>
+                    <div class="ps-5">
+                        <i class="bi bi-star-fill star"></i>
+                        {{ feedback.rating }}
+                    </div>
+                </div>
+                <div class="d-flex datetime">{{ formatDate(feedback.post_at) }}</div>
             </div>
         </div>
         <p class="card-text pt-3">{{ feedback.summary }}</p>
