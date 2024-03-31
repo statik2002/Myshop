@@ -12,6 +12,7 @@ import CabinetPage from '@/pages/CabinetPage.vue';
 import OrdersPage from '@/pages/OrdersPage.vue'
 import LikePage from '@/pages/LikePage.vue'
 import OrderPage from '@/pages/OrderPage.vue';
+import TestPage from '@/pages/TestPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -83,6 +84,11 @@ const routes = [
         path: '/order/:id',
         component: OrderPage,
         name: 'show_order'
+    },
+    {
+        path: '/testpage',
+        component: TestPage,
+        name: 'testpage'
     }
 ]
 

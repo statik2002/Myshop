@@ -123,7 +123,6 @@ class ProductPropertySerializer(serializers.ModelSerializer):
     def get_property_labels(self, *args):
         labels = {}
 
-        print(self.fields)
         for field in self.Meta.model._meta.get_fields():
             if field.name in self.fields:
                 labels[field.name] = field.verbose_name

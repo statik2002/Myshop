@@ -1,25 +1,22 @@
 <template>
     <HeaderComponent></HeaderComponent>
-    <div class="container py-3">
-        <div class="d-flex flex-column gap-2" v-if="isLoad">
-            <div>ID: {{ order.id }}</div>
-            <div>Product ID: {{ order.order_products[0].product.id }}</div>
-            <div>Date: {{ order.order_create }}</div>
-            <div>Status: {{ order.order_status.status }}</div>
-            <div>Total: {{ order.total_amount }} Руб.</div>
-            <div v-if="order.order_status.id==5"><QrcodeVue :value=order.uuid></QrcodeVue></div>
-            <div v-for="order_product in order.order_products">
-                <div class="d-flex flex-row gap-2 border">
-                    <div v-if="order_product.product.product_images.length > 0">
-                        <img :src=order_product.product.product_images[0].image :alt=order_product.product.product_images[0].alt :width="100">
+    <div class="container py-5">
+        <div v-for="order_product in order.order_products">
+            <div class="card mb-3" >
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img :src=order_product.product.product_images[0].image :alt=order_product.product.product_images[0].alt class="img-fluid rounded-start">
                     </div>
-                    <div>{{ order_product.product.name }}</div>
-                    <div>{{ order_product.fixed_price }} Руб. </div>
-                    <div>{{ order_product.quantity }} Шт.</div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ order_product.product.name }}</h5>
+                            <div>Order id: {{ order.id }}</div>
+                            <p class="card-text">Order date: {{ order.order_create }}</p>
+                            <p class="card-text">Status: {{ order.order_status.status }}</p>
+                            <p class="card-text">Total: {{ order.total_amount }} Rub</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div v-if="order.order_status.id==6">
-                <button class="btn btn-success" @click="feedback">Оставить отзыв</button>
             </div>
         </div>
     </div>
