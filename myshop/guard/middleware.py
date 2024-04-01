@@ -3,11 +3,9 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from asgiref.sync import iscoroutinefunction, markcoroutinefunction
 
-from guard.models import Metrica, RequestHistory
+from guard.models import Metrica, RequestHistory, ResponseErrors
 
 class GuardMiddleware:
-    async_capable = True
-    sync_capable = False
 
     def __init__(self, get_response):
         self.get_response = get_response
@@ -17,7 +15,7 @@ class GuardMiddleware:
         self.s = SessionStore()
         self.s.create()
 
-    async def __call__(self, request):
+    def __call__(self, request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -34,21 +32,17 @@ class GuardMiddleware:
         #print(request.session)
         session_hash = hash(ipaddress + request.headers.get('User-Agent'))
 
-        '''
-        metrica, created = await Metrica.objects.aupdate_or_create(
-            session_key=self.s.session_key,
-            ip=ipaddress,
-            user_agent=request.headers.get('User-Agent'),
-            defaults={'last_request': timezone.now()}
-        )
-        request_history = RequestHistory.objects.create(metrica=metrica, path=request.path)
-        request_history.save()
-        '''
-
-
-        response = await self.get_response(request)
+        response = self.get_response(request)
 
         # Code to be executed for each request/response after
         # the view is called.
+        if response.status_code in [400, 401, 403, 404, 405, 408, 413, 414, 415, 419, 429, 431, 500, 502, 503, 504, 507, 508, 522, 524, 525, 526]:
+            error_response = ResponseErrors.objects.create(
+                session_key=self.s.session_key,
+                ip=ipaddress,
+                user_agent=request.headers.get('User-Agent'),
+                error_code=response.status_code,
+                request=request
+            )
 
         return response
