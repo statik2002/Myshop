@@ -1,5 +1,5 @@
 <template>
-    <div class="card mb-3 ">
+    <div class="card">
         <div class="row g-0">
             <div class="col-md-3" v-if="order.order_products[0].product.product_images.length > 0">
                 <img 

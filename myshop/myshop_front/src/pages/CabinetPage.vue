@@ -141,10 +141,21 @@
                         <div class="widget p-3 h-100">
                             <div class="d-flex flex-column align-items-start gap-2 h-100">
                                 <div class="fw-bold">Ваш пункт выдачи</div>
-                                <div class="d-flex gap-2">
-                                    <i class="bi bi-shop"></i>
-                                    ул. Ленина д. 1
+                                <div v-if="$store.state.user.pickpoint" class="d-flex flex-column gap-2">
+                                    <div>
+                                        <i class="bi bi-shop"></i>
+                                        {{ $store.state.user.pickpoint.name }}
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-geo-alt"></i>
+                                        {{ $store.state.user.pickpoint.address }}
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-telephone"></i>
+                                        {{ $store.state.user.pickpoint.phone ? $store.state.user.pickpoint.phone : '' }}
+                                    </div>
                                 </div>
+                                <div v-else>Нет выбранных пунктов выдачи</div>
                                 <div class="mt-auto">
                                     <a href="#">Изменить пункт выдачи</a>
                                 </div>

@@ -136,11 +136,12 @@
           <div class="row">
             <div class="col-auto">
               <span class="text-secondary" style="font-size: 0.8em;"><i class="bi bi-box"></i></span>
-              <span class="text-secondary ps-2" style="font-size: 0.8em;">27 ноября</span>
+              <span class="text-secondary ps-2" style="font-size: 0.8em;">{{ getTomorrow() }}</span>
             </div>
             <div class="col">
               <span class="text-secondary" style="font-size: 0.8em;"><i class="bi bi-shop"></i></span>
-              <span class="text-secondary ps-2" style="font-size: 0.8em;">Пункт выдачи: ул. Ленина д.1</span>
+              <span v-if="$store.state.userIsAuth" class="text-secondary ps-2" style="font-size: 0.8em;"> {{ $store.state.user.pickpoint.name }} {{ $store.state.user.pickpoint.address }}</span>
+              <span v-else class="text-secondary ps-2" style="font-size: 0.8em;">{{ defaultPickPoint.name }} {{ defaultPickPoint.address }}</span>
             </div>
           </div>
         </div>
@@ -272,7 +273,7 @@
     </div>
     <modal-component v-model:show="modalIsVisible">
       <div class="d-flex flex-column gap-3">
-        <div>{{ product.name }} Добавлен</div>
+        <div>{{ product.name }} уже в корзине</div>
         <div class="d-flex justify-content-between gap-4">
           <router-link to="/cart">Посмотреть корзину</router-link>
           <a href="#" @click="closeModal">Продолжить покупки</a>
@@ -308,6 +309,7 @@
                 modalIsVisible: false,
                 editProductModal: false,
                 uploadImagesModal: false,
+                defaultPickPoint: {address: "пр-кт Ленина д.1", id: 1, name: "магазин 'Мозаика'", phone: null, rating: 0}
             }
         },
         methods: {
@@ -447,6 +449,14 @@
             },
             humanViewNumber(number) {
               return Number.parseFloat(number)
+            },
+            getTomorrow() {
+              let currentDate = new Date();
+              currentDate.setDate(currentDate.getDate() + 1);
+              const year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(currentDate);
+              const month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(currentDate);
+              const day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(currentDate);
+              return `${day} ${month} ${year}`
             }
         },
         mounted() {

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
-        Cart, Customer, Catalog, Feedback, Order, OrderStatus, Product, 
+        Cart, Customer, Catalog, Feedback, Order, OrderStatus, PickPoint, Product, 
         ProductInCart, ProductInOrder, ProductQuestion, ProductRating, Tag, ProductProperty, 
         ProductImage
     )
@@ -96,3 +96,8 @@ class FeedbackAdmin(admin.ModelAdmin):
 class ProductQuestion(admin.ModelAdmin):
     list_display = ('id', 'product', 'customer', 'created', 'is_show')
     list_editable = ('is_show',)
+
+
+@admin.register(PickPoint)
+class PickPointAdmin(admin.ModelAdmin):
+    pass

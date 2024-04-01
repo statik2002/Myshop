@@ -48,6 +48,7 @@ class Customer(AbstractBaseUser):
     likes = models.ManyToManyField('Product', verbose_name='Лайкнутые товары', blank=True)
     personal_discount = models.SmallIntegerField(verbose_name='Персональная скидка', default=0)
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='customer')
+    pickpoint = models.ForeignKey('PickPoint', on_delete=models.CASCADE, related_name='pickpoints', null=True, blank=True)
 
     login_fail_counter = models.SmallIntegerField(default=0, verbose_name='Счетчик неудачных входов')
     ban_status = models.BooleanField(default=False, verbose_name='Бан или нет')
@@ -329,3 +330,17 @@ class ProductQuestion(models.Model):
 
     def __str__(self) -> str:
         return f'Вопрос от пользователя: {self.customer.first_name} {self.customer.last_name}, к товару: {self.product.pk}, {self.created}'
+    
+
+class PickPoint(models.Model):
+    name = models.CharField('Пункт выдачи', max_length=100)
+    address = models.CharField('Адрес', max_length=200)
+    phone = PhoneNumberField(verbose_name='Телефон', null=True, blank=True)
+    rating = models.SmallIntegerField('Рейтинг', default=0)
+
+    class Meta:
+        verbose_name = 'Пункт выдачи'
+        verbose_name_plural = 'Пункты выдачи'
+
+    def __str__(self) -> str:
+        return f'{self.name} ___ {self.address}'

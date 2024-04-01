@@ -4,6 +4,7 @@
             {{ message }}
         </div>
     </div>
+    <p>{{ product_id }}</p>
     <form @submit.prevent>
         <div class="d-flex flex-column">
             <div class="mb-3 row">

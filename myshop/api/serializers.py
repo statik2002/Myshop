@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.fields import SerializerMethodField
-from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating
+from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, PickPoint, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating
 from main.email_functional import send_mail
 from django.db.models import Avg
 
@@ -94,6 +94,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
+        print(validated_data)
         if not self.context.get('request').user:
             return None
         feedback = Feedback.objects.create(
@@ -263,16 +264,25 @@ class CartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PickPointSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = PickPoint
+        fields = '__all__'
+
+
 class CustomerSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True)
     cart = CartSerializer(required=False, read_only=True)
+    pickpoint = PickPointSerializer(required=False, read_only=True)
 
     class Meta:
         model = Customer
         fields = ('id', 'email', 'first_name', 'last_name', 
                   'is_read_pd', 'phone_number', 'address', 'date_joined', 
-                  'avatar', 'likes', 'is_staff', 'password', 'personal_discount', 'cart')
+                  'avatar', 'likes', 'is_staff', 'password', 'personal_discount', 
+                  'cart', 'pickpoint')
 
     def create(self, validated_data):
         cart = Cart.objects.create()

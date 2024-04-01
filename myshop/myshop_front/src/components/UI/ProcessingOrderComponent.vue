@@ -1,0 +1,58 @@
+<template>
+    <div class="card text-bg-dark" style="width: 15vw">
+        <img
+            v-if="order.order_products[0].product.product_images.length > 0" 
+            :src=order.order_products[0].product.product_images[0].image 
+            class="card-img" 
+            :alt=order.order_products[0].product.product_images.alt
+            >
+        <img
+            v-else 
+            src="@/assets/no_image.png"
+            class="card-img" 
+            alt="no image"
+            >
+        <div class="card-img-overlay">
+            <div class="d-flex flex-column h-100">
+                <div class="alert alert-light p-1" role="alert">{{formatDate(order.order_create)}}</div>
+                <div class="mt-auto"><h5><span class="badge text-bg-success rounded-pill">{{order.order_status.status}}</span></h5></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: 'processing-order',
+        props: {
+            order: {
+                type: Object,
+                required: true
+            }
+        },
+        data() {
+            return {
+            }
+        },
+        methods: {
+            formatDate(date){
+                date = new Date(date)
+                let year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(date);
+                let month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(date);
+                let day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(date);
+                let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
+                let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
+                return `${day} ${month} ${year} ${hour}:${minute}`
+            }
+        },
+        mounted(){
+            switch(this.order.order_status.status) {
+                case 'Выдан': this.cardClass = 'card mb-3 bg-primary'; break;
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
