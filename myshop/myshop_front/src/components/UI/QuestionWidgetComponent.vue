@@ -3,7 +3,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-auto">
-                <img src="..." alt="" height="40">
+                    <img v-if="question.customer.avatar" :src=question.customer.avatar alt="avatar" height="40">
+                    <img v-else src="@/assets/avatar_blank.webp" alt="avatar" height="40">
                 </div>
                 <div class="col">
                 <div class="row">{{ question.customer.first_name }} {{ question.customer.last_name }}</div>
