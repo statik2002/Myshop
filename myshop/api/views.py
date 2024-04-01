@@ -25,6 +25,7 @@ from django.contrib.auth import authenticate
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Prefetch
+from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
 
 from myshop.settings import USER_BAN_HOURS
 
@@ -54,8 +55,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['post'], name='search')
     def search(self, request):
-        query = request.data.get('query')
-        products = Product.objects.filter(name__icontains=query).filter(quantity__gt=0)
+        query = SearchQuery(request.data.get('query'))
+        products = Product.objects.annotate(
+            search=SearchVector('name')+SearchVector('description'),
+            ).filter(search=query).filter(quantity__gt=0)
         page = self.paginate_queryset(products)
         if page is not None:
             serialized_products = ProductSerializer(page, many=True, context={'request': request})

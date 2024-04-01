@@ -140,7 +140,11 @@
             </div>
             <div class="col">
               <span class="text-secondary" style="font-size: 0.8em;"><i class="bi bi-shop"></i></span>
-              <span v-if="$store.state.userIsAuth" class="text-secondary ps-2" style="font-size: 0.8em;"> {{ $store.state.user.pickpoint.name }} {{ $store.state.user.pickpoint.address }}</span>
+              <span v-if="$store.state.userIsAuth && $store.state.user.pickpoint" class="text-secondary ps-2" style="font-size: 0.8em;">
+                  {{ $store.state.user.pickpoint.name }} 
+                  {{ $store.state.user.pickpoint.address }}
+              </span>
+              <span v-else>Не указан пункт выдачи</span>
               <span v-else class="text-secondary ps-2" style="font-size: 0.8em;">{{ defaultPickPoint.name }} {{ defaultPickPoint.address }}</span>
             </div>
           </div>

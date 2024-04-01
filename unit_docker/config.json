@@ -8,7 +8,7 @@
     "applications": {
         "myshop": {
                 "type": "python 3.11",
-                "path": "/www/",
+                "path": "/www/myshop/",
                 "module": "myshop.wsgi"
         }
     }
