@@ -2,6 +2,7 @@
 Todo:
   - Docker
     ☐ Создать management command с созданием суперюзера из .env (https://stackoverflow.com/questions/30027203/create-django-super-user-in-a-docker-container-without-inputting-password)
+    ☐ Поменять дефолтный порт в контейнере с DB что бы не было конфликтов с БД на локальной машине
   
   - Registration\Login\logout функционал
     ✔ Make new view where get new token (block user if login and password is oncorrect 5 times) @done(24-02-19 09:01)
