@@ -1,17 +1,11 @@
-FROM node:21.7.1-alpine as builder
-
-ENV NODE_ENV=production
-ENV PATH /usr/src/node_modules/.bin:$PATH
-
-ARG VITE_BACKEND_URL
-
-ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
-
-WORKDIR /usr/app/
-
+FROM node:latest as build-stage
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
-
-COPY . ./
-
+COPY ./ .
 RUN npm run build
+
+FROM nginx as production-stage
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf

@@ -163,3 +163,4 @@ media/
 .DS_Store
 
 myshop/staticfiles/
+staticfiles/

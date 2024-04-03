@@ -4,20 +4,21 @@ set -e
 
 COMMIT_HASH=`git rev-parse HEAD`
 
-mkdir -p "frontend_deploy"
+#npm run build --prefix myshop/myshop_front
 
-cp -fr myshop/staticfiles staticfiles
-cp -fr myshop/myshop_front/dist staticfiles/
+cp -f .env myshop
+cp -f requirements.txt myshop
+cp -r unit_docker myshop
 
-docker compose build
+docker compose build --no-cache
 docker compose up -d
 
 #docker compose stop web-static
 #docker compose rm --force web-static
-#docker compose stop parcel
-#docker compose rm --force parcel
 
-docker compose exec -it web sh -c "python manage.py collectstatic --noinput"
+docker compose exec -it web sh -c "python manage.py collectstatic"
 docker compose exec -it web sh -c "python manage.py migrate"
+docker compose exec -it web sh -c "python manage.py loaddata initial.json"
+docker compose exec -it web sh -c "chown -R unit:unit media/"
 
 echo "All done!"

@@ -8,6 +8,9 @@ from cart.forms import CartAddProductForm
 from main.models import ProductImage, ProductProperty, Product, Customer
 from rest_framework_simplejwt.tokens import RefreshToken
 
+def index(request):
+    return render(request, 'main/index.html')
+
 
 def product_serializer(products):
 
