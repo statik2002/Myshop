@@ -21,4 +21,8 @@ docker compose exec -it web sh -c "python manage.py migrate"
 docker compose exec -it web sh -c "python manage.py loaddata initial.json"
 docker compose exec -it web sh -c "chown -R unit:unit media/"
 
+rm myshop/.env
+rm myshop/requirements.txt
+rm -R myshop/unit_docker
+
 echo "All done!"
