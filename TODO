@@ -1,5 +1,8 @@
 
 Todo:
+  - Docker
+    ☐ Создать management command с созданием суперюзера из .env (https://stackoverflow.com/questions/30027203/create-django-super-user-in-a-docker-container-without-inputting-password)
+  
   - Registration\Login\logout функционал
     ✔ Make new view where get new token (block user if login and password is oncorrect 5 times) @done(24-02-19 09:01)
     ✔ Создать функционал Логин @done(24-02-19 09:02)
