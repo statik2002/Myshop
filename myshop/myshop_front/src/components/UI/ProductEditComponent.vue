@@ -71,7 +71,7 @@
                         props[property] = this.productProperty[property].value
                     }
                     this.product.properties[0] = props
-                    console.log(this.product)
+                    //console.log(this.product)
                     axios(
                       {
                         url: `http://127.0.0.1:8000/api/v1/products/${this.product.id}/`,

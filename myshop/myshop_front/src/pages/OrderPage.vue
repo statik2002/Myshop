@@ -5,7 +5,18 @@
             <div class="card mb-3" >
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img :src=order_product.product.product_images[0].image :alt=order_product.product.product_images[0].alt class="img-fluid rounded-start">
+                        <img
+                            v-if="order_product.product.product_images.length > 0"
+                            :src=order_product.product.product_images[0].image
+                            :alt=order_product.product.product_images[0].alt
+                            class="img-fluid rounded-start"
+                        >
+                        <img
+                            v-else
+                            src="@/assets/no_image.png"
+                            alt="no image"
+                            class="img-fluid rounded-start"
+                        >
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

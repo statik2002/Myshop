@@ -92,7 +92,6 @@ class FeedbackSerializer(serializers.ModelSerializer):
         model = Feedback
         fields = '__all__'
 
-
     def create(self, validated_data):
         print(validated_data)
         if not self.context.get('request').user:
@@ -177,7 +176,6 @@ class ProductSerializer(serializers.ModelSerializer):
         feedbacks_count = Feedback.objects.filter(product=obj).filter(is_show=True).count()
         return feedbacks_count
 
-
     def update(self, instance, validated_data):
 
         instance.name = validated_data.get('name')
@@ -227,12 +225,18 @@ class ProductInitialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('code_1c', 'name', 'price', 'quantity')
+        extra_kwargs = {
+            'code_1c': {'validators': []}
+        }
 
 
 class CatalogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Catalog
         fields = ('name', 'code_1c')
+        extra_kwargs = {
+            'code_1c': {'validators': []}
+        }
 
 
 class ProductInCartSerializer(serializers.ModelSerializer):

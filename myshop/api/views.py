@@ -1,6 +1,8 @@
 import json
 import os
 import pprint
+import time
+
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
@@ -28,6 +30,8 @@ from django.db.models import Prefetch
 from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
 
 from myshop.settings import USER_BAN_HOURS
+
+from main.slugify import slugify
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -121,19 +125,28 @@ class InitialUploadCatalog(viewsets.ModelViewSet):
     serializer_class = CatalogSerializer(many=True)
 
     def create(self, request, *args, **kwargs):
+        start_time = time.time()
+        bulk_catalogs = []
         for catalog in request.data:
             serialized_catalog = CatalogSerializer(data=catalog)
             if serialized_catalog.is_valid():
-                obj, created = Catalog.objects.update_or_create(
-                    code_1c=serialized_catalog.data.get('code_1c'),
-                    defaults={
-                        'name': serialized_catalog.data.get('name')
-                    }
+                bulk_catalogs.append(
+                    Catalog(
+                        code_1c=serialized_catalog.data.get('code_1c'),
+                        name=serialized_catalog.data.get('name'),
+                        slug=slugify(serialized_catalog.data.get('name')),
+                    )
                 )
                 #return Response({'response': 'Catalog update set in queue!'}, status=status.HTTP_200_OK)
             else:
-                return Response({'response': f'Error!: {serialized_catalog.error_messages}'}, status=status.HTTP_200_OK)
-            
+                return Response({'response catalog update': f'Error!: {serialized_catalog.errors}'}, status=status.HTTP_200_OK)
+        catalogs_obj = Catalog.objects.bulk_create(
+            bulk_catalogs,
+            update_conflicts=True,
+            update_fields=['name', 'slug'],
+            unique_fields=['code_1c']
+        )
+        print(f'Catalogs update at {time.time()-start_time} seconds')
         return Response({'response': 'OK!'}, status=status.HTTP_200_OK)
 
 
@@ -149,27 +162,34 @@ class InitialUploadProducts(viewsets.ModelViewSet):
     serializer_class = ProductInitialSerializer(many=True)
 
     def create(self, request, *args, **kwargs):
+        start_time = time.time()
+        bulk_products = []
         for product in request.data:
             serialized_product = ProductInitialSerializer(data=product)
             if serialized_product.is_valid():
                 catalog = Catalog.objects.get(code_1c=product.get('catalog'))
-                obj, created = Product.objects.update_or_create(
-                    code_1c=serialized_product.data.get('code_1c'),
-                    defaults={
-                        'name': serialized_product.data.get('name'),
-                        'price': serialized_product.data.get('price'),
-                        'quantity': serialized_product.data.get('quantity'),
-                        'catalog': catalog,
-                        'description': 'Нет описания',
-                    }
+                bulk_products.append(
+                    Product(
+                        code_1c=serialized_product.data.get('code_1c'),
+                        name=serialized_product.data.get('name'),
+                        price=serialized_product.data.get('price'),
+                        quantity=serialized_product.data.get('quantity'),
+                        catalog=catalog,
+                        description='Нет описания',
+                        slug=slugify(serialized_product.data.get('name')),
+                    )
                 )
-                #products.append(obj)
-                #return Response({'response': 'Products update set in queue!'}, status=status.HTTP_200_OK)
 
             else:
                 #logger.error(f'Product serialized error! wit error={serialized_product_in_catalog.errors}')
-                return Response({'response': f'Error!: {serialized_product.error_messages}'}, status=status.HTTP_200_OK)
-        
+                return Response({'response products update': f'Error!: {serialized_product.errors}'}, status=status.HTTP_200_OK)
+        product_objs = Product.objects.bulk_create(
+            bulk_products,
+            update_conflicts=True,
+            update_fields=['name', 'slug', 'price', 'quantity', 'catalog'],
+            unique_fields=['code_1c']
+        )
+        print(f'Products update at {time.time() - start_time} seconds')
         return Response({'response': 'OK!'}, status=status.HTTP_200_OK)
         
 

@@ -86,7 +86,7 @@ class Customer(AbstractBaseUser):
 class Catalog(models.Model):
 
     name = models.CharField('Название каталога', max_length=150)
-    code_1c = models.PositiveIntegerField(verbose_name='Код каталога из 1С', blank=True, null=True)
+    code_1c = models.PositiveIntegerField(verbose_name='Код каталога из 1С', unique=True)
     image = models.ImageField(upload_to='media/catalog_images', verbose_name='Изображение', blank=True, null=True)
     is_active = models.BooleanField(verbose_name='Показывается', default=True)
     slug = models.SlugField(max_length=200)
@@ -141,7 +141,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Price')
     discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки',
                                    default=0.0)  # 000 000 000.00 сумма скидки
-    code_1c = models.PositiveIntegerField('Код из 1С', blank=True, null=True)
+    code_1c = models.PositiveIntegerField('Код из 1С', unique=True)
     quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество',
                                    default=0.0)  # 000 000.000
     
