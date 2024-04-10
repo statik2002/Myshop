@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="d-flex flex-column py-5" v-if="isOrdersLoaded">
-            <div class="">
+            <div class="" v-if="processingOrders.length > 0">
                 <p>Заказы в пути</p>
                 <carousel :items-to-show="5" :wrapAround=carouselWrap>
                     <slide v-for="slide in processingOrders" :key="slide">

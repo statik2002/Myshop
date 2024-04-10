@@ -2,9 +2,9 @@
     <HeaderComponent></HeaderComponent>
     <div class="container py-5">
         <div v-for="order_product in order.order_products">
-            <div class="card mb-3" >
-                <div class="row g-0">
-                    <div class="col-md-4">
+            <div class="card p-2" >
+                <div class="row">
+                    <div class="col-md-3">
                         <img
                             v-if="order_product.product.product_images.length > 0"
                             :src=order_product.product.product_images[0].image
@@ -18,14 +18,19 @@
                             class="img-fluid rounded-start"
                         >
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <div class="card-body">
                             <h5 class="card-title">{{ order_product.product.name }}</h5>
                             <div>Order id: {{ order.id }}</div>
                             <p class="card-text">Order date: {{ order.order_create }}</p>
                             <p class="card-text">Status: {{ order.order_status.status }}</p>
                             <p class="card-text">Total: {{ order.total_amount }} Rub</p>
-                            <button class="btn btn-success" @click="feedback">Feedback</button>
+                            <button v-if="order.order_status.status=='Выдан'" class="btn btn-success" @click="feedback">Feedback</button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div v-if="order.order_status.status=='Готов к выдаче'">
+                            <qrcode-vue :value="order.uuid" class="img-fluid" :size="200" level="H" />
                         </div>
                     </div>
                 </div>
@@ -51,7 +56,7 @@
                 orderId: 0,
                 order: {},
                 isLoad: false,
-                feedbackModalVisible: false
+                feedbackModalVisible: false,
             }
         },
         methods: {
