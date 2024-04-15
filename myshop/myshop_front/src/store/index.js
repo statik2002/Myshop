@@ -7,6 +7,7 @@ export default createStore({
         return {
             user: {},
             userIsAuth: false,
+            windowWidth: ''
         }
     },
 

@@ -286,6 +286,31 @@ import router from '@/router/router'
             }
         },
         methods: {
+            async refreshToken() {
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/get_ready_orders/`,
+                          method: 'get',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          timeout: 1000
+                        }
+                      ).then((response) => {
+                            if (response.status == 401){
+                                //Врзможно устаревший token или неверный
+                                
+                            }
+                            this.ready_orders = response.data
+                            //console.log(response.data)
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+
             async getUserOrders() {
                 try {
                       axios(
@@ -296,6 +321,10 @@ import router from '@/router/router'
                           timeout: 1000
                         }
                       ).then((response) => {
+                            if (response.status == 401){
+                                //Врзможно устаревший token или неверный
+
+                            }
                             this.ready_orders = response.data
                             //console.log(response.data)
                         })

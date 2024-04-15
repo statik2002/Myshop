@@ -377,6 +377,10 @@ class GetTokenViewSet(viewsets.ModelViewSet):
             return Response({'user_id': user.pk, 'refresh': str(refresh), 'access': str(refresh.access_token)}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'wrong tel or password'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(methods=['post'], detail=False)
+    def refresh(self, request):
+        pass
 
 
 class OrderViewSet(viewsets.ModelViewSet):

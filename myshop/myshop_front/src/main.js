@@ -22,5 +22,4 @@ components.forEach(component => {
 app
     .use(router)
     .use(store)
-    .use(VueCookies, { expires: '7d'})
     .mount('#app')

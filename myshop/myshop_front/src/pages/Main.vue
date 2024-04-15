@@ -1,7 +1,22 @@
 <template>
     <div>
         <header-component/>
-        <div class="container-xl pt-3" id="productContainer">
+        <!--Desktop-->
+        <div v-if="$store.state.windowWidth=='xl'" class="container-xl pt-3" id="productContainer">
+            <ProductsList 
+                :products="products"
+                v-if="isProductsLoading"
+            >
+            </ProductsList>
+            <div v-else class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+                <div class="spinner-grow" style="width: 5rem; height: 5rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div ref="observer" class="observer"></div>
+        </div>
+        <!--Telephone-->
+        <div v-else class="container-fluid" id="productContainer">
             <ProductsList 
                 :products="products"
                 v-if="isProductsLoading"
@@ -64,7 +79,7 @@
                 finally {
                     this.isProductsLoading=true;
                 }
-            }
+            },
         },
         mounted() {
             this.uploadProducts();
