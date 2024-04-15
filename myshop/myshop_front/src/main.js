@@ -22,4 +22,5 @@ components.forEach(component => {
 app
     .use(router)
     .use(store)
+    .use(VueCookies)
     .mount('#app')

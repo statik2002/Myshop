@@ -166,7 +166,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'     
+        fields = '__all__'
+        extra_kwargs = {
+            'code_1c': {'validators': []}
+        }
 
     def get_rating(self, obj):
         feedbacks_avg = Feedback.objects.filter(product=obj).filter(is_show=True).aggregate(Avg('rating', default=0))

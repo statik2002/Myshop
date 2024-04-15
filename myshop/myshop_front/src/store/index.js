@@ -7,7 +7,10 @@ export default createStore({
         return {
             user: {},
             userIsAuth: false,
-            windowWidth: ''
+            windowWidth: '',
+            cart: {
+                products: [],
+            }
         }
     },
 
@@ -16,33 +19,63 @@ export default createStore({
             return state.user.cart;
         },
 
+        productsInCart(state) {
+            if (state.userIsAuth) {
+                return state.user.cart.products;
+            } else {
+                return state.cart.products
+            }
+            
+        },
+
         getCartTotal(state) {
             let total = 0
-            if (state.user.cart.products.length > 0){
-                for(const product of state.user.cart.products){
-                    total += product.quantity * product.fixed_price
+            if (state.userIsAuth) {
+                if (state.user.cart.products.length > 0){
+                    for(const product of state.user.cart.products){
+                        total += product.quantity * product.fixed_price
+                    }
+                    return total
+                } else {
+                    return 0
                 }
-                return total
             } else {
-                return 0
+                if (state.cart.products.length > 0){
+                    for(const product of state.cart.products){
+                        total += product.quantity * product.fixed_price
+                    }
+                    return total
+                } else {
+                    return 0
+                }
             }
+            
+            
         },
 
         getCartProductsCount(state) {
-            if(!state.userIsAuth) return 0
-            
             let total = 0
-            for (const product of state.user.cart.products){
-                total += product.quantity
+            if(state.userIsAuth) {
+                for (const product of state.user.cart.products){
+                    total += product.quantity
+                }
+            } else {
+                for (const product of state.cart.products){
+                    total += product.quantity
+                }
             }
 
             return total
         },
 
         getCartPositionCount(state) {
-            if (!state.userIsAuth) return 0
+            if (state.userIsAuth) {
+                return state.user.cart.products.length;
+            } else {
+                return state.cart.products.length;
+            }
 
-            return state.user.cart.products.length;
+            
         },
         getProductQuantity(state, id) {
             if (state.user.cart.products > 0) {
@@ -92,22 +125,42 @@ export default createStore({
         },
 
         addProductToCart(state, product) {
-            const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
-            if (productIndex >= 0) {
-                state.user.cart.products[productIndex].quantity += 1;
-                state.user.cart.cartProductsQuantity += 1;
-                state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.price;
-                localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.userIsAuth) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+                if (productIndex >= 0) {
+                    state.user.cart.products[productIndex].quantity += 1;
+                    state.user.cart.cartProductsQuantity += 1;
+                    state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.price;
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                } else {
+                    const newCartItem = {
+                        id: product.id,
+                        product: product,
+                        quantity: 1,
+                        fixed_price: product.price,
+                        cart: state.user.cart.id
+                    };
+                    state.user.cart.products.push(newCartItem);
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                }
             } else {
-                const newCartItem = {
-                    id: product.id,
-                    product: product,
-                    quantity: 1,
-                    fixed_price: product.price,
-                    cart: state.user.cart.id
-                };
-                state.user.cart.products.push(newCartItem);
-                localStorage.setItem('user', JSON.stringify(state.user))
+                const productIndex = state.cart.products.findIndex((index) => index.id === product.id);
+                if (productIndex >= 0) {
+                    state.cart.products[productIndex].quantity += 1;
+                    state.cart.cartProductsQuantity += 1;
+                    state.cart.cartProductsTotal += state.cart.products[productIndex].quantity * product.price;
+                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                } else {
+                    const newCartItem = {
+                        id: product.id,
+                        product: product,
+                        quantity: 1,
+                        fixed_price: product.price,
+                        cart: state.cart.id
+                    };
+                    state.cart.products.push(newCartItem);
+                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                }
             }
         },
         removeProductFromCart(state, product) {
@@ -117,25 +170,48 @@ export default createStore({
         },
 
         addOne(state, id) {
-            const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
-            state.user.cart.products[productIndex].quantity += 1;
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.userIsAuth) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+                state.user.cart.products[productIndex].quantity += 1;
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                const productIndex = state.cart.products.findIndex((index) => index.id === id);
+                state.cart.products[productIndex].quantity += 1;
+                localStorage.setItem('cart', JSON.stringify(state.cart))
+            }
         },
 
         subOne(state, id) {
-            const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
-            if (state.user.cart.products[productIndex].quantity > 1)
-            {
-                state.user.cart.products[productIndex].quantity -= 1;
-                localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.userIsAuth) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+                if (state.user.cart.products[productIndex].quantity > 1)
+                {
+                    state.user.cart.products[productIndex].quantity -= 1;
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                }
+            } else {
+                const productIndex = state.cart.products.findIndex((index) => index.id === id);
+                if (state.cart.products[productIndex].quantity > 1)
+                {
+                    state.cart.products[productIndex].quantity -= 1;
+                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                }
             }
+            
             
         },
 
         deleteProductFromCart(state, id) {
-            const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
-            state.user.cart.products.splice(productIndex, 1)
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.userIsAuth) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+                state.user.cart.products.splice(productIndex, 1)
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                const productIndex = state.cart.products.findIndex((index) => index.id === id);
+                state.cart.products.splice(productIndex, 1)
+                localStorage.setItem('cart', JSON.stringify(state.cart))
+            }
+            
         },
 
         deleteProductsFromCart(state, products){

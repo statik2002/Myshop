@@ -1,9 +1,24 @@
 <template>
     <header-component></header-component>
     <div class="container-lg pt-5">
-        <div class="mb-5" v-if="!$store.state.userIsAuth">Необходимо зарегистрироваться или войти в аккаунт что бы оформить заказ</div>
+        <div class="d-flex flex-column gap-3" v-if="!$store.state.userIsAuth">
+            <div>Необходимо зарегистрироваться или войти в аккаунт что бы оформить заказ</div>
+            <cart-card v-for="cartItem in $store.getters.productsInCart"
+                :cart_product="cartItem">
+            </cart-card>
+            <div class="row p-3 cart-product widget">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        Кол-во товаров: <b>{{ $store.getters.getCartProductsCount }}</b>
+                    </div>
+                    <div>
+                        Общая сумма: <b>{{ $store.getters.getCartTotal }} &#8381;</b>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="d-flex flex-column gap-3" v-else>
-            <cart-card v-for="cartItem in productsInCart"
+            <cart-card v-for="cartItem in $store.getters.productsInCart"
                 :cart_product="cartItem">
             </cart-card>
             <div class="row p-3 cart-product widget">
@@ -56,7 +71,12 @@
         },
         computed: {
             productsInCart() {
-                return this.$store.state.user.cart.products;
+                if (this.$store.state.userIsAuth) {
+                    return this.$store.state.user.cart.products;
+                } else {
+                    return this.$store.state.cart.products
+                }
+                
             },
             getProductsCount() {
                 return this.$store.state.user.cart.cartProductQuantity;

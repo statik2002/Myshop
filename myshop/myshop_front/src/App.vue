@@ -9,14 +9,27 @@
 <script>
     import { useWindowWidth } from "@/mixins/windowSizeMixin";
     export default {
+        data() {
+            return {
+                acceptCookiesDialog: false
+            }
+        },
         mounted() {
             //Load user from useStorage
             const user = localStorage.getItem('user')
             if (user) {
                 this.$store.state.user = JSON.parse(user)
                 this.$store.state.userIsAuth = true
-            } else {
-                this.$store.state.userIsAuth = false
+            }
+            const cart = localStorage.getItem('cart')
+            if (cart) {
+                //this.$store.state.userIsAuth = false
+                this.$store.state.cart = JSON.parse(cart)
+            }
+
+            if (!this.$cookies.isKey('allow_cookie')) {
+                this.$cookies.set('allow_cookie', true)
+                this.acceptCookiesDialog = true
             }
         }
   }
