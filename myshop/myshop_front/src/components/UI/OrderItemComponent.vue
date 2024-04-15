@@ -12,15 +12,15 @@
                 <div class="card-body">
                     <div class="d-flex flex-column ">
                         <h5 class="card-title">{{ order.order_products[0].product.name }}</h5>
-                        <div class="d-flex flex-row gap-2">
-                            <p class="card-text">Order id: {{ order.id }}</p>
-                            <p class="card-text">Товаров: {{ Number(order.order_products[0].quantity) }} Шт.</p>
-                            <p class="card-text" v-if="order.order_status.id==4"><i class="bi bi-sign-stop"></i> {{ order.order_status.status }}</p>
-                            <p class="card-text" v-if="order.order_status.id==1"><i class="bi bi-pin-angle"></i> {{ order.order_status.status }}</p>
-                            <p class="card-text" v-if="order.order_status.id==2"><i class="bi bi-gear"></i> {{ order.order_status.status }}</p>
-                            <p class="card-text" v-if="order.order_status.id==3"><i class="bi bi-box2-heart"></i> {{ order.order_status.status }}</p>
-                            <p class="card-text" v-if="order.order_status.id==5"><i class="bi bi-patch-check"></i> {{ order.order_status.status }}</p>
-                            <p class="card-text" v-if="order.order_status.id==6"><i class="bi bi-file-earmark-zip"></i> {{ order.order_status.status }}</p>
+                        <div class="d-flex flex-column gap-1">
+                            <div class="card-text">Id заказа: {{ order.id }}</div>
+                            <div class="card-text">Товаров: {{ Number(order.order_products[0].quantity) }} Шт.</div>
+                            <div class="card-text" v-if="order.order_status.id==4"><i class="bi bi-sign-stop"></i> {{ order.order_status.status }}</div>
+                            <div class="card-text" v-if="order.order_status.id==1"><i class="bi bi-pin-angle"></i> {{ order.order_status.status }}</div>
+                            <div class="card-text" v-if="order.order_status.id==2"><i class="bi bi-gear"></i> {{ order.order_status.status }}</div>
+                            <div class="card-text" v-if="order.order_status.id==3"><i class="bi bi-box2-heart"></i> {{ order.order_status.status }}</div>
+                            <div class="card-text" v-if="order.order_status.id==5"><i class="bi bi-patch-check"></i> {{ order.order_status.status }}</div>
+                            <div class="card-text" v-if="order.order_status.id==6"><i class="bi bi-file-earmark-zip"></i> {{ order.order_status.status }}</div>
                         </div>
                         <p class="card-text"><i class="bi bi-wallet2"></i> {{ order.total_amount }} Руб.</p>
                     </div>

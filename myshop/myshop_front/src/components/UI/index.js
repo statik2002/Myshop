@@ -15,6 +15,7 @@ import QuestionWidgetComponent from '@/components/UI/QuestionWidgetComponent.vue
 import UploadProductImagesFormComponent from '@/components/UI/UploadProductImagesFormComponent.vue'
 import MultiItemCarouselComponent from '@/components/UI/MultiItemCarouselComponent.vue'
 import ProcessingOrderComponent from '@/components/UI/ProcessingOrderComponent.vue'
+import AcceptCookieComponent from '@/components/UI/AceptCookieComponent.vue'
 
 export default [
     ModalComponent,
@@ -33,5 +34,6 @@ export default [
     QuestionWidgetComponent,
     UploadProductImagesFormComponent,
     MultiItemCarouselComponent,
-    ProcessingOrderComponent
+    ProcessingOrderComponent,
+    AcceptCookieComponent
 ]

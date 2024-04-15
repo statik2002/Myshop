@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <accept-cookies v-model:show="acceptCookiesDialog"></accept-cookies>
     <router-view>
     </router-view>
   </div>
@@ -7,6 +8,11 @@
 
 <script>
     export default {
+        data() {
+            return {
+                acceptCookiesDialog: false
+            }
+        },
         mounted() {
             //Load user from useStorage
             const user = localStorage.getItem('user')
@@ -15,6 +21,10 @@
                 this.$store.state.userIsAuth = true
             } else {
                 this.$store.state.userIsAuth = false
+            }
+            if (!this.$cookies.isKey('accept_cookie')) {
+                //show acept cookie modal
+                this.acceptCookiesDialog = true
             }
         }
   }

@@ -19,9 +19,9 @@
                         v-bind:value="phone"
                         @input="inputPhone"
                         class="form-control"
-                        autocomplete="tel-national"
+                        autocomplete="username"
                         id="phone"
-                        value=""
+                        :value=phone
                         v-mask="['(+7) ###-###-##-##']"
                         @keyup.enter="loginUser">
                 </div>
@@ -32,7 +32,7 @@
                 </div>
                 
                 <div class="col-sm-9">
-                <input v-bind:value="password" @input="inputPassword" @keyup.enter="loginUser" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
+                    <input v-bind:value="password" @input="inputPassword" @keyup.enter="loginUser" type="password" autocomplete="current-password" class="form-control" id="inputPassword">
                 </div>
             </div>
             <div class="row d-flex align-items-end">
@@ -96,10 +96,10 @@
                         }
                     )
                     .then((response) => {
-                        //this.$store.commit('setUser2', response.data)
                         this.$store.commit('setUser', response.data)
-                        //useStorage('user', JSON.stringify({'access_token': response.data.access}))
+                        this.$cookies.set('login', this.phone)
                         this.$emit('update:show', false)
+
                     })
                     .catch((error) => {
                         console.log(error)
@@ -112,6 +112,11 @@
                 })
             }
         },
+        mounted() {
+            if (this.$cookies.isKey('login')) {
+                this.phone = this.$cookies.get('login')
+            }
+        }
     }
 </script>
 
