@@ -26,7 +26,7 @@
 .dialog {
     bottom: 10px;
     width: 250px;
-    left: 10px;
+    right: 100px;
     border-radius: 10px;
     background: rgba(241, 241, 241, 0.7);
     color: #757575;
