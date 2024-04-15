@@ -23,11 +23,11 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <a href="#" @click="showReadyOrders">{{ ready_orders.length }} заказа</a>
+                                <a href="#" @click="showReadyOrders">{{ showOrderHumanize(ready_orders.length) }}</a>
                                 <span>Ожидают получения</span>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <a href="#" @click="showProcessingOrders">{{ processing_orders.length }} заказа</a>
+                                <a href="#" @click="showProcessingOrders">{{ showOrderHumanize(processing_orders.length) }}</a>
                                 <span>В процессе</span>
                             </div>
                             </div>
@@ -379,6 +379,28 @@ import router from '@/router/router'
 
             uploadAvatar() {
                 this.showUploadAvatar = true
+            },
+
+            showOrderHumanize(numOrders) {
+                if (numOrders < 10)
+                {
+                    if ([0, 5, 6, 7, 8, 9].includes(numOrders)) {
+                        return `${numOrders} заказов`
+                    } else if ([2, 3, 4].includes(numOrders)) {
+                        return `${numOrders} заказа`
+                    } else {
+                        return `${numOrders} заказ`
+                    }
+                } else {
+                    const astNumOrders = numOrders % 10
+                    if ([0, 5, 6, 7, 8, 9].includes(lastNumOrders)) {
+                        return `${numOrders} заказов`
+                    } else if ([2, 3, 4].includes(lastNumOrders)) {
+                        return `${numOrders} заказа`
+                    } else {
+                        return `${numOrders} заказ`
+                    }
+                }
             }
         },
         mounted() {
