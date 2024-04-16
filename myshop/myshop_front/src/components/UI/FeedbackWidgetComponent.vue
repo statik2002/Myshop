@@ -14,7 +14,7 @@
                         {{ feedback.rating }}
                     </div>
                 </div>
-                <div class="d-flex datetime">{{ formatDate(feedback.post_at) }}</div>
+                <div class="d-flex datetime">{{ $FormatDate(feedback.post_at) }}</div>
             </div>
         </div>
         <p class="card-text pt-3">{{ feedback.summary }}</p>
@@ -33,15 +33,6 @@
             }
         },
         methods: {
-            formatDate(date){
-                date = new Date(date)
-                let year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(date);
-                let month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(date);
-                let day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(date);
-                let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
-                let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
-                return `${day} ${month} ${year} ${hour}:${minute}`
-            },
         }
     }
 </script>

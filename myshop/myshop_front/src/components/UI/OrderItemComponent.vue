@@ -21,6 +21,7 @@
                             <div class="card-text" v-if="order.order_status.id==3"><i class="bi bi-box2-heart"></i> {{ order.order_status.status }}</div>
                             <div class="card-text" v-if="order.order_status.id==5"><i class="bi bi-patch-check"></i> {{ order.order_status.status }}</div>
                             <div class="card-text" v-if="order.order_status.id==6"><i class="bi bi-file-earmark-zip"></i> {{ order.order_status.status }}</div>
+                            <div class="card-text">Дата заказа: {{ $FormatDate(order.order_create) }}</div>
                         </div>
                         <p class="card-text"><i class="bi bi-wallet2"></i> {{ order.total_amount }} Руб.</p>
                     </div>
@@ -45,15 +46,6 @@
             }
         },
         methods: {
-            formatDate(date){
-                date = new Date(date)
-                let year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(date);
-                let month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(date);
-                let day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(date);
-                let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
-                let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
-                return `${day} ${month} ${year} ${hour}:${minute}`
-            }
         },
         mounted(){
             switch(this.order.order_status.status) {

@@ -190,7 +190,7 @@
                             <div class="d-flex flex-column align-items-start gap-2 h-100">
                             <div class="fw-bold">Ваши последние заказы</div>
                             <div v-for="order in processing_orders.slice(0,3)" class="d-flex justify-content-start">
-                                <div class="">{{ formatDate(order.order_create) }}</div>
+                                <div class="">{{ $FormatDate(order.order_create) }}</div>
                                 <div class="ms-5">Товаров: {{ order.order_products.length }}</div>
                                 <div class="ms-5">На сумму: {{ order.total_amount }} &#8381;</div>
                             </div>
@@ -377,16 +377,6 @@ import router from '@/router/router'
                 finally {
         
                 }
-            },
-
-            formatDate(date){
-                date = new Date(date)
-                let year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(date);
-                let month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(date);
-                let day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(date);
-                let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
-                let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
-                return `${day} ${month} ${year} ${hour}:${minute}`
             },
 
             showReadyOrders() {

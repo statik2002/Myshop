@@ -8,7 +8,7 @@
                 </div>
                 <div class="col">
                 <div class="row">{{ question.customer.first_name }} {{ question.customer.last_name }}</div>
-                <div class="row datetime">{{ formatDate(question.created) }}</div>
+                <div class="row datetime">{{ $FormatDate(question.created) }}</div>
                 </div>
             </div>
             <p class="card-text mt-3">{{ question.question_text }}</p>
@@ -26,15 +26,6 @@
             question: {type: Object, required: true}
         },
         methods: {
-            formatDate(date){
-                date = new Date(date)
-                let year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(date);
-                let month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(date);
-                let day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(date);
-                let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
-                let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
-                return `${day} ${month} ${year} ${hour}:${minute}`
-            },
         }
     }
 </script>

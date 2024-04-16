@@ -21,10 +21,10 @@
                     <div class="col-md-6">
                         <div class="card-body">
                             <h5 class="card-title">{{ order_product.product.name }}</h5>
-                            <div>Order id: {{ order.id }}</div>
-                            <p class="card-text">Order date: {{ order.order_create }}</p>
-                            <p class="card-text">Status: {{ order.order_status.status }}</p>
-                            <p class="card-text">Total: {{ order.total_amount }} Rub</p>
+                            <div>ID заказа: {{ order.id }}</div>
+                            <p class="card-text">Дата заказа: {{ $FormatDate(order.order_create) }}</p>
+                            <p class="card-text">Статус заказа: {{ order.order_status.status }}</p>
+                            <p class="card-text">Сумма заказа: {{ order.total_amount }} &#8381;</p>
                             <button v-if="order.order_status.status=='Выдан'" class="btn btn-success" @click="feedback">Feedback</button>
                         </div>
                     </div>
@@ -83,15 +83,6 @@
                 finally {
         
                 }
-            },
-            formatDate(date){
-                date = new Date(date)
-                let year = new Intl.DateTimeFormat('ru', { year: 'numeric' }).format(date);
-                let month = new Intl.DateTimeFormat('ru', { month: 'short' }).format(date);
-                let day = new Intl.DateTimeFormat('ru', { day: '2-digit' }).format(date);
-                let hour = new Intl.DateTimeFormat('ru', { hour: '2-digit' }).format(date);
-                let minute = new Intl.DateTimeFormat('ru', { minute: '2-digit' }).format(date);
-                return `${day} ${month} ${year} ${hour}:${minute}`
             },
 
             feedback() {
