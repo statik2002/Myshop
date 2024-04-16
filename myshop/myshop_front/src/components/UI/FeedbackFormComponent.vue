@@ -1,10 +1,9 @@
 <template>
     <div v-if="messages.length > 0">
         <div class="alert alert-danger" role="alert" v-for="message in messages">
-            {{ message }}
+            Ошибка в поле {{ message.field }} : {{ message.error }}
         </div>
     </div>
-    <p>{{ product_id }}</p>
     <form @submit.prevent>
         <div class="d-flex flex-column">
             <div class="mb-3 row">
@@ -12,15 +11,7 @@
                     <label for="summaryFeedback" class="col-sm-2 form-label">Общий отзыв</label>
                 </div>
                 <div class="col-sm-9">
-                    <textarea 
-                        class="form-control" 
-                        aria-label="With textarea" 
-                        id="summaryFeedback" 
-                        @input="summaryFeedbackInput"
-                        autocomplete="off"
-                        >
-                        
-                    </textarea>
+                    <textarea class="form-control" aria-label="With textarea" id="summaryFeedback" @input="summaryFeedbackInput" autocomplete="off"></textarea>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -34,9 +25,7 @@
                         id="positiveFeedback" 
                         @input="positiveFeedbackInput"
                         autocomplete="off"
-                        >
-                        
-                    </textarea>
+                        ></textarea>
                 </div>
             </div>
             <div class="mb-3 row">
@@ -50,21 +39,18 @@
                         id="negativeFeedback" 
                         @input="negativeFeedbackInput"
                         autocomplete="off"
-                        >
-                        
-                    </textarea>
+                        ></textarea>
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="rating" class="form-label">Рейтинг: {{ rating }}</label>
-                <input type="range" class="form-range" min="0" max="5" step="1" :value="rating" id="rating" @input="ratingInput" autocomplete="off">
+                <input type="range" class="form-range" min="1" max="5" step="1" :value="rating" id="rating" @input="ratingInput" autocomplete="off">
             </div>
             <div class="row d-flex align-items-end">
                 <button type="button" class="btn btn-success " @click="sendFeedback" >Отправить отзыв</button>
             </div>
         </div>
     </form>
-
 </template>
 
 <script>
@@ -84,7 +70,7 @@
                 summaryFeedback: '',
                 positiveFeedback: '',
                 negativeFeedback: '',
-                rating: 0
+                rating: 1
             }
         },
         methods: {
@@ -121,7 +107,16 @@
                           this.$emit('update:show', false)
                         }
                           
-                      )
+                    ).catch((error) => {
+                        for (let index in error.response.data) {
+                            if (index=='summary') {
+                                this.messages.push({'field': '"Обший отзыв"', 'error': error.response.data[index][0] });
+                            } else {
+                                this.messages.push({'field': index, 'error': error.response.data[index][0] });
+                            }
+                        }
+                        this.message = error.response;
+                    })
                 } catch(e) {
                     messages.push(`Error: ${e}`)
                 }

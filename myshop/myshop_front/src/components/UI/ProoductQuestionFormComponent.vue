@@ -11,6 +11,12 @@
             <button type="submit" class="btn btn-light mt-2" @click="$emit('update:show', false)">Отменить</button>
         </div>
     </form>
+    <modal-component :show="sendQuestionModal">
+        <div class="d-flex flex-column gap-3">
+            <div>Ваш вопрос отправлен</div>
+            <button class="btn btn-success" @click="sendQuestionModal=false">OK</button>
+        </div>
+    </modal-component>
 </template>
 
 <script>
@@ -24,7 +30,8 @@
         data() {
             return {
                 text: '',
-                messages: []
+                messages: [],
+                sendQuestionModal: false
             }
         },
         methods: {
@@ -41,16 +48,11 @@
                         data: {'product': this.product_id, 'customer': this.user_id, 'question_text': this.text}
                       }
                     ).then((response) => {
-                            if (response.status==200){
-                                this.$emit('update:show', false)
-                            } else {
-                                console.log(response)
-                                this.messages.push(response.data)
-                            }
-                        }
-                          
-                      )
-                      .catch((error) => {
+                            this.sendQuestionModal = true
+                            this.text = ''
+                            this.$emit('update:show', false)
+                        }     
+                    ).catch((error) => {
                         if (error.response) {
                             for (let index in error.response.data) {
                                 this.messages.push({ 'field': index, 'error': error.response.data[index] });
