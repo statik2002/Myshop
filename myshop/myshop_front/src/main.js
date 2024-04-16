@@ -14,6 +14,7 @@ import components from '@/components/UI'
 import VueCookies from 'vue-cookies'
 import get_token_plugin from '@/plugins/get_token_plugin'
 import format_date from '@/plugins/format_date'
+import humanizie_order from './plugins/humanizie_order'
 
 const app = createApp(App);
 
@@ -27,4 +28,5 @@ app
     .use(VueCookies)
     .use(get_token_plugin)
     .use(format_date)
+    .use(humanizie_order)
     .mount('#app')

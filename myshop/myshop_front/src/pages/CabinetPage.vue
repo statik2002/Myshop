@@ -23,11 +23,11 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <a href="#" @click="showReadyOrders">{{ showOrderHumanize(ready_orders.length) }}</a>
+                                <a href="#" @click="showReadyOrders">{{ $HumanizieOrders(ready_orders.length) }}</a>
                                 <span>Ожидают получения</span>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <a href="#" @click="showProcessingOrders">{{ showOrderHumanize(processing_orders.length) }}</a>
+                                <a href="#" @click="showProcessingOrders">{{ $HumanizieOrders(processing_orders.length) }}</a>
                                 <span>В процессе</span>
                             </div>
                             </div>
@@ -271,7 +271,6 @@
     import axios from 'axios'
     import HeaderComponent from '@/components/HeaderComponent.vue'
     import FooterComponent from '@/components/FooterComponent.vue'
-import router from '@/router/router'
     export default {
         components: { HeaderComponent, FooterComponent },
         data() {
@@ -399,28 +398,6 @@ import router from '@/router/router'
             uploadAvatar() {
                 this.showUploadAvatar = true
             },
-
-            showOrderHumanize(numOrders) {
-                if (numOrders < 10)
-                {
-                    if ([0, 5, 6, 7, 8, 9].includes(numOrders)) {
-                        return `${numOrders} заказов`
-                    } else if ([2, 3, 4].includes(numOrders)) {
-                        return `${numOrders} заказа`
-                    } else {
-                        return `${numOrders} заказ`
-                    }
-                } else {
-                    const astNumOrders = numOrders % 10
-                    if ([0, 5, 6, 7, 8, 9].includes(lastNumOrders)) {
-                        return `${numOrders} заказов`
-                    } else if ([2, 3, 4].includes(lastNumOrders)) {
-                        return `${numOrders} заказа`
-                    } else {
-                        return `${numOrders} заказ`
-                    }
-                }
-            }
         },
         mounted() {
             this.getUserOrders()
