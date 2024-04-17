@@ -158,73 +158,37 @@
 
         <main class="main-content">
             <!--== Start Hero Area Wrapper ==-->
-            <section class="home-slider-area">
-                <div class="swiper-container swiper-slide-gap home-slider-container default-slider-container">
-                    <swiper
-                        :slides-per-view="1"
-                        :space-between="50"
-                        :modules="modules"
-                        navigation
-                        :pagination="{ clickable: true }"
-                        :scrollbar="{ draggable: true }"
-                        class="swiper-wrapper home-slider-wrapper slider-default"
-                    >
-                        <swiper-slide>
-                            <div class="slider-content-area">
-                                <img src="@/assets/img/slider/slider-01.jpg" alt="">
-                                <div class="slider-content">
-                                    <h5 class="sub-title">BEST PRICE : $866</h5>
-                                    <h2 class="title">NEW ARRIVAL</h2>
-                                    <h4>70% OFF THIS WINTER</h4>
-                                    <p>There are many variations of passages of Lorem Ipsum availables, but the majority have suffered alteration in some form.</p>
-                                    <a class="btn-slider" href="shop.html">Shop Now</a>
-                                </div>
-                            </div>
-                        </swiper-slide>
-                        <swiper-slide>
-                            <div class="slider-content-area" data-bg-img="@/assets/img/slider/slider-02.jpg">
-                                <div class="slider-content">
-                                    <h5 class="sub-title">BEST PRICE : $866</h5>
-                                    <h2 class="title">NEW ARRIVAL</h2>
-                                    <h4>70% OFF THIS WINTER</h4>
-                                    <p>There are many variations of passages of Lorem Ipsum availables, but the majority have suffered alteration in some form.</p>
-                                    <a class="btn-slider" href="shop.html">Shop Now</a>
-                                </div>
-                            </div>
-                        </swiper-slide>
-                    </swiper>
-                    <!--
-                    <div class="swiper-wrapper home-slider-wrapper slider-default">
-                        <div class="swiper-slide">
-                            <div class="slider-content-area" data-bg-img="@/assets/img/slider/slider-01.jpg">
-                                <div class="slider-content">
-                                    <h5 class="sub-title">BEST PRICE : $866</h5>
-                                    <h2 class="title">NEW ARRIVAL</h2>
-                                    <h4>70% OFF THIS WINTER</h4>
-                                    <p>There are many variations of passages of Lorem Ipsum availables, but the majority have suffered alteration in some form.</p>
-                                    <a class="btn-slider" href="shop.html">Shop Now</a>
-                                </div>
+            <section class="">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="@/assets/img/slider/slider-01.jpg" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block slider-text">
+                                <h5 class="slider-text-header">First slide label</h5>
+                                <p class="slider-text-content">Some representative placeholder content for the first slide.</p>
+                                <button class="btn btn-danger slider-button">BUY</button>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="slider-content-area" data-bg-img="@/assets/img/slider/slider-02.jpg">
-                                <div class="slider-content">
-                                    <h5 class="sub-title">BEST PRICE : $866</h5>
-                                    <h2 class="title">NEW ARRIVAL</h2>
-                                    <h4>70% OFF THIS WINTER</h4>
-                                    <p>There are many variations of passages of Lorem Ipsum availables, but the majority have suffered alteration in some form.</p>
-                                    <a class="btn-slider" href="shop.html">Shop Now</a>
-                                </div>
-                            </div>
+                        <div class="carousel-item">
+                            <img src="@/assets/img/slider/slider-01.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="@/assets/img/slider/slider-01.jpg" class="d-block w-100" alt="...">
                         </div>
                     </div>
-                    -->
-
-                    <!--== Add Swiper Arrows ==-->
-                    <!--
-                    <div class="swiper-button-next"><i class="ion-ios7-arrow-right"></i></div>
-                    <div class="swiper-button-prev"><i class="ion-ios7-arrow-left"></i></div>
-                    -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </section>
             <!--== End Hero Area Wrapper ==-->

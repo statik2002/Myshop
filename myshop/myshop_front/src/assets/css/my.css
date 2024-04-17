@@ -1,0 +1,24 @@
+.slider-text {
+    display: block;
+}
+
+.slider-text-header {
+    letter-spacing: 8px;
+    position: relative;
+    animation: text 3s 1;
+}
+
+.slider-text-content {
+    color: blue;
+    animation: text 3s 1;
+}
+
+.slider-button {
+    animation: text 3s 1;
+}
+
+@keyframes text {
+    0%{
+        margin-bottom: -40px;
+    }
+}
