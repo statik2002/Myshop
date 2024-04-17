@@ -1,24 +1,42 @@
 .slider-text {
-    display: block;
+    overflow: hidden;
 }
 
 .slider-text-header {
     letter-spacing: 8px;
     position: relative;
-    animation: text 3s 1;
+    animation: slider-content-header-keyframes 3s 1;
 }
 
 .slider-text-content {
-    color: blue;
-    animation: text 3s 1;
+    position: relative;
+    animation: slider-content-text-keyframes 2s 1;
+    overflow: hidden;
 }
 
 .slider-button {
-    animation: text 3s 1;
+    position: relative;
+    animation: slider-content-header-keyframes 1s 1;
 }
 
-@keyframes text {
-    0%{
-        margin-bottom: -40px;
+@keyframes slider-content-header-keyframes {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes slider-content-text-keyframes {
+    from {
+        top: -50px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
     }
 }
