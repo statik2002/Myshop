@@ -195,8 +195,8 @@
 
             <!--== Start Product Area Wrapper ==-->
             <section class="container-xl py-5">
-                <div class="row g-2">
-                    <div v-for="product in products" class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                <div class="row p-0">
+                    <div v-for="product in products" class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 p-1">
                         <!--== Start Shop Item ==-->
                         <div class="product-item">
                             <div class="inner-content" >
