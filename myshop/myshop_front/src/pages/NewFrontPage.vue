@@ -205,6 +205,7 @@
                                         <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
                                         <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
                                     </a>
+                                    <span v-if="product.sale" class="percent-count sticker">-{{product.sale}}%</span>
                                     <div class="product-action">
                                         <div class="addto-wrap">
                                             <a class="add-cart" href="cart.html">
@@ -221,271 +222,21 @@
                                 </div>
                                 <div class="product-desc">
                                     <div class="product-info">
-                                    <h4 class="title"><a href="single-product-simple.html">{{ product.name }}</a></h4>
-                                    <div class="star-content">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                    </div>
-                                    <div class="prices">
-                                        <div v-if="product.discount > 0">
-                                            <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
-                                            <span v-if="product.discount > 0" class="price-old">{{ product.price }} &#8381;</span>
+                                        <h6 class="title"><a href="single-product-simple.html">{{ product.name }}</a></h6>
+                                        <div class="star-content">
+                                            <rating-component :rating="product.rating" :num_rating="product.num_rating"></rating-component>
                                         </div>
-                                        <div v-else>
-                                            <span class="price">{{ product.price }} &#8381;</span>
+                                        <div class="prices">
+                                            <div v-if="product.discount > 0">
+                                                <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
+                                                <span v-if="product.discount > 0" class="price-old">{{ product.price }} &#8381;</span>
+                                            </div>
+                                            <div v-else>
+                                                <span class="price">{{ product.price }} &#8381;</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!--== End Shop Item ==-->
-                    </div>
-                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 border">
-                        <!--== Start Shop Item ==-->
-                        <div class="product-item">
-                            <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                <img class="w-100" src="@/assets/img/shop/6.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                    <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="product-desc">
-                                <div class="product-info">
-                                <h4 class="title"><a href="single-product-simple.html">Fit Wool Suit</a></h4>
-                                <div class="star-content">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="prices">
-                                    <span class="price">$80.00</span>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!--== End Shop Item ==-->
-                    </div>
-                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 border">
-                        <!--== Start Shop Item ==-->
-                        <div class="product-item">
-                            <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                <img class="w-100" src="@/assets/img/shop/5.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                    <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="product-desc">
-                                <div class="product-info">
-                                <h4 class="title"><a href="single-product-simple.html">Flower Print dress</a></h4>
-                                <div class="star-content">
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </div>
-                                <div class="prices">
-                                    <span class="price">$50.00</span>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!--== End Shop Item ==-->
-                    </div>
-                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 border">
-                        <!--== Start Shop Item ==-->
-                        <div class="product-item">
-                            <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                <img class="w-100" src="@/assets/img/shop/6.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                    <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="product-desc">
-                                <div class="product-info">
-                                <h4 class="title"><a href="single-product-simple.html">Fit Wool Suit</a></h4>
-                                <div class="star-content">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="prices">
-                                    <span class="price">$80.00</span>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!--== End Shop Item ==-->
-                    </div>
-                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 border">
-                        <!--== Start Shop Item ==-->
-                        <div class="product-item">
-                            <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                <img class="w-100" src="@/assets/img/shop/6.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                    <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="product-desc">
-                                <div class="product-info">
-                                <h4 class="title"><a href="single-product-simple.html">Fit Wool Suit</a></h4>
-                                <div class="star-content">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="prices">
-                                    <span class="price">$80.00</span>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!--== End Shop Item ==-->
-                    </div>
-                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 border">
-                        <!--== Start Shop Item ==-->
-                        <div class="product-item">
-                            <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                <img class="w-100" src="@/assets/img/shop/6.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                    <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="product-desc">
-                                <div class="product-info">
-                                <h4 class="title"><a href="single-product-simple.html">Fit Wool Suit</a></h4>
-                                <div class="star-content">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="prices">
-                                    <span class="price">$80.00</span>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <!--== End Shop Item ==-->
-                    </div>
-                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 border">
-                        <!--== Start Shop Item ==-->
-                        <div class="product-item">
-                            <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                <img class="w-100" src="@/assets/img/shop/6.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                    <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="product-desc">
-                                <div class="product-info">
-                                <h4 class="title"><a href="single-product-simple.html">Fit Wool Suit</a></h4>
-                                <div class="star-content">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="prices">
-                                    <span class="price">$80.00</span>
-                                </div>
-                                </div>
-                            </div>
                             </div>
                         </div>
                         <!--== End Shop Item ==-->
@@ -559,7 +310,7 @@
                         <p>Sign up for our newsletter & promotions</p>
                         <div class="newsletter-form">
                         <form>
-                            <input type="email" class="form-control" placeholder="email@example.com">
+                            <input id="email" type="email" class="form-control" autocomplete="email" placeholder="email@example.com">
                             <button class="btn-submit" type="button">Subscribe</button>
                         </form>
                         </div>
@@ -586,7 +337,7 @@
         <!--== End Footer Area Wrapper ==-->
 
         <!--== Scroll Top Button NOT WORKING==-->
-        <div id="scroll-to-top" class="scroll-to-top"><span class="fa fa-angle-double-up"></span></div>
+        <scroll-to-top></scroll-to-top>
 
         <!--== Start Quick View Menu ==-->
         <aside class="product-quick-view-modal">

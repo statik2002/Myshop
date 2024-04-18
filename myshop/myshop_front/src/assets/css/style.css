@@ -1932,8 +1932,13 @@ section .container-fluid {
   padding-bottom: 98px;
 }
 
+.product-item {
+  border-radius: 10px;
+}
+
 .product-item .inner-content {
   margin-bottom: 40px;
+  border-radius: 10px;
 }
 .product-item .inner-content .product-thumb {
   position: relative;
@@ -1949,7 +1954,7 @@ section .container-fluid {
   top: 10px;
 }
 .product-item .inner-content .product-thumb .sticker {
-  background-color: #000;
+  background-color: #ff0000;
   border-radius: 50%;
   color: #fff;
   display: inline-block;
@@ -1993,14 +1998,24 @@ section .container-fluid {
 .product-item .inner-content .product-info {
   text-align: center;
 }
+.product-item:hover {
+  box-shadow: 0px 0px 30px 0px rgba(34, 60, 80, 0.2);
+}
 .product-item .inner-content .product-info .title {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.8;
   margin-bottom: 12px;
   text-transform: capitalize;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .product-item .inner-content .product-info .title a {
   color: #363636;
+  text-decoration: none;
+  font-size: 14px;
 }
 .product-item .inner-content .product-info .title a:hover {
   color: #f76b6a;
@@ -2398,7 +2413,7 @@ section .container-fluid {
   top: 10px;
 }
 .product-single-item .product-thumb .sticker {
-  background-color: #000;
+  background-color: #ff0000;
   border-radius: 50%;
   color: #fff;
   display: inline-block;
