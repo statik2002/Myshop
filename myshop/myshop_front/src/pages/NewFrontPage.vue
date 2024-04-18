@@ -167,7 +167,7 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="@/assets/img/slider/slider-01.jpg" class="d-block w-100" alt="...">
+                            <img src="@/assets/img/slider/slider-banner1.webp" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block slider-text">
                                 <h5 class="slider-text-header">First slide label</h5>
                                 <p class="slider-text-content">Some representative placeholder content for the first slide.</p>
@@ -205,7 +205,7 @@
                                         <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
                                         <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
                                     </a>
-                                    <span v-if="product.sale" class="percent-count sticker">-{{product.sale}}%</span>
+                                    <span v-if="product.discount > 0" class="percent-count sticker">- {{ Math.floor(product.discount) }}%</span>
                                     <div class="product-action">
                                         <div class="addto-wrap">
                                             <a class="add-cart" href="cart.html">
@@ -214,7 +214,7 @@
                                             <a class="add-wishlist" href="wishlist.html">
                                                 <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
                                             </a>
-                                            <a class="add-quick-view" href="javascript:void(0);">
+                                            <a class="add-quick-view" href="#offcanvasQuickProductView" data-bs-toggle="modal" role="button" aria-controls="offcanvasQuickProductView" @click="showProductQuickModal(product)">
                                                 <i class="zmdi zmdi-search icon"></i>
                                             </a>
                                         </div>
@@ -263,8 +263,8 @@
                         </div>
                         <p class="desc">Lorem ipsum dolor sit amet, consectet adipi elit, sed do eius tempor incididun ut labore gthydolore.</p>
                         <ul>
-                        <li><i class="ion-ios7-location-outline"></i> 184 Main Rd E, St Albans VIC 3021,</li>
-                        <li><i class="ion-ios7-email-outline"></i> <a href="mailto://info@example.com">info@example.com</a></li>
+                        <li><i class="ion-ios7-location-outline"></i> г. Братск, ул. Ленина д. 1</li>
+                        <li><i class="ion-ios7-email-outline"></i> <a href="mailto://office@neit.ru">office@neit.ru</a></li>
                         </ul>
                     </div>
                     </div>
@@ -273,7 +273,7 @@
                 <div class="col-sm-6 col-lg-3">
                     <!--== Start widget Item ==-->
                     <div class="widget-item widget-item-one">
-                    <h4 class="widget-title">INFORMATION</h4>
+                    <h4 class="widget-title">ПОКУПАТЕЛЯМ</h4>
                     <div class="widget-menu-wrap">
                         <ul class="nav-menu">
                         <li><a href="shop.html">Specials</a></li>
@@ -289,7 +289,7 @@
                 <div class="col-sm-6 col-lg-3">
                     <!--== Start widget Item ==-->
                     <div class="widget-item widget-item-two">
-                    <h4 class="widget-title">QUICK LINKS</h4>
+                    <h4 class="widget-title">КОМПАНИЯ</h4>
                     <div class="widget-menu-wrap">
                         <ul class="nav-menu">
                         <li><a href="login.html">New User</a></li>
@@ -305,13 +305,13 @@
                 <div class="col-sm-6 col-lg-3">
                     <!--== Start widget Item ==-->
                     <div class="widget-item">
-                    <h4 class="widget-title">newsletter</h4>
+                    <h4 class="widget-title">Подписка</h4>
                     <div class="widget-newsletter">
-                        <p>Sign up for our newsletter & promotions</p>
+                        <p>Подпишись на нашу рассылку что бы быть в курсе акций и распродаж</p>
                         <div class="newsletter-form">
                         <form>
                             <input id="email" type="email" class="form-control" autocomplete="email" placeholder="email@example.com">
-                            <button class="btn-submit" type="button">Subscribe</button>
+                            <button class="btn-submit" type="button">Подписаться</button>
                         </form>
                         </div>
                     </div>
@@ -327,7 +327,7 @@
             <div class="container">
                 <div class="row">
                 <div class="col-12">
-                    <p class="copyright">© 2021, <span>Julie</span>. Made with <i class="fa fa-heart icon-heart"></i> by <a target="_blank" href="https://themeforest.net/user/codecarnival/portfolio"> Codecarnival</a></p>
+                    <p class="copyright">© 2024, <span>Lerty</span>. Создано в <i class="fa fa-heart icon-heart"></i> by <a target="_blank" href="#"> CodeLab</a></p>
                 </div>
                 </div>
             </div>
@@ -340,60 +340,69 @@
         <scroll-to-top></scroll-to-top>
 
         <!--== Start Quick View Menu ==-->
-        <aside class="product-quick-view-modal">
-            <div class="product-quick-view-inner">
-            <div class="product-quick-view-content">
-                <button type="button" class="btn-close">
-                <span class="close-icon"><i class="fa fa-close"></i></span>
-                </button>
-                <div class="row">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="thumb">
-                    <img src="@/assets/img/shop/quick-view1.jpg" alt="Alan-Shop">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="content">
-                    <h4 class="title">Meta Slevless Dress</h4>
-                    <div class="prices">
-                        <del class="price-old">$85.00</del>
-                        <span class="price">$70.00</span>
-                    </div>
-                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,</p>
-                    <div class="quick-view-select">
-                        <div class="quick-view-select-item">
-                        <label for="forSizes" class="form-label">Size:</label>
-                        <select class="form-select" id="forSizes" required>
-                            <option selected value="">s</option>
-                            <option>m</option>
-                            <option>l</option>
-                            <option>xl</option>
-                        </select>
-                        </div>
-                        <div class="quick-view-select-item">
-                        <label for="forColors" class="form-label">Color:</label>
-                        <select class="form-select" id="forColors" required>
-                            <option selected value="">red</option>
-                            <option>green</option>
-                            <option>blue</option>
-                            <option>yellow</option>
-                            <option>white</option>
-                        </select>
+        <div class="modal " tabindex="-1" id="offcanvasQuickProductView">
+            <div class="modal-dialog modal-xl product-quick-view-inner">
+                <div class="product-quick-view-content" v-if="productAtModal !== null">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="close-icon"><i class="bi bi-x-lg"></i></span>
+                    </button>
+                    <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="thumb">
+                            <img v-if="productAtModal.product_images.length > 0" :src=productAtModal.product_images[0].image :alt=productAtModal.product_images[0].alt>
+                            <img v-else src="@/assets/no_image.png" alt="no image">
                         </div>
                     </div>
-                    <div class="action-top">
-                        <div class="pro-qty">
-                        <input type="text" id="quantity4" title="Quantity" value="1" />
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="content">
+                        <h4 class="title">{{ productAtModal.name }}</h4>
+                        <div class="prices">
+                            <div v-if="productAtModal.discount > 0">
+                                <del class="price-old">{{ productAtModal.price }} &#8381;</del>
+                                <span class="price">{{ productAtModal.price - productAtModal.price * productAtModal.discount/100 }} &#8381;</span>
+                            </div>
+                            <div v-else>
+                                <span class="price">{{ productAtModal.price }} &#8381;</span>
+                            </div>
                         </div>
-                        <button class="btn btn-black">Add to cart</button>
+                        <p>{{ productAtModal.description }}</p>
+                        <!--
+                        <div class="quick-view-select">
+                            <div class="quick-view-select-item">
+                            <label for="forSizes" class="form-label">Size:</label>
+                            <select class="form-select" id="forSizes" required>
+                                <option selected value="">s</option>
+                                <option>m</option>
+                                <option>l</option>
+                                <option>xl</option>
+                            </select>
+                            </div>
+                            <div class="quick-view-select-item">
+                            <label for="forColors" class="form-label">Color:</label>
+                            <select class="form-select" id="forColors" required>
+                                <option selected value="">red</option>
+                                <option>green</option>
+                                <option>blue</option>
+                                <option>yellow</option>
+                                <option>white</option>
+                            </select>
+                            </div>
+                        </div>
+                        -->
+                        <div class="action-top">
+                            <div class="pro-qty">
+                                <div class="inc qty-btn">+</div>
+                                <input type="text" id="quantity4" title="Quantity" value="1" />
+                                <div class= "dec qty-btn">-</div>
+                            </div>
+                            <button class="btn btn-black">Add to cart</button>
+                        </div>
+                        </div>
                     </div>
                     </div>
-                </div>
                 </div>
             </div>
-            </div>
-            <div class="canvas-overlay"></div>
-        </aside>
+        </div>
         <!--== End Quick View Menu ==-->  
 
         <!--== Start Side Menu ==-->
@@ -435,6 +444,8 @@
                 productsLimit: 30,
                 productsTotalPages: 0,
                 productsOffest: -30,
+                productQantity: 1,
+                productAtModal: null
             }
         },
         methods: {
@@ -461,6 +472,9 @@
                     this.isProductsLoading=true;
                 }
             },
+            showProductQuickModal(product) {
+                this.productAtModal = product
+            }
         },
         mounted() {
             this.uploadProducts();

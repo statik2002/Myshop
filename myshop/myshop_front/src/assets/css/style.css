@@ -3897,6 +3897,7 @@ section .container-fluid {
   color: #f76b6a;
 }
 .product-quick-view-content .content .prices .price-old {
+  font-size: small;
   color: #363636;
   margin-right: 8px;
   text-decoration: line-through;
