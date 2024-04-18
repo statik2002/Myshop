@@ -171,7 +171,7 @@
                             <div class="carousel-caption d-none d-md-block slider-text">
                                 <h5 class="slider-text-header">First slide label</h5>
                                 <p class="slider-text-content">Some representative placeholder content for the first slide.</p>
-                                <button class="btn btn-danger slider-button">BUY</button>
+                                <button class="btn btn-success slider-button">BUY</button>
                             </div>
                         </div>
                         <div class="carousel-item">
@@ -194,42 +194,49 @@
             <!--== End Hero Area Wrapper ==-->
 
             <!--== Start Product Area Wrapper ==-->
-            <section class="container-xl py-5 border">
-                <div class="row g-2 border">
-                    <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 border">
+            <section class="container-xl py-5">
+                <div class="row g-2">
+                    <div v-for="product in products" class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6">
                         <!--== Start Shop Item ==-->
                         <div class="product-item">
-                            <div class="inner-content">
+                            <div class="inner-content" >
                                 <div class="product-thumb">
                                     <a href="single-product-simple.html">
-                                        <img class="w-100" src="@/assets/img/shop/oboi1.png" alt="Image-HasTech">
+                                        <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
+                                        <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
                                     </a>
                                     <div class="product-action">
                                         <div class="addto-wrap">
                                             <a class="add-cart" href="cart.html">
-                                            <i class="zmdi zmdi-shopping-cart-plus icon"></i>
+                                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
                                             </a>
                                             <a class="add-wishlist" href="wishlist.html">
-                                            <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
+                                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
                                             </a>
                                             <a class="add-quick-view" href="javascript:void(0);">
-                                            <i class="zmdi zmdi-search icon"></i>
+                                                <i class="zmdi zmdi-search icon"></i>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="product-desc">
                                     <div class="product-info">
-                                    <h4 class="title"><a href="single-product-simple.html">Flower Print dress</a></h4>
+                                    <h4 class="title"><a href="single-product-simple.html">{{ product.name }}</a></h4>
                                     <div class="star-content">
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star"></i>
                                     </div>
                                     <div class="prices">
-                                        <span class="price">$50.00</span>
+                                        <div v-if="product.discount > 0">
+                                            <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
+                                            <span v-if="product.discount > 0" class="price-old">{{ product.price }} &#8381;</span>
+                                        </div>
+                                        <div v-else>
+                                            <span class="price">{{ product.price }} &#8381;</span>
+                                        </div>
                                     </div>
                                     </div>
                                 </div>
@@ -486,7 +493,7 @@
                 </div>
             </section>
             <!--== End Product Area Wrapper ==-->
-
+            <div ref="observer" class="observer"></div>
         </main>
 
         <!--== Start Footer Area Wrapper ==-->
@@ -671,8 +678,52 @@
     export default {
         data() {
             return {
-                
+                products: [],
+                isProductsLoading: false,
+                productsPage: 0,
+                productsLimit: 30,
+                productsTotalPages: 0,
+                productsOffest: -30,
             }
+        },
+        methods: {
+            async uploadProducts() {
+                try {
+                    this.productsPage += 1;
+                    this.productsOffest += this.productsLimit;
+                    let response = await fetch(
+                        'http://127.0.0.1:8000/api/v1/products/?' + new URLSearchParams({limit: this.productsLimit, offset: this.productsOffest, page: this.productsPage}),
+                        {method: 'GET'}
+                    );
+                    if (response.ok) {
+                        let products = await response.json();
+                        this.products = [...this.products, ...products.results];
+                        this.productsTotalPages = Math.ceil(products.count / this.productsLimit);
+                        this.isProductsLoading=true;
+                    } else {
+                        alert('Error get products');
+                    }
+                } catch(e) {
+                    console.log(`Connection error ${e}`);
+                }
+                finally {
+                    this.isProductsLoading=true;
+                }
+            },
+        },
+        mounted() {
+            this.uploadProducts();
+            const options = {
+                rootMargin: '0px',
+                thresold: 1.0
+            }
+            const callback = (entries, observer) => {
+            if (entries[0].isIntersecting && this.productsPage < this.productsTotalPages) {
+                this.uploadProducts()
+            }
+            }
+            const observer = new IntersectionObserver(callback, options);
+            observer.observe(this.$refs.observer);
         }
     }
 </script>

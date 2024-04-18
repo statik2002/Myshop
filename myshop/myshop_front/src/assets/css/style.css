@@ -2033,6 +2033,8 @@ section .container-fluid {
 .product-item .inner-content .product-info .prices .price-old {
   text-decoration: line-through;
   margin-left: 6px;
+  font-size: small;
+  color: rgb(168, 168, 168);
 }
 .product-item .inner-content .product-desc {
   margin-top: 20px;
