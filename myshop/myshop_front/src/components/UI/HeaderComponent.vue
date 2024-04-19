@@ -5,10 +5,10 @@
             <div class="row align-items-center">
                 <div class="col-6 col-sm-4 col-lg-3">
                     <div class="header-logo-area">
-                        <a href="index.html">
+                        <router-link to="/newfront">
                             <img class="logo-main" src="@/assets/img/logo.png" alt="Logo" />
                             <img class="logo d-none" src="@/assets/img/logo-light.png" alt="Logo" />
-                        </a>
+                        </router-link>
                     </div>
                 </div>
                 <div class="col-sm-4 col-lg-7 d-none d-lg-block">

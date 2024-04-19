@@ -1,6 +1,20 @@
 <template>
+    <header-component></header-component>
     <div class="wrapper">
-        <header-component></header-component>
+        <!--== Start Preloader Content ==-->
+        <div class="preloader-wrap" v-if="!isProductsLoading">
+            <div class="preloader">
+                <span class="dot"></span>
+                <div class="dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="text">Загрузка...</span>
+            </div>
+            
+        </div>
+        <!--== End Preloader Content ==-->
 
         <main class="main-content">
             <!--== Start Hero Area Wrapper ==-->
@@ -42,51 +56,56 @@
             <!--== Start Product Area Wrapper ==-->
             <section class="container-xl py-5">
                 <div class="row p-0">
-                    <div v-for="product in products" class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 p-1">
+                    <TransitionGroup name="products">
+                        <div v-for="product in products" :key="product" class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-6 p-1">
                         <!--== Start Shop Item ==-->
-                        <div class="product-item">
-                            <div class="inner-content" >
-                                <div class="product-thumb">
-                                    <a href="#" @click="$router.push({name: 'product2', params: {id: product.id}})">
-                                        <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
-                                        <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
-                                    </a>
-                                    <span v-if="product.discount > 0" class="percent-count sticker">- {{ Math.floor(product.discount) }}%</span>
-                                    <div class="product-action">
-                                        <div class="addto-wrap">
-                                            <a class="add-cart" href="cart.html">
-                                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                            </a>
-                                            <a class="add-wishlist" href="wishlist.html">
-                                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                            </a>
-                                            <a class="add-quick-view" href="#offcanvasQuickProductView" data-bs-toggle="modal" role="button" aria-controls="offcanvasQuickProductView" @click="showProductQuickModal(product)">
-                                                <i class="zmdi zmdi-search icon"></i>
-                                            </a>
+                            <div class="product-item">
+                                <div class="inner-content" >
+                                    <div class="product-thumb">
+                                        <a href="#" @click="$router.push({name: 'product2', params: {id: product.id}})">
+                                            <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
+                                            <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
+                                        </a>
+                                        <span v-if="product.discount > 0" class="percent-count sticker">- {{ Math.floor(product.discount) }}%</span>
+                                        <div class="product-action">
+                                            <div class="addto-wrap">
+                                                <a class="add-cart" href="cart.html">
+                                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
+                                                </a>
+                                                <a class="add-wishlist" href="wishlist.html">
+                                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
+                                                </a>
+                                                <a class="add-quick-view" href="#offcanvasQuickProductView" data-bs-toggle="modal" role="button" aria-controls="offcanvasQuickProductView" @click="showProductQuickModal(product)">
+                                                    <i class="zmdi zmdi-search icon"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="product-desc">
-                                    <div class="product-info">
-                                        <h6 class="title"><a href="single-product-simple.html">{{ product.name }}</a></h6>
-                                        <div class="star-content">
-                                            <rating-component :rating="product.rating" :num_rating="product.num_rating"></rating-component>
-                                        </div>
-                                        <div class="prices">
-                                            <div v-if="product.discount > 0">
-                                                <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
-                                                <span v-if="product.discount > 0" class="price-old">{{ product.price }} &#8381;</span>
+                                    <div class="product-desc">
+                                        <div class="product-info">
+                                            <h6 class="title">
+                                                <a href="#" @click="$router.push({name: 'product2', params: {id: product.id}})">{{ product.name }}</a>
+                                            </h6>
+                                            <div class="star-content">
+                                                <rating-component :rating="product.rating" :num_rating="product.num_rating"></rating-component>
                                             </div>
-                                            <div v-else>
-                                                <span class="price">{{ product.price }} &#8381;</span>
+                                            <div class="prices">
+                                                <div v-if="product.discount > 0">
+                                                    <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
+                                                    <span v-if="product.discount > 0" class="price-old">{{ product.price % 1 > 0 ? product.price : product.price | 0 }} &#8381;</span>
+                                                </div>
+                                                <div v-else>
+                                                    <span class="price">{{ product.price % 1 > 0 ? product.price : product.price | 0 }} &#8381;</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!--== End Shop Item ==-->
                         </div>
-                        <!--== End Shop Item ==-->
-                    </div>
+                    </TransitionGroup>
+                    
                 </div>
             </section>
             <!--== End Product Area Wrapper ==-->
@@ -95,7 +114,7 @@
 
         <footer-component></footer-component>
 
-        <!--== Scroll Top Button NOT WORKING==-->
+        <!--== Scroll Top Button==-->
         <scroll-to-top></scroll-to-top>
 
         <!--== Start Quick View Menu ==-->
@@ -121,7 +140,7 @@
                                 <span class="price">{{ productAtModal.price - productAtModal.price * productAtModal.discount/100 }} &#8381;</span>
                             </div>
                             <div v-else>
-                                <span class="price">{{ productAtModal.price }} &#8381;</span>
+                                <span class="price">{{ productAtModal.price % 1 > 0 ? productAtModal.price : productAtModal.price | 0 }} &#8381;</span>
                             </div>
                         </div>
                         <p>{{ productAtModal.description }}</p>
@@ -154,7 +173,7 @@
                                 <input type="text" id="quantity4" title="Quantity" value="1" />
                                 <div class= "dec qty-btn">-</div>
                             </div>
-                            <button class="btn btn-black">Add to cart</button>
+                            <button class="btn btn-black">В корзину</button>
                         </div>
                         </div>
                     </div>
@@ -253,5 +272,13 @@
 </script>
 
 <style scoped>
-
+.products-enter-active,
+.products-leave-active {
+  transition: all 0.5s ease;
+}
+.products-enter-from,
+.products-leave-to {
+  opacity: 0;
+  transform: translateY(100px);
+}
 </style>
