@@ -18,6 +18,7 @@ import ProcessingOrderComponent from '@/components/UI/ProcessingOrderComponent.v
 import AcceptCookieComponent from '@/components/UI/AceptCookieComponent.vue'
 import HeaderComponent from '@/components/UI/HeaderComponent.vue'
 import FooterComponent from '@/components/UI/FooterComponent.vue'
+import CartProduct2 from '@/components/UI/ProductInCart.vue'
 
 export default [
     ModalComponent,
@@ -38,6 +39,7 @@ export default [
     MultiItemCarouselComponent,
     ProcessingOrderComponent,
     AcceptCookieComponent,
+    CartProduct2,
 
     HeaderComponent,
     FooterComponent

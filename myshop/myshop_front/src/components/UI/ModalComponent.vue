@@ -2,7 +2,7 @@
     <div class="dialog" v-if="show" @click="hideDialog">
         <div class="dialog-content" @click.stop>
             <slot></slot>
-        </div>
+        </div> 
     </div>
 </template>
 
@@ -39,7 +39,6 @@
     margin: auto;
     background: white;
     color: black;
-    border-radius: 10px;
     min-width: 250px;
     min-height: 50px;
     padding: 20px;

@@ -69,12 +69,19 @@
                                         <span v-if="product.discount > 0" class="percent-count sticker">- {{ Math.floor(product.discount) }}%</span>
                                         <div class="product-action">
                                             <div class="addto-wrap">
-                                                <a class="add-cart" href="cart.html">
+                                                <a class="add-cart" href="#" @click="addToCart(product)">
                                                     <i class="zmdi zmdi-shopping-cart-plus icon"></i>
                                                 </a>
-                                                <a class="add-wishlist" href="wishlist.html">
-                                                    <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                                </a>
+                                                <div v-if="!$store.state.user.likes.includes(product.id)">
+                                                    <a class="add-wishlist" href="#" @click="like(product)">
+                                                        <i class="bi bi-heart"></i>
+                                                    </a>
+                                                </div>
+                                                <div v-else>
+                                                    <a class="add-wishlist" href="#" @click="dislike(product)">
+                                                        <i class="bi bi-heart-fill"></i>
+                                                    </a>
+                                                </div>
                                                 <a class="add-quick-view" href="#offcanvasQuickProductView" data-bs-toggle="modal" role="button" aria-controls="offcanvasQuickProductView" @click="showProductQuickModal(product)">
                                                     <i class="zmdi zmdi-search icon"></i>
                                                 </a>
@@ -121,7 +128,7 @@
         <div class="modal " tabindex="-1" id="offcanvasQuickProductView">
             <div class="modal-dialog modal-xl product-quick-view-inner">
                 <div class="product-quick-view-content" v-if="productAtModal !== null">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="btn-close" id="closeProductModal" data-bs-dismiss="modal" aria-label="Close">
                         <span class="close-icon"><i class="bi bi-x-lg"></i></span>
                     </button>
                     <div class="row">
@@ -169,11 +176,11 @@
                         -->
                         <div class="action-top">
                             <div class="pro-qty">
-                                <div class="inc qty-btn">+</div>
-                                <input type="text" id="quantity4" title="Quantity" value="1" />
-                                <div class= "dec qty-btn">-</div>
+                                <div class="inc qty-btn" @click="add">+</div>
+                                <input type="text" id="quantity4" title="Quantity" v-model="productQuantityModal" />
+                                <div class= "dec qty-btn" @click="sub">-</div>
                             </div>
-                            <button class="btn btn-black">В корзину</button>
+                            <button class="btn btn-black" @click="addToCart(productAtModal, productQuantityModal)">В корзину</button>
                         </div>
                         </div>
                     </div>
@@ -213,6 +220,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -223,7 +231,8 @@
                 productsTotalPages: 0,
                 productsOffest: -30,
                 productQantity: 1,
-                productAtModal: null
+                productAtModal: null,
+                productQuantityModal: 1
             }
         },
         methods: {
@@ -252,6 +261,72 @@
             },
             showProductQuickModal(product) {
                 this.productAtModal = product
+                this.productQuantityModal = 1
+            },
+            addToCart(product, quantity = 1) {
+                this.$store.commit('addProductToCart', {'product': product, 'quantity': quantity});
+                const modal = document.getElementById('closeProductModal')
+                modal.click()
+            },
+            like(product) {
+                // Implement send to backend like product
+              const like = {
+                'product_id': product.id,
+                'operation': 'like'
+              }
+              try {
+                    axios(
+                      {
+                        url: `http://127.0.0.1:8000/api/v1/like/`,
+                        method: 'post',
+                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                        data: like
+                      }
+                    ).then((response) => {
+                          //console.log(response)
+                          if (!this.$store.state.user.likes.includes(product.id)) {
+                            this.$store.commit('like', product.id)
+                          }
+                          
+                      })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            dislike(product) {
+              // Implement send to backend like product
+              const like = {
+                'user_id': this.$store.state.user.id,
+                'product_id': product.id,
+                'operation': 'dislike'
+              }
+              try {
+                    axios(
+                      {
+                        url: `http://127.0.0.1:8000/api/v1/like/`,
+                        method: 'post',
+                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                        data: like
+                      }
+                    ).then((response) => {
+                          //console.log(response)
+                          this.$store.commit('dislike', product.id)
+                      })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            add() {
+                this.productQuantityModal += 1
+            },
+            sub() {
+                this.productQuantityModal > 1 ? this.productQuantityModal -= 1 : 1
             }
         },
         mounted() {

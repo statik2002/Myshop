@@ -1,4 +1,5 @@
 <template>
+    <div class="wrapper">
     <header-component></header-component>
     <!--== Start Preloader Content ==-->
     <div class="preloader-wrap" v-if="!isProductLoading">
@@ -43,149 +44,154 @@
                         <div class="product-single-item" data-margin-bottom="63">
                             <div class="row">
                                 <div class="col-lg-6">
-                                <!--== Start Product Thumbnail Area ==-->
-                                <div class="product-thumb">
-                                    <div id="carouselProductIndicators" class="carousel slide" data-bs-ride="true">
-                                        <div class="carousel-inner" v-if="product.product_images.length > 0">
-                                            <div v-for="(image, index) in product.product_images">
-                                                <div v-if="index === 0" class="carousel-item active">
-                                                    <img :src=image.image class="d-block w-100" :alt=image.alt>
-                                                </div>
-                                                <div v-else class="carousel-item">
-                                                    <img :src=image.image class="d-block w-100" :alt=image.alt>
+                                    <!--== Start Product Thumbnail Area ==-->
+                                    <div class="product-thumb">
+                                        <div id="carouselProductIndicators" class="carousel slide" data-bs-ride="true">
+                                            <div class="carousel-inner" v-if="product.product_images.length > 0">
+                                                <div v-for="(image, index) in product.product_images">
+                                                    <div v-if="index === 0" class="carousel-item active">
+                                                        <img :src=image.image class="d-block w-100" :alt=image.alt>
+                                                    </div>
+                                                    <div v-else class="carousel-item">
+                                                        <img :src=image.image class="d-block w-100" :alt=image.alt>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="carousel-inner" v-else>
-                                            <div class="carousel-item active">
-                                                <img src="@/assets/no_image.png" class="d-block w-100" alt="No image">
+                                            <div class="carousel-inner" v-else>
+                                                <div class="carousel-item active">
+                                                    <img src="@/assets/no_image.png" class="d-block w-100" alt="No image">
+                                                </div>
                                             </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductIndicators" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselProductIndicators" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </button>
                                         </div>
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselProductIndicators" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselProductIndicators" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
                                     </div>
-                                </div>
-                                <!--== End Product Thumbnail Area ==-->
+                                    <!--== End Product Thumbnail Area ==-->
 
-                                <!--== Start Product Nav Area ==-->
-                                <!--
-                                <div class="swiper-container single-product-nav-slider product-nav">
-                                    <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="@/assets/img/shop/product-single/nav1.jpg" alt="Image-HasTech">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="@/assets/img/shop/product-single/nav2.jpg" alt="Image-HasTech">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="@/assets/img/shop/product-single/nav3.jpg" alt="Image-HasTech">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="@/assets/img/shop/product-single/nav4.jpg" alt="Image-HasTech">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="@/assets/img/shop/product-single/nav5.jpg" alt="Image-HasTech">
-                                    </div>
-                                    </div>
+                                    <!--== Start Product Nav Area ==-->
+                                    <!--
+                                    <div class="swiper-container single-product-nav-slider product-nav">
+                                        <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img src="@/assets/img/shop/product-single/nav1.jpg" alt="Image-HasTech">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="@/assets/img/shop/product-single/nav2.jpg" alt="Image-HasTech">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="@/assets/img/shop/product-single/nav3.jpg" alt="Image-HasTech">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="@/assets/img/shop/product-single/nav4.jpg" alt="Image-HasTech">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="@/assets/img/shop/product-single/nav5.jpg" alt="Image-HasTech">
+                                        </div>
+                                        </div>
 
-                                    <div class="swiper-button-prev"><i class="ei ei-icon_arrow_carrot-left"></i></div>
-                                    <div class="swiper-button-next"><i class="ei ei-icon_arrow_carrot-right"></i></div>
-                                </div>
-                                -->
-                                <!--== End Product Nav Area ==-->
+                                        <div class="swiper-button-prev"><i class="ei ei-icon_arrow_carrot-left"></i></div>
+                                        <div class="swiper-button-next"><i class="ei ei-icon_arrow_carrot-right"></i></div>
+                                    </div>
+                                    -->
+                                    <!--== End Product Nav Area ==-->
                                 </div>
                                 <div class="col-lg-6">
-                                <!--== Start Product Info Area ==-->
-                                <div class="product-single-info">
-                                    <h4 class="title">{{ product.name }}</h4>
-                                    <div class="prices">
-                                        <div v-if="product.discount > 0">
-                                            <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
-                                            <span v-if="product.discount > 0" class="price-old">{{ product.price }} &#8381;</span>
+                                    <!--== Start Product Info Area ==-->
+                                    <div class="product-single-info">
+                                        <h4 class="title">{{ product.name }}</h4>
+                                        <div class="prices">
+                                            <div v-if="product.discount > 0">
+                                                <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
+                                                <span v-if="product.discount > 0" class="price-old">{{ product.price }} &#8381;</span>
+                                            </div>
+                                            <div v-else>
+                                                <span class="price">{{ product.price }} &#8381;</span>
+                                            </div>
                                         </div>
-                                        <div v-else>
-                                            <span class="price">{{ product.price }} &#8381;</span>
+                                        <div class="rating-box-wrap">
+                                            <rating-component :rating="product.rating" :num_rating="product.num_ratings"></rating-component>
+                                            <div class="review-status">
+                                                <a href="#">( 1 Отзыв )</a>
+                                            </div>
+                                        </div>
+                                        <p>{{ product.description }}</p>
+                                        <!--
+                                        <div class="product-select-action">
+                                            <div class="select-item">
+                                                <label for="productSizeSelect">Size</label>
+                                                <select class="form-select" id="productSizeSelect" aria-label="Size select example">
+                                                <option selected>s</option>
+                                                <option value="m">m</option>
+                                                <option value="l">l</option>
+                                                <option value="xl">xl</option>
+                                                </select>
+                                            </div>
+                                            <div class="select-item">
+                                                <label for="productColorSelect">Color</label>
+                                                <select class="form-select" id="productColorSelect" aria-label="Color select example">
+                                                <option selected>purple</option>
+                                                <option value="violet">violet</option>
+                                                <option value="black">black</option>
+                                                <option value="pink">pink</option>
+                                                <option value="orange">orange</option>
+                                                </select>
+                                            </div>
+                                            <div class="select-item">
+                                                <label for="productMaterialSelect">Material</label>
+                                                <select class="form-select" id="productMaterialSelect" aria-label="Material select example">
+                                                <option selected>metal</option>
+                                                <option value="resin">resin</option>
+                                                <option value="leather">leather</option>
+                                                <option value="slag">slag</option>
+                                                <option value="fiber">fiber</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        -->
+                                        <div class="product-action-simple">
+                                            <div class="product-quick-action">
+                                                <div class="product-quick-qty">
+                                                <div class="pro-qty">
+                                                    <div class="inc qty-btn" @click="addOne">+</div>
+                                                    <input type="text" id="quantity" title="Количество" v-model="productQuantity">
+                                                    <div class= "dec qty-btn" @click="subOne">-</div>
+                                                </div>
+                                                </div>
+                                                <a class="btn-product-add" href="#/" @click="addToCart(product)">В корзину</a>
+                                            </div>
+                                            <div class="product-wishlist">
+                                                <div v-if="!$store.state.user.likes.includes(product.id)">
+                                                    <a href="#" class="btn-wishlist" @click="like">В избранное</a>
+                                                </div>
+                                                <div v-else>
+                                                    <a href="#" class="btn-wishlist" @click="dislike">Из избранного</a>
+                                                </div>
+                                            </div>
+                                            <div class="payment-button">
+                                                <a href="#/" class="btn-payment">Купить сейчас</a>
+                                            </div>
+                                            <div class="social-sharing">
+                                                <span>Поделиться:</span>
+                                                <div class="social-icons">
+                                                    <a href="#/"><i class="bi bi-telegram"></i></a>
+                                                    <a href="#/"><i class="bi bi-whatsapp"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="rating-box-wrap">
-                                        <rating-component :rating="product.rating" :num_rating="product.num_rating"></rating-component>
-                                        <div class="review-status">
-                                            <a href="#">( 1 Отзыв )</a>
-                                        </div>
-                                    </div>
-                                    <p>{{ product.description }}</p>
-                                    <div class="product-select-action">
-                                    <div class="select-item">
-                                        <label for="productSizeSelect">Size</label>
-                                        <select class="form-select" id="productSizeSelect" aria-label="Size select example">
-                                        <option selected>s</option>
-                                        <option value="m">m</option>
-                                        <option value="l">l</option>
-                                        <option value="xl">xl</option>
-                                        </select>
-                                    </div>
-                                    <div class="select-item">
-                                        <label for="productColorSelect">Color</label>
-                                        <select class="form-select" id="productColorSelect" aria-label="Color select example">
-                                        <option selected>purple</option>
-                                        <option value="violet">violet</option>
-                                        <option value="black">black</option>
-                                        <option value="pink">pink</option>
-                                        <option value="orange">orange</option>
-                                        </select>
-                                    </div>
-                                    <div class="select-item">
-                                        <label for="productMaterialSelect">Material</label>
-                                        <select class="form-select" id="productMaterialSelect" aria-label="Material select example">
-                                        <option selected>metal</option>
-                                        <option value="resin">resin</option>
-                                        <option value="leather">leather</option>
-                                        <option value="slag">slag</option>
-                                        <option value="fiber">fiber</option>
-                                        </select>
-                                    </div>
-                                    </div>
-                                    <div class="product-action-simple">
-                                    <div class="product-quick-action">
-                                        <div class="product-quick-qty">
-                                        <div class="pro-qty">
-                                            <div class="inc qty-btn">+</div>
-                                            <input type="text" id="quantity" title="Количество" value="1">
-                                            <div class= "dec qty-btn">-</div>
-                                        </div>
-                                        </div>
-                                        <a class="btn-product-add" href="#/">В корзину</a>
-                                    </div>
-                                    <div class="product-wishlist">
-                                        <a href="wishlist.html" class="btn-wishlist">В избранное</a>
-                                    </div>
-                                    <div class="payment-button">
-                                        <a href="#/" class="btn-payment">Купить сейчас</a>
-                                    </div>
-                                    <div class="social-sharing">
-                                        <span>Share:</span>
-                                        <div class="social-icons">
-                                        <a href="#/"><i class="fa fa-facebook"></i></a>
-                                        <a href="#/"><i class="fa fa-twitter"></i></a>
-                                        <a href="#/"><i class="fa fa-pinterest"></i></a>
-                                        <a href="#/"><i class="fa fa-google-plus"></i></a>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                <!--== End Product Info Area ==-->
+                                    <!--== End Product Info Area ==-->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row pt-5">
                     <div class="col-12">
                         <div class="product-review-tabs-content">
                         <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
@@ -444,670 +450,142 @@
 
         <!--== Start Product Area Wrapper ==-->
         <section class="product-area product-new-arrivals-area product-related-area">
-        <div class="container">
-            <div class="row">
-            <div class="col-lg-7 m-auto">
-                <div class="section-title text-center"  >
-                <h2 class="title">С этим товаром покупают</h2>
-                </div>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-12">
-                <div class="swiper-container swiper-slide-gap product-slider-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/5.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 m-auto">
+                        <div class="section-title text-center"  >
+                        <h2 class="title">С этим товаром покупают</h2>
                         </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Flower Print dress</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$55.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/2.jpg" alt="Image-HasTech">
-                            </a>
-                            <span class="sale-title sticker">Sale</span>
-                            <span class="percent-count sticker">-15%</span>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html"> Ruffled neck blouse</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-half-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$110.00</span>
-                                <span class="price-old">$130.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/6.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Fit Wool Suit</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$80.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/3.jpg" alt="Image-HasTech">
-                            </a>
-                            <span class="sale-title sticker">Sale</span>
-                            <span class="percent-count sticker">-27%</span>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Style Modern Dress</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$55.00</span>
-                                <span class="price-old">$75.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/7.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Literature Classical</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$79.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/4.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Black Dress Shirt</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$79.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/8.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Matchbox’ Fit Jeans</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$19.00</span>
-                                <span class="price-old">$29.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/9.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Long Cartigen</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$29.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/10.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Primo Court Mid Suede</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$39.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                    <img class="w-100" src="@/assets/img/shop/11.jpg" alt="Image-HasTech">
-                                </a>
-                                <span class="sale-title sticker">Sale</span>
-                                <span class="percent-count sticker">-10%</span>
-                                <div class="product-action">
-                                    <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                        <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                        <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                        <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="product-desc">
-                                <div class="product-info">
-                                    <h4 class="title"><a href="single-product-simple.html">Magento Cheked Shirt</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$19.00</span>
-                                <span class="price-old">$21.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                    <img class="w-100" src="@/assets/img/shop/12.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                    <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                        <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                        <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                        <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="product-desc">
-                                <div class="product-info">
-                                    <h4 class="title"><a href="single-product-simple.html">Off-White Shirt</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$80.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                    <img class="w-100" src="@/assets/img/shop/13.jpg" alt="Image-HasTech">
-                                </a>
-                                <span class="sale-title bg-theme-color sticker">Soldout</span>
-                                <div class="product-action">
-                                    <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                        <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                        <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                        <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="product-desc">
-                                <div class="product-info">
-                                    <h4 class="title"><a href="single-product-simple.html">Grag T- Shirt</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$19.00</span>
-                                <span class="price-old">$29.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                    <img class="w-100" src="@/assets/img/shop/14.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                    <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                        <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                        <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                        <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="product-desc">
-                                <div class="product-info">
-                                    <h4 class="title"><a href="single-product-simple.html">Grameen Check Shirt</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$50.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                            <a href="single-product-simple.html">
-                            <img class="w-100" src="@/assets/img/shop/15.jpg" alt="Image-HasTech">
-                            </a>
-                            <div class="product-action">
-                            <div class="addto-wrap">
-                                <a class="add-cart" href="cart.html">
-                                <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                </a>
-                                <a class="add-wishlist" href="wishlist.html">
-                                <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                </a>
-                                <a class="add-quick-view" href="javascript:void(0);">
-                                <i class="zmdi zmdi-search icon"></i>
-                                </a>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="product-desc">
-                            <div class="product-info">
-                            <h4 class="title"><a href="single-product-simple.html">Black Dress Shirt</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$29.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
-                    </div>
-                    <div class="swiper-slide">
-                    <!--== Start Shop Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                        <div class="product-thumb">
-                                <a href="single-product-simple.html">
-                                    <img class="w-100" src="@/assets/img/shop/16.jpg" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                    <div class="addto-wrap">
-                                    <a class="add-cart" href="cart.html">
-                                        <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                    </a>
-                                    <a class="add-wishlist" href="wishlist.html">
-                                        <i class="zmdi zmdi-favorite-outline zmdi-hc-fw icon"></i>
-                                    </a>
-                                    <a class="add-quick-view" href="javascript:void(0);">
-                                        <i class="zmdi zmdi-search icon"></i>
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="product-desc">
-                                <div class="product-info">
-                                    <h4 class="title"><a href="single-product-simple.html">Pure Check Shirt</a></h4>
-                            <div class="star-content">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <div class="prices">
-                                <span class="price">$29.00</span>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!--== End Shop Item ==-->
                     </div>
                 </div>
-
-                <!--== Add Swiper navigation Buttons ==-->
-                <div class="swiper-button-prev"><i class="ei ei-icon_arrow_carrot-left"></i></div>
-                <div class="swiper-button-next"><i class="ei ei-icon_arrow_carrot-right"></i></div>
+                <div class="row">
+                    <div class="col-12">
+                        <swiper
+                            :slidesPerView="4"
+                            :spaceBetween="30"
+                            :navigation="true"
+                            class="mySwiper"
+                            
+                        >
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                            <swiper-slide>
+                                <div class="card bg-dark text-white">
+                                    <img src="@/assets/img/shop/1.jpg" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <p class="card-text">Last updated 3 mins ago</p>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                        </swiper>
+                    </div>
                 </div>
             </div>
-            </div>
-        </div>
         </section>
         <!--== End Product Area Wrapper ==-->
+
+        <modal-component v-model:show="addToCartModalIsVisible">
+            <div class="d-flex flex-column gap-3">
+                <div>{{ product.name }} уже в корзине</div>
+                <div class="d-flex justify-content-between gap-4 account-optional-group">
+                    <router-link to="/cart2">Посмотреть корзину</router-link>
+                    <a href="#" @click="addToCartModalIsVisible=false">Продолжить покупки</a>
+                </div>
+            </div>
+        </modal-component>
 
         <!--== Scroll Top Button==-->
         <scroll-to-top></scroll-to-top>
     </main>
     <footer-component></footer-component>
+    </div>
 </template>
 
 <script>
     import axios from 'axios'
+    import { Swiper, SwiperSlide } from 'swiper/vue';
+    import { Navigation } from 'swiper/modules';
+    import 'swiper/css';
+    import 'swiper/css/navigation';
     export default {
+        components: {Swiper, SwiperSlide},
         data() {
             return {
                 isProductLoading: false,
                 product: {},
+                productQuantity: 1,
+                addToCartModalIsVisible: false,
+                modules: [Navigation],
             }
         },
         methods: {
@@ -1126,6 +604,70 @@
                         this.product = response.data;
                         this.isProductLoading=true
                         })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            addOne() {
+                this.productQuantity += 1
+            },
+            subOne() {
+                this.productQuantity > 1 ? this.productQuantity -= 1 : 1
+            },
+            addToCart(product) {
+                this.$store.commit('addProductToCart', {'product': product, 'quantity': this.productQuantity});
+                this.addToCartModalIsVisible = true
+            },
+            like() {
+                // Implement send to backend like product
+              const like = {
+                'product_id': this.product.id,
+                'operation': 'like'
+              }
+              try {
+                    axios(
+                      {
+                        url: `http://127.0.0.1:8000/api/v1/like/`,
+                        method: 'post',
+                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                        data: like
+                      }
+                    ).then((response) => {
+                          //console.log(response)
+                          if (!this.$store.state.user.likes.includes(this.product.id)) {
+                            this.$store.commit('like', this.product.id)
+                          }
+                          
+                      })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            dislike() {
+              // Implement send to backend like product
+              const like = {
+                'user_id': this.$store.state.user.id,
+                'product_id': this.product.id,
+                'operation': 'dislike'
+              }
+              try {
+                    axios(
+                      {
+                        url: `http://127.0.0.1:8000/api/v1/like/`,
+                        method: 'post',
+                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                        data: like
+                      }
+                    ).then((response) => {
+                          //console.log(response)
+                          this.$store.commit('dislike', this.product.id)
+                      })
                 } catch(e) {
                     alert(`Connection error: ${e}`);
                 }

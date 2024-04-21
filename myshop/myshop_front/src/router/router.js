@@ -15,6 +15,7 @@ import OrderPage from '@/pages/OrderPage.vue';
 import TestPage from '@/pages/TestPage.vue';
 import NewFrontPage from '@/pages/NewFrontPage.vue'
 import ProductPage2 from '@/pages/ProductPage2.vue'
+import CartPage2 from '@/pages/CartPage2.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -101,6 +102,11 @@ const routes = [
         path: '/product2/:id',
         component: ProductPage2,
         name: 'product2'
+    },
+    {
+        path: '/cart2',
+        component: CartPage2,
+        name: 'cart2'
     }
 ]
 

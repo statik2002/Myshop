@@ -53,6 +53,29 @@ export default createStore({
             
         },
 
+        getCartTotalWithoutDiscount(state) {
+            let total = 0
+            if (state.userIsAuth) {
+                if (state.user.cart.products.length > 0){
+                    for(const product of state.user.cart.products){
+                        total += product.quantity * product.product.price
+                    }
+                    return total
+                } else {
+                    return 0
+                }
+            } else {
+                if (state.cart.products.length > 0){
+                    for(const product of state.cart.products){
+                        total += product.quantity * product.product.price
+                    }
+                    return total
+                } else {
+                    return 0
+                }
+            }
+        },
+
         getCartProductsCount(state) {
             let total = 0
             if(state.userIsAuth) {
@@ -91,6 +114,10 @@ export default createStore({
             return state.user.cart.products[productIndex];
         },
 
+        getLikedProducts(state) {
+            return state.user.likes.length;
+        },
+
         isUserLogin(state) {
             return state.userIsAuth
         }
@@ -126,36 +153,36 @@ export default createStore({
 
         addProductToCart(state, product) {
             if (state.userIsAuth) {
-                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.product.id);
                 if (productIndex >= 0) {
-                    state.user.cart.products[productIndex].quantity += 1;
-                    state.user.cart.cartProductsQuantity += 1;
-                    state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.price;
+                    state.user.cart.products[productIndex].quantity += product.quantity;
+                    state.user.cart.cartProductsQuantity += product.quantity;
+                    state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.product.price;
                     localStorage.setItem('user', JSON.stringify(state.user))
                 } else {
                     const newCartItem = {
-                        id: product.id,
-                        product: product,
-                        quantity: 1,
-                        fixed_price: product.price,
+                        id: product.product.id,
+                        product: product.product,
+                        quantity: product.quantity,
+                        fixed_price: product.product.price - product.product.price * product.product.discount / 100,
                         cart: state.user.cart.id
                     };
                     state.user.cart.products.push(newCartItem);
                     localStorage.setItem('user', JSON.stringify(state.user))
                 }
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === product.id);
+                const productIndex = state.cart.products.findIndex((index) => index.id === product.product.id);
                 if (productIndex >= 0) {
-                    state.cart.products[productIndex].quantity += 1;
-                    state.cart.cartProductsQuantity += 1;
-                    state.cart.cartProductsTotal += state.cart.products[productIndex].quantity * product.price;
+                    state.cart.products[productIndex].quantity += product.quantity;
+                    state.cart.cartProductsQuantity += product.quantity;
+                    state.cart.cartProductsTotal += state.cart.products[productIndex].quantity * product.product.price;
                     localStorage.setItem('cart', JSON.stringify(state.cart))
                 } else {
                     const newCartItem = {
-                        id: product.id,
-                        product: product,
-                        quantity: 1,
-                        fixed_price: product.price,
+                        id: product.product.id,
+                        product: product.product,
+                        quantity: product.quantity,
+                        fixed_price: product.product.price - product.product.price * product.product.discount / 100,
                         cart: state.cart.id
                     };
                     state.cart.products.push(newCartItem);

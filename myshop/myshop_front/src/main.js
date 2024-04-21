@@ -8,7 +8,6 @@ import '@/assets/css/headroom.css'
 import '@/assets/css/ionicons.css'
 import '@/assets/css/material-design-iconic-font.css'
 //import '@/assets/css/sliknav.css'
-import '@/assets/css/swiper.min.css'
 import '@/assets/css/style.css'
 import '@/assets/css/my.css'
 
@@ -18,7 +17,7 @@ import "bootstrap-icons/font/bootstrap-icons.css"
 
 
 import { createApp } from 'vue'
-import { register } from 'swiper/element/bundle';
+//import { register } from 'swiper/element/bundle';
 
 import App from '@/App.vue'
 import router from '@/router/router'
@@ -35,7 +34,7 @@ components.forEach(component => {
    app.component(component.name, component) 
 });
 
-register();
+//register();
 
 app
     .use(router)
