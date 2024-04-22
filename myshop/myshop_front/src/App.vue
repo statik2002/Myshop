@@ -17,14 +17,14 @@
         mounted() {
             //Load user from useStorage
             const user = localStorage.getItem('user')
+            const unregisteredUser = localStorage.getItem('unregisteredUser')
             if (user) {
                 this.$store.state.user = JSON.parse(user)
                 this.$store.state.userIsAuth = true
             }
-            const cart = localStorage.getItem('cart')
-            if (cart) {
-                //this.$store.state.userIsAuth = false
-                this.$store.state.cart = JSON.parse(cart)
+            if (unregisteredUser){
+                this.$store.state.unregisteredUser = JSON.parse(unregisteredUser)
+                this.$store.state.userIsAuth = false
             }
 
             if (!this.$cookies.isKey('allow_cookie')) {

@@ -48,7 +48,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="product in productsInCart">
+                        <tr v-for="product in products">
                             <cart-product-2 :cart_product="product"></cart-product-2>
                         </tr>
                     </tbody>
@@ -114,12 +114,6 @@
             removeProduct(product) {
 
             },
-            cartTotalWithoutDiscount() {
-                for(let product in this.productsInCart) {
-                    console.log(product.fixed_price)
-                }
-                return 0
-            }
         },
         mounted() {
             this.products = this.$store.getters.productsInCart

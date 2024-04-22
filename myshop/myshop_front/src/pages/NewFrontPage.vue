@@ -69,16 +69,16 @@
                                         <span v-if="product.discount > 0" class="percent-count sticker">- {{ Math.floor(product.discount) }}%</span>
                                         <div class="product-action">
                                             <div class="addto-wrap">
-                                                <a class="add-cart" href="#" @click="addToCart(product)">
+                                                <a class="add-cart" href="#" @click="addToCartButton(product)">
                                                     <i class="zmdi zmdi-shopping-cart-plus icon"></i>
                                                 </a>
-                                                <div v-if="!$store.state.user.likes.includes(product.id)">
-                                                    <a class="add-wishlist" href="#" @click="like(product)">
+                                                <div v-if="!likedProducts.includes(product.id)">
+                                                    <a class="add-wishlist" href="javascript:void(0);" @click="like(product)">
                                                         <i class="bi bi-heart"></i>
                                                     </a>
                                                 </div>
                                                 <div v-else>
-                                                    <a class="add-wishlist" href="#" @click="dislike(product)">
+                                                    <a class="add-wishlist" href="javascript:void(0);" @click="dislike(product)">
                                                         <i class="bi bi-heart-fill"></i>
                                                     </a>
                                                 </div>
@@ -232,7 +232,8 @@
                 productsOffest: -30,
                 productQantity: 1,
                 productAtModal: null,
-                productQuantityModal: 1
+                productQuantityModal: 1,
+                likedProducts: []
             }
         },
         methods: {
@@ -265,62 +266,77 @@
             },
             addToCart(product, quantity = 1) {
                 this.$store.commit('addProductToCart', {'product': product, 'quantity': quantity});
-                const modal = document.getElementById('closeProductModal')
-                modal.click()
+                const modalCloseButton = document.getElementById('closeProductModal')
+                modalCloseButton.click()
+            },
+            addToCartButton(product) {
+                this.$store.commit('addProductToCart', {'product': product, 'quantity': 1});
             },
             like(product) {
                 // Implement send to backend like product
-              const like = {
-                'product_id': product.id,
-                'operation': 'like'
-              }
-              try {
-                    axios(
-                      {
-                        url: `http://127.0.0.1:8000/api/v1/like/`,
-                        method: 'post',
-                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                        data: like
-                      }
-                    ).then((response) => {
-                          //console.log(response)
-                          if (!this.$store.state.user.likes.includes(product.id)) {
-                            this.$store.commit('like', product.id)
-                          }
-                          
-                      })
-                } catch(e) {
-                    alert(`Connection error: ${e}`);
+                const like = {
+                    'product_id': product.id,
+                    'operation': 'like'
                 }
-                finally {
-        
+                if (!this.$store.userIsAuth){
+                    if (!this.$store.state.unregisteredUser.likes.includes(product.id)) {
+                                this.$store.commit('like', product.id)
+                        }
+                    return
                 }
-            },
+                try {
+                        axios(
+                        {
+                            url: `http://127.0.0.1:8000/api/v1/like/`,
+                            method: 'post',
+                            headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                            data: like
+                        }
+                        ).then((response) => {
+                            //console.log(response)
+                            if (!this.$store.state.user.likes.includes(product.id)) {
+                                this.$store.commit('like', product.id)
+                            }
+                            
+                        })
+                    } catch(e) {
+                        alert(`Connection error: ${e}`);
+                    }
+                    finally {
+            
+                    }
+                },
             dislike(product) {
-              // Implement send to backend like product
-              const like = {
-                'user_id': this.$store.state.user.id,
-                'product_id': product.id,
-                'operation': 'dislike'
-              }
-              try {
-                    axios(
-                      {
-                        url: `http://127.0.0.1:8000/api/v1/like/`,
-                        method: 'post',
-                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                        data: like
-                      }
-                    ).then((response) => {
-                          //console.log(response)
-                          this.$store.commit('dislike', product.id)
-                      })
-                } catch(e) {
-                    alert(`Connection error: ${e}`);
+                // Implement send to backend like product
+                const like = {
+                    'user_id': this.$store.state.user.id,
+                    'product_id': product.id,
+                    'operation': 'dislike'
                 }
-                finally {
-        
+                if (!this.$store.userIsAuth){
+                    if (this.$store.state.unregisteredUser.likes.includes(product.id)) {
+                                this.$store.commit('dislike', product.id)
+                        }
+                    return
                 }
+                try {
+                        axios(
+                        {
+                            url: `http://127.0.0.1:8000/api/v1/like/`,
+                            method: 'post',
+                            headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                            data: like
+                        }
+                        ).then((response) => {
+                            //console.log(response)
+                            this.$store.commit('dislike', product.id)
+                        })
+                    } catch(e) {
+                        alert(`Connection error: ${e}`);
+                    }
+                    finally {
+            
+                    }
             },
             add() {
                 this.productQuantityModal += 1
@@ -331,6 +347,8 @@
         },
         mounted() {
             this.uploadProducts();
+            this.likedProducts = this.$store.getters.getLikedProducts
+            
             const options = {
                 rootMargin: '0px',
                 thresold: 1.0

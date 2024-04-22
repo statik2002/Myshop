@@ -166,7 +166,7 @@
                                                 <a class="btn-product-add" href="#/" @click="addToCart(product)">В корзину</a>
                                             </div>
                                             <div class="product-wishlist">
-                                                <div v-if="!$store.state.user.likes.includes(product.id)">
+                                                <div v-if="!likedProducts.includes(product.id)">
                                                     <a href="#" class="btn-wishlist" @click="like">В избранное</a>
                                                 </div>
                                                 <div v-else>
@@ -586,6 +586,7 @@
                 productQuantity: 1,
                 addToCartModalIsVisible: false,
                 modules: [Navigation],
+                likedProducts: []
             }
         },
         methods: {
@@ -615,7 +616,7 @@
                 this.productQuantity += 1
             },
             subOne() {
-                this.productQuantity > 1 ? this.productQuantity -= 1 : 1
+                this.productQuantity > 1 ? this.productQuantity -=1 : 1
             },
             addToCart(product) {
                 this.$store.commit('addProductToCart', {'product': product, 'quantity': this.productQuantity});
@@ -623,31 +624,37 @@
             },
             like() {
                 // Implement send to backend like product
-              const like = {
-                'product_id': this.product.id,
-                'operation': 'like'
-              }
-              try {
-                    axios(
-                      {
-                        url: `http://127.0.0.1:8000/api/v1/like/`,
-                        method: 'post',
-                        headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
-                        data: like
-                      }
-                    ).then((response) => {
-                          //console.log(response)
-                          if (!this.$store.state.user.likes.includes(this.product.id)) {
-                            this.$store.commit('like', this.product.id)
-                          }
-                          
-                      })
-                } catch(e) {
-                    alert(`Connection error: ${e}`);
+                const like = {
+                    'product_id': this.product.id,
+                    'operation': 'like'
                 }
-                finally {
-        
+                if (!this.$store.userIsAuth){
+                    if (!this.$store.state.unregisteredUser.likes.includes(this.product.id)) {
+                                this.$store.commit('like', this.product.id)
+                        }
+                    return
                 }
+                try {
+                        axios(
+                        {
+                            url: `http://127.0.0.1:8000/api/v1/like/`,
+                            method: 'post',
+                            headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                            data: like
+                        }
+                        ).then((response) => {
+                            //console.log(response)
+                            if (!this.$store.state.user.likes.includes(this.product.id)) {
+                                this.$store.commit('like', this.product.id)
+                            }
+                            
+                        })
+                    } catch(e) {
+                        alert(`Connection error: ${e}`);
+                    }
+                    finally {
+            
+                    }
             },
             dislike() {
               // Implement send to backend like product
@@ -656,6 +663,12 @@
                 'product_id': this.product.id,
                 'operation': 'dislike'
               }
+              if (!this.$store.userIsAuth){
+                    if (this.$store.state.unregisteredUser.likes.includes(this.product.id)) {
+                                this.$store.commit('dislike', this.product.id)
+                        }
+                    return
+                }
               try {
                     axios(
                       {
@@ -678,6 +691,7 @@
         },
         mounted() {
             this.uploadProduct();
+            this.likedProducts = this.$store.getters.getLikedProducts
         }
     }
 </script>

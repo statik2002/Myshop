@@ -533,6 +533,15 @@ class Likes(viewsets.ViewSet):
         return Response(ProductSerializer(liked_products, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
     
 
+    def get_permissions(self):
+        if self.action in ['update', 'create']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+    
+
 class FeedbackViewSet(viewsets.ModelViewSet):
     
     """

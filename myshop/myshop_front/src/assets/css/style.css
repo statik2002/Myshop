@@ -2128,18 +2128,18 @@ section .container-fluid {
   }
 }
 .shopping-wishlist-table .table thead {
-  background-color: #f7f7f7;
+  background-color: #ffffff;
 }
 .shopping-wishlist-table .table thead .product-remove {
-  text-align: left;
+  text-align: center;
   width: 30px;
 }
 .shopping-wishlist-table .table thead .product-thumb {
-  text-align: left;
+  text-align: center;
   width: 110px;
 }
 .shopping-wishlist-table .table thead .product-name {
-  text-align: left;
+  text-align: center;
   width: 363px;
 }
 @media only screen and (max-width: 1199px) {
@@ -2160,7 +2160,7 @@ section .container-fluid {
   }
 }
 .shopping-wishlist-table .table thead .product-action {
-  text-align: left;
+  text-align: center;
   width: 302px;
 }
 .shopping-wishlist-table .table thead tr th {
@@ -2175,13 +2175,13 @@ section .container-fluid {
 .shopping-wishlist-table .table .product-thumb,
 .shopping-wishlist-table .table .product-name,
 .shopping-wishlist-table .table .product-stock-status {
-  text-align: left;
+  text-align: center;
 }
 .shopping-wishlist-table .table .product-action {
-  text-align: right;
+  text-align: center;
 }
 .shopping-wishlist-table .table tbody .cart-wishlist-item .product-remove {
-  text-align: left;
+  text-align: center;
 }
 .shopping-wishlist-table .table tbody .cart-wishlist-item .product-remove a {
   font-size: 16px;
@@ -2192,7 +2192,7 @@ section .container-fluid {
   color: #f76b6a;
 }
 .shopping-wishlist-table .table tbody .cart-wishlist-item .product-thumb {
-  text-align: left;
+  text-align: center;
 }
 .shopping-wishlist-table .table tbody .cart-wishlist-item .product-name {
   text-align: left;
@@ -2223,6 +2223,14 @@ section .container-fluid {
 .shopping-wishlist-table .table tbody .cart-wishlist-item .product-stock-status .stock {
   font-size: 12px;
   background-color: #35d56a;
+  display: inline-block;
+  color: #fff;
+  border-radius: 15px;
+  padding: 2px 15px;
+}
+.shopping-wishlist-table .table tbody .cart-wishlist-item .product-stock-status .outstock {
+  font-size: 12px;
+  background-color: #e00d0d;
   display: inline-block;
   color: #fff;
   border-radius: 15px;

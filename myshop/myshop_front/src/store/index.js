@@ -10,20 +10,32 @@ export default createStore({
             windowWidth: '',
             cart: {
                 products: [],
+            },
+            likedProducts: [],
+            unregisteredUser: {
+                cart: {
+                    products: []
+                },
+                likes: []
             }
         }
     },
 
     getters: {
         getCart(state) {
-            return state.user.cart;
+            if (state.userIsAuth){
+                return state.user.cart;
+            } else {
+                return state.unregisteredUser.cart
+            }
+            
         },
 
         productsInCart(state) {
             if (state.userIsAuth) {
                 return state.user.cart.products;
             } else {
-                return state.cart.products
+                return state.unregisteredUser.cart.products;
             }
             
         },
@@ -40,8 +52,8 @@ export default createStore({
                     return 0
                 }
             } else {
-                if (state.cart.products.length > 0){
-                    for(const product of state.cart.products){
+                if (state.unregisteredUser.cart.products.length > 0){
+                    for(const product of state.unregisteredUser.cart.products){
                         total += product.quantity * product.fixed_price
                     }
                     return total
@@ -49,8 +61,6 @@ export default createStore({
                     return 0
                 }
             }
-            
-            
         },
 
         getCartTotalWithoutDiscount(state) {
@@ -65,8 +75,8 @@ export default createStore({
                     return 0
                 }
             } else {
-                if (state.cart.products.length > 0){
-                    for(const product of state.cart.products){
+                if (state.unregisteredUser.cart.products.length > 0){
+                    for(const product of state.unregisteredUser.cart.products){
                         total += product.quantity * product.product.price
                     }
                     return total
@@ -83,7 +93,7 @@ export default createStore({
                     total += product.quantity
                 }
             } else {
-                for (const product of state.cart.products){
+                for (const product of state.unregisteredUser.cart.products){
                     total += product.quantity
                 }
             }
@@ -95,7 +105,10 @@ export default createStore({
             if (state.userIsAuth) {
                 return state.user.cart.products.length;
             } else {
-                return state.cart.products.length;
+                if (state.unregisteredUser.cart.products === undefined) {
+                    return 0
+                }
+                return state.unregisteredUser.cart.products.length;
             }
 
             
@@ -115,7 +128,26 @@ export default createStore({
         },
 
         getLikedProducts(state) {
-            return state.user.likes.length;
+            if(state.user.userIsAuth){
+                if(state.user.likes === undefined) {
+                    return []
+                }
+                return state.user.likes;
+            } else {
+                return state.unregisteredUser.likes;
+            }
+            
+        },
+
+        getLikedProductsCount(state) {
+            if(state.user.userIsAuth){
+                if(state.user.likes === undefined) {
+                    return 0
+                }
+                return state.user.likes.length;
+            } else {
+                return state.unregisteredUser.likes.length;
+            }
         },
 
         isUserLogin(state) {
@@ -124,14 +156,6 @@ export default createStore({
     },
 
     mutations: {
-        incrementLikes(state) {
-            state.likes += 1
-        },
-
-        decrementLikes(state) {
-            (state.likes > 1) ? state.likes -= 1 : 1;
-        },
-
         setUserPhone(state, phone) {
             state.userPhone = phone
         },
@@ -171,29 +195,36 @@ export default createStore({
                     localStorage.setItem('user', JSON.stringify(state.user))
                 }
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === product.product.id);
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === product.product.id);
                 if (productIndex >= 0) {
-                    state.cart.products[productIndex].quantity += product.quantity;
-                    state.cart.cartProductsQuantity += product.quantity;
-                    state.cart.cartProductsTotal += state.cart.products[productIndex].quantity * product.product.price;
-                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                    state.unregisteredUser.cart.products[productIndex].quantity += product.quantity;
+                    state.unregisteredUser.cart.cartProductsQuantity += product.quantity;
+                    state.unregisteredUser.cart.cartProductsTotal += state.unregisteredUser.cart.products[productIndex].quantity * product.product.price;
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
                 } else {
                     const newCartItem = {
                         id: product.product.id,
                         product: product.product,
                         quantity: product.quantity,
                         fixed_price: product.product.price - product.product.price * product.product.discount / 100,
-                        cart: state.cart.id
+                        cart: 1
                     };
-                    state.cart.products.push(newCartItem);
-                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                    state.unregisteredUser.cart.products.push(newCartItem);
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
                 }
             }
         },
         removeProductFromCart(state, product) {
-            const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
-            state.user.cart.products.splice(productIndex, 1);
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.userIsAuth) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+                state.user.cart.products.splice(productIndex, 1);
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === product.id);
+                state.unregisteredUser.cart.products.splice(productIndex, 1);
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
 
         addOne(state, id) {
@@ -202,9 +233,9 @@ export default createStore({
                 state.user.cart.products[productIndex].quantity += 1;
                 localStorage.setItem('user', JSON.stringify(state.user))
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === id);
-                state.cart.products[productIndex].quantity += 1;
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === id);
+                state.unregisteredUser.cart.products[productIndex].quantity += 1;
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
             }
         },
 
@@ -217,11 +248,11 @@ export default createStore({
                     localStorage.setItem('user', JSON.stringify(state.user))
                 }
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === id);
-                if (state.cart.products[productIndex].quantity > 1)
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === id);
+                if (state.unregisteredUser.cart.products[productIndex].quantity > 1)
                 {
-                    state.cart.products[productIndex].quantity -= 1;
-                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                    state.unregisteredUser.cart.products[productIndex].quantity -= 1;
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
                 }
             }
             
@@ -234,9 +265,9 @@ export default createStore({
                 state.user.cart.products.splice(productIndex, 1)
                 localStorage.setItem('user', JSON.stringify(state.user))
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === id);
-                state.cart.products.splice(productIndex, 1)
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === id);
+                state.unregisteredUser.cart.products.splice(productIndex, 1)
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
             }
             
         },
@@ -273,12 +304,24 @@ export default createStore({
             localStorage.setItem('user', state.user)
         },
         like(state, product_id){
-            state.user.likes.push(product_id)
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.userIsAuth) {
+                state.user.likes.push(product_id)
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                state.unregisteredUser.likes.push(product_id)
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
         dislike(state, product_id){
-            state.user.likes.pop(product_id)
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.userIsAuth) {
+                state.user.likes.pop(product_id)
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                state.unregisteredUser.likes.pop(product_id)
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
         reloadUser(state) {
             if (state.userIsAuth)

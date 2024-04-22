@@ -14,11 +14,13 @@
                 <div class="col-lg-6 d-none d-lg-block">
                     <div class="header-navigation-area">
                         <ul class="main-menu nav position-relative">
-                            <li class="has-submenu"><a href="#/">Домой</a>
+                            <li class="has-submenu"><router-link to="/newfront">Домой</router-link>
+                                <!--
                                 <ul class="submenu-nav">
                                     <li><a href="index.html">Home Demo 1</a></li>
                                     <li><a href="index-two.html">Home Demo 2</a></li>
                                 </ul>
+                                -->
                             </li>
                             <li class="has-submenu full-width"><a href="#/">Каталог</a>
                                 <ul class="submenu-nav submenu-nav-mega">
@@ -77,12 +79,12 @@
                 </div>
                 <div class="col-sm-3 col-lg-3 d-none d-lg-block">
                     <div class="search-form">
-                        <form action="#">
+
                             <div class="form-group">
-                                <input class="form-control" type="search" placeholder="Поиск товара">
-                                <button class="btn-search"><i class="bi bi-search"></i></button>
+                                <input v-model="searchQuery" class="form-control" type="search" placeholder="Поиск товара" @change="$router.push({name: 'search2', params: {query: searchQuery}})">
+                                <button type="submit" class="btn-search" @click="$router.push({name: 'search2', params: {query: searchQuery}})"><i class="bi bi-search"></i></button>
                             </div>
-                        </form>
+
                     </div>
                 </div>
                 <div class="col-sm-9 col-lg-2 d-none d-sm-block text-end">
@@ -128,9 +130,9 @@
                                 </ul>
                             </li>
                             <li class="mini-cart">
-                                <router-link to="" class="action-item">
+                                <router-link to="/like2" class="action-item">
                                     <i class="bi bi-heart" style="font-size: 1.3rem;"></i>
-                                    <span v-if="$store.getters.getLikedProducts > 0" class="cart-quantity">{{ $store.getters.getLikedProducts }}</span>
+                                    <span v-if="$store.getters.getLikedProductsCount > 0" class="cart-quantity">{{ $store.getters.getLikedProductsCount }}</span>
                                 </router-link>
                             </li>
                             <li class="mini-cart">
@@ -139,30 +141,19 @@
                                     <span class="cart-quantity" v-if="$store.getters.getCartPositionCount > 0">{{ $store.getters.getCartPositionCount }}</span>
                                 </router-link>
                                 <div class="mini-cart-dropdown">
-                                    <div class="cart-item">
+                                    <div class="cart-item" v-for="cartItem in $store.getters.productsInCart">
                                         <div class="thumb">
-                                            <img class="w-100" src="@/assets/img/shop/cart/1.jpg" alt="Image-HasTech">
+                                            <img v-if="cartItem.product.product_images.length > 0" class="w-100" :src=cartItem.product.product_images[0].image :alt=cartItem.product.product_images[0].alt>
+                                            <img v-else class="w-100" src="@/assets/no_image.png" alt="no image">
                                         </div>
                                         <div class="content">
-                                            <h5 class="title"><a href="#/">Literature Classical - s</a></h5>
-                                            <span class="product-quantity">1 ×</span>
-                                            <span class="product-price">$79.00</span>
-                                            <a class="cart-trash" href="javascript:void(0);"><i class="fa fa-trash"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="cart-item">
-                                        <div class="thumb">
-                                            <img class="w-100" src="@/assets/img/shop/cart/2.jpg" alt="Image-HasTech">
-                                        </div>
-                                        <div class="content">
-                                            <h5 class="title"><a href="#/">Fit Wool Suit - m / gold</a></h5>
-                                            <span class="product-quantity">1 ×</span>
-                                            <span class="product-price">$80.00</span>
-                                            <a class="cart-trash" href="javascript:void(0);"><i class="fa fa-trash"></i></a>
+                                            <h5 class="title"><a href="#/">{{ cartItem.product.name }}</a></h5>
+                                            <span class="product-quantity">{{ cartItem.quantity }} × {{ cartItem.fixed_price }} &#8381;</span>
+                                            <a class="cart-trash" href="#" @click="$store.commit('deleteProductFromCart', cartItem.id)"><i class="bi bi-trash3"></i></a>
                                         </div>
                                     </div>
                                     <div class="cart-total-money">
-                                        <h5>Итого: <span class="money">$159.00</span></h5>
+                                        <h5>Итого: <span class="money">{{ $store.getters.getCartTotal }} &#8381;</span></h5>
                                     </div>
                                     <div class="cart-btn">
                                         <router-link to="/cart2">Открыть корзину</router-link>
@@ -235,6 +226,7 @@
                 loginModalVisible: false,
                 phone: '',
                 password: '',
+                searchQuery: ''
             }
         },
         methods: {

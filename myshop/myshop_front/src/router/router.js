@@ -16,6 +16,8 @@ import TestPage from '@/pages/TestPage.vue';
 import NewFrontPage from '@/pages/NewFrontPage.vue'
 import ProductPage2 from '@/pages/ProductPage2.vue'
 import CartPage2 from '@/pages/CartPage2.vue';
+import LikePage2 from '@/pages/LikePage2.vue'
+import SearchPage2 from '@/pages/SearchPage2.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -107,6 +109,16 @@ const routes = [
         path: '/cart2',
         component: CartPage2,
         name: 'cart2'
+    },
+    {
+        path: '/like2',
+        component: LikePage2,
+        name: 'like2'
+    },
+    {
+        path: '/search2/:query',
+        component: SearchPage2,
+        name: 'search2'
     }
 ]
 
