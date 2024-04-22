@@ -590,3 +590,23 @@ class ProductQuestionViewSet(viewsets.ModelViewSet):
             permission_classes = [AllowAny]
 
         return [permission() for permission in permission_classes]
+    
+
+class CatalogViewSet(viewsets.ModelViewSet):
+
+    '''
+        *** Get all catalogs ***
+        - GET '/api/v1/calalogs'
+        - Premission: AllowAny
+    '''
+
+    queryset = Catalog.objects.filter(is_active=True)
+    serializer_class = CatalogSerializer
+
+    def get_permissions(self):
+        if self.action in ['update', 'create']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]

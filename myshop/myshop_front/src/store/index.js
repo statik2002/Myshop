@@ -7,17 +7,13 @@ export default createStore({
         return {
             user: {},
             userIsAuth: false,
-            windowWidth: '',
-            cart: {
-                products: [],
-            },
-            likedProducts: [],
             unregisteredUser: {
                 cart: {
                     products: []
                 },
                 likes: []
-            }
+            },
+            catalogs: []
         }
     },
 
@@ -28,7 +24,6 @@ export default createStore({
             } else {
                 return state.unregisteredUser.cart
             }
-            
         },
 
         productsInCart(state) {
@@ -37,7 +32,6 @@ export default createStore({
             } else {
                 return state.unregisteredUser.cart.products;
             }
-            
         },
 
         getCartTotal(state) {
@@ -152,6 +146,9 @@ export default createStore({
 
         isUserLogin(state) {
             return state.userIsAuth
+        },
+        getCatalog(state) {
+            return state.catalogs
         }
     },
 
@@ -298,10 +295,16 @@ export default createStore({
             state.userIsAuth = flag
         },
         clearCart(state) {
-            state.user.cart.products = []
-            state.user.cart.cartProductsQuantity = 0
-            state.user.cart.cartProductsTotal = 0
-            localStorage.setItem('user', state.user)
+            if(state.userIsAuth){
+                state.user.cart.products = []
+                state.user.cart.cartProductsQuantity = 0
+                state.user.cart.cartProductsTotal = 0
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                state.unregisteredUser.cart.products = []
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
         like(state, product_id){
             if (state.userIsAuth) {
@@ -350,7 +353,9 @@ export default createStore({
                 }
             }
         },
-        
+        updateCatalog(state, catalog) {
+            state.catalogs = catalog
+        },
     },
 
     actions: {
@@ -388,6 +393,24 @@ export default createStore({
     
             }
         },
+
+        getCatalog({commit, state}) {
+            try {
+                axios(
+                  {
+                    url: `http://127.0.0.1:8000/api/v1/catalogs/`,
+                    method: 'get'
+                  }
+                ).then((response) => {
+                    commit('updateCatalog', response.data.results)
+                })
+          } catch(e) {
+              console.log(`Connection error: ${e}`);
+          }
+          finally {
+  
+          }
+        }
     },
 
     modules: {

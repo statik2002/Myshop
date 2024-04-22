@@ -31,6 +31,8 @@
                 this.$cookies.set('allow_cookie', true)
                 this.acceptCookiesDialog = true
             }
+
+            this.$store.dispatch('getCatalog')
         }
   }
 </script>

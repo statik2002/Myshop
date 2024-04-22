@@ -56,29 +56,41 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 col-lg-7 col-12">
-                    <div class="coupon-all">
-                        <div class="coupon">
-                            <a class="button" href="shop.html">Продлжить покупки</a>
-                            <a class="button" href="#/">Очистить корзину</a>
-                            <div class="cart-coupon">
-                                <h3>Пояснение к заказу</h3>
-                                <label for="Textarea1" class="form-label visually-hidden">Пояснение к заказу</label>
-                                <textarea class="form-control" id="Textarea1"></textarea>
+                        <div class="coupon-all">
+                            <div class="coupon">
+                                <div class="d-flex gap-2">
+                                    <button class="button" @click="$router.push('/newfront')">Продлжить покупки</button>
+                                    <button class="button" @click="clearCart">Очистить корзину</button>
+                                </div>
+                            </div>
+                            <!--
+                            <div class="coupon2">
+                                <a class="button" href="#/">Купон</a>
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-md-12 col-lg-7 col-12">
+                        <div class="coupon-all">
+                            <div class="coupon">
+                                <div class="cart-coupon">
+                                    <h3>Пояснение к заказу</h3>
+                                    <label for="Textarea1" class="form-label visually-hidden">Пояснение к заказу</label>
+                                    <textarea class="form-control" id="Textarea1"></textarea>
+                                </div>
                             </div>
                         </div>
-                        <div class="coupon2">
-                            <a class="button" href="#/">Купон</a>
-                        </div>
                     </div>
-                    </div>
+                    -->
                     <div class="col-md-12 col-lg-5 col-12">
-                    <div class="cart-page-total">
-                        <h3>Итого</h3>
-                        <ul>
-                        <li>Итого<span class="money"><b>{{ $store.getters.getCartTotal }} &#8381;</b></span></li>
-                        </ul>
-                        <a class="proceed-to-checkout-btn" href="checkout.html">Оплатить</a>
-                    </div>
+                        <div class="cart-page-total">
+                            <h3>Итого</h3>
+                            <ul>
+                            <li>Итого<span class="money"><b>{{ $store.getters.getCartTotal }} &#8381;</b></span></li>
+                            </ul>
+                            <a class="proceed-to-checkout-btn" href="checkout.html">Оплатить</a>
+                        </div>
                     </div>
                 </div>
                 </div>
@@ -114,6 +126,10 @@
             removeProduct(product) {
 
             },
+            clearCart() {
+                this.products = []
+                this.$store.commit('clearCart')
+            }
         },
         mounted() {
             this.products = this.$store.getters.productsInCart

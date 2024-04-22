@@ -23,6 +23,8 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(Catalog)
 class CatalogAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['name']}
+    list_display = ('name', 'is_active', )
+    list_editable = ('is_active', )
 
 
 @admin.register(Tag)
@@ -42,7 +44,7 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'quantity', 'available', 'rating', 'show_count', 'create_date', 'get_rating')
+    list_display = ('id', 'name', 'quantity', 'price', 'available', 'rating', 'show_count', 'get_rating')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', )
     raw_id_fields = ('tags',)

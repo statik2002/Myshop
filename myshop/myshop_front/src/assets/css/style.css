@@ -732,15 +732,15 @@ section .container-fluid {
 }
 .has-submenu .submenu-nav-mega .mega-menu-item {
   padding: 0 !important;
-  -ms-flex-preferred-size: 25%;
-      flex-basis: 25%;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
 }
 .has-submenu .submenu-nav-mega .mega-menu-item:last-child {
   border-right: 0;
 }
 .has-submenu .submenu-nav-mega.colunm-two .mega-menu-item {
-  -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
 }
 .has-submenu.full-width {
   position: static;
@@ -4201,7 +4201,7 @@ section .container-fluid {
   border:rgb(0 0 0);
   background-color: rgba(0, 0, 0, 0);
   color: #000000;
-  display: inline-block;
+  display: block;
   position: absolute;
   padding: 8px 10px;
   font-size: 14px;

@@ -23,34 +23,9 @@
                                 -->
                             </li>
                             <li class="has-submenu full-width"><a href="#/">Каталог</a>
-                                <ul class="submenu-nav submenu-nav-mega">
-                                    <li class="mega-menu-item"><a href="#/" class="mega-title">Shop Layouts</a>
-                                        <ul>
-                                            <li><a href="shop-3-grid.html">Shop 3 Column</a></li>
-                                            <li><a href="shop-4-grid.html">Shop 4 Column</a></li>
-                                            <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
-                                            <li><a href="shop.html">Shop Right Sidebar</a></li>
-                                            <li><a href="shop-list.html">Shop Listing View</a></li>
-                                            <li><a href="shop-list-left-sidebar.html">Shop List left Sidebar</a></li>
-                                            <li><a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mega-menu-item"><a href="#/" class="mega-title">Shop Pages</a>
-                                        <ul>
-                                            <li><a href="login.html">My Account</a></li>
-                                            <li><a href="wishlist.html">Wishlist</a></li>
-                                            <li><a href="cart.html">Cart</a></li>
-                                            <li><a href="checkout.html">Checkout</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="mega-menu-item"><a href="#/" class="mega-title">WOMEN</a>
-                                        <ul>
-                                            <li><a href="single-product-name-1.html">Bags &amp; Purses</a></li>
-                                            <li><a href="single-product-name-1.html">Beauty</a></li>
-                                            <li><a href="single-product-name-1.html">Coats &amp; Jackets</a></li>
-                                            <li><a href="single-product-name-1.html">Curve &amp; Plus Size</a></li>
-                                            <li><a href="single-product-name-1.html">Denim</a></li>
-                                        </ul>
+                                <ul class="submenu-nav">
+                                    <li v-for="catalog in $store.getters.getCatalog">
+                                        <a href="shop-3-grid.html">{{ catalog.name }}</a>
                                     </li>
                                 </ul>
                             </li>
@@ -79,12 +54,10 @@
                 </div>
                 <div class="col-sm-3 col-lg-3 d-none d-lg-block">
                     <div class="search-form">
-
-                            <div class="form-group">
-                                <input v-model="searchQuery" class="form-control" type="search" placeholder="Поиск товара" @change="$router.push({name: 'search2', params: {query: searchQuery}})">
-                                <button type="submit" class="btn-search" @click="$router.push({name: 'search2', params: {query: searchQuery}})"><i class="bi bi-search"></i></button>
-                            </div>
-
+                        <div class="form-group">
+                            <input v-model="searchQuery" class="form-control" type="search" placeholder="Поиск товара" @change="$router.push({name: 'search2', params: {query: searchQuery}})">
+                            <button class="btn-search" @click="$router.push({name: 'search2', params: {query: searchQuery}})"><i class="bi bi-search"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-9 col-lg-2 d-none d-sm-block text-end">
@@ -103,7 +76,7 @@
                             <li class="currency-menu">
                                 <router-link class="action-item" to="#"><i class="bi bi-lock" style="font-size: 1.3rem;"></i></router-link>
                                 <ul class="currency-dropdown">
-                                    <li class="account py-2">
+                                    <li class="account">
                                         <a href="#"><span class="current-account">Акаунт</span></a>
                                         <ul v-if="!$store.state.userIsAuth">
                                             <li><a href="#offcanvasLoginView" data-bs-toggle="modal" role="button" aria-controls="offcanvasLoginView">Войти</a></li>
@@ -112,19 +85,6 @@
                                         <ul v-else>
                                             <li><a href="cabinet.html">Личный кабинет</a></li>
                                             <li><a href="#" @click="userLogout">Выйти</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="currency">
-                                        <a href="#/"><span class="current-currency">USD</span></a>
-                                        <ul>
-                                            <li class="active"><a href="#/">USD - US Dollar</a></li>
-                                            <li class="#/"><a href="#/">EUR - Euro</a></li>
-                                            <li class="#/"><a href="#/">GBP - British Pound</a></li>
-                                            <li class="#/"><a href="#/">INR - Indian Rupee</a></li>
-                                            <li class="#/"><a href="#/">BDT - Bangladesh Taka</a></li>
-                                            <li class="#/"><a href="#/">JPY - Japan Yen</a></li>
-                                            <li class="#/"><a href="#/">CAD - Canada Dollar</a></li>
-                                            <li class="#/"><a href="#/">AUD - Australian Dollar</a></li>
                                         </ul>
                                     </li>
                                 </ul>
