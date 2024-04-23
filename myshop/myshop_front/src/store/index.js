@@ -19,7 +19,7 @@ export default createStore({
 
     getters: {
         getCart(state) {
-            if (state.userIsAuth){
+            if (state.user.access){
                 return state.user.cart;
             } else {
                 return state.unregisteredUser.cart
@@ -27,7 +27,7 @@ export default createStore({
         },
 
         productsInCart(state) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 return state.user.cart.products;
             } else {
                 return state.unregisteredUser.cart.products;
@@ -36,7 +36,7 @@ export default createStore({
 
         getCartTotal(state) {
             let total = 0
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 if (state.user.cart.products.length > 0){
                     for(const product of state.user.cart.products){
                         total += product.quantity * product.fixed_price
@@ -59,7 +59,7 @@ export default createStore({
 
         getCartTotalWithoutDiscount(state) {
             let total = 0
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 if (state.user.cart.products.length > 0){
                     for(const product of state.user.cart.products){
                         total += product.quantity * product.product.price
@@ -82,7 +82,7 @@ export default createStore({
 
         getCartProductsCount(state) {
             let total = 0
-            if(state.userIsAuth) {
+            if(state.user.access) {
                 for (const product of state.user.cart.products){
                     total += product.quantity
                 }
@@ -96,7 +96,7 @@ export default createStore({
         },
 
         getCartPositionCount(state) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 return state.user.cart.products.length;
             } else {
                 if (state.unregisteredUser.cart.products === undefined) {
@@ -122,7 +122,7 @@ export default createStore({
         },
 
         getLikedProducts(state) {
-            if(state.user.userIsAuth){
+            if(state.user.access){
                 if(state.user.likes === undefined) {
                     return []
                 }
@@ -134,7 +134,7 @@ export default createStore({
         },
 
         getLikedProductsCount(state) {
-            if(state.user.userIsAuth){
+            if(state.user.access){
                 if(state.user.likes === undefined) {
                     return 0
                 }
@@ -145,7 +145,11 @@ export default createStore({
         },
 
         isUserLogin(state) {
-            return state.userIsAuth
+            if(state.user.access) {
+                return true
+            } else {
+                return false
+            }
         },
         getCatalog(state) {
             return state.catalogs
@@ -173,7 +177,7 @@ export default createStore({
         },
 
         addProductToCart(state, product) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === product.product.id);
                 if (productIndex >= 0) {
                     state.user.cart.products[productIndex].quantity += product.quantity;
@@ -257,7 +261,7 @@ export default createStore({
         },
 
         deleteProductFromCart(state, id) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
                 state.user.cart.products.splice(productIndex, 1)
                 localStorage.setItem('user', JSON.stringify(state.user))
@@ -270,14 +274,19 @@ export default createStore({
         },
 
         deleteProductsFromCart(state, products){
-
-            for (const product in products) {
-                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
-                state.user.cart.products.splice(productIndex, 1)
+            if(state.user.access) {
+                for (const product in products) {
+                    const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+                    state.user.cart.products.splice(productIndex, 1)
+                }
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                for (const product in products) {
+                    const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === product.id);
+                    state.unregisteredUser.cart.products.splice(productIndex, 1)
+                }
+                localStorage.setItem('user', JSON.stringify(state.unregisteredUser))
             }
-            localStorage.setItem('user', JSON.stringify(state.user))
-
-
         },
 
         setUser(state, user) {
@@ -286,9 +295,8 @@ export default createStore({
             state.userIsAuth = true
         },
 
-        logoutUser(state,actions) {
+        logoutUser(state, actions) {
             state.user = {}
-            state.userIsAuth = false
             localStorage.removeItem('user')
         },
         setUserState(state, flag){
@@ -307,7 +315,7 @@ export default createStore({
             
         },
         like(state, product_id){
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 state.user.likes.push(product_id)
                 localStorage.setItem('user', JSON.stringify(state.user))
             } else {
@@ -317,7 +325,7 @@ export default createStore({
             
         },
         dislike(state, product_id){
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 state.user.likes.pop(product_id)
                 localStorage.setItem('user', JSON.stringify(state.user))
             } else {
@@ -327,7 +335,7 @@ export default createStore({
             
         },
         reloadUser(state) {
-            if (state.userIsAuth)
+            if (state.user.access)
             {
                 try {
                     axios(

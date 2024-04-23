@@ -408,7 +408,11 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         -   Get order with status processing
             GET: /api/v1/order/get_proccessing_orders/
-            headers: {'Authorization': Bearer token},    
+            headers: {'Authorization': Bearer token},
+
+        -   Get order with status 'выдан'
+            GET: /api/v1/order/get_history_orders/
+            headers: {'Authorization': Bearer token},        
     '''
 
     permission_classes = (IsAuthenticated,)
@@ -485,7 +489,21 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
         
         except KeyError:
-            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)      
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=False, methods=['get'], name='user_history_orders')
+    def get_history_orders(self, request):
+        try:
+            user = request.user
+            # Выдаем заказы с статусом 'Принят, В обработке, в сборке'
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status__status__in=['Выдан']).order_by('-order_create')
+            return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)         
         
 
 class Likes(viewsets.ViewSet):

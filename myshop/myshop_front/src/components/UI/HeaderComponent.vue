@@ -78,12 +78,12 @@
                                 <ul class="currency-dropdown">
                                     <li class="account">
                                         <a href="#"><span class="current-account">Акаунт</span></a>
-                                        <ul v-if="!$store.state.userIsAuth">
+                                        <ul v-if="!$store.getters.isUserLogin">
                                             <li><a href="#offcanvasLoginView" data-bs-toggle="modal" role="button" aria-controls="offcanvasLoginView">Войти</a></li>
                                             <li><a href="login.html">Регистрация</a></li>
                                         </ul>
                                         <ul v-else>
-                                            <li><a href="cabinet.html">Личный кабинет</a></li>
+                                            <li><router-link to="/cabinet2">Личный кабинет</router-link></li>
                                             <li><a href="#" @click="userLogout">Выйти</a></li>
                                         </ul>
                                     </li>
@@ -125,7 +125,9 @@
                     </div>
                 </div>
                 <div class="col-6 col-sm-1 d-block d-lg-none text-end">
-                    <button class="btn-menu" type="button"><i class="zmdi zmdi-menu"></i></button>
+                    <button class="btn-menu" type="button" id="togler" data-bs-toggle="offcanvas" data-bs-target="#sideMenu" aria-controls="sideMenu">
+                        <i class="zmdi zmdi-menu"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -175,6 +177,38 @@
         </div>
     </div>
     <!--== End Quick View Menu ==-->  
+
+    <!--== Start Side Menu ==-->
+    <aside class="offcanvas offcanvas-start right-menu" tabindex="-1" id="sideMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Меню</h5>
+            <button type="button" id="offCanvasCloseButton" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="search-form">
+                <div class="form-group">
+                    <input v-model="searchQuery" class="form-control" type="search" placeholder="Поиск товара" @change="makeSearch">
+                    <button class="btn-search" data-bs-dismiss="offcanvas" @click="$router.push({name: 'search2', params: {query: searchQuery}})"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            <div class="d-flex flex-column">
+                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/newfront')">Главная</button>
+                <div class="d-flex flex-row justify-content-evenly" v-if="$store.getters.isUserLogin">
+                    <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/cabinet2')">Кабинет</button>
+                    <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="userLogout">Выйти</button>
+                </div>
+                <div class="d-flex flex-row justify-content-evenly" v-else>
+                    <button class="btn-theme" data-bs-target="#offcanvasLoginView" data-bs-toggle="modal" type="button" aria-controls="offcanvasLoginView">
+                        Войти
+                    </button>
+                </div>
+                
+                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/like2')">Лайки</button>
+                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/cart2')">Корзина</button>
+            </div>
+        </div>
+    </aside>
+    <!--== End Side Menu ==-->
 </template>
 
 <script>
@@ -247,6 +281,10 @@
                 this.$store.commit('logoutUser')
                 this.$router.go()
             },
+            makeSearch() {
+                document.getElementById("offCanvasCloseButton").click()
+                this.$router.push({name: 'search2', params: {query: this.searchQuery}})
+            }
         }
     }
 </script>

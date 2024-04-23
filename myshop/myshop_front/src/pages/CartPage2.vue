@@ -89,7 +89,7 @@
                             <ul>
                             <li>Итого<span class="money"><b>{{ $store.getters.getCartTotal }} &#8381;</b></span></li>
                             </ul>
-                            <a class="proceed-to-checkout-btn" href="checkout.html">Оплатить</a>
+                            <button class="proceed-to-checkout-btn" @click="sendOrder">Заказать</button>
                         </div>
                     </div>
                 </div>
@@ -105,6 +105,8 @@
 </template>
 
 <script>
+    import router from '@/router/router';
+import axios from 'axios';
     export default {
         data() {
             return {
@@ -114,7 +116,7 @@
         },
         computed: {
             productsInCart() {
-                if (this.$store.state.userIsAuth) {
+                if (this.$store.getters.isUserLogin) {
                     return this.$store.state.user.cart.products;
                 } else {
                     return this.$store.state.cart.products
@@ -129,7 +131,46 @@
             clearCart() {
                 this.products = []
                 this.$store.commit('clearCart')
-            }
+            },
+            async sendOrder() {
+                //console.log(this.$store.state.user.access)
+                let order_products = []
+                for (const key in this.products){
+                    order_products.push({
+                        'product': this.products[key].id,
+                        'quantity': this.products[key].quantity,
+                        'fixed_price': this.products[key].fixed_price,
+                    })
+                }
+                //console.log(JSON.stringify(order_products))
+                const order = {
+                    'order_products': order_products
+                }
+                //console.log(JSON.stringify(order))
+
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/`,
+                          method: 'post',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          data: order
+                        }
+                      ).then((response) => {
+                            //console.log(response)
+                            //this.$store.commit('clearCart')
+                            this.products = []
+                            this.$store.commit('deleteProductsFromCart', order_products)
+                            this.$router.go()
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            
         },
         mounted() {
             this.products = this.$store.getters.productsInCart

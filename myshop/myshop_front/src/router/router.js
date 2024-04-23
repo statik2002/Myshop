@@ -19,6 +19,7 @@ import CartPage2 from '@/pages/CartPage2.vue';
 import LikePage2 from '@/pages/LikePage2.vue'
 import SearchPage2 from '@/pages/SearchPage2.vue';
 import CabinetPage2 from '@/pages/CabinetPage2.vue';
+import LoginPage from '@/pages/LoginPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
@@ -125,6 +126,11 @@ const routes = [
         path: '/cabinet2',
         component: CabinetPage2,
         name: 'cabinte2'
+    },
+    {
+        path: '/login',
+        component: LoginPage,
+        name: 'login'
     }
 ]
 

@@ -131,7 +131,7 @@
             },
             dislike(product) {
                 // Implement send to backend like product
-                if (!this.$store.userIsAuth){
+                if (!this.$store.getters.isUserLogin){
                     this.$store.commit('dislike', product.id)
                     this.$router.go()
                     return
@@ -152,6 +152,7 @@
                     ).then((response) => {
                             //console.log(response)
                             this.$store.commit('dislike', product.id)
+                            this.$router.go()
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);

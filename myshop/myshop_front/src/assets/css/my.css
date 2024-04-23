@@ -43,9 +43,101 @@
 }
 
 .widget {
-    border: 1px;
-    border-color: rgb(209, 209, 209);
+    border-color: rgb(235, 235, 235);
     border-style: solid;
-    height: 100%;
-    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.34);
+    border-width: 1px;
+    box-shadow: 0 2px 16px 5px rgba(0, 0, 0, 0.08);
+}
+
+.widget:hover {
+    background-color: rgb(247, 247, 247);
+}
+
+.cabinet-avatar img {
+    object-fit: cover;
+    max-width: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    object-position: center;
+}
+
+.circle {
+    width: 8vw;
+    height: 8vw;
+    -webkit-border-radius: 8vw;
+    -moz-border-radius: 8vw;
+    border-radius: 8vw;
+    border: 5px solid;
+    color: rgba(54, 131, 10, 0.3);
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.icon-at-circle {
+    font-size: 4vw;
+    color: green;
+}
+
+.text-at-circle {
+    font-size: 3vw;
+    color: green;
+    font-weight: 700;
+}
+
+.bold-icon {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:link {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:active {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:visited {
+    stroke: rgb(58, 58, 58);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    paint-order: fill;
+    fill: rgba(231, 231, 231, 0.623);
+    transform: scale(0.9);
+}
+
+.bold-icon:hover {
+    stroke: rgb(255, 255, 255);
+    stroke-width: 1px;
+    stroke-linejoin: "round";
+    fill: rgba(255, 0, 0, 0.623);
+}
+
+.bold-icon-active {
+    fill: rgba(255, 0, 0, 0.623);
+    stroke: white;
+}
+
+.order-header {
+    background-color: rgb(67, 67, 67);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
 }

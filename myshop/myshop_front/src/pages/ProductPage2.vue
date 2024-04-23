@@ -28,7 +28,6 @@
                         <li>{{ product.name }}</li>
                         </ul>
                     </nav>
-                    <h4 class="title">{{  product.name  }}</h4>
                     </div>
                 </div>
                 </div>
@@ -449,6 +448,7 @@
         <!--== End Product Single Area Wrapper ==-->
 
         <!--== Start Product Area Wrapper ==-->
+        <!--
         <section class="product-area product-new-arrivals-area product-related-area">
             <div class="container">
                 <div class="row">
@@ -552,6 +552,7 @@
                 </div>
             </div>
         </section>
+        -->
         <!--== End Product Area Wrapper ==-->
 
         <modal-component v-model:show="addToCartModalIsVisible">
@@ -628,7 +629,7 @@
                     'product_id': this.product.id,
                     'operation': 'like'
                 }
-                if (!this.$store.userIsAuth){
+                if (!this.$store.getters.isUserLogin){
                     if (!this.$store.state.unregisteredUser.likes.includes(this.product.id)) {
                                 this.$store.commit('like', this.product.id)
                         }
@@ -663,7 +664,7 @@
                 'product_id': this.product.id,
                 'operation': 'dislike'
               }
-              if (!this.$store.userIsAuth){
+              if (!this.$store.getters.isUserLogin){
                     if (this.$store.state.unregisteredUser.likes.includes(this.product.id)) {
                                 this.$store.commit('dislike', this.product.id)
                         }

@@ -246,7 +246,7 @@
                     'product_id': product.id,
                     'operation': 'like'
                 }
-                if (!this.$store.userIsAuth){
+                if (!this.$store.getters.isUserLogin){
                     if (!this.$store.state.unregisteredUser.likes.includes(product.id)) {
                                 this.$store.commit('like', product.id)
                         }
@@ -281,7 +281,7 @@
                     'product_id': product.id,
                     'operation': 'dislike'
                 }
-                if (!this.$store.userIsAuth){
+                if (!this.$store.getters.isUserLogin){
                     if (this.$store.state.unregisteredUser.likes.includes(product.id)) {
                                 this.$store.commit('dislike', product.id)
                         }
