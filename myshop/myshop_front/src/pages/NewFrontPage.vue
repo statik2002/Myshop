@@ -27,7 +27,7 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="@/assets/img/slider/slider-banner1.webp" class="d-block w-100" alt="...">
+                            <img src="@/assets/img/slider/Forsite.png" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block slider-text">
                                 <h5 class="slider-text-header">First slide label</h5>
                                 <p class="slider-text-content">Some representative placeholder content for the first slide.</p>

@@ -216,7 +216,7 @@ export default createStore({
             }
         },
         removeProductFromCart(state, product) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
                 state.user.cart.products.splice(productIndex, 1);
                 localStorage.setItem('user', JSON.stringify(state.user))
@@ -229,7 +229,7 @@ export default createStore({
         },
 
         addOne(state, id) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
                 state.user.cart.products[productIndex].quantity += 1;
                 localStorage.setItem('user', JSON.stringify(state.user))
@@ -241,7 +241,7 @@ export default createStore({
         },
 
         subOne(state, id) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
                 if (state.user.cart.products[productIndex].quantity > 1)
                 {
@@ -299,11 +299,8 @@ export default createStore({
             state.user = {}
             localStorage.removeItem('user')
         },
-        setUserState(state, flag){
-            state.userIsAuth = flag
-        },
         clearCart(state) {
-            if(state.userIsAuth){
+            if(state.user.access){
                 state.user.cart.products = []
                 state.user.cart.cartProductsQuantity = 0
                 state.user.cart.cartProductsTotal = 0

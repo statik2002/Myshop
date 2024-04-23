@@ -13,7 +13,9 @@
                                         <img class="logo-main" src="@/assets/img/logo.png" alt="Logo" />
                                     </a>
                                 </div>
-                                <p class="desc">Lorem ipsum dolor sit amet, consectet adipi elit, sed do eius tempor incididun ut labore gthydolore.</p>
+                                <ul>
+                                    <li><a href="http://lerty.ru">Lerty.ru</a></li>
+                                </ul>
                                 <ul>
                                     <li><i class="ion-ios7-location-outline"></i> г. Братск, ул. Ленина д. 1</li>
                                     <li><i class="ion-ios7-email-outline"></i> <a href="mailto://office@neit.ru">office@neit.ru</a></li>
@@ -22,37 +24,47 @@
                         </div>
                         <!--== End widget Item ==-->
                     </div>
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-2">
                         <!--== Start widget Item ==-->
-                        <div class="widget-item widget-item-one">
+                        <div class="widget-item">
                             <h4 class="widget-title">ПОКУПАТЕЛЯМ</h4>
                             <div class="widget-menu-wrap">
                                 <ul class="nav-menu">
-                                    <li><a href="shop.html">Specials</a></li>
-                                    <li><a href="shop.html">New products</a></li>
-                                    <li><a href="shop.html">Top sellers</a></li>
-                                    <li><a href="shop.html">Our stores</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
+                                    <li><a href="shop.html">Как сделать заказ</a></li>
+                                    <li><a href="shop.html">Как оплатить</a></li>
+                                    <li><a href="shop.html">Доставка</a></li>
+                                    <li><a href="shop.html">Возврат товара</a></li>
+                                    <li><a href="contact.html">Парвила продажи</a></li>
+                                    <li><a href="contact.html">Политика обработки персональных данных</a></li>
+                                    <li><a href="contact.html">Вопросы и ответы</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!--== End widget Item ==-->
                     </div>
-                    <div class="col-sm-6 col-lg-3">
+                    <div class="col-sm-6 col-lg-2">
                         <!--== Start widget Item ==-->
-                        <div class="widget-item widget-item-two">
+                        <div class="widget-item">
                             <h4 class="widget-title">КОМПАНИЯ</h4>
                             <div class="widget-menu-wrap">
                                 <ul class="nav-menu">
-                                    <li><a href="login.html">New User</a></li>
-                                    <li><a href="about-us.html">Help Center</a></li>
-                                    <li><a href="about-us.html">Refund Policy</a></li>
-                                    <li><a href="about-us.html">Report Spam</a></li>
-                                    <li><a href="login.html">Account</a></li>
+                                    <li><a href="login.html">О нас</a></li>
+                                    <li><a href="about-us.html">Реквизиты</a></li>
+                                    <li><a href="about-us.html">Контакты</a></li>
                                 </ul>
                             </div>
                         </div>
                         <!--== End widget Item ==-->
+                    </div>
+                    <div class="col-sm-6 col-lg-2">
+                        <div class="widget-item">
+                            <h4 class="widget-title">Мы в соцсетях</h4>
+                            <div class="d-flex flex-row gap-2">
+                                <div>Vk</div>
+                                <div>OK</div>
+                                <div>Telegram</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-6 col-lg-3">
                         <!--== Start widget Item ==-->

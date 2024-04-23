@@ -44,7 +44,7 @@ import Decimal from 'decimal.js'
                 const price = new Decimal(this.cart_product.product.price)
                 const discount = new Decimal(this.cart_product.product.discount)
                 const quantity = new Decimal(this.cart_product.quantity)
-                return new Decimal((price - price * discount/100) * quantity)
+                return new Decimal(((price - price * discount/100) * quantity).toFixed(2))
             },
             inputQuantity(event){
                 if(event.target.value < 1){

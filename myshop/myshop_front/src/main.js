@@ -27,6 +27,10 @@ import VueCookies from 'vue-cookies'
 import get_token_plugin from '@/plugins/get_token_plugin'
 import format_date from '@/plugins/format_date'
 import humanizie_order from './plugins/humanizie_order'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { faTwitter, faFontAwesome } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const app = createApp(App);
 
@@ -35,6 +39,9 @@ components.forEach(component => {
 });
 
 //register();
+//library.add(FontAwesomeIcon)
+
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 app
     .use(router)

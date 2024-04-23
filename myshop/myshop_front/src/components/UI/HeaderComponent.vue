@@ -11,7 +11,7 @@
                         </router-link>
                     </div>
                 </div>
-                <div class="col-lg-6 d-none d-lg-block">
+                <div class="col-lg-5 d-none d-lg-block">
                     <div class="header-navigation-area">
                         <ul class="main-menu nav position-relative">
                             <li class="has-submenu"><router-link to="/newfront">Домой</router-link>
@@ -29,15 +29,14 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="has-submenu"><a href="#/">Товары</a>
+                            <li class="has-submenu"><a href="#/">Акции</a>
                                 <ul class="submenu-nav">
-                                    <li><a href="single-product-simple.html">Simple Product</a></li>
-                                    <li><a href="single-product.html">Variable Product</a></li>
-                                    <li><a href="single-product-affiliate.html">Affiliate Link product</a></li>
-                                    <li><a href="single-product-soldout.html">Soldout Product</a></li>
-                                    <li><a href="single-product-countdown.html">Countdown Product</a></li>
+                                    <li><a href="single-product-simple.html">Распродажа обоев</a></li>
+                                    <li><a href="single-product.html">Уцененные товары</a></li>
+                                    <li><a href="single-product-affiliate.html">Скидки</a></li>
                                 </ul>
                             </li>
+                            <!--
                             <li class="has-submenu"><a href="#/">Blog</a>
                                 <ul class="submenu-nav">
                                     <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
@@ -47,6 +46,7 @@
                                     <li><a href="single-blog-right-sidebar.html">Single Blog Right Sidebar</a></li>
                                 </ul>
                             </li>
+                            -->
                             <li><a href="contact.html">Контакты</a></li>
                             <li><a href="about-us.html">О нас</a></li>
                         </ul>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-9 col-lg-2 d-none d-sm-block text-end">
+                <div class="col-sm-9 col-lg-3 d-none d-sm-block text-end">
                     <div class="header-action-area">
                         <ul class="header-action">
                             <li class="search-item d-lg-none">

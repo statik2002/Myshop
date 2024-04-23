@@ -5,12 +5,16 @@
 
 .slider-text-header {
     letter-spacing: 8px;
-    position: relative;
-    animation: slider-content-header-keyframes 3s 1;
+    position: absolute;
+    left: 0;
+    bottom: 50px;
+    animation: slider-content-header-keyframes 2s 1;
 }
 
 .slider-text-content {
-    position: relative;
+    position: absolute;
+    left: 0px;
+    bottom: 10px;
     animation: slider-content-text-keyframes 2s 1;
     overflow: hidden;
 }
@@ -22,22 +26,22 @@
 
 @keyframes slider-content-header-keyframes {
     from {
-        top: -50px;
+        bottom: 100px;
         opacity: 0;
     }
     to {
-        top: 0;
+        bottom: 50px;
         opacity: 1;
     }
 }
 
 @keyframes slider-content-text-keyframes {
     from {
-        top: -50px;
+        bottom: -50px;
         opacity: 0;
     }
     to {
-        top: 0;
+        bottom: 10px;
         opacity: 1;
     }
 }
