@@ -7,7 +7,6 @@
 </template>
 
 <script>
-    import { useWindowWidth } from "@/mixins/windowSizeMixin";
     export default {
         data() {
             return {
@@ -28,6 +27,7 @@
             }
 
             if (!this.$cookies.isKey('allow_cookie')) {
+                this.$cookies.config('30d')
                 this.$cookies.set('allow_cookie', true)
                 this.acceptCookiesDialog = true
             }

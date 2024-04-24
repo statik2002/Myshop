@@ -72,16 +72,12 @@
                                                 <a class="add-cart" href="#" @click="addToCartButton(product)">
                                                     <i class="zmdi zmdi-shopping-cart-plus icon"></i>
                                                 </a>
-                                                <div v-if="!likedProducts.includes(product.id)">
-                                                    <a class="add-wishlist" href="javascript:void(0);" @click="like(product)">
-                                                        <i class="bi bi-heart"></i>
-                                                    </a>
-                                                </div>
-                                                <div v-else>
-                                                    <a class="add-wishlist" href="javascript:void(0);" @click="dislike(product)">
-                                                        <i class="bi bi-heart-fill"></i>
-                                                    </a>
-                                                </div>
+                                                <a v-if="!likedProducts.includes(product.id)" class="add-wishlist" href="javascript:void(0);" @click="like(product)">
+                                                    <i class="bi bi-heart"></i>
+                                                </a>
+                                                <a v-else class="add-wishlist" href="javascript:void(0);" @click="dislike(product)">
+                                                    <i class="bi bi-heart-fill"></i>
+                                                </a>
                                                 <a class="add-quick-view" href="#offcanvasQuickProductView" data-bs-toggle="modal" role="button" aria-controls="offcanvasQuickProductView" @click="showProductQuickModal(product)">
                                                     <i class="zmdi zmdi-search icon"></i>
                                                 </a>
