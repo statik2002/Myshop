@@ -80,7 +80,7 @@
                                         <a href="#"><span class="current-account">Акаунт</span></a>
                                         <ul v-if="!$store.getters.isUserLogin">
                                             <li><a href="#offcanvasLoginView" data-bs-toggle="modal" role="button" aria-controls="offcanvasLoginView">Войти</a></li>
-                                            <li><a href="login.html">Регистрация</a></li>
+                                            <li><router-link to="register_user">Регистрация</router-link></li>
                                         </ul>
                                         <ul v-else>
                                             <li><router-link to="/cabinet2">Личный кабинет</router-link></li>
@@ -150,7 +150,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input v-bind:phone @input="inputPhone" class="form-control" type="text" placeholder="логин" autocomplete="username">
+                                        <input v-bind:phone @input="inputPhone" class="form-control" type="text" placeholder="Телефон" autocomplete="username">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -279,7 +279,7 @@
             userLogout() {
                 this.$store.dispatch('saveUserCartToServer')
                 this.$store.commit('logoutUser')
-                this.$router.go()
+                this.$router.push('newfront')
             },
             makeSearch() {
                 document.getElementById("offCanvasCloseButton").click()

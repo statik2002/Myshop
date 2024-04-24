@@ -128,7 +128,7 @@
                                             <th scope="row">{{index+1}}</th>
                                             <td>{{order.id}}</td>
                                             <td>
-                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].img :alt=order.order_products[0].product.product_images[0].alt height="100px">
+                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
                                                 <img v-else src="@/assets/no_image.png" alt="no image" height="100px">
                                             </td>
                                             <td>{{ order.order_products[0].product.name }}</td>
@@ -163,7 +163,7 @@
                                             <td>{{order.id}}</td>
                                             <td>{{ order.order_status.status }}</td>
                                             <td>
-                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].img :alt=order.order_products[0].product.product_images[0].alt height="100px">
+                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
                                                 <img v-else src="@/assets/no_image.png" alt="no image" height="100px">
                                             </td>
                                             <td>{{ order.order_products[0].product.name }}</td>
@@ -191,11 +191,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="order, index in processing_orders">
+                                        <tr v-for="order, index in orderHistory">
                                             <th scope="row">{{index+1}}</th>
                                             <td>{{order.id}}</td>
                                             <td>
-                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].img :alt=order.order_products[0].product.product_images[0].alt height="100px">
+                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
                                                 <img v-else src="@/assets/no_image.png" alt="no image" height="100px">
                                             </td>
                                             <td>{{ order.order_products[0].product.name }}</td>
@@ -234,6 +234,7 @@
                 isCabinetLoad: true,
                 ready_orders: [],
                 processing_orders: [],
+                orderHistory: [],
                 showUploadAvatar: false,
                 QRModal: false,
                 qr_order: null
@@ -275,6 +276,26 @@
                         }
                       ).then((response) => {
                             this.processing_orders = response.data
+                            //console.log(response.data)
+                        })
+                } catch(e) {
+                    alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            async getOrderHistory() {
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/get_history_orders/`,
+                          method: 'get',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          timeout: 1000
+                        }
+                      ).then((response) => {
+                            this.orderHistory = response.data
                             //console.log(response.data)
                         })
                 } catch(e) {

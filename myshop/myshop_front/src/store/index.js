@@ -260,6 +260,18 @@ export default createStore({
             
         },
 
+        setProductInCartQuantity(state, obj) {
+            if (state.user.access){
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === obj.id);
+                state.user.cart.products[productIndex].quantity = obj.value;
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === obj.id);
+                state.unregisteredUser.cart.products[productIndex].quantity = obj.value;
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+        },
+
         deleteProductFromCart(state, id) {
             if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
@@ -415,7 +427,44 @@ export default createStore({
           finally {
   
           }
-        }
+        },
+
+        async sendOrder(products) {
+            //console.log(this.$store.state.user.access)
+            let order_products = []
+            for (const key in products){
+                order_products.push({
+                    'product': products[key].id,
+                    'quantity': products[key].quantity,
+                    'fixed_price': products[key].fixed_price,
+                })
+            }
+            //console.log(JSON.stringify(order_products))
+            const order = {
+                'order_products': order_products
+            }
+            //console.log(JSON.stringify(order))
+
+            try {
+                  axios(
+                    {
+                      url: `http://127.0.0.1:8000/api/v1/order/`,
+                      method: 'post',
+                      headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                      data: order
+                    }
+                  ).then((response) => {
+                        //console.log(response)
+                        //this.$store.commit('clearCart')
+                        this.$store.commit('deleteProductsFromCart', order_products)
+                    })
+            } catch(e) {
+                console.log(`Connection error: ${e}`);
+            }
+            finally {
+    
+            }
+        },
     },
 
     modules: {

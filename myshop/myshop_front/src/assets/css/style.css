@@ -3149,6 +3149,13 @@ section .container-fluid {
   font-size: 15px;
   font-weight: 400;
 }
+
+.cart-sm-section .row .title {
+  text-align: center;
+  background-color: #000;
+  color: white;
+}
+
 .shopping-cart-wrap .cart-table .table thead {
   background-color: #f6f6f6;
 }
@@ -3232,6 +3239,55 @@ section .container-fluid {
     min-width: 100px;
   }
 }
+
+.small-product-quantity {
+  min-width: 40px;
+}
+
+.small-product-quantity .pro-qty {
+  margin: 0 auto;
+  position: relative;
+  width: 55px;
+}
+
+.small-product-quantity .pro-qty input {
+  border: 1px solid #ededed;
+  height: 40px;
+  width: 55px;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0 15px;
+  text-align: center;  
+}
+
+.small-product-quantity .pro-qty .qty-btn {
+  color: #343434;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(0px, -50%);
+          transform: translate(0px, -50%);
+  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;  
+}
+
+.small-product-quantity .pro-qty .qty-btn:hover {
+  color: #f76b6a;
+}
+
+.small-product-quantity .pro-qty .qty-btn.inc {
+  right: 6px;
+}
+
+.small-product-quantity .pro-qty .qty-btn.dec {
+  left: 6px;
+}
+
 .shopping-cart-wrap .cart-table .table .indecor-product-quantity .pro-qty {
   margin: 0 auto;
   position: relative;
@@ -5426,4 +5482,17 @@ section .container-fluid {
 }
 .footer-area .footer-bottom .copyright a:hover {
   color: #f76b6a;
+}
+
+.login-wrap {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vw;
+}
+
+@media only screen and (max-width: 991px) {
+  .login-wrap {
+    width: 100%;
+  }
 }
