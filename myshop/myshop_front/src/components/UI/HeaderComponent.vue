@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col-6 col-sm-2 col-lg-1">
                     <div class="header-logo-area">
-                        <router-link to="/newfront">
+                        <router-link to="newfront">
                             <img class="logo-main" src="@/assets/img/logo.png" alt="Logo" />
                             <img class="logo d-none" src="@/assets/img/logo-light.png" alt="Logo" />
                         </router-link>
@@ -14,7 +14,7 @@
                 <div class="col-lg-5 d-none d-lg-block">
                     <div class="header-navigation-area">
                         <ul class="main-menu nav position-relative">
-                            <li class="has-submenu"><router-link to="/newfront">Домой</router-link>
+                            <li class="has-submenu"><router-link to="newfront">Домой</router-link>
                                 <!--
                                 <ul class="submenu-nav">
                                     <li><a href="index.html">Home Demo 1</a></li>
@@ -192,7 +192,7 @@
                 </div>
             </div>
             <div class="d-flex flex-column">
-                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/newfront')">Главная</button>
+                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('newfront')">Главная</button>
                 <div class="d-flex flex-row justify-content-evenly" v-if="$store.getters.isUserLogin">
                     <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/cabinet2')">Кабинет</button>
                     <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="userLogout">Выйти</button>
