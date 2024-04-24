@@ -32,19 +32,82 @@
         <!--== Start Product Area Wrapper ==-->
         <section class="product-area shopping-cart-area">
         <div class="container">
+            <div class="row d-none d-md-block">
+                <div class="col-12">
+                    <div class="shopping-cart-wrap">
+                        <div class="cart-table">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                    <th class="indecor-product-remove">Удалить</th>
+                                    <th class="indecor-product-thumbnail">Изображение</th>
+                                    <th class="indecor-product-name">Товар</th>
+                                    <th class="indecor-product-price">Цена</th>
+                                    <th class="indecor-product-quantity">Количество</th>
+                                    <th class="indecor-product-subtotal">Всего</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="product in products">
+                                        <cart-product-2 :cart_product="product"></cart-product-2>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-lg-7 col-12">
+                                <div class="coupon-all">
+                                    <div class="coupon">
+                                        <div class="d-flex gap-2">
+                                            <button class="button" @click="$router.push('/newfront')">Продлжить покупки</button>
+                                            <button class="button" @click="clearCart">Очистить корзину</button>
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="coupon2">
+                                        <a class="button" href="#/">Купон</a>
+                                    </div>
+                                    -->
+                                </div>
+                            </div>
+                            <!--
+                            <div class="col-md-12 col-lg-7 col-12">
+                                <div class="coupon-all">
+                                    <div class="coupon">
+                                        <div class="cart-coupon">
+                                            <h3>Пояснение к заказу</h3>
+                                            <label for="Textarea1" class="form-label visually-hidden">Пояснение к заказу</label>
+                                            <textarea class="form-control" id="Textarea1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            -->
+                            <div class="col-md-12 col-lg-5 col-12">
+                                <div class="cart-page-total">
+                                    <h3>Итого</h3>
+                                    <ul>
+                                    <li>Итого<span class="money"><b>{{ $store.getters.getCartTotal }} &#8381;</b></span></li>
+                                    </ul>
+                                    <button class="proceed-to-checkout-btn" @click="sendOrder">Заказать</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid d-block d-md-none">
             <div class="row">
-            <div class="col-12">
-                <div class="shopping-cart-wrap">
-                <div class="cart-table table-responsive">
-                    <table class="table">
+                <table class="table">
                     <thead>
                         <tr>
-                        <th class="indecor-product-remove">Удалить</th>
-                        <th class="indecor-product-thumbnail">Изображение</th>
-                        <th class="indecor-product-name">Товар</th>
-                        <th class="indecor-product-price">Цена</th>
-                        <th class="indecor-product-quantity">Количество</th>
-                        <th class="indecor-product-subtotal">Всего</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Товар</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Коли-во</th>
+                        <th scope="col">Всего</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,49 +115,7 @@
                             <cart-product-2 :cart_product="product"></cart-product-2>
                         </tr>
                     </tbody>
-                    </table>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 col-lg-7 col-12">
-                        <div class="coupon-all">
-                            <div class="coupon">
-                                <div class="d-flex gap-2">
-                                    <button class="button" @click="$router.push('/newfront')">Продлжить покупки</button>
-                                    <button class="button" @click="clearCart">Очистить корзину</button>
-                                </div>
-                            </div>
-                            <!--
-                            <div class="coupon2">
-                                <a class="button" href="#/">Купон</a>
-                            </div>
-                            -->
-                        </div>
-                    </div>
-                    <!--
-                    <div class="col-md-12 col-lg-7 col-12">
-                        <div class="coupon-all">
-                            <div class="coupon">
-                                <div class="cart-coupon">
-                                    <h3>Пояснение к заказу</h3>
-                                    <label for="Textarea1" class="form-label visually-hidden">Пояснение к заказу</label>
-                                    <textarea class="form-control" id="Textarea1"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    -->
-                    <div class="col-md-12 col-lg-5 col-12">
-                        <div class="cart-page-total">
-                            <h3>Итого</h3>
-                            <ul>
-                            <li>Итого<span class="money"><b>{{ $store.getters.getCartTotal }} &#8381;</b></span></li>
-                            </ul>
-                            <button class="proceed-to-checkout-btn" @click="sendOrder">Заказать</button>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
+                </table>
             </div>
         </div>
         </section>
