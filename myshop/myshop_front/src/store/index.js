@@ -41,7 +41,7 @@ export default createStore({
                     for(const product of state.user.cart.products){
                         total += product.quantity * product.fixed_price
                     }
-                    return total
+                    return total.toFixed(2)
                 } else {
                     return 0
                 }
@@ -50,7 +50,7 @@ export default createStore({
                     for(const product of state.unregisteredUser.cart.products){
                         total += product.quantity * product.fixed_price
                     }
-                    return total
+                    return total.toFixed(2)
                 } else {
                     return 0
                 }
@@ -153,7 +153,7 @@ export default createStore({
         },
         getCatalog(state) {
             return state.catalogs
-        }
+        },
     },
 
     mutations: {

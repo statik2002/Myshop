@@ -113,7 +113,7 @@
                                         <div v-else class="pt-3">
                                             <h5 class="text-center">Что бы сделать заказ необходимо зарегистрироваться или войти в свой аккаунт.</h5>
                                             <div class="d-flex flex-row gap-3">
-                                                <button class="proceed-to-checkout-btn" @click="">Войти</button>
+                                                <a href="#offcanvasLoginView" data-bs-toggle="modal" role="button" aria-controls="offcanvasLoginView" class="proceed-to-checkout-btn">Войти</a>
                                                 <button class="proceed-to-checkout-btn" @click="$router.push('register_user')">Регистрация</button>
                                             </div>
                                             
@@ -164,7 +164,7 @@
                                 </div>
                                 <div v-else class="pt-3">
                                     <h5 class="text-center">Что бы сделать заказ необходимо зарегистрироваться или войти в свой аккаунт.</h5>
-                                    <button class="proceed-to-checkout-btn" @click="">Войти</button>
+                                    <a href="#offcanvasLoginView" data-bs-toggle="modal" role="button" aria-controls="offcanvasLoginView" class="proceed-to-checkout-btn">Войти</a>
                                     <button class="proceed-to-checkout-btn" @click="$router.push('register_user')">Регистрация</button>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
                 const price = new Decimal(cart_product.product.price)
                 const discount = new Decimal(cart_product.product.discount)
                 const quantity = new Decimal(cart_product.quantity)
-                return new Decimal(((price - price * discount/100) * quantity).toFixed(2))
+                return ((price - price * discount/100) * quantity).toFixed(2)
             },
             inputQuantity(cart_product, event){
                 if(event.target.value < 1){

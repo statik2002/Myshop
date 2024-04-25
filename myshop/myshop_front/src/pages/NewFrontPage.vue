@@ -69,17 +69,17 @@
                                         <span v-if="product.discount > 0" class="percent-count sticker">- {{ Math.floor(product.discount) }}%</span>
                                         <div class="product-action">
                                             <div class="addto-wrap">
-                                                <a class="add-cart" href="#" @click="addToCartButton(product)">
-                                                    <i class="zmdi zmdi-shopping-cart-plus icon"></i>
-                                                </a>
-                                                <a v-if="!likedProducts.includes(product.id)" class="add-wishlist" href="javascript:void(0);" @click="like(product)">
+                                                <button class="add-cart" @click="addToCartButton(product)">
+                                                    <i class="bi bi-cart-plus"></i>
+                                                </button>
+                                                <button v-if="!likedProducts.includes(product.id)" class="add-wishlist" @click="like(product)">
                                                     <i class="bi bi-heart"></i>
-                                                </a>
-                                                <a v-else class="add-wishlist" href="javascript:void(0);" @click="dislike(product)">
+                                                </button>
+                                                <button v-else class="add-wishlist" @click="dislike(product)">
                                                     <i class="bi bi-heart-fill"></i>
-                                                </a>
+                                                </button>
                                                 <a class="add-quick-view" href="#offcanvasQuickProductView" data-bs-toggle="modal" role="button" aria-controls="offcanvasQuickProductView" @click="showProductQuickModal(product)">
-                                                    <i class="zmdi zmdi-search icon"></i>
+                                                    <i class="bi bi-search"></i>
                                                 </a>
                                             </div>
                                         </div>
