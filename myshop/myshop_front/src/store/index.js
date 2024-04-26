@@ -231,10 +231,20 @@ export default createStore({
         addOne(state, id) {
             if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
+                if (state.user.cart.products[productIndex].quantity += 1 >= state.user.cart.products[productIndex].product.quantity){
+                    state.user.cart.products[productIndex].quantity = state.user.cart.products[productIndex].product.quantity
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                    return
+                }
                 state.user.cart.products[productIndex].quantity += 1;
                 localStorage.setItem('user', JSON.stringify(state.user))
+                
+                
             } else {
                 const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === id);
+                if (state.unregisteredUser.cart.products[productIndex].quantity += 1 >= state.unregisteredUser.cart.products[productIndex].product.quantity) {
+                    return
+                }
                 state.unregisteredUser.cart.products[productIndex].quantity += 1;
                 localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
             }
@@ -263,10 +273,14 @@ export default createStore({
         setProductInCartQuantity(state, obj) {
             if (state.user.access){
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === obj.id);
+                if (obj.value >= state.user.cart.products[productIndex].product.quantity) {
+                    state.user.cart.products[productIndex].quantity = state.user.cart.products[productIndex].product.quantity
+                }
                 state.user.cart.products[productIndex].quantity = obj.value;
                 localStorage.setItem('user', JSON.stringify(state.user))
             } else {
                 const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === obj.id);
+                if (obj.value >= state.unregisteredUser.cart.products[productIndex].product.quantity) {return}
                 state.unregisteredUser.cart.products[productIndex].quantity = obj.value;
                 localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
             }

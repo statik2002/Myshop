@@ -162,7 +162,7 @@
                                                         <div class= "dec qty-btn" @click="subOne">-</div>
                                                     </div>
                                                     </div>
-                                                    <a class="btn-product-add" href="#/" @click="addToCart(product)">В корзину</a>
+                                                    <button class="btn-product-add border-0" @click="addToCart(product)">В корзину</button>
                                                 </div>
                                                 <div class="product-wishlist">
                                                     <div v-if="!likedProducts.includes(product.id)">
@@ -172,8 +172,8 @@
                                                         <a href="#" class="btn-wishlist" @click="dislike">Из избранного</a>
                                                     </div>
                                                 </div>
-                                                <div class="payment-button">
-                                                    <a href="#/" class="btn-payment">Купить сейчас</a>
+                                                <div class="payment-button" v-if="$store.getters.isUserLogin">
+                                                    <button class="btn-payment border-0" @click="confirmOrderModal=true">Купить сейчас</button>
                                                 </div>
                                                 <div class="social-sharing">
                                                     <span>Поделиться:</span>
@@ -195,7 +195,7 @@
                             <div class="product-review-tabs-content">
                             <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
                                 <li role="presentation">
-                                <a class="active" id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="true">Описание</a>
+                                <a class="active" id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="true">Характеристики</a>
                                 </li><li role="presentation">
                                 <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Отзывы</a>
                                 </li><li role="presentation">
@@ -206,8 +206,24 @@
                             </ul>
                             <div class="tab-content product-tab-content" id="ReviewTabContent">
                                 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                                <div class="product-description">
-                                    <p>{{ product.description }}</p>
+                                <div class="row">
+                                    <div class="col-xl-6 col-md-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Тип</th>
+                                                    <th scope="col">Свойство</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(value, index) in properties">
+                                                    <td>{{ index }}</td>
+                                                    <td>{{ value }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-xl-6 col-md-12"></div>
                                 </div>
                                 </div>
                                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
@@ -557,11 +573,30 @@
 
             <modal-component v-model:show="addToCartModalIsVisible">
                 <div class="d-flex flex-column gap-3">
-                    <div>{{ product.name }} уже в корзине</div>
+                    <div class="align-self-center">{{ product.name }} уже в корзине</div>
                     <div class="d-flex justify-content-between gap-4 account-optional-group">
-                        <router-link to="/cart2">Посмотреть корзину</router-link>
-                        <a href="#" @click="addToCartModalIsVisible=false">Продолжить покупки</a>
+                        <button class="btn-theme" @click="$router.push('/cart2')">Посмотреть корзину</button>
+                        <button class="btn-theme" @click="addToCartModalIsVisible=false">Продолжить покупки</button>
                     </div>
+                </div>
+            </modal-component>
+
+            <modal-component v-model:show="buyNowModal">
+                <div class="d-flex flex-column gap-3">
+                    <h4 class="align-self-center">Ваш заказ отправлен.</h4> 
+                    <p class="align-self-center">Статус заказа и подробности можно посмотреть в личном кабинете.</p>
+                    <button class="btn-theme align-self-center" @click="buyNowModal=false">Ок</button>
+                </div>
+            </modal-component>
+
+            <modal-component v-model:show="confirmOrderModal">
+                <div class="d-flex flex-column gap-3">
+                    <h4 class="align-self-center">Заказ на {{ product.name }}</h4>
+                    <p class="align-self-center">
+                        В количестве {{ productQuantity }} на сумму {{ ((product.price - product.price * product.discount/100) * productQuantity).toFixed(2) }} &#8381;
+                    </p>
+                    <p class="align-self-center">Вы подтверждаете заказ?</p>
+                    <button class="btn-theme align-self-center" @click="{confirmOrderModal=false; sendOrder()}">Подтверждаю</button>
                 </div>
             </modal-component>
 
@@ -578,6 +613,7 @@
     import { Navigation } from 'swiper/modules';
     import 'swiper/css';
     import 'swiper/css/navigation';
+
     export default {
         components: {Swiper, SwiperSlide},
         data() {
@@ -586,8 +622,11 @@
                 product: {},
                 productQuantity: 1,
                 addToCartModalIsVisible: false,
+                confirmOrderModal: false,
+                buyNowModal: false,
                 modules: [Navigation],
-                likedProducts: []
+                likedProducts: [],
+                properties: {}
             }
         },
         methods: {
@@ -605,6 +644,11 @@
                         }
                         this.product = response.data;
                         this.isProductLoading=true
+                        for(const key in this.product.properties[0]) {
+                            if(!['id', 'property_labels', 'description', 'product'].includes(key)) {
+                                this.properties[this.product.properties[0].property_labels[key]]=this.product.properties[0][key]
+                            }
+                        }
                         })
                 } catch(e) {
                     alert(`Connection error: ${e}`);
@@ -614,7 +658,10 @@
                 }
             },
             addOne() {
-                this.productQuantity += 1
+                if(this.productQuantity + 1 <= this.product.quantity) {
+                    this.productQuantity += 1
+                }
+                
             },
             subOne() {
                 this.productQuantity > 1 ? this.productQuantity -=1 : 1
@@ -684,6 +731,44 @@
                       })
                 } catch(e) {
                     alert(`Connection error: ${e}`);
+                }
+                finally {
+        
+                }
+            },
+            async sendOrder() {
+                //console.log(this.$store.state.user.access)
+                let order_products = []
+
+                order_products.push({
+                    'product': this.product.id,
+                    'quantity': this.productQuantity,
+                    'fixed_price': (this.product.price - this.product.price * this.product.discount/100).toFixed(2),
+                })
+                //console.log(JSON.stringify(order_products))
+                const order = {
+                    'order_products': order_products
+                }
+                //console.log(JSON.stringify(order))
+
+                try {
+                      axios(
+                        {
+                          url: `http://127.0.0.1:8000/api/v1/order/`,
+                          method: 'post',
+                          headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                          data: order
+                        }
+                      ).then((response) => {
+                            //console.log(response)
+                            //this.$store.commit('clearCart')
+                            this.products = []
+                            //this.$store.commit('deleteProductsFromCart', order_products)
+                            //this.$router.go()
+                            this.buyNowModal = true
+                        })
+                } catch(e) {
+                    console.log(`Connection error: ${e}`);
                 }
                 finally {
         

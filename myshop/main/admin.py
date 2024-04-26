@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
-        Cart, Customer, Catalog, Feedback, Order, OrderStatus, PickPoint, Product, 
-        ProductInCart, ProductInOrder, ProductQuestion, ProductRating, Tag, ProductProperty, 
+        Cart, Customer, Catalog, Feedback, MainMenuItem, Order, OrderStatus, PickPoint, Product, 
+        ProductInCart, ProductInOrder, ProductQuestion, ProductRating, SubMenuItem, Tag, ProductProperty, 
         ProductImage
     )
 from django.contrib.auth.admin import UserAdmin
@@ -70,6 +70,8 @@ class ProductsInOrderInline(admin.StackedInline):
 
 @admin.register(Order)
 class OrderAmin(admin.ModelAdmin):
+    list_display = ('id', 'customer', 'order_create', 'order_update', 'order_status', 'get_total_amount')
+    list_editable = ['order_status']
     inlines = (ProductsInOrderInline, )
 
 
@@ -103,3 +105,15 @@ class ProductQuestion(admin.ModelAdmin):
 @admin.register(PickPoint)
 class PickPointAdmin(admin.ModelAdmin):
     pass
+
+
+class SubMenuItemInline(admin.StackedInline):
+    model = SubMenuItem
+    extra =1
+
+
+@admin.register(MainMenuItem)
+class MainMenuItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'link')
+    
+    inlines = (SubMenuItemInline,)

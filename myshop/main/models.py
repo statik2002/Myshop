@@ -344,3 +344,28 @@ class PickPoint(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name} ___ {self.address}'
+    
+
+class SubMenuItem(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Пункт подменю')
+    link = models.CharField(max_length=250, verbose_name='Ссылка на страницу')
+    menu_item = models.ForeignKey('MainMenuItem', on_delete=models.CASCADE, related_name='submen')
+
+    class Meta:
+        verbose_name = 'Элемент подменю'
+        verbose_name_plural = 'Элементы подменю'
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
+
+class MainMenuItem(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Пункт главного меню')
+    link = models.CharField(max_length=250, verbose_name='Ссылка на страницу')
+
+    class Meta:
+        verbose_name = 'Элемент главного меню'
+        verbose_name_plural = 'Элементы главного меню'
+
+    def __str__(self) -> str:
+        return f'{self.name}'
