@@ -173,7 +173,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['first_price']
         extra_kwargs = {
             'code_1c': {'validators': []}
         }
