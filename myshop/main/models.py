@@ -127,6 +127,19 @@ class ProductImage(models.Model):
         return f'{self.alt[:20]}'
 
 
+class ProductUnit(models.Model):
+    long_name = models.CharField(max_length=50, verbose_name='Длинное наименование')
+    short_name = models.CharField(max_length=10, verbose_name='Короткое наименование')
+
+    class Meta:
+        verbose_name = 'Единица измерения'
+        verbose_name_plural = 'Единицы измерения'
+
+    def __str__(self) -> str:
+        return f'{self.short_name}'
+
+
+
 class Product(models.Model):
 
     name = models.CharField('Наименование товара', max_length=200)
@@ -144,6 +157,7 @@ class Product(models.Model):
     code_1c = models.PositiveIntegerField('Код из 1С', unique=True)
     quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество',
                                    default=0.0)  # 000 000.000
+    unit = models.ForeignKey(ProductUnit, on_delete=models.CASCADE, related_name='product_unit', null=True, blank=True, verbose_name='Еденица измерения')
     
 
     class Meta:

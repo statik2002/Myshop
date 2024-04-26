@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
         Cart, Customer, Catalog, Feedback, MainMenuItem, Order, OrderStatus, PickPoint, Product, 
-        ProductInCart, ProductInOrder, ProductQuestion, ProductRating, SubMenuItem, Tag, ProductProperty, 
+        ProductInCart, ProductInOrder, ProductQuestion, ProductRating, ProductUnit, SubMenuItem, Tag, ProductProperty, 
         ProductImage
     )
 from django.contrib.auth.admin import UserAdmin
@@ -117,3 +117,8 @@ class MainMenuItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'link')
     
     inlines = (SubMenuItemInline,)
+
+
+@admin.register(ProductUnit)
+class ProductUnitAdmin(admin.ModelAdmin):
+    pass

@@ -172,8 +172,8 @@
                         -->
                         <div class="action-top">
                             <div class="pro-qty">
-                                <div class="inc qty-btn" @click="add">+</div>
-                                <input type="text" id="quantity4" title="Quantity" v-model="productQuantityModal" />
+                                <div class="inc qty-btn" @click="add(productAtModal)">+</div>
+                                <input type="text" id="quantity4" title="Quantity" v-model="productQuantityModal" @input="inputQuantity(productAtModal, $event)" />
                                 <div class= "dec qty-btn" @click="sub">-</div>
                             </div>
                             <button class="btn btn-black" @click="addToCart(productAtModal, productQuantityModal)">В корзину</button>
@@ -334,12 +334,25 @@
             
                     }
             },
-            add() {
-                this.productQuantityModal += 1
+            add(product) {
+                if(this.productQuantityModal >= Number(product.quantity)){
+                    this.productQuantityModal = Number(product.quantity)
+                } else {
+                    this.productQuantityModal = this.productQuantityModal + 1
+                }
             },
             sub() {
                 this.productQuantityModal > 1 ? this.productQuantityModal -= 1 : 1
-            }
+            },
+            inputQuantity(product, event){
+                if(event.target.value < 1){
+                    event.target.value = 1
+                    this.productQuantityModal = 1
+                } else if(event.target.value >= Number(product.quantity)) {
+                    event.target.value = Number(product.quantity)
+                    this.productQuantityModal = Number(product.quantity)
+                }
+            },
         },
         mounted() {
             this.uploadProducts();

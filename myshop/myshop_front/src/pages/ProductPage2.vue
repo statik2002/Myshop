@@ -156,12 +156,13 @@
                                             <div class="product-action-simple">
                                                 <div class="product-quick-action">
                                                     <div class="product-quick-qty">
-                                                    <div class="pro-qty">
-                                                        <div class="inc qty-btn" @click="addOne">+</div>
-                                                        <input type="text" id="quantity" title="Количество" v-model="productQuantity">
-                                                        <div class= "dec qty-btn" @click="subOne">-</div>
+                                                        <div class="pro-qty">
+                                                            <div class="inc qty-btn" @click="addOne">+</div>
+                                                            <input type="text" id="quantity" title="Количество" v-model="productQuantity" @input="inputQuantity">
+                                                            <div class= "dec qty-btn" @click="subOne">-</div>
+                                                        </div>
                                                     </div>
-                                                    </div>
+                                                    <div class="pe-3" v-if="product.unit">{{ product.unit.short_name }}</div>
                                                     <button class="btn-product-add border-0" @click="addToCart(product)">В корзину</button>
                                                 </div>
                                                 <div class="product-wishlist">
@@ -665,6 +666,15 @@
             },
             subOne() {
                 this.productQuantity > 1 ? this.productQuantity -=1 : 1
+            },
+            inputQuantity(event){
+                if(event.target.value < 1){
+                    event.target.value = 1
+                    this.productQuantity = 1
+                } else if(event.target.value >= Number(this.product.quantity)) {
+                    event.target.value = Number(this.product.quantity)
+                    this.productQuantity = Number(this.product.quantity)
+                }
             },
             addToCart(product) {
                 this.$store.commit('addProductToCart', {'product': product, 'quantity': this.productQuantity});

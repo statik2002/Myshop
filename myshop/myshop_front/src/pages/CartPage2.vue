@@ -216,7 +216,8 @@
                 if(event.target.value < 1){
                     event.target.value = 1
                     this.$store.commit('setProductInCartQuantity', {id: cart_product.id , value: 1})
-                } else {
+                } else if(event.target.value >= Number(cart_product.quantity)) {
+                    event.target.value = Number(cart_product.quantity)
                     this.$store.commit('setProductInCartQuantity', {id: cart_product.id, value: event.target.value})
                 }
             },
