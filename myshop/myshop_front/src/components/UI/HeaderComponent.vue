@@ -55,7 +55,7 @@
                 <div class="col-sm-3 col-lg-3 d-none d-lg-block">
                     <div class="search-form">
                         <div class="form-group">
-                            <input v-model="searchQuery" class="form-control" type="search" placeholder="Поиск товара" @change="$router.push({name: 'search2', params: {query: searchQuery}})">
+                            <input v-model="searchQuery" class="form-control" id="searchlg" type="search" placeholder="Поиск товара" @change="$router.push({name: 'search2', params: {query: searchQuery}})">
                             <button class="btn-search" @click="$router.push({name: 'search2', params: {query: searchQuery}})"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                                 <div class="search-form">
                                     <form action="#">
                                         <div class="form-group">
-                                            <input class="form-control" type="search" placeholder="Поиск товара">
+                                            <input class="form-control" id="searchsm" type="search" placeholder="Поиск товара">
                                             <button class="btn-search"><i class="bi bi-search"></i></button>
                                         </div>
                                     </form>
@@ -150,12 +150,12 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input v-bind:phone @input="inputPhone" class="form-control" type="text" placeholder="Телефон" autocomplete="username">
+                                        <input v-bind:phone @input="inputPhone" id="phone" class="form-control" type="text" placeholder="Телефон" autocomplete="username">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input v-bind:password @input="inputPassword" class="form-control" type="password" placeholder="пароль" autocomplete="current-password">
+                                        <input v-bind:password @input="inputPassword" id="password" class="form-control" type="password" placeholder="пароль" autocomplete="current-password">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -187,7 +187,7 @@
         <div class="offcanvas-body">
             <div class="search-form">
                 <div class="form-group">
-                    <input v-model="searchQuery" class="form-control" type="search" placeholder="Поиск товара" @change="makeSearch">
+                    <input v-model="searchQuery" class="form-control" id="search" type="search" placeholder="Поиск товара" @change="makeSearch">
                     <button class="btn-search" data-bs-dismiss="offcanvas" @click="$router.push({name: 'search2', params: {query: searchQuery}})"><i class="bi bi-search"></i></button>
                 </div>
             </div>
