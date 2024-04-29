@@ -408,7 +408,11 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         -   Get order with status processing
             GET: /api/v1/order/get_proccessing_orders/
-            headers: {'Authorization': Bearer token},    
+            headers: {'Authorization': Bearer token},
+
+        -   Get order with status 'выдан'
+            GET: /api/v1/order/get_history_orders/
+            headers: {'Authorization': Bearer token},        
     '''
 
     permission_classes = (IsAuthenticated,)
@@ -485,7 +489,21 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
         
         except KeyError:
-            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)      
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=False, methods=['get'], name='user_history_orders')
+    def get_history_orders(self, request):
+        try:
+            user = request.user
+            # Выдаем заказы с статусом 'Принят, В обработке, в сборке'
+            orders = Order.objects.filter(customer=user).prefetch_related('order_products').filter(order_status__status__in=['Выдан']).order_by('-order_create')
+            return Response(OrderSerializer(orders, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
+        
+        except ObjectDoesNotExist:
+            return Response({'error': 'This user does not exist!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except KeyError:
+            return Response({'error': 'Bad request!'}, status=status.HTTP_400_BAD_REQUEST)         
         
 
 class Likes(viewsets.ViewSet):
@@ -533,6 +551,15 @@ class Likes(viewsets.ViewSet):
         return Response(ProductSerializer(liked_products, context={'request': request}, many=True).data, status=status.HTTP_200_OK)
     
 
+    def get_permissions(self):
+        if self.action in ['update', 'create']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+    
+
 class FeedbackViewSet(viewsets.ModelViewSet):
     
     """
@@ -573,6 +600,26 @@ class ProductQuestionViewSet(viewsets.ModelViewSet):
 
     queryset = ProductQuestion.objects.all()
     serializer_class = ProductQuestionSerializer
+
+    def get_permissions(self):
+        if self.action in ['update', 'create']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+    
+
+class CatalogViewSet(viewsets.ModelViewSet):
+
+    '''
+        *** Get all catalogs ***
+        - GET '/api/v1/calalogs'
+        - Premission: AllowAny
+    '''
+
+    queryset = Catalog.objects.filter(is_active=True)
+    serializer_class = CatalogSerializer
 
     def get_permissions(self):
         if self.action in ['update', 'create']:

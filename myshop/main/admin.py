@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
-        Cart, Customer, Catalog, Feedback, Order, OrderStatus, PickPoint, Product, 
-        ProductInCart, ProductInOrder, ProductQuestion, ProductRating, Tag, ProductProperty, 
+        Cart, Customer, Catalog, Feedback, MainMenuItem, Order, OrderStatus, PickPoint, Product, 
+        ProductInCart, ProductInOrder, ProductQuestion, ProductRating, ProductUnit, SubMenuItem, Tag, ProductProperty, 
         ProductImage
     )
 from django.contrib.auth.admin import UserAdmin
@@ -23,6 +23,8 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(Catalog)
 class CatalogAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['name']}
+    list_display = ('name', 'is_active', )
+    list_editable = ('is_active', )
 
 
 @admin.register(Tag)
@@ -42,7 +44,7 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'quantity', 'available', 'rating', 'show_count', 'create_date', 'get_rating')
+    list_display = ('id', 'name', 'quantity', 'price', 'available', 'rating', 'show_count', 'get_rating')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', )
     raw_id_fields = ('tags',)
@@ -68,6 +70,8 @@ class ProductsInOrderInline(admin.StackedInline):
 
 @admin.register(Order)
 class OrderAmin(admin.ModelAdmin):
+    list_display = ('id', 'customer', 'order_create', 'order_update', 'order_status', 'get_total_amount')
+    list_editable = ['order_status']
     inlines = (ProductsInOrderInline, )
 
 
@@ -100,4 +104,21 @@ class ProductQuestion(admin.ModelAdmin):
 
 @admin.register(PickPoint)
 class PickPointAdmin(admin.ModelAdmin):
+    pass
+
+
+class SubMenuItemInline(admin.StackedInline):
+    model = SubMenuItem
+    extra =1
+
+
+@admin.register(MainMenuItem)
+class MainMenuItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'link')
+    
+    inlines = (SubMenuItemInline,)
+
+
+@admin.register(ProductUnit)
+class ProductUnitAdmin(admin.ModelAdmin):
     pass

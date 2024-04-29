@@ -16,6 +16,9 @@ import UploadProductImagesFormComponent from '@/components/UI/UploadProductImage
 import MultiItemCarouselComponent from '@/components/UI/MultiItemCarouselComponent.vue'
 import ProcessingOrderComponent from '@/components/UI/ProcessingOrderComponent.vue'
 import AcceptCookieComponent from '@/components/UI/AceptCookieComponent.vue'
+import HeaderComponent from '@/components/UI/HeaderComponent.vue'
+import FooterComponent from '@/components/UI/FooterComponent.vue'
+import CartProduct2 from '@/components/UI/ProductInCart.vue'
 
 export default [
     ModalComponent,
@@ -35,5 +38,9 @@ export default [
     UploadProductImagesFormComponent,
     MultiItemCarouselComponent,
     ProcessingOrderComponent,
-    AcceptCookieComponent
+    AcceptCookieComponent,
+    CartProduct2,
+
+    HeaderComponent,
+    FooterComponent
 ]

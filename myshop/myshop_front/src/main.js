@@ -1,4 +1,10 @@
-import '@/assets/style.css'
+import '@/assets/css/animate.css'
+import '@/assets/css/elegant-icons.css'
+import '@/assets/css/headroom.css'
+import '@/assets/css/ionicons.css'
+import '@/assets/css/material-design-iconic-font.css'
+import '@/assets/css/style.css'
+import '@/assets/css/my.css'
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
@@ -15,12 +21,15 @@ import VueCookies from 'vue-cookies'
 import get_token_plugin from '@/plugins/get_token_plugin'
 import format_date from '@/plugins/format_date'
 import humanizie_order from './plugins/humanizie_order'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const app = createApp(App);
 
 components.forEach(component => {
    app.component(component.name, component) 
 });
+
+app.component('font-awesome-icon', FontAwesomeIcon)
 
 app
     .use(router)

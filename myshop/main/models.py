@@ -127,6 +127,19 @@ class ProductImage(models.Model):
         return f'{self.alt[:20]}'
 
 
+class ProductUnit(models.Model):
+    long_name = models.CharField(max_length=50, verbose_name='Длинное наименование')
+    short_name = models.CharField(max_length=10, verbose_name='Короткое наименование')
+
+    class Meta:
+        verbose_name = 'Единица измерения'
+        verbose_name_plural = 'Единицы измерения'
+
+    def __str__(self) -> str:
+        return f'{self.short_name}'
+
+
+
 class Product(models.Model):
 
     name = models.CharField('Наименование товара', max_length=200)
@@ -138,12 +151,14 @@ class Product(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name='Тэг', blank=True)
     show_count = models.BigIntegerField(verbose_name='Кол-во показов', default=0)
     create_date = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
-    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Price')
+    first_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Закупочная цена', default=0.0)
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Розничная цена')
     discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки',
                                    default=0.0)  # 000 000 000.00 сумма скидки
     code_1c = models.PositiveIntegerField('Код из 1С', unique=True)
     quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество',
                                    default=0.0)  # 000 000.000
+    unit = models.ForeignKey(ProductUnit, on_delete=models.CASCADE, related_name='product_unit', null=True, blank=True, verbose_name='Еденица измерения')
     
 
     class Meta:
@@ -344,3 +359,28 @@ class PickPoint(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name} ___ {self.address}'
+    
+
+class SubMenuItem(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Пункт подменю')
+    link = models.CharField(max_length=250, verbose_name='Ссылка на страницу')
+    menu_item = models.ForeignKey('MainMenuItem', on_delete=models.CASCADE, related_name='submen')
+
+    class Meta:
+        verbose_name = 'Элемент подменю'
+        verbose_name_plural = 'Элементы подменю'
+
+    def __str__(self) -> str:
+        return f'{self.name}'
+
+
+class MainMenuItem(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Пункт главного меню')
+    link = models.CharField(max_length=250, verbose_name='Ссылка на страницу')
+
+    class Meta:
+        verbose_name = 'Элемент главного меню'
+        verbose_name_plural = 'Элементы главного меню'
+
+    def __str__(self) -> str:
+        return f'{self.name}'

@@ -13,11 +13,18 @@ import OrdersPage from '@/pages/OrdersPage.vue'
 import LikePage from '@/pages/LikePage.vue'
 import OrderPage from '@/pages/OrderPage.vue';
 import TestPage from '@/pages/TestPage.vue';
+import NewFrontPage from '@/pages/NewFrontPage.vue'
+import ProductPage2 from '@/pages/ProductPage2.vue'
+import CartPage2 from '@/pages/CartPage2.vue';
+import LikePage2 from '@/pages/LikePage2.vue'
+import SearchPage2 from '@/pages/SearchPage2.vue';
+import CabinetPage2 from '@/pages/CabinetPage2.vue';
+import LoginPage from '@/pages/LoginPage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
     {
-        path: '/',
+        path: '/old',
         component: Main,
         name: 'main'
     },
@@ -89,6 +96,41 @@ const routes = [
         path: '/testpage',
         component: TestPage,
         name: 'testpage'
+    },
+    {
+        path: '/',
+        component: NewFrontPage,
+        name: 'newfront'
+    },
+    {
+        path: '/product2/:id',
+        component: ProductPage2,
+        name: 'product2'
+    },
+    {
+        path: '/cart2',
+        component: CartPage2,
+        name: 'cart2'
+    },
+    {
+        path: '/like2',
+        component: LikePage2,
+        name: 'like2'
+    },
+    {
+        path: '/search2/:query',
+        component: SearchPage2,
+        name: 'search2'
+    },
+    {
+        path: '/cabinet2',
+        component: CabinetPage2,
+        name: 'cabinte2'
+    },
+    {
+        path: '/login',
+        component: LoginPage,
+        name: 'login'
     }
 ]
 

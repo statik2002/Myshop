@@ -7,60 +7,87 @@ export default createStore({
         return {
             user: {},
             userIsAuth: false,
-            windowWidth: '',
-            cart: {
-                products: [],
-            }
+            unregisteredUser: {
+                cart: {
+                    products: []
+                },
+                likes: []
+            },
+            catalogs: []
         }
     },
 
     getters: {
         getCart(state) {
-            return state.user.cart;
+            if (state.user.access){
+                return state.user.cart;
+            } else {
+                return state.unregisteredUser.cart
+            }
         },
 
         productsInCart(state) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 return state.user.cart.products;
             } else {
-                return state.cart.products
+                return state.unregisteredUser.cart.products;
             }
-            
         },
 
         getCartTotal(state) {
             let total = 0
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 if (state.user.cart.products.length > 0){
                     for(const product of state.user.cart.products){
                         total += product.quantity * product.fixed_price
+                    }
+                    return total.toFixed(2)
+                } else {
+                    return 0
+                }
+            } else {
+                if (state.unregisteredUser.cart.products.length > 0){
+                    for(const product of state.unregisteredUser.cart.products){
+                        total += product.quantity * product.fixed_price
+                    }
+                    return total.toFixed(2)
+                } else {
+                    return 0
+                }
+            }
+        },
+
+        getCartTotalWithoutDiscount(state) {
+            let total = 0
+            if (state.user.access) {
+                if (state.user.cart.products.length > 0){
+                    for(const product of state.user.cart.products){
+                        total += product.quantity * product.product.price
                     }
                     return total
                 } else {
                     return 0
                 }
             } else {
-                if (state.cart.products.length > 0){
-                    for(const product of state.cart.products){
-                        total += product.quantity * product.fixed_price
+                if (state.unregisteredUser.cart.products.length > 0){
+                    for(const product of state.unregisteredUser.cart.products){
+                        total += product.quantity * product.product.price
                     }
                     return total
                 } else {
                     return 0
                 }
             }
-            
-            
         },
 
         getCartProductsCount(state) {
             let total = 0
-            if(state.userIsAuth) {
+            if(state.user.access) {
                 for (const product of state.user.cart.products){
                     total += product.quantity
                 }
             } else {
-                for (const product of state.cart.products){
+                for (const product of state.unregisteredUser.cart.products){
                     total += product.quantity
                 }
             }
@@ -69,10 +96,13 @@ export default createStore({
         },
 
         getCartPositionCount(state) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 return state.user.cart.products.length;
             } else {
-                return state.cart.products.length;
+                if (state.unregisteredUser.cart.products === undefined) {
+                    return 0
+                }
+                return state.unregisteredUser.cart.products.length;
             }
 
             
@@ -91,20 +121,42 @@ export default createStore({
             return state.user.cart.products[productIndex];
         },
 
+        getLikedProducts(state) {
+            if(state.user.access){
+                if(state.user.likes === undefined) {
+                    return []
+                }
+                return state.user.likes;
+            } else {
+                return state.unregisteredUser.likes;
+            }
+            
+        },
+
+        getLikedProductsCount(state) {
+            if(state.user.access){
+                if(state.user.likes === undefined) {
+                    return 0
+                }
+                return state.user.likes.length;
+            } else {
+                return state.unregisteredUser.likes.length;
+            }
+        },
+
         isUserLogin(state) {
-            return state.userIsAuth
-        }
+            if(state.user.access) {
+                return true
+            } else {
+                return false
+            }
+        },
+        getCatalog(state) {
+            return state.catalogs
+        },
     },
 
     mutations: {
-        incrementLikes(state) {
-            state.likes += 1
-        },
-
-        decrementLikes(state) {
-            (state.likes > 1) ? state.likes -= 1 : 1;
-        },
-
         setUserPhone(state, phone) {
             state.userPhone = phone
         },
@@ -125,64 +177,82 @@ export default createStore({
         },
 
         addProductToCart(state, product) {
-            if (state.userIsAuth) {
-                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+            if (state.user.access) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.product.id);
                 if (productIndex >= 0) {
-                    state.user.cart.products[productIndex].quantity += 1;
-                    state.user.cart.cartProductsQuantity += 1;
-                    state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.price;
+                    state.user.cart.products[productIndex].quantity += product.quantity;
+                    state.user.cart.cartProductsQuantity += product.quantity;
+                    state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.product.price;
                     localStorage.setItem('user', JSON.stringify(state.user))
                 } else {
                     const newCartItem = {
-                        id: product.id,
-                        product: product,
-                        quantity: 1,
-                        fixed_price: product.price,
+                        id: product.product.id,
+                        product: product.product,
+                        quantity: product.quantity,
+                        fixed_price: product.product.price - product.product.price * product.product.discount / 100,
                         cart: state.user.cart.id
                     };
                     state.user.cart.products.push(newCartItem);
                     localStorage.setItem('user', JSON.stringify(state.user))
                 }
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === product.id);
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === product.product.id);
                 if (productIndex >= 0) {
-                    state.cart.products[productIndex].quantity += 1;
-                    state.cart.cartProductsQuantity += 1;
-                    state.cart.cartProductsTotal += state.cart.products[productIndex].quantity * product.price;
-                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                    state.unregisteredUser.cart.products[productIndex].quantity += product.quantity;
+                    state.unregisteredUser.cart.cartProductsQuantity += product.quantity;
+                    state.unregisteredUser.cart.cartProductsTotal += state.unregisteredUser.cart.products[productIndex].quantity * product.product.price;
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
                 } else {
                     const newCartItem = {
-                        id: product.id,
-                        product: product,
-                        quantity: 1,
-                        fixed_price: product.price,
-                        cart: state.cart.id
+                        id: product.product.id,
+                        product: product.product,
+                        quantity: product.quantity,
+                        fixed_price: product.product.price - product.product.price * product.product.discount / 100,
+                        cart: 1
                     };
-                    state.cart.products.push(newCartItem);
-                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                    state.unregisteredUser.cart.products.push(newCartItem);
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
                 }
             }
         },
         removeProductFromCart(state, product) {
-            const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
-            state.user.cart.products.splice(productIndex, 1);
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.user.access) {
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+                state.user.cart.products.splice(productIndex, 1);
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === product.id);
+                state.unregisteredUser.cart.products.splice(productIndex, 1);
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
 
         addOne(state, id) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
-                state.user.cart.products[productIndex].quantity += 1;
-                localStorage.setItem('user', JSON.stringify(state.user))
+                if (Number(state.user.cart.products[productIndex].quantity) + 1 >= Number(state.user.cart.products[productIndex].product.quantity)){
+                    state.user.cart.products[productIndex].quantity = Number(state.user.cart.products[productIndex].product.quantity)
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                } else {
+                    state.user.cart.products[productIndex].quantity += 1;
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                }
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === id);
-                state.cart.products[productIndex].quantity += 1;
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === id);
+                if (Number(state.unregisteredUser.cart.products[productIndex].quantity) + 1 >= Number(state.unregisteredUser.cart.products[productIndex].product.quantity)) {
+                    state.unregisteredUser.cart.products[productIndex].quantity = Number(state.unregisteredUser.cart.products[productIndex].product.quantity)
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                } else {
+                    state.unregisteredUser.cart.products[productIndex].quantity += 1;
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+                }
+                
             }
         },
 
         subOne(state, id) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
                 if (state.user.cart.products[productIndex].quantity > 1)
                 {
@@ -190,39 +260,67 @@ export default createStore({
                     localStorage.setItem('user', JSON.stringify(state.user))
                 }
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === id);
-                if (state.cart.products[productIndex].quantity > 1)
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === id);
+                if (state.unregisteredUser.cart.products[productIndex].quantity > 1)
                 {
-                    state.cart.products[productIndex].quantity -= 1;
-                    localStorage.setItem('cart', JSON.stringify(state.cart))
+                    state.unregisteredUser.cart.products[productIndex].quantity -= 1;
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
                 }
             }
             
             
         },
 
+        setProductInCartQuantity(state, obj) {
+            if (state.user.access){
+                const productIndex = state.user.cart.products.findIndex((index) => index.id === obj.id);
+                if (obj.value >= Number(state.user.cart.products[productIndex].product.quantity)) {
+                    state.user.cart.products[productIndex].quantity = Number(state.user.cart.products[productIndex].product.quantity)
+                } else {
+                    state.user.cart.products[productIndex].quantity = obj.value;
+                    localStorage.setItem('user', JSON.stringify(state.user))
+                }
+                
+            } else {
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === obj.id);
+                if (obj.value >= Number(state.unregisteredUser.cart.products[productIndex].product.quantity)) 
+                {
+                    state.unregisteredUser.cart.products[productIndex].quantity = Number(state.user.cart.products[productIndex].product.quantity)
+                } else {
+                        state.unregisteredUser.cart.products[productIndex].quantity = obj.value;
+                    localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+                }
+               
+            }
+        },
+
         deleteProductFromCart(state, id) {
-            if (state.userIsAuth) {
+            if (state.user.access) {
                 const productIndex = state.user.cart.products.findIndex((index) => index.id === id);
                 state.user.cart.products.splice(productIndex, 1)
                 localStorage.setItem('user', JSON.stringify(state.user))
             } else {
-                const productIndex = state.cart.products.findIndex((index) => index.id === id);
-                state.cart.products.splice(productIndex, 1)
-                localStorage.setItem('cart', JSON.stringify(state.cart))
+                const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === id);
+                state.unregisteredUser.cart.products.splice(productIndex, 1)
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
             }
             
         },
 
         deleteProductsFromCart(state, products){
-
-            for (const product in products) {
-                const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
-                state.user.cart.products.splice(productIndex, 1)
+            if(state.user.access) {
+                for (const product in products) {
+                    const productIndex = state.user.cart.products.findIndex((index) => index.id === product.id);
+                    state.user.cart.products.splice(productIndex, 1)
+                }
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                for (const product in products) {
+                    const productIndex = state.unregisteredUser.cart.products.findIndex((index) => index.id === product.id);
+                    state.unregisteredUser.cart.products.splice(productIndex, 1)
+                }
+                localStorage.setItem('user', JSON.stringify(state.unregisteredUser))
             }
-            localStorage.setItem('user', JSON.stringify(state.user))
-
-
         },
 
         setUser(state, user) {
@@ -231,30 +329,44 @@ export default createStore({
             state.userIsAuth = true
         },
 
-        logoutUser(state,actions) {
+        logoutUser(state, actions) {
             state.user = {}
-            state.userIsAuth = false
             localStorage.removeItem('user')
         },
-        setUserState(state, flag){
-            state.userIsAuth = flag
-        },
         clearCart(state) {
-            state.user.cart.products = []
-            state.user.cart.cartProductsQuantity = 0
-            state.user.cart.cartProductsTotal = 0
-            localStorage.setItem('user', state.user)
+            if(state.user.access){
+                state.user.cart.products = []
+                state.user.cart.cartProductsQuantity = 0
+                state.user.cart.cartProductsTotal = 0
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                state.unregisteredUser.cart.products = []
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
         like(state, product_id){
-            state.user.likes.push(product_id)
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.user.access) {
+                state.user.likes.push(product_id)
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                state.unregisteredUser.likes.push(product_id)
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
         dislike(state, product_id){
-            state.user.likes.pop(product_id)
-            localStorage.setItem('user', JSON.stringify(state.user))
+            if (state.user.access) {
+                state.user.likes.pop(product_id)
+                localStorage.setItem('user', JSON.stringify(state.user))
+            } else {
+                state.unregisteredUser.likes.pop(product_id)
+                localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
+            }
+            
         },
         reloadUser(state) {
-            if (state.userIsAuth)
+            if (state.user.access)
             {
                 try {
                     axios(
@@ -280,7 +392,9 @@ export default createStore({
                 }
             }
         },
-        
+        updateCatalog(state, catalog) {
+            state.catalogs = catalog
+        },
     },
 
     actions: {
@@ -311,6 +425,61 @@ export default createStore({
                   //console.log(response.data)
                   return
                   })
+            } catch(e) {
+                console.log(`Connection error: ${e}`);
+            }
+            finally {
+    
+            }
+        },
+
+        getCatalog({commit, state}) {
+            try {
+                axios(
+                  {
+                    url: `http://127.0.0.1:8000/api/v1/catalogs/`,
+                    method: 'get'
+                  }
+                ).then((response) => {
+                    commit('updateCatalog', response.data.results)
+                })
+          } catch(e) {
+              console.log(`Connection error: ${e}`);
+          }
+          finally {
+  
+          }
+        },
+
+        async sendOrder(products) {
+            //console.log(this.$store.state.user.access)
+            let order_products = []
+            for (const key in products){
+                order_products.push({
+                    'product': products[key].id,
+                    'quantity': products[key].quantity,
+                    'fixed_price': products[key].fixed_price,
+                })
+            }
+            //console.log(JSON.stringify(order_products))
+            const order = {
+                'order_products': order_products
+            }
+            //console.log(JSON.stringify(order))
+
+            try {
+                  axios(
+                    {
+                      url: `http://127.0.0.1:8000/api/v1/order/`,
+                      method: 'post',
+                      headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
+                      data: order
+                    }
+                  ).then((response) => {
+                        //console.log(response)
+                        //this.$store.commit('clearCart')
+                        this.$store.commit('deleteProductsFromCart', order_products)
+                    })
             } catch(e) {
                 console.log(`Connection error: ${e}`);
             }

@@ -18,6 +18,7 @@ router.register(r'order', OrderViewSet, basename='order')
 router.register(r'like', Likes, basename='like')
 router.register(r'feedbacks', FeedbackViewSet, basename='feedbacks')
 router.register(r'questions', ProductQuestionViewSet, basename='questions')
+router.register(r'catalogs', CatalogViewSet, basename='catalogs')
 
 
 urlpatterns = [

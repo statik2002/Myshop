@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.fields import SerializerMethodField
-from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, PickPoint, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating
+from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, PickPoint, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating, ProductUnit
 from main.email_functional import send_mail
 from django.db.models import Avg
 
@@ -154,6 +154,12 @@ class ProductListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProductUnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductUnit
+        fields = '__all__'
+
+
 class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(many=True, read_only=True)
     his_rating = ProductRatingSerializer(many=True, read_only=True)
@@ -163,10 +169,11 @@ class ProductSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
     num_ratings = serializers.SerializerMethodField()
     questions = ProductQuestionsSerializer(child=ProductQuestionSerializer(), required=False)
+    unit = ProductUnitSerializer(read_only=True)
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ['first_price']
         extra_kwargs = {
             'code_1c': {'validators': []}
         }
