@@ -26,7 +26,7 @@
                             <div class="page-header-content">
                                 <nav class="breadcrumb-area">
                                     <ul class="breadcrumb">
-                                    <li><router-link to="newfront">Главная</router-link></li>
+                                    <li><router-link to="/">Главная</router-link></li>
                                     <li class="breadcrumb-sep">/</li>
                                     <li>Избранное</li>
                                     </ul>

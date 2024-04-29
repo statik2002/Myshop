@@ -307,7 +307,7 @@
             },
             userLogout() {
                 this.$store.commit('logoutUser')
-                this.$router.push('/newfront')
+                this.$router.push('newfront')
             },
             uploadAvatar() {
                 this.showUploadAvatar = true

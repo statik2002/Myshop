@@ -24,7 +24,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
     {
-        path: '/',
+        path: '/old',
         component: Main,
         name: 'main'
     },
@@ -98,7 +98,7 @@ const routes = [
         name: 'testpage'
     },
     {
-        path: '/newfront',
+        path: '/',
         component: NewFrontPage,
         name: 'newfront'
     },

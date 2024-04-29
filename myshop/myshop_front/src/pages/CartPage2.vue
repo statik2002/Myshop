@@ -77,7 +77,7 @@
                                     <div class="coupon-all">
                                         <div class="coupon">
                                             <div class="d-flex gap-2">
-                                                <button class="button" @click="$router.push('/newfront')">Продлжить покупки</button>
+                                                <button class="button" @click="$router.push('newfront')">Продлжить покупки</button>
                                                 <button class="button" @click="clearCart">Очистить корзину</button>
                                             </div>
                                         </div>
