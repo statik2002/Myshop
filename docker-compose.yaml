@@ -2,6 +2,7 @@ services:
 
   frontend:
     build: myshop/myshop_front
+    restart: always
     env_file:
       - .env
     ports:
@@ -11,8 +12,10 @@ services:
 
   web:
     build: myshop
+    container_name: web
     env_file:
       - .env
+    restart: always
     environment:
       - POSTGRES_USER=$DB_USER
       - POSTGRES_PASSWORD=$DB_PASSWORD
@@ -26,6 +29,7 @@ services:
   
   db:
     image: postgres:14.0-alpine
+    restart: always
     volumes:
      - postgres_data:/var/lib/postgresql/data/
     env_file:

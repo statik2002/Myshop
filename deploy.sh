@@ -18,10 +18,10 @@ docker compose up -d
 #docker compose stop web-static
 #docker compose rm --force web-static
 
-docker compose exec -it web sh -c "python manage.py collectstatic"
-docker compose exec -it web sh -c "python manage.py migrate"
-docker compose exec -it web sh -c "python manage.py loaddata initial.json"
-docker compose exec -it web sh -c "chown -R unit:unit media/"
+docker container exec -it web sh -c "python manage.py collectstatic"
+docker container exec -it web sh -c "python manage.py migrate"
+docker container exec -it web sh -c "python manage.py loaddata initial.json"
+docker container exec -it web sh -c "chown -R unit:unit media/"
 
 rm myshop/.env
 rm myshop/requirements.txt
