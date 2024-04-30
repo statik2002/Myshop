@@ -279,7 +279,7 @@
             userLogout() {
                 this.$store.dispatch('saveUserCartToServer')
                 this.$store.commit('logoutUser')
-                this.$router.push('newfront')
+                this.$router.push('/')
             },
             makeSearch() {
                 document.getElementById("offCanvasCloseButton").click()

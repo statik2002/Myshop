@@ -6,6 +6,8 @@ COMMIT_HASH=`git rev-parse HEAD`
 
 #npm run build --prefix myshop/myshop_front
 
+export DJANGO_SETTINGS_MODULE=myshop.settings
+
 cp -f .env myshop
 cp -f requirements.txt myshop
 cp -r unit_docker myshop
