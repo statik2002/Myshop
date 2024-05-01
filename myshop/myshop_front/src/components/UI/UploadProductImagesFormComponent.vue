@@ -62,7 +62,7 @@
                     formData.append('product_id', this.product.id)
                     axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/products/upload_image/`,
+                          url: `${this.$store.state.apiUrl}/api/v1/products/upload_image/`,
                           method: 'post',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`, 'Content-Type': 'multipart/form-data'},
                           data: formData
@@ -84,7 +84,7 @@
                 try {
                     axios(
                       {
-                        url: `http://127.0.0.1:8000/api/v1/products/delete_image/`,
+                        url: `${this.$store.state.apiUrl}/api/v1/products/delete_image/`,
                         method: 'post',
                         headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                         data: image

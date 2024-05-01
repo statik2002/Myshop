@@ -111,7 +111,7 @@
                 try {
                       axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/like/get_sliced_liked_products/`,
+                          url: `${this.$store.state.apiUrl}/api/v1/like/get_sliced_liked_products/`,
                           method: 'post',
                           data: this.$store.getters.getLikedProducts
                         }
@@ -144,7 +144,7 @@
                 try {
                     axios(
                         {
-                        url: `http://127.0.0.1:8000/api/v1/like/`,
+                        url: `${this.$store.state.apiUrl}/api/v1/like/`,
                         method: 'post',
                         headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                         data: like

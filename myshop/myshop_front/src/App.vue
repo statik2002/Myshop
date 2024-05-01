@@ -15,6 +15,11 @@
         },
         mounted() {
             //Load user from useStorage
+            const DEBUG = import.meta.env.VITE_DEBUG
+            this.$store.state.apiUrl = import.meta.env.VITE_DEV_URL
+            if (DEBUG=='false'){
+                this.$store.state.apiUrl = import.meta.env.VITE_PROD_URL
+            }
             const user = localStorage.getItem('user')
             const unregisteredUser = localStorage.getItem('unregisteredUser')
             if (user) {

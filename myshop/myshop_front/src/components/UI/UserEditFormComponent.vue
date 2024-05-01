@@ -89,7 +89,7 @@
             saveUser() {
                 axios({
                     method: 'post',
-                    url: 'http://127.0.0.1:8000/api/v1/customers/customer_update/',
+                    url: `${this.$store.state.apiUrl}/api/v1/customers/customer_update/`,
                     headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                     data: {
                         'phone_number': this.phoneNumber, 

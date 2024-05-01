@@ -1,14 +1,14 @@
 services:
 
-  frontend:
-    build: myshop/myshop_front
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - "8100:80"
-    depends_on:
-      - web
+  #frontend:
+  #  build: myshop/myshop_front
+  #  restart: always
+  #  env_file:
+  #    - .env
+  #  ports:
+  #    - "8100:80"
+  #  depends_on:
+  #    - web
 
   web:
     build: myshop

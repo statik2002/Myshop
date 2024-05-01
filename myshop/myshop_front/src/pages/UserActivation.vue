@@ -29,7 +29,7 @@ import axios from 'axios';
             try {
                 axios(
                 {
-                    url: `http://127.0.0.1:8000/api/v1/customers/user_activation/?q=${query.token}/`,
+                    url: `${this.$store.state.apiUrl}/api/v1/customers/user_activation/?q=${query.token}/`,
                     method: 'get'
                 }
                 ).then((response) => {

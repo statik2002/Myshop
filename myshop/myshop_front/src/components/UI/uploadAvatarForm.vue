@@ -49,7 +49,7 @@
                     }
                     axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/customers/update_avatar/`,
+                          url: `${this.$store.state.apiUrl}/api/v1/customers/update_avatar/`,
                           method: 'post',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`, 'Content-Type': 'multipart/form-data'},
                           data: formData

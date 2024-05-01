@@ -104,7 +104,7 @@
                 if (this.password1 === this.password2){
                     axios({
                         method: 'post',
-                        url: 'http://127.0.0.1:8000/api/v1/customers/',
+                        url: `${this.$store.state.apiUrl}/api/v1/customers/`,
                         headers: { 'Content-Type': 'application/json;charset=utf-8' },
                         data: JSON.stringify({
                             'phone_number': this.phone, 

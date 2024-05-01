@@ -13,7 +13,8 @@ export default createStore({
                 },
                 likes: []
             },
-            catalogs: []
+            catalogs: [],
+            apiUrl: ''
         }
     },
 

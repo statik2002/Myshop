@@ -42,7 +42,7 @@
                 try {
                     axios(
                       {
-                        url: `http://127.0.0.1:8000/api/v1/questions/`,
+                        url: `${this.$store.state.apiUrl}/api/v1/questions/`,
                         method: 'post',
                         headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                         data: {'product': this.product_id, 'customer': this.user_id, 'question_text': this.text}

@@ -27,4 +27,7 @@ rm myshop/.env
 rm myshop/requirements.txt
 rm -R myshop/unit_docker
 
+npm install --prefix ./myshop/myshop_front
+npm run build --prefix ./myshop/myshop_front
+
 echo "All done!"

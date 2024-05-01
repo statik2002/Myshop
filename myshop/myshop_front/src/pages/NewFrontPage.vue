@@ -238,7 +238,7 @@
                     this.productsPage += 1;
                     this.productsOffest += this.productsLimit;
                     let response = await fetch(
-                        'http://127.0.0.1:8000/api/v1/products/?' + new URLSearchParams({limit: this.productsLimit, offset: this.productsOffest, page: this.productsPage}),
+                        `${this.$store.state.apiUrl}/api/v1/products/?` + new URLSearchParams({limit: this.productsLimit, offset: this.productsOffest, page: this.productsPage}),
                         {method: 'GET'}
                     );
                     if (response.ok) {
@@ -283,7 +283,7 @@
                 try {
                         axios(
                         {
-                            url: `http://127.0.0.1:8000/api/v1/like/`,
+                            url: `${this.$store.state.apiUrl}/api/v1/like/`,
                             method: 'post',
                             headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                             data: like
@@ -318,7 +318,7 @@
                 try {
                         axios(
                         {
-                            url: `http://127.0.0.1:8000/api/v1/like/`,
+                            url: `${this.$store.state.apiUrl}/api/v1/like/`,
                             method: 'post',
                             headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                             data: like

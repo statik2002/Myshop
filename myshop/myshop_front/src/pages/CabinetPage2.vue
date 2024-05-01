@@ -245,7 +245,7 @@
                 try {
                       axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/order/get_ready_orders/`,
+                          url: `${this.$store.state.apiUrl}/api/v1/order/get_ready_orders/`,
                           method: 'get',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                           timeout: 1000
@@ -269,7 +269,7 @@
                 try {
                       axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/order/get_proccessing_orders/`,
+                          url: `${this.$store.state.apiUrl}/api/v1/order/get_proccessing_orders/`,
                           method: 'get',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                           timeout: 1000
@@ -289,7 +289,7 @@
                 try {
                       axios(
                         {
-                          url: `http://127.0.0.1:8000/api/v1/order/get_history_orders/`,
+                          url: `${this.$store.state.apiUrl}/api/v1/order/get_history_orders/`,
                           method: 'get',
                           headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                           timeout: 1000

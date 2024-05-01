@@ -246,7 +246,7 @@
                 axios(
                     {
                         method: 'post',
-                        url: 'http://127.0.0.1:8000/api/v1/token/login/',
+                        url: `${this.$store.state.apiUrl}/api/v1/token/login/`,
                         headers: {'Content-Type': 'application/json;charset=utf-8'},
                         data: JSON.stringify({'phone_number': this.phone, 'password': this.password})
                     }
@@ -256,7 +256,7 @@
                     axios(
                         {
                             method: 'get',
-                            url: `http://127.0.0.1:8000/api/v1/customers/${response.data.user_id}/`,
+                            url: `${this.$store.state.apiUrl}/api/v1/customers/${response.data.user_id}/`,
                             headers: {'Content-Type': 'application/json;charset=utf-8', "Authorization" : `Bearer ${token}`},
                         }
                     )
