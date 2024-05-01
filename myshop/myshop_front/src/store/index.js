@@ -372,7 +372,7 @@ export default createStore({
                 try {
                     axios(
                         {
-                        url: `http://127.0.0.1:8000/api/v1/customers/${state.user.id}/`,
+                        url: `${state.apiUrl}/api/v1/customers/${state.user.id}/`,
                         method: 'get',
                         headers: {'Authorization': `Bearer ${state.user.access}`},
                         }
@@ -417,7 +417,7 @@ export default createStore({
             try {
                 axios(
                   {
-                    url: `http://127.0.0.1:8000/api/v1/carts/${cart.id}/`,
+                    url: `${state.apiUrl}/api/v1/carts/${cart.id}/`,
                     method: 'put',
                     headers: {'Authorization': `Bearer ${state.user.access}`},
                     data: cart
@@ -438,7 +438,7 @@ export default createStore({
             try {
                 axios(
                   {
-                    url: `http://127.0.0.1:8000/api/v1/catalogs/`,
+                    url: `${state.apiUrl}/api/v1/catalogs/`,
                     method: 'get'
                   }
                 ).then((response) => {
@@ -471,7 +471,7 @@ export default createStore({
             try {
                   axios(
                     {
-                      url: `http://127.0.0.1:8000/api/v1/order/`,
+                      url: `${state.apiUrl}/api/v1/order/`,
                       method: 'post',
                       headers: {'Authorization': `Bearer ${this.$store.state.user.access}`},
                       data: order
