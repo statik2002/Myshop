@@ -152,7 +152,8 @@ class Product(models.Model):
     show_count = models.BigIntegerField(verbose_name='Кол-во показов', default=0)
     create_date = models.DateTimeField(default=timezone.now, verbose_name='Дата создания')
     first_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Закупочная цена', default=0.0)
-    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Розничная цена')
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Розничная цена', default=0.0)
+    online_price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='Онлайн цена', default=0.0)
     discount = models.DecimalField(max_digits=11, decimal_places=2, verbose_name='Размер скидки',
                                    default=0.0)  # 000 000 000.00 сумма скидки
     code_1c = models.PositiveIntegerField('Код из 1С', unique=True)

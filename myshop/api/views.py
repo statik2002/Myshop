@@ -158,7 +158,7 @@ class InitialUploadProducts(viewsets.ModelViewSet):
         JSON: {data: [products]}
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, IsAdminUser)
     serializer_class = ProductInitialSerializer(many=True)
 
     def create(self, request, *args, **kwargs):
@@ -171,7 +171,7 @@ class InitialUploadProducts(viewsets.ModelViewSet):
                 bulk_products.append(
                     Product(
                         code_1c=serialized_product.data.get('code_1c'),
-                        name=serialized_product.data.get('name'),
+                        #name=serialized_product.data.get('name'),
                         price=serialized_product.data.get('price'),
                         quantity=serialized_product.data.get('quantity'),
                         catalog=catalog,
@@ -191,7 +191,7 @@ class InitialUploadProducts(viewsets.ModelViewSet):
         )
         print(f'Products update at {time.time() - start_time} seconds')
         return Response({'response': 'OK!'}, status=status.HTTP_200_OK)
-        
+
 
 class CartsViewSet(viewsets.ModelViewSet):
 
