@@ -288,8 +288,8 @@ async def main():
                 )
         '''                
         catalogs, products = await parse_leftovers_for_site('ostatki.txt')
-        response = await initial_catalogs_upload(token, catalogs, debug)
-        print(response)
+        #response = await initial_catalogs_upload(token, catalogs, debug)
+        #print(response)
         response = await initial_upload_products(token, products, debug)
         print(response)
         #products = await get_all_products_from_server(token, debug)

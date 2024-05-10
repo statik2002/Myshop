@@ -10,7 +10,7 @@
                             <div class="about-widget">
                                 <div class="footer-logo-area">
                                     <a href="index.html">
-                                        <img class="logo-main" src="@/assets/img/logo.png" alt="Logo" />
+                                        <img class="logo-main" src="@/assets/img/logo_m2.png" alt="Logo" />
                                     </a>
                                 </div>
                                 <ul>

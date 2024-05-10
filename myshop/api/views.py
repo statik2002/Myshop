@@ -171,7 +171,7 @@ class InitialUploadProducts(viewsets.ModelViewSet):
                 bulk_products.append(
                     Product(
                         code_1c=serialized_product.data.get('code_1c'),
-                        #name=serialized_product.data.get('name'),
+                        name=serialized_product.data.get('name'),
                         price=serialized_product.data.get('price'),
                         quantity=serialized_product.data.get('quantity'),
                         catalog=catalog,
