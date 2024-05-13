@@ -26,6 +26,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - media_files: /media/
   
   db:
     image: postgres:14.0-alpine
@@ -43,3 +45,4 @@ services:
 
 volumes:
   postgres_data:
+  media_files:
