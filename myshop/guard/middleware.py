@@ -30,7 +30,7 @@ class GuardMiddleware:
         #print(request.user)
         #print(request.COOKIES)
         #print(request.session)
-        session_hash = hash(ipaddress + request.headers.get('User-Agent'))
+        #session_hash = hash(ipaddress + request.headers.get('User-Agent'))
 
         response = self.get_response(request)
 
