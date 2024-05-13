@@ -3,7 +3,7 @@
     <header class="header-area header-default sticky-header">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-6 col-sm-2 col-lg-1">
+                <div class="col-6 col-sm-2 col-lg-2">
                     <div class="header-logo-area">
                         <router-link to="/">
                             <img class="logo-main" src="@/assets/img/logo_m2.png" alt="Logo" />
@@ -52,7 +52,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3 col-lg-3 d-none d-lg-block">
+                <div class="col-sm-3 col-lg-2 d-none d-lg-block">
                     <div class="search-form">
                         <div class="form-group">
                             <input v-model="searchQuery" class="form-control" id="searchlg" type="search" placeholder="Поиск товара" @change="$router.push({name: 'search2', params: {query: searchQuery}})">

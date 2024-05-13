@@ -1,3 +1,5 @@
+import io
+import sys
 import requests
 from environs import Env
 from django.core.management.base import BaseCommand, CommandError
@@ -6,6 +8,9 @@ from main.models import Product, ProductImage
 from django.core.files import File
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from django.core.files.temp import NamedTemporaryFile
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from PIL import Image
+from .utils import convert_image
 
 
 env = Env()
@@ -41,10 +46,14 @@ class Command(BaseCommand):
                         img = requests.get(f'https://neit.ru{image.get("image")}', verify=False)
                         if img.status_code == 200:
                             img_name = image.get('image').split('/')[-1]
-                            img_temp = NamedTemporaryFile(delete=True)
-                            img_temp.write(img.content)
-                            img_temp.flush()
-                            product_image = ProductImage.objects.create(product=product, alt=img_name, image=File(img_temp, img_name))
+                            resize_image = convert_image(Image.open(io.BytesIO(img.content)))
+                            tmp_img = io.BytesIO()
+                            resize_image.save(tmp_img, format='webp')
+                            product_image = ProductImage.objects.create(
+                                product=product, 
+                                alt=img_name, 
+                                image=InMemoryUploadedFile(tmp_img, None, img_name, 'image/webp', sys.getsizeof(tmp_img), None)
+                                )
                             print(f'Image updated for {product.name}')
 
                 except ObjectDoesNotExist:

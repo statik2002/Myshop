@@ -320,6 +320,7 @@
         mounted() {
             this.getUserOrders()
             this.getProcessingOrders()
+            this.getOrderHistory()
         }
     }
 </script>

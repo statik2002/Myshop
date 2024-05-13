@@ -16,7 +16,7 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer
+from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer, ProductUpdateSerializer
 from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, Order, Product, ProductImage, ProductInCart, ProductInOrder, ProductQuestion
 from main.email_functional import send_mail
 from django.http import JsonResponse
@@ -191,6 +191,41 @@ class InitialUploadProducts(viewsets.ModelViewSet):
         )
         print(f'Products update at {time.time() - start_time} seconds')
         return Response({'response': 'OK!'}, status=status.HTTP_200_OK)
+
+
+class UpdateLeftovers(viewsets.ModelViewSet):
+    """
+        *** Update leftovers ***
+        POST: /api/v1/update_leftovers/
+        HEADER: 'Authorization': f'Bearer {token}'
+        JSON: {data: [products]} products: [{'code1c': 2131, 'name': 'sadfsdf', 'first_price': 123.5, 'sale_price': 200, 'quantity': 12}, ....]
+    """
+    permission_classes = (IsAuthenticated, IsAdminUser)
+    serializer_class = ProductInitialSerializer(many=True)
+
+    def create(self, request, *args, **kwargs):
+        bulk_products = []
+        for product in request.data:
+            serialized_product = ProductUpdateSerializer(data=product)
+            if serialized_product.is_valid():
+                bulk_products.append(
+                    Product(
+                        code_1c = serialized_product.data.get('code1c'),
+                        name = serialized_product.data.get('name'),
+                        first_price = serialized_product.data.get('first_price'),
+                        price = serialized_product.data.get('sale_price'),
+                        quantity = serialized_product.data.get('quantity')
+                    )
+                )
+            else:
+                return Response({'response products update': f'Error!: {serialized_product.errors}'}, status=status.HTTP_400_BAD_REQUEST)
+            
+        product_objs = Product.objects.bulk_create(
+            bulk_products,
+            update_conflicts=True,
+            update_fields=['name', 'first_price', 'price', 'quantity'],
+            unique_fields=['code_1c']
+        )
 
 
 class CartsViewSet(viewsets.ModelViewSet):

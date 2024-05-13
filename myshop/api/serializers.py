@@ -240,6 +240,15 @@ class ProductInitialSerializer(serializers.ModelSerializer):
         }
 
 
+class ProductUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('code_1c', 'name', 'first_price', 'price', 'quantity')
+        extra_kwargs = {
+            'code_1c': {'validators': []}
+        }
+
+
 class CatalogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Catalog

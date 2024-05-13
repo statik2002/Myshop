@@ -19,6 +19,7 @@ router.register(r'like', Likes, basename='like')
 router.register(r'feedbacks', FeedbackViewSet, basename='feedbacks')
 router.register(r'questions', ProductQuestionViewSet, basename='questions')
 router.register(r'catalogs', CatalogViewSet, basename='catalogs')
+router.register(r'update_leftovers', UpdateLeftovers, basename='update_leftovers')
 
 
 urlpatterns = [
