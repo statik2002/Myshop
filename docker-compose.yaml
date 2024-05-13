@@ -27,7 +27,7 @@ services:
     depends_on:
       - db
     volumes:
-      - media_files: ~/www/Myshop/media/
+      - media_files: /home/statik/www/Myshop/media/
   
   db:
     image: postgres:14.0-alpine
