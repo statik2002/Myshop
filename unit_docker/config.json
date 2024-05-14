@@ -1,9 +1,26 @@
 {
     "listeners": {
         "*:8000": {
-                "application": "myshop"
+                "pass": "routes"
         }
     },
+
+    "routes": [
+        {
+            "match": {
+                "uri": "/staticfiles/*"
+            },
+            "action": {
+                "share": "/www/$uri"
+            }
+        },
+        {
+            "action": {
+               "pass": "applications/myshop"
+            }
+            
+        }
+    ],
 
     "applications": {
         "myshop": {
