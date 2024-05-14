@@ -27,7 +27,7 @@ services:
     depends_on:
       - db
     volumes:
-      - media:/home/statik/www/Myshop/media
+      - /home/statik/www/MyShop/media:/www/media
   
   db:
     image: postgres:14.0-alpine
@@ -45,4 +45,3 @@ services:
 
 volumes:
   postgres_data:
-  media:

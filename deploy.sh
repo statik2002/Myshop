@@ -12,6 +12,8 @@ cp -f .env myshop
 cp -f requirements.txt myshop
 cp -r unit_docker myshop
 
+
+
 docker compose build --no-cache
 docker compose up -d
 

@@ -304,7 +304,7 @@ async def main():
     token=''
 
     try:
-        token = await get_token(api_login, api_password, False)
+        token = await get_token(api_login, api_password, debug)
         print(token)
         '''
         await fetch_file(
@@ -318,11 +318,11 @@ async def main():
                     my_name
                 )
         '''                
-        #catalogs, products = await parse_leftovers_for_site('ostatki.txt')
-        #response = await initial_catalogs_upload(token, catalogs, debug)
-        #print(response)
-        #response = await initial_upload_products(token, products, debug)
-        #print(response)
+        catalogs, products = await parse_leftovers_for_site('ostatki.txt')
+        response = await initial_catalogs_upload(token, catalogs, debug)
+        print(response)
+        response = await initial_upload_products(token, products, debug)
+        print(response)
         #products = await get_all_products_from_server(token, debug)
         #pprint(products)
 
