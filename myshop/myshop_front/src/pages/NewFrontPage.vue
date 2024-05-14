@@ -20,25 +20,24 @@
             <!--== Start Hero Area Wrapper ==-->
             <section class="">
                 <div id="carouselMainIndicators" class="carousel slide" data-bs-ride="true">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselMainIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselMainIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselMainIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    </div>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="@/assets/img/slider/Forsite.png" class="d-block w-100" alt="...">
-                            <div class="carousel-caption d-none d-md-block slider-text">
-                                <h5 class="slider-text-header">First slide label</h5>
-                                <p class="slider-text-content">Some representative placeholder content for the first slide.</p>
-                                <button class="btn btn-success slider-button">BUY</button>
+                        <div v-for="(item, index) in sliders">
+                            <div v-if="index === 0" class="carousel-item active" >
+                                <img :src=item.image class="d-block w-100" :alt=item.name>
+                                <div class="carousel-caption d-none d-md-block slider-text">
+                                    <h5 class="slider-text-header">{{ item.title }}</h5>
+                                    <p class="slider-text-content">{{ item.text }}</p>
+                                    <button class="btn btn-success">Посмотреть</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="@/assets/img/slider/slider-01.jpg" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="@/assets/img/slider/slider-01.jpg" class="d-block w-100" alt="...">
+                            <div v-else class="carousel-item" >
+                                <img :src=item.image class="d-block w-100" :alt=item.name>
+                                <div class="carousel-caption d-none d-md-block slider-text">
+                                    <h5 class="slider-text-header">{{ item.title }}</h5>
+                                    <p class="slider-text-content">{{ item.text }}</p>
+                                    <button class="btn btn-success">Посмотреть</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselMainIndicators" data-bs-slide="prev">
@@ -229,7 +228,8 @@
                 productQantity: 1,
                 productAtModal: null,
                 productQuantityModal: 1,
-                likedProducts: []
+                likedProducts: [],
+                sliders: []
             }
         },
         methods: {
@@ -254,6 +254,22 @@
                 }
                 finally {
                     this.isProductsLoading=true;
+                }
+            },
+            async uploadSliders() {
+                try {
+                    let response = await fetch(
+                        `${this.$store.state.apiUrl}/api/v1/sliders/`,
+                        {method: 'GET'}
+                    );
+                    if (response.ok) {
+                        let sliders = await response.json();
+                        this.sliders = sliders.results
+                    } else {
+                        alert('Error get sliders');
+                    }
+                } catch(e) {
+                    console.log(`Connection error ${e}`);
                 }
             },
             showProductQuickModal(product) {
@@ -355,6 +371,7 @@
             },
         },
         mounted() {
+            this.uploadSliders();
             this.uploadProducts();
             this.likedProducts = this.$store.getters.getLikedProducts
             

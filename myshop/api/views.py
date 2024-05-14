@@ -16,8 +16,8 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer, ProductUpdateSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, Order, Product, ProductImage, ProductInCart, ProductInOrder, ProductQuestion
+from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, MainSliderSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer, ProductUpdateSerializer
+from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, MainSlider, Order, Product, ProductImage, ProductInCart, ProductInOrder, ProductQuestion
 from main.email_functional import send_mail
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -665,3 +665,16 @@ class CatalogViewSet(viewsets.ModelViewSet):
             permission_classes = [AllowAny]
 
         return [permission() for permission in permission_classes]
+    
+
+class MainSliderViewSet(viewsets.ModelViewSet):
+
+    '''
+        *** Get all active sliders ***
+        - GET 'api/v1/sliders'
+        - Premission: AllowAny
+    '''
+
+    queryset = MainSlider.objects.filter(is_active=True)
+    serializer_class = MainSliderSerializer
+    permission_classes = (AllowAny,)

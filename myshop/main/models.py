@@ -139,7 +139,6 @@ class ProductUnit(models.Model):
         return f'{self.short_name}'
 
 
-
 class Product(models.Model):
 
     name = models.CharField('Наименование товара', max_length=200)
@@ -383,5 +382,21 @@ class MainMenuItem(models.Model):
         verbose_name = 'Элемент главного меню'
         verbose_name_plural = 'Элементы главного меню'
 
+    def __str__(self) -> str:
+        return f'{self.name}'
+    
+
+class MainSlider(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Главный слайдер')
+    link = models.URLField(max_length=200, verbose_name='Ссылка', blank=True, null=True)
+    image = models.ImageField(upload_to='sliders')
+    title = models.CharField(max_length=100, verbose_name='Заголовок слайда')
+    text = models.CharField(max_length=200, verbose_name='Текст слайда')
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Слайдер'
+        verbose_name_plural = 'Слайдеры'
+    
     def __str__(self) -> str:
         return f'{self.name}'

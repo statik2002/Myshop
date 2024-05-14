@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.utils.text import slugify
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.fields import SerializerMethodField
-from main.models import Cart, Catalog, Customer, Feedback, Order, OrderStatus, PickPoint, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating, ProductUnit
+from main.models import Cart, Catalog, Customer, Feedback, MainSlider, Order, OrderStatus, PickPoint, Product, ProductImage, ProductInCart, ProductInOrder, ProductProperty, ProductQuestion, ProductRating, ProductUnit
 from main.email_functional import send_mail
 from django.db.models import Avg
 
@@ -361,3 +361,10 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def get_total_amount(self, obj) -> decimal:
         return obj.get_total_amount()
+
+
+class MainSliderSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MainSlider
+        fields = '__all__'

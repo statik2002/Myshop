@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
-        Cart, Customer, Catalog, Feedback, MainMenuItem, Order, OrderStatus, PickPoint, Product, 
+        Cart, Customer, Catalog, Feedback, MainMenuItem, MainSlider, Order, OrderStatus, PickPoint, Product, 
         ProductInCart, ProductInOrder, ProductQuestion, ProductRating, ProductUnit, SubMenuItem, Tag, ProductProperty, 
         ProductImage
     )
@@ -132,4 +132,9 @@ class MainMenuItemAdmin(admin.ModelAdmin):
 
 @admin.register(ProductUnit)
 class ProductUnitAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(MainSlider)
+class MainSliderAdmin(admin.ModelAdmin):
     pass
