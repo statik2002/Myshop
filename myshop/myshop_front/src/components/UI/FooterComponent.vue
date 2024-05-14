@@ -14,7 +14,7 @@
                                     </a>
                                 </div>
                                 <ul>
-                                    <li><a href="http://lerty.ru">Lerty.ru</a></li>
+                                    <li><a href="http://mozaikamagazin.ru">mozaikamagazin.ru</a></li>
                                 </ul>
                                 <ul>
                                     <li><i class="ion-ios7-location-outline"></i> г. Братск, ул. Ленина д. 1</li>
@@ -90,7 +90,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <p class="copyright">© 2024, <span>Lerty</span>. Создано в <i class="fa fa-heart icon-heart"></i> by <a target="_blank" href="#"> CodeLab</a></p>
+                        <p class="copyright">© 2024, <span>Мозаика</span>. Создано в <i class="fa fa-heart icon-heart"></i> by <a target="_blank" href="#"> CodeLab</a></p>
                     </div>
                 </div>
             </div>
