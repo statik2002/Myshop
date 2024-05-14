@@ -6,6 +6,7 @@ from main.models import (
         ProductImage
     )
 from django.contrib.auth.admin import UserAdmin
+from django.utils.safestring import mark_safe
 
 
 class LikedProductsInline(admin.StackedInline):
@@ -44,13 +45,13 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'quantity', 'price', 'available', 'catalog', 'rating', 'show_count', 'get_rating')
+    list_display = ('id', 'name', 'tumbnail', 'quantity', 'price', 'available', 'catalog', 'rating', 'show_count', 'get_rating')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', 'catalog')
     raw_id_fields = ('tags',)
     search_fields = ['name', 'code_1c', 'id']
     search_help_text = 'Поиск по наименованию или коду из 1С'
-    readonly_fields = ('show_count', 'rating')
+    readonly_fields = ('show_count', 'rating', 'tumbnail')
     list_filter = ('available', )
 
     inlines = (ProductImageInline, ProductPropertyInline)
@@ -61,6 +62,16 @@ class ProductAdmin(admin.ModelAdmin):
             return rating.value
         except ObjectDoesNotExist:
             return 0.0
+        
+    def tumbnail(self, obj):
+        #print(obj)
+        product_image = ProductImage.objects.filter(product=obj).first()
+        print(product_image)
+        if product_image:
+            return mark_safe(f'<img style="border: 1px solid #00af64" src="{product_image.image.url}" width="80" height="80" />')
+        else:
+            return mark_safe(f'No image')
+
 
 
 class ProductsInOrderInline(admin.StackedInline):
