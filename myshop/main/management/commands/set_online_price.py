@@ -19,5 +19,7 @@ class Command(BaseCommand):
             if product.price == product.first_price:
                 continue
 
-            product.online_price = product.first_price * Decimal(add_price)
+            calc_price = product.first_price * Decimal(add_price)
+
+            product.online_price = Decimal(calc_price).quantize(1) + 1
             product.save()
