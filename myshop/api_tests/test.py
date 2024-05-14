@@ -254,6 +254,37 @@ async def register_customer_public(debug, customer):
     return response.json()
     
 
+def parce_server_leftovers(path: str = 'server_leftovers.txt') -> list:
+    products = []
+    with open(path, 'r') as f:
+        file_data = f.read().split('\n')
+
+    for line in file_data:
+        splitted_line = line.replace('\xa0', '').split('\t')
+        if not splitted_line[0].isdigit():
+            continue
+
+        products.append({
+            'code_1c': splitted_line[0],
+            'name': splitted_line[1],
+            'price': splitted_line[2].replace(',', '.') if splitted_line[2]!='' else '0.0',  # розничная цена
+            'first_price': splitted_line[3].replace(',', '.') if splitted_line[3]!='' else '0.0',  # закупочная цена
+            'cost_price': splitted_line[4].replace(',', '.') if splitted_line[4]!='' else '0.0',  # себестоимость
+            'quantity': splitted_line[5].replace(',', '.') if splitted_line[5]!='' else '0.0',  # остаток
+            'left_in_unit': splitted_line[6].replace(',', '.') if splitted_line[6]!='' else '0.0',  # Остаток в ед. отчета
+            'leftover_price': splitted_line[7].replace(',', '.') if splitted_line[7]!='' else '0.0',  # Стоимость остатка
+            'leftover_sale_price': splitted_line[8].replace(',', '.') if splitted_line[8]!='' else '0.0',  # Розничная стоимость остатка
+            'percent': splitted_line[9],  # процент
+            'reserve': splitted_line[10],  # Резерв
+            'reserve_in_unit': splitted_line[11],  # Резерв в ед. отчета
+            'overrun': splitted_line[12],  # Превышения
+            'overrun_in_unit': splitted_line[13]  # Превышения в ед. отчета
+        }
+        )
+
+    return products
+
+
 async def main():
     env = Env()
     env.read_env()
@@ -287,11 +318,11 @@ async def main():
                     my_name
                 )
         '''                
-        catalogs, products = await parse_leftovers_for_site('ostatki.txt')
+        #catalogs, products = await parse_leftovers_for_site('ostatki.txt')
         #response = await initial_catalogs_upload(token, catalogs, debug)
         #print(response)
-        response = await initial_upload_products(token, products, debug)
-        print(response)
+        #response = await initial_upload_products(token, products, debug)
+        #print(response)
         #products = await get_all_products_from_server(token, debug)
         #pprint(products)
 
@@ -328,6 +359,31 @@ async def main():
 
         #customers = await get_customers_public(debug)
         #pprint(customers)
+
+        # Если timestamp изменился, то качаем файл с остатками
+        result = await fetch_file(
+            '\ost.txt',
+            'Обмен',
+            'papa',
+            'obninsk1978#',
+            '193.33.101.38',
+            'server_leftovers.txt',
+            445,
+            'microservices'
+        )
+
+        leftovers = parce_server_leftovers('server_leftovers.txt')
+
+        url_send_leftovers = f'http://127.0.0.1:8000/api/v1/update_leftovers/'
+        header = {
+            'Authorization': f'Bearer {token}'
+        }
+        response = requests.post(url_send_leftovers, headers=header, json=leftovers, timeout=600)
+        if response.status_code == 200:
+            print('Leftovers updated')
+        else:
+            print('Leftover update error')
+            print(response.json())
 
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 400:

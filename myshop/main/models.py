@@ -145,7 +145,7 @@ class Product(models.Model):
     name = models.CharField('Наименование товара', max_length=200)
     description = models.TextField(verbose_name='Описание', default='Нет описания', null=True, blank=True)
     available = models.BooleanField(verbose_name='Показывается', default=True)
-    catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE, related_name='products', verbose_name='В каталоге')
+    catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE, related_name='products', verbose_name='В каталоге', blank=True, null=True)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     rating = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Рейтинг', default=0.0)  # 0.0
     tags = models.ManyToManyField(Tag, verbose_name='Тэг', blank=True)

@@ -28,6 +28,7 @@ from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Prefetch
 from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
+from decimal import Decimal
 
 from myshop.settings import USER_BAN_HOURS
 
@@ -206,14 +207,15 @@ class UpdateLeftovers(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         bulk_products = []
         for product in request.data:
+            print(product)
             serialized_product = ProductUpdateSerializer(data=product)
             if serialized_product.is_valid():
                 bulk_products.append(
                     Product(
-                        code_1c = serialized_product.data.get('code1c'),
+                        code_1c = serialized_product.data.get('code_1c'),
                         name = serialized_product.data.get('name'),
-                        first_price = serialized_product.data.get('first_price'),
-                        price = serialized_product.data.get('sale_price'),
+                        first_price =serialized_product.data.get('first_price'),
+                        price = serialized_product.data.get('price'),
                         quantity = serialized_product.data.get('quantity')
                     )
                 )
@@ -226,6 +228,7 @@ class UpdateLeftovers(viewsets.ModelViewSet):
             update_fields=['name', 'first_price', 'price', 'quantity'],
             unique_fields=['code_1c']
         )
+        return Response({'data': 'ok'}, status=status.HTTP_200_OK)
 
 
 class CartsViewSet(viewsets.ModelViewSet):
