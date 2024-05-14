@@ -8,7 +8,7 @@
     "routes": [
         {
             "match": {
-                "uri": "/staticfiles/*"
+                "uri": "/static/*"
             },
             "action": {
                 "share": "/www/$uri"
