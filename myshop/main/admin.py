@@ -45,13 +45,13 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'price', 'available', 'catalog')
+    list_display = ('name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'margin', 'price', 'available', 'catalog')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', 'catalog', 'online_price')
     raw_id_fields = ('tags',)
     search_fields = ['name', 'code_1c', 'id']
     search_help_text = 'Поиск по наименованию или коду из 1С'
-    readonly_fields = ('show_count', 'rating', 'tumbnail')
+    readonly_fields = ('show_count', 'rating', 'tumbnail', 'margin')
     list_filter = ('available', )
 
     inlines = (ProductImageInline, ProductPropertyInline)
@@ -66,11 +66,15 @@ class ProductAdmin(admin.ModelAdmin):
     def tumbnail(self, obj):
         #print(obj)
         product_image = ProductImage.objects.filter(product=obj).first()
-        print(product_image)
         if product_image:
             return mark_safe(f'<img style="border: 1px solid #00af64" src="{product_image.image.url}" width="80" height="80" />')
         else:
             return mark_safe(f'No image')
+        
+    def margin(self, obj):
+        if obj.first_price == 0.0:
+            return 0.0
+        return obj.online_price*100/obj.first_price - 100
 
 
 
