@@ -211,4 +211,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8100",
     "http://77.222.43.32",
     "http://77.222.43.32:8000",
+    "http://mozaikashop.ru",
+    "http://mozaikamagazin.ru",
+    "http://мозаикамагазин.рф"
 ]
