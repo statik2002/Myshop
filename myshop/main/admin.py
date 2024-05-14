@@ -45,7 +45,7 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'tumbnail', 'quantity', 'price', 'available', 'catalog', 'rating', 'show_count', 'get_rating')
+    list_display = ('id', 'name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'price', 'available', 'catalog')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', 'catalog')
     raw_id_fields = ('tags',)

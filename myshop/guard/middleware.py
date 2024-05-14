@@ -36,6 +36,7 @@ class GuardMiddleware:
 
         # Code to be executed for each request/response after
         # the view is called.
+        '''
         if response.status_code in [400, 401, 403, 404, 405, 408, 413, 414, 415, 419, 429, 431, 500, 502, 503, 504, 507, 508, 522, 524, 525, 526]:
             error_response = ResponseErrors.objects.create(
                 session_key=self.s.session_key,
@@ -44,5 +45,6 @@ class GuardMiddleware:
                 error_code=response.status_code,
                 request=request
             )
+        '''
 
         return response
