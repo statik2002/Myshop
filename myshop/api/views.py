@@ -207,7 +207,6 @@ class UpdateLeftovers(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         bulk_products = []
         for product in request.data:
-            print(product)
             serialized_product = ProductUpdateSerializer(data=product)
             if serialized_product.is_valid():
                 bulk_products.append(

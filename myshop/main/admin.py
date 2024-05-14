@@ -47,7 +47,7 @@ class ProductImageInline(admin.StackedInline):
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'price', 'available', 'catalog')
     prepopulated_fields = {'slug': ['name']}
-    list_editable = ('available', 'catalog')
+    list_editable = ('available', 'catalog', 'online_price')
     raw_id_fields = ('tags',)
     search_fields = ['name', 'code_1c', 'id']
     search_help_text = 'Поиск по наименованию или коду из 1С'

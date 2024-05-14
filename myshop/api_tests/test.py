@@ -14,14 +14,14 @@ async def get_token(login: str, password: str, debug: bool):
     if debug:
         url = 'http://127.0.0.1:8000/api/v1/token/login/'
     else:
-        url = 'https://neit.ru/api/token/'
+        url = 'https://77.222.43.32:8000/api/v1/token/login/'
 
     header = {
         'phone_number': login,
         'password': password
     }
 
-    response = requests.post(url, json=header)
+    response = requests.post(url, json=header, verify=False)
     response.raise_for_status()
 
     token = response.json()['access']
@@ -304,7 +304,7 @@ async def main():
     token=''
 
     try:
-        token = await get_token(api_login, api_password, debug)
+        token = await get_token(api_login, api_password, False)
         print(token)
         '''
         await fetch_file(
@@ -334,56 +334,12 @@ async def main():
         #pprint(customers)
         #customer = await get_customer_by_id(token, debug, 1)
         #pprint(customer)
-        #customer = await get_customer_by_phone(token, debug, '+79149569967')
+        #customer = await get_customer_by_phone(token, debug, '')
         #pprint(customer)
 
-        #response = await register_customer(token, debug, {
-        #    'email': 'asda@gdfdf.ru', 
-        #    'password': 'password1', 
-        #    'phone_number': '+79146667778',
-        #    'first_name': 'Fedya',
-        #    'last_name': 'Slyapkin'
-        #    })
-        #pprint(response)
-
-        '''
-        response = await register_customer_public(debug, {
-            'email': 'asda@gdfdf.ru', 
-            'password': 'password1', 
-            'phone_number': '+79146667778',
-            'first_name': 'Fedya',
-            'last_name': 'Slyapkin'
-            })
-        pprint(response)
-        '''
 
         #customers = await get_customers_public(debug)
         #pprint(customers)
-
-        # Если timestamp изменился, то качаем файл с остатками
-        result = await fetch_file(
-            '\ost.txt',
-            'Обмен',
-            'papa',
-            'obninsk1978#',
-            '193.33.101.38',
-            'server_leftovers.txt',
-            445,
-            'microservices'
-        )
-
-        leftovers = parce_server_leftovers('server_leftovers.txt')
-
-        url_send_leftovers = f'http://127.0.0.1:8000/api/v1/update_leftovers/'
-        header = {
-            'Authorization': f'Bearer {token}'
-        }
-        response = requests.post(url_send_leftovers, headers=header, json=leftovers, timeout=600)
-        if response.status_code == 200:
-            print('Leftovers updated')
-        else:
-            print('Leftover update error')
-            print(response.json())
 
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 400:
