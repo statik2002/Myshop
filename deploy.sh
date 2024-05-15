@@ -23,7 +23,7 @@ docker compose up -d
 docker container exec -it web sh -c "python manage.py collectstatic"
 docker container exec -it web sh -c "python manage.py migrate"
 docker container exec -it web sh -c "python manage.py loaddata initial.json"
-#docker container exec -it web sh -c "chown -R unit:unit media/"
+docker container exec -it web sh -c "chown -R unit:unit media/"
 
 rm myshop/.env
 rm myshop/requirements.txt
