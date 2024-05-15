@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.contrib import admin
 from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
@@ -74,7 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
     def margin(self, obj):
         if obj.first_price == 0.0:
             return 0.0
-        return obj.online_price*100/obj.first_price - 100
+        return Decimal(obj.online_price*100/obj.first_price - 100).quantize(Decimal('1.00'))
 
 
 
