@@ -162,45 +162,48 @@
             <h3>О товаре</h3>
           </div>
         </div>
-        <div class="col mt-3">
-          <span><b>Характеристики</b></span>
-          <div class="row mt-3" v-for="property in product.properties">
-            <div class="d-flex justify-content-between">
-              <div class="text-secondary">Цвет</div>
-              <div class="justify-content-start">{{ property.color }}</div>
-            </div>
-            <div class="d-flex justify-content-between">
-              <div class="text-secondary">Вес</div>
-              <div class="justify-content-start">{{ humanViewNumber(property.weight) }} кг</div>
-            </div>
-            <div class="d-flex justify-content-between">
-              <div class="text-secondary">Длинна</div>
-              <div class="justify-content-start">{{ property.length }} м</div>
-            </div>
-            <div class="d-flex justify-content-between">
-              <div class="text-secondary">Ширина</div>
-              <div class="justify-content-start">{{ property.width }} м</div>
-            </div>
-            <div class="d-flex justify-content-between">
-              <div class="text-secondary">Высота</div>
-              <div class="justify-content-start">{{ property.height }} м</div>
-            </div>
-            <div class="row mt-3">
+        <div class="row">
+          <div class="col mt-3">
+            <span><b>Характеристики</b></span>
+            <div class="row mt-3" v-for="property in product.properties">
               <div class="d-flex justify-content-between">
-                <div class="text-secondary">Дополнительная информация</div>
-                <div class="ms-3" style="text-align: justify; font-size: 0.9em;">
-                  {{ property.description }}
+                <div class="text-secondary">Цвет</div>
+                <div class="justify-content-start">{{ property.color }}</div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="text-secondary">Вес</div>
+                <div class="justify-content-start">{{ humanViewNumber(property.weight) }} кг</div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="text-secondary">Длинна</div>
+                <div class="justify-content-start">{{ property.length }} м</div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="text-secondary">Ширина</div>
+                <div class="justify-content-start">{{ property.width }} м</div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <div class="text-secondary">Высота</div>
+                <div class="justify-content-start">{{ property.height }} м</div>
+              </div>
+              <div class="row mt-3">
+                <div class="d-flex justify-content-between">
+                  <div class="text-secondary">Дополнительная информация</div>
+                  <div class="ms-3" style="text-align: justify; font-size: 0.9em;">
+                    {{ property.description }}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col mt-3 ms-3">
-          <span><b>Описание</b></span>
-          <div class="row mt-3" style="text-align: justify; font-size: 0.9em;">
-            <div>{{ product.description }}</div>
+          <div class="col mt-3 ms-3">
+            <span><b>Описание</b></span>
+            <div class="row mt-3" style="text-align: justify; font-size: 0.9em;">
+              <div>{{ product.description }}</div>
+            </div>
           </div>
         </div>
+        
       </div>
       <!--End About Product-->
       <!--Tabs start-->

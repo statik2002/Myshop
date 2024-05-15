@@ -23,7 +23,7 @@
                         <div class="page-header-content">
                         <nav class="breadcrumb-area">
                             <ul class="breadcrumb">
-                                <li><router-link to="newfront">Главная</router-link></li>
+                                <li><router-link to="/">Главная</router-link></li>
                                 <li class="breadcrumb-sep">/</li>
                                 <li>{{ product.name }}</li>
                             </ul>
@@ -217,14 +217,32 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(value, index) in properties">
-                                                    <td>{{ index }}</td>
-                                                    <td>{{ value }}</td>
+                                                <template v-for="(value, index) in properties">
+                                                    <tr v-if="value">
+                                                        <td>{{ index }}</td>
+                                                        <td v-if="!isNaN(parseFloat(value))">{{ parseFloat(value) }}</td>
+                                                        <td v-else>{{ value }}</td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-xl-6 col-md-12">
+                                        <table class="table">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th scope="col">Описание</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        {{ product.description }}
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-xl-6 col-md-12"></div>
                                 </div>
                                 </div>
                                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">

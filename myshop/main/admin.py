@@ -9,6 +9,8 @@ from main.models import (
 from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
 
+from main.list_filters import ProductGtZero, ProductWithDiscount, ProductWithImages
+
 
 class LikedProductsInline(admin.StackedInline):
     model = Product
@@ -46,16 +48,16 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'margin', 'price', 'available', 'catalog')
+    list_display = ('name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'margin', 'price', 'discount', 'available', 'catalog')
     prepopulated_fields = {'slug': ['name']}
-    list_editable = ('available', 'catalog', 'online_price')
+    list_editable = ('available', 'catalog', 'online_price', 'discount')
     raw_id_fields = ('tags',)
     search_fields = ['name', 'code_1c', 'id']
     search_help_text = 'Поиск по наименованию или коду из 1С'
     readonly_fields = ('show_count', 'rating', 'tumbnail', 'margin')
-    list_filter = ('available', )
+    list_filter = ('available', ProductGtZero, ProductWithImages, ProductWithDiscount)
 
-    inlines = (ProductImageInline, ProductPropertyInline)
+    inlines = (ProductImageInline, ProductPropertyInline, )
 
     def get_rating(self, obj):
         try:

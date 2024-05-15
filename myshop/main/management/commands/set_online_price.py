@@ -7,10 +7,18 @@ from main.models import Product
 class Command(BaseCommand):
     help = "Наценить товары по онлайн цене"
 
+    def add_arguments(self, parser):
+        parser.add_argument('margin', type=float)
+
     def handle(self, *args, **options):
         
         products = Product.objects.all()
-        add_price = 1.3
+        if options['margin']:
+            add_price = options['margin']
+        else:
+            add_price = 1.3
+
+        print(add_price)
 
         for product in products:
             if product.first_price == 0:
@@ -23,3 +31,5 @@ class Command(BaseCommand):
 
             product.online_price = Decimal(calc_price).quantize(1) + 1
             product.save()
+        
+        print('margin is set')
