@@ -75,7 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
     def margin(self, obj):
         if obj.first_price == 0.0:
             return 0.0
-        return Decimal(obj.online_price*100/obj.first_price - 100).quantize(Decimal('1.00'))
+        return Decimal((obj.online_price - obj.first_price) / obj.first_price * 100).quantize(Decimal('1.00'))
 
 
 
