@@ -15,7 +15,9 @@
         </div>
 
         <main class="main-content">
-            {{ page.text }}
+            <div class="container">
+                <div v-html="page.text"></div>
+            </div>
         </main>
         <footer-component></footer-component>
     </div>
@@ -36,8 +38,8 @@
                       axios(
                         {
                           url: `${this.$store.state.apiUrl}/api/v1/simple_pages/get_page_by_id/`,
-                          method: 'get',
-                          data: {'pk': this.$route.params.pk}
+                          method: 'POST',
+                          data: {"pk": this.$route.params.pk}
                         }
                       ).then((response) => {
                         this.page = response.data;

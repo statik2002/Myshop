@@ -695,9 +695,8 @@ class SimplePageViewSet(viewsets.ModelViewSet):
     serializer_class = SimplePageSerializer
     permission_classes = (AllowAny,)
 
-    @action(detail=False, methods=['get'], name='get_page_by_id')
+    @action(detail=False, methods=['post'], name='get_page_by_id')
     def get_page_by_id(self, request):
-        print(request.data)
         try:
             page = SimplePage.objects.get(pk=request.data.get('pk'))
             return Response(SimplePageFullSerializer(page).data, status=status.HTTP_200_OK)

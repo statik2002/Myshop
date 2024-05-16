@@ -9,6 +9,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
 import uuid
+from tinymce.models import HTMLField
 
 
 class CustomerManager(BaseUserManager):
@@ -404,7 +405,7 @@ class MainSlider(models.Model):
 
 class SimplePage(models.Model):
     title = models.CharField(max_length=150, verbose_name='Заголовок')
-    text = models.TextField()
+    text = HTMLField()
     is_active = models.BooleanField(default=True, verbose_name='Показ')
 
     class Meta:

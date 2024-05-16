@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'cart.apps.CartConfig',
     'guard.apps.GuardConfig',
+    'tinymce'
 ]
 
 MIDDLEWARE = [

@@ -166,3 +166,4 @@ myshop/staticfiles/
 staticfiles/
 ostatki.txt
 myshop/api_tests/
+myshop/static/

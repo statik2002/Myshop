@@ -14,7 +14,7 @@
                 <div class="col-lg-5 d-none d-lg-block">
                     <div class="header-navigation-area">
                         <ul class="main-menu nav position-relative">
-                            <li class="has-submenu"><a href="#/">Правила</a>
+                            <li class="has-submenu"><a href="#/">Покупателям</a>
                                 <ul class="submenu-nav">
                                     <li v-for="page in $store.state.simplePages">
                                         <router-link :to="{name: 'simplePage', params: {pk: page.pk}}">{{ page.title }}</router-link>
