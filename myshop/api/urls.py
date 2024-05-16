@@ -21,6 +21,7 @@ router.register(r'questions', ProductQuestionViewSet, basename='questions')
 router.register(r'catalogs', CatalogViewSet, basename='catalogs')
 router.register(r'update_leftovers', UpdateLeftovers, basename='update_leftovers')
 router.register(r'sliders', MainSliderViewSet, basename='get_sliders')
+router.register(r'simple_pages', SimplePageViewSet, basename='simple_pages')
 
 
 urlpatterns = [

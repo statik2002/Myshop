@@ -400,3 +400,16 @@ class MainSlider(models.Model):
     
     def __str__(self) -> str:
         return f'{self.name}'
+    
+
+class SimplePage(models.Model):
+    title = models.CharField(max_length=150, verbose_name='Заголовок')
+    text = models.TextField()
+    is_active = models.BooleanField(default=True, verbose_name='Показ')
+
+    class Meta:
+        verbose_name = 'Простая страница'
+        verbose_name_plural = 'Простые страницы'
+
+    def __str__(self) -> str:
+        return f'{self.title}'

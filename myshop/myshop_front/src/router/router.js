@@ -20,7 +20,9 @@ import LikePage2 from '@/pages/LikePage2.vue'
 import SearchPage2 from '@/pages/SearchPage2.vue';
 import CabinetPage2 from '@/pages/CabinetPage2.vue';
 import LoginPage from '@/pages/LoginPage.vue';
+import SimplePage from '@/pages/SimplePage.vue';
 import {createRouter, createWebHistory} from 'vue-router'
+
 
 const routes = [
     {
@@ -131,6 +133,11 @@ const routes = [
         path: '/login',
         component: LoginPage,
         name: 'login'
+    },
+    {
+        path: '/simplePage/:pk',
+        component: SimplePage,
+        name: 'simplePage'
     }
 ]
 

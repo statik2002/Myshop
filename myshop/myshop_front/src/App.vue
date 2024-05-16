@@ -13,6 +13,25 @@
                 acceptCookiesDialog: false
             }
         },
+        methods:
+        {
+            async uploadSimplePages() {
+                try {
+                    let response = await fetch(
+                        `${this.$store.state.apiUrl}/api/v1/simple_pages/`,
+                        {method: 'GET'}
+                    );
+                    if (response.ok) {
+                        let pages = await response.json();
+                        this.$store.state.simplePages = pages.results
+                    } else {
+                        alert('Error get pages');
+                    }
+                } catch(e) {
+                    console.log(`Connection error ${e}`);
+                }
+            },
+        },
         mounted() {
             //Load user from useStorage
             const DEBUG = import.meta.env.VITE_DEBUG
@@ -38,6 +57,7 @@
             }
 
             this.$store.dispatch('getCatalog')
+            this.uploadSimplePages()
         }
   }
 </script>

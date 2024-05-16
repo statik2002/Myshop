@@ -14,7 +14,8 @@ export default createStore({
                 likes: []
             },
             catalogs: [],
-            apiUrl: ''
+            apiUrl: '',
+            simplePages: []
         }
     },
 

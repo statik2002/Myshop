@@ -16,8 +16,11 @@ from django.core.signing import Signer
 from django.core import signing
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_simplejwt.tokens import RefreshToken
-from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, MainSliderSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer, ProductUpdateSerializer
-from main.models import Cart, Catalog, Customer, CustomerLoginFail, Feedback, MainSlider, Order, Product, ProductImage, ProductInCart, ProductInOrder, ProductQuestion
+from api.serializers import CartSerializer, CatalogSerializer, CreateOrderProductSerializer, CustomerSerializer, FeedbackSerializer, MainSliderSerializer, OrderProductSerializer, OrderSerializer, ProductInCartSerializer, ProductInitialSerializer, ProductListSerializer, ProductQuestionSerializer, ProductSerializer, ProductUpdateSerializer, SimplePageFullSerializer, SimplePageSerializer
+from main.models import (
+    Cart, Catalog, Customer, CustomerLoginFail, Feedback, MainSlider, Order, Product, 
+    ProductImage, ProductInCart, ProductInOrder, ProductQuestion, SimplePage
+    )
 from main.email_functional import send_mail
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -678,3 +681,25 @@ class MainSliderViewSet(viewsets.ModelViewSet):
     queryset = MainSlider.objects.filter(is_active=True)
     serializer_class = MainSliderSerializer
     permission_classes = (AllowAny,)
+
+
+class SimplePageViewSet(viewsets.ModelViewSet):
+
+    '''
+        *** Get all active simple pages ***
+        - GET 'api/v1/simple_pages'
+        - Premission: AllowAny
+    '''
+
+    queryset = SimplePage.objects.filter(is_active=True)
+    serializer_class = SimplePageSerializer
+    permission_classes = (AllowAny,)
+
+    @action(detail=False, methods=['get'], name='get_page_by_id')
+    def get_page_by_id(self, request):
+        print(request.data)
+        try:
+            page = SimplePage.objects.get(pk=request.data.get('pk'))
+            return Response(SimplePageFullSerializer(page).data, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response({'error': 'pk is wrong'}, status=status.HTTP_400_BAD_REQUEST)

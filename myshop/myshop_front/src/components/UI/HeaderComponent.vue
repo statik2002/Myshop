@@ -14,13 +14,12 @@
                 <div class="col-lg-5 d-none d-lg-block">
                     <div class="header-navigation-area">
                         <ul class="main-menu nav position-relative">
-                            <li class="has-submenu"><router-link to="/">Домой</router-link>
-                                <!--
+                            <li class="has-submenu"><a href="#/">Правила</a>
                                 <ul class="submenu-nav">
-                                    <li><a href="index.html">Home Demo 1</a></li>
-                                    <li><a href="index-two.html">Home Demo 2</a></li>
+                                    <li v-for="page in $store.state.simplePages">
+                                        <router-link :to="{name: 'simplePage', params: {pk: page.pk}}">{{ page.title }}</router-link>
+                                    </li>
                                 </ul>
-                                -->
                             </li>
                             <li class="has-submenu full-width"><a href="#/">Каталог</a>
                                 <ul class="submenu-nav">

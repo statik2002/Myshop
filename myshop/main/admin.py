@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from main.models import (
         Cart, Customer, Catalog, Feedback, MainMenuItem, MainSlider, Order, OrderStatus, PickPoint, Product, 
         ProductInCart, ProductInOrder, ProductQuestion, ProductRating, ProductUnit, SubMenuItem, Tag, ProductProperty, 
-        ProductImage
+        ProductImage, SimplePage
     )
 from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
@@ -145,3 +145,9 @@ class ProductUnitAdmin(admin.ModelAdmin):
 @admin.register(MainSlider)
 class MainSliderAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(SimplePage)
+class SimplePageAdmin(admin.ModelAdmin):
+    pass
+
