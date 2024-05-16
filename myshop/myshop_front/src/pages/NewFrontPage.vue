@@ -95,11 +95,11 @@
                                             </div>
                                             <div class="prices">
                                                 <div v-if="product.discount > 0">
-                                                    <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
-                                                    <span v-if="product.discount > 0" class="price-old">{{ product.price % 1 > 0 ? product.price : product.price | 0 }} &#8381;</span>
+                                                    <span class="price">{{ product.online_price - product.online_price * product.discount/100 }} &#8381;</span>
+                                                    <span v-if="product.discount > 0" class="price-old">{{ product.online_price % 1 > 0 ? product.online_price : product.online_price | 0 }} &#8381;</span>
                                                 </div>
                                                 <div v-else>
-                                                    <span class="price">{{ product.price % 1 > 0 ? product.price : product.price | 0 }} &#8381;</span>
+                                                    <span class="price">{{ product.online_price % 1 > 0 ? product.online_price : product.online_price | 0 }} &#8381;</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -140,11 +140,11 @@
                         <h4 class="title">{{ productAtModal.name }}</h4>
                         <div class="prices">
                             <div v-if="productAtModal.discount > 0">
-                                <del class="price-old">{{ productAtModal.price }} &#8381;</del>
-                                <span class="price">{{ productAtModal.price - productAtModal.price * productAtModal.discount/100 }} &#8381;</span>
+                                <del class="price-old">{{ productAtModal.online_price }} &#8381;</del>
+                                <span class="price">{{ productAtModal.online_price - productAtModal.online_price * productAtModal.discount/100 }} &#8381;</span>
                             </div>
                             <div v-else>
-                                <span class="price">{{ productAtModal.price % 1 > 0 ? productAtModal.price : productAtModal.price | 0 }} &#8381;</span>
+                                <span class="price">{{ productAtModal.online_price % 1 > 0 ? productAtModal.online_price : productAtModal.online_price | 0 }} &#8381;</span>
                             </div>
                         </div>
                         <p>{{ productAtModal.description }}</p>

@@ -22,9 +22,13 @@ class Command(BaseCommand):
 
         for product in products:
             if product.first_price == 0:
+                product.online_price = product.price
+                product.save()
                 continue
 
             if product.price == product.first_price:
+                product.online_price = product.price
+                product.save()
                 continue
 
             calc_price = product.first_price * Decimal(add_price)
