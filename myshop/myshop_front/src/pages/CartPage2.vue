@@ -207,7 +207,7 @@
                 this.$store.commit('subOne', cart_product.id)
             },
             getTotal(cart_product) {
-                const price = new Decimal(cart_product.product.price)
+                const price = new Decimal(cart_product.product.online_price)
                 const discount = new Decimal(cart_product.product.discount)
                 const quantity = new Decimal(cart_product.quantity)
                 return ((price - price * discount/100) * quantity).toFixed(2)

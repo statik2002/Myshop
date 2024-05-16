@@ -63,7 +63,7 @@ export default createStore({
             if (state.user.access) {
                 if (state.user.cart.products.length > 0){
                     for(const product of state.user.cart.products){
-                        total += product.quantity * product.product.price
+                        total += product.quantity * product.product.online_price
                     }
                     return total
                 } else {
@@ -72,7 +72,7 @@ export default createStore({
             } else {
                 if (state.unregisteredUser.cart.products.length > 0){
                     for(const product of state.unregisteredUser.cart.products){
-                        total += product.quantity * product.product.price
+                        total += product.quantity * product.product.online_price
                     }
                     return total
                 } else {
@@ -183,14 +183,14 @@ export default createStore({
                 if (productIndex >= 0) {
                     state.user.cart.products[productIndex].quantity += product.quantity;
                     state.user.cart.cartProductsQuantity += product.quantity;
-                    state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.product.price;
+                    state.user.cart.cartProductsTotal += state.user.cart.products[productIndex].quantity * product.product.online_price;
                     localStorage.setItem('user', JSON.stringify(state.user))
                 } else {
                     const newCartItem = {
                         id: product.product.id,
                         product: product.product,
                         quantity: product.quantity,
-                        fixed_price: product.product.price - product.product.price * product.product.discount / 100,
+                        fixed_price: product.product.online_price - product.product.online_price * product.product.discount / 100,
                         cart: state.user.cart.id
                     };
                     state.user.cart.products.push(newCartItem);
@@ -201,14 +201,14 @@ export default createStore({
                 if (productIndex >= 0) {
                     state.unregisteredUser.cart.products[productIndex].quantity += product.quantity;
                     state.unregisteredUser.cart.cartProductsQuantity += product.quantity;
-                    state.unregisteredUser.cart.cartProductsTotal += state.unregisteredUser.cart.products[productIndex].quantity * product.product.price;
+                    state.unregisteredUser.cart.cartProductsTotal += state.unregisteredUser.cart.products[productIndex].quantity * product.product.online_price;
                     localStorage.setItem('unregisteredUser', JSON.stringify(state.unregisteredUser))
                 } else {
                     const newCartItem = {
                         id: product.product.id,
                         product: product.product,
                         quantity: product.quantity,
-                        fixed_price: product.product.price - product.product.price * product.product.discount / 100,
+                        fixed_price: product.product.online_price - product.product.online_price * product.product.discount / 100,
                         cart: 1
                     };
                     state.unregisteredUser.cart.products.push(newCartItem);

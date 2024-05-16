@@ -106,11 +106,11 @@
                                             <h4 class="title">{{ product.name }}</h4>
                                             <div class="prices">
                                                 <div v-if="product.discount > 0">
-                                                    <span class="price">{{ product.price - product.price * product.discount/100 }} &#8381;</span>
-                                                    <span v-if="product.discount > 0" class="price-old">{{ product.price }} &#8381;</span>
+                                                    <span class="price">{{ product.online_price - product.online_price * product.discount/100 }} &#8381;</span>
+                                                    <span v-if="product.discount > 0" class="price-old">{{ product.online_price }} &#8381;</span>
                                                 </div>
                                                 <div v-else>
-                                                    <span class="price">{{ product.price }} &#8381;</span>
+                                                    <span class="price">{{ product.online_price }} &#8381;</span>
                                                 </div>
                                             </div>
                                             <div class="rating-box-wrap">
@@ -612,7 +612,7 @@
                 <div class="d-flex flex-column gap-3">
                     <h4 class="align-self-center">Заказ на {{ product.name }}</h4>
                     <p class="align-self-center">
-                        В количестве {{ productQuantity }} на сумму {{ ((product.price - product.price * product.discount/100) * productQuantity).toFixed(2) }} &#8381;
+                        В количестве {{ productQuantity }} на сумму {{ ((product.online_price - product.online_price * product.discount/100) * productQuantity).toFixed(2) }} &#8381;
                     </p>
                     <p class="align-self-center">Вы подтверждаете заказ?</p>
                     <button class="btn-theme align-self-center" @click="{confirmOrderModal=false; sendOrder()}">Подтверждаю</button>
@@ -771,7 +771,7 @@
                 order_products.push({
                     'product': this.product.id,
                     'quantity': this.productQuantity,
-                    'fixed_price': (this.product.price - this.product.price * this.product.discount/100).toFixed(2),
+                    'fixed_price': (this.product.online_price - this.product.online_price * this.product.discount/100).toFixed(2),
                 })
                 //console.log(JSON.stringify(order_products))
                 const order = {

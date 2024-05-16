@@ -33,7 +33,12 @@ class Command(BaseCommand):
 
             calc_price = product.first_price * Decimal(add_price)
 
-            product.online_price = Decimal(calc_price).quantize(1) + 1
-            product.save()
+            if calc_price > product.price:
+                product.online_price = product.price
+                product.save()
+
+            else:
+                product.online_price = Decimal(calc_price).quantize(1) + 1
+                product.save()
         
         print('margin is set')
