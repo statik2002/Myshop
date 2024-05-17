@@ -119,7 +119,7 @@
                                                     <a href="#">( 1 Отзыв )</a>
                                                 </div>
                                             </div>
-                                            <p>{{ product.description }}</p>
+                                            <p v-html="product.description"></p>
                                             <!--
                                             <div class="product-select-action">
                                                 <div class="select-item">
@@ -236,8 +236,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>
-                                                        {{ product.description }}
+                                                    <td v-html="product.description">
                                                     </td>
                                                 </tr>
                                             </tbody>

@@ -147,7 +147,7 @@
                                 <span class="price">{{ productAtModal.online_price % 1 > 0 ? productAtModal.online_price : productAtModal.online_price | 0 }} &#8381;</span>
                             </div>
                         </div>
-                        <p>{{ productAtModal.description }}</p>
+                        <p v-html="productAtModal.description"></p>
                         <!--
                         <div class="quick-view-select">
                             <div class="quick-view-select-item">
