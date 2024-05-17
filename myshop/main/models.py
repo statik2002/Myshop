@@ -1,4 +1,5 @@
 import decimal
+from typing import Iterable
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -10,6 +11,10 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
 import uuid
 from tinymce.models import HTMLField
+from io import BytesIO
+from PIL import Image
+
+from main.management.commands.utils import convert_image
 
 
 class CustomerManager(BaseUserManager):
@@ -126,6 +131,14 @@ class ProductImage(models.Model):
 
     def __str__(self) -> str:
         return f'{self.alt[:20]}'
+    
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        if self.image:
+            image = Image.open(self.image.path).convert('RGB')
+            image = convert_image(image)
+            image.save(self.image.path, format='WEBP', quality=100)
+            super().save()
 
 
 class ProductUnit(models.Model):
