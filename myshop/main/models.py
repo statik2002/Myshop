@@ -13,7 +13,8 @@ import uuid
 from tinymce.models import HTMLField
 from io import BytesIO
 from PIL import Image
-
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
 from main.management.commands.utils import convert_image
 
 
@@ -427,3 +428,9 @@ class SimplePage(models.Model):
 
     def __str__(self) -> str:
         return f'{self.title}'
+    
+
+#### Delete images when delete product_image
+@receiver(pre_delete, sender=ProductImage)
+def product_image_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
