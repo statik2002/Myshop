@@ -1,5 +1,5 @@
 {% autoescape off %}
-Hi {{ user.username }},
+Привет {{ user.first_name }}, {{ user.last_name }},
 Пожалуйста кликните сюда для подтверждения вашего Email для окончания регистрации,
-http://localhost:5173/user_activation/?token={{token}}
+http://mozaikamagazin.ru:8000/api/v1/user_activation/?token={{token}}
 {% endautoescape %}

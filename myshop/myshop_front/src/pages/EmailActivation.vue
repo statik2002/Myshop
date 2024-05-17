@@ -1,18 +1,22 @@
 <template>
-    <HeaderComponent></HeaderComponent>
-    <div class="container pt-5 pb-5">
-        <h1>Email Activation</h1>
-        <p>We send activation email. Please Activate you acount!</p>
-        <button type="button" class="btn btn-success" @click="$router.push('/')">Ok</button>
+    <div class="wrapper">
+        <header-component></header-component>
+        <div class="container pt-5 pb-5">
+            <h1>Активация почты</h1>
+            <p>
+                Мы отправили письмо с кодом активации на указанный вами e-mail. Для полноценного использования интернет магазином, необходимо активировать 
+                аккаунт перейдя по ссылке которое будет в письме.
+            </p>
+            <button type="button" class="btn btn-success" @click="$router.push('/')">Ok</button>
+        </div>
+        <footer-component></footer-component>
     </div>
-    <FooterComponent></FooterComponent>
 </template>
 
 <script>
-    import HeaderComponent from '@/components/HeaderComponent.vue'
-    import FooterComponent from '@/components/FooterComponent.vue'
+
     export default {
-        components: {HeaderComponent, FooterComponent},
+
 
     }
 </script>

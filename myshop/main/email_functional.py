@@ -35,7 +35,7 @@ def send_mail(request, user: Customer) -> dict:
         )
     
     # Тема письма
-    mail_subject = 'Активируйте свой аккаунт'
+    mail_subject = 'Активируйте свой аккаунт в интернет магазие mozaikamagazin.ru'
 
     # Берем мыло регистрирующегося пользователя
     to_email = user.email
