@@ -7,7 +7,9 @@
                     <p class="text">Идет активация аккаунта.</p>
                 </div>
                 <div v-else-if="activationResult == 1">
-                    <p class="text">Активация прошла успешно. Вы можете войти в свой аккаунт.</p>
+                    <p class="text">
+                        Активация прошла успешно. Вы можете войти в свой аккаунт.
+                    </p>
                 </div>
                 <div v-else>
                     <p>При активации аккаунта произошла ошибка.</p>
@@ -64,18 +66,14 @@
     position: relative;
     margin-top: 50px;
     margin-bottom: 50px;
-    padding: 20px;
     top: 50%;
     left: 30%;
-    border: 1px;
-    border-style: solid;
-    border-color: black;
+    box-shadow: 0px 0px 30px 0px rgba(34, 60, 80, 0.2);
 }
 .block .text {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-right: -50%;
     transform: translate(-50%, -50%);
 }
 </style>
