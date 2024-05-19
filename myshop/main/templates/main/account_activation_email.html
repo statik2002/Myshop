@@ -1,5 +1,5 @@
 {% autoescape off %}
 Привет {{ user.first_name }}, {{ user.last_name }},
 Пожалуйста кликните сюда для подтверждения вашего Email для окончания регистрации,
-http://77.222.43.32:8000/api/v1/user_activation/?q={{token}}
+http://localhost:5173/activate_user/?q={{token}}
 {% endautoescape %}

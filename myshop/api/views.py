@@ -318,12 +318,13 @@ class CustomersViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def user_activation(self, request, pk=None):
         token = self.request.query_params.get('q')
+        print(token)
         if not token:
             return Response({'error': 'At request have no token!'}, status=status.HTTP_400_BAD_REQUEST)
         
         signer = Signer()
         try:
-            unsign_object = signer.unsign_object(token[:-1]) # Отбрасываем последний символ так как там слэш
+            unsign_object = signer.unsign_object(token)
             user = Customer.objects.get(pk=unsign_object['user_id'])
             user.is_active = True
             user.save()

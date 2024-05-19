@@ -79,7 +79,7 @@
                                         <a href="#"><span class="current-account">Акаунт</span></a>
                                         <ul v-if="!$store.getters.isUserLogin">
                                             <li><a href="#offcanvasLoginView" data-bs-toggle="modal" role="button" aria-controls="offcanvasLoginView">Войти</a></li>
-                                            <li><router-link to="register_user">Регистрация</router-link></li>
+                                            <li><router-link to="/register_user">Регистрация</router-link></li>
                                         </ul>
                                         <ul v-else>
                                             <li><router-link to="/cabinet2">Личный кабинет</router-link></li>
