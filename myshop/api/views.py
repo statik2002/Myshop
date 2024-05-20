@@ -53,7 +53,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             JSON: {product}    
     """
     permission_classes = (AllowAny,)
-    queryset = Product.objects.filter(quantity__gt=0).prefetch_related(Prefetch('product_feedbacks', queryset=Feedback.objects.filter(is_show=True))).order_by('?')
+    queryset = Product.objects.filter(quantity__gt=0).filter(available=True).prefetch_related(Prefetch('product_feedbacks', queryset=Feedback.objects.filter(is_show=True))).order_by('?')
     serializer_class = ProductSerializer
 
     def retrieve(self, request, pk):
@@ -66,7 +66,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         query = SearchQuery(request.data.get('query'))
         products = Product.objects.annotate(
             search=SearchVector('name')+SearchVector('description'),
-            ).filter(search=query).filter(quantity__gt=0)
+            ).filter(search=query).filter(quantity__gt=0).filter(available=True)
         page = self.paginate_queryset(products)
         if page is not None:
             serialized_products = ProductSerializer(page, many=True, context={'request': request})
