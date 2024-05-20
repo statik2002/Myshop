@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-secondary">Кпить на 2345 &#8381; для скидки 6%</span>
+                                    <span class="text-secondary"></span>
                                 </div>
                                 </div>
                             </div>

@@ -438,9 +438,10 @@ def product_image_delete(sender, instance, **kwargs):
     instance.image.delete(False)
 
 
+#### Send message to Telegram when new user register
 @receiver(post_save, sender=Customer)
 def new_user_register(sender, instance, **kwargs):
-    message = f'Зарегистрирован новый пользователь:\nИмя: {instance.first_name}\nФамилия: {instance.last_name}\nТелефон: {instance.phone_number}\nEmail: {instance.email}'
+    message = f'Зарегистрирован новый пользователь:\nИмя: {instance.first_name}\nФамилия: {instance.last_name}\nТелефон: {instance.phone_number}\nEmail: {instance.email}\nАктивен: {instance.is_active}'
     tg_send_message(settings.TG_API_TOKEN, settings.TG_CHAT_ID, message=message)
 
 
