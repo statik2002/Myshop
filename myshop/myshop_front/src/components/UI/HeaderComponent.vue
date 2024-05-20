@@ -6,8 +6,8 @@
                 <div class="col-6 col-sm-2 col-lg-2">
                     <div class="header-logo-area">
                         <router-link to="/">
-                            <img class="logo-main" src="@/assets/img/logo_m2.png" alt="Logo" />
-                            <img class="logo d-none" src="@/assets/img/logo_m2.png" alt="Logo" />
+                            <img class="logo-main" src="@/assets/img/logo_m3.png" alt="Logo" />
+                            <img class="logo d-none" src="@/assets/img/logo_m3.png" alt="Logo" />
                         </router-link>
                     </div>
                 </div>
