@@ -18,7 +18,7 @@ class LikedProductsInline(admin.StackedInline):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'phone_number', 'first_name', 'last_name', 'login_fail_counter', 'ban_status')
+    list_display = ('id', 'phone_number', 'email', 'first_name', 'last_name', 'is_active', 'ban_status')
     readonly_fields = ('id',)
     raw_id_fields = ('likes', )
 
