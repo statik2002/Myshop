@@ -1,7 +1,7 @@
 from PIL import Image
 
 
-def convert_image(unconverted_image: Image, fixed_image_size: int = 480) -> Image:
+def convert_image(unconverted_image: Image, fixed_image_size: int = 1024) -> Image:
     """
     Resize immage with fixed size
     """
