@@ -11,5 +11,7 @@ pillow==10.3.0
 psycopg2==2.9.9
 PyJWT==2.8.0
 pysmb==1.2.9.1
+pytest==8.1.1
+pytest-django==4.8.0
+python-telegram-bot==13.0
 requests==2.31.0
-

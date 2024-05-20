@@ -1,5 +1,6 @@
-import decimal
+from decimal import Decimal
 from typing import Iterable
+from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -13,9 +14,10 @@ import uuid
 from tinymce.models import HTMLField
 from io import BytesIO
 from PIL import Image
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, post_save
 from django.dispatch.dispatcher import receiver
 from main.management.commands.utils import convert_image
+from main.tg_bot import tg_send_message
 
 
 class CustomerManager(BaseUserManager):
@@ -211,7 +213,7 @@ class ProductInCart(models.Model):
     fixed_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Зафиксированая цена')
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='products')
 
-    def total(self) -> decimal:
+    def total(self) -> Decimal:
         return self.quantity * self.fixed_price
 
 
@@ -292,7 +294,7 @@ class ProductInOrder(models.Model):
     fixed_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Зафиксированая цена', default='0.00')
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='order_products')
 
-    def total(self) -> decimal:
+    def total(self) -> Decimal:
         return self.quantity * self.fixed_price
 
 
@@ -319,7 +321,7 @@ class Order(models.Model):
         position_count = ProductInOrder.objects.filter(order=self).annotate(Count('product'))
         return len(position_count)
 
-    def get_total_amount(self) -> decimal:
+    def get_total_amount(self) -> Decimal:
         products = ProductInOrder.objects.filter(order=self)
         total = 0
         for product in products:
@@ -434,3 +436,16 @@ class SimplePage(models.Model):
 @receiver(pre_delete, sender=ProductImage)
 def product_image_delete(sender, instance, **kwargs):
     instance.image.delete(False)
+
+
+@receiver(post_save, sender=Customer)
+def new_user_register(sender, instance, **kwargs):
+    message = f'Зарегистрирован новый пользователь:\nИмя: {instance.first_name}\nФамилия: {instance.last_name}\nТелефон: {instance.phone_number}\nEmail: {instance.email}'
+    tg_send_message(settings.TG_API_TOKEN, settings.TG_CHAT_ID, message=message)
+
+
+@receiver(post_save, sender=ProductInOrder)
+def new_order_register(sender, instance, **kwargs):
+    message_user = f'Зарегистрирован новый заказ от пользователя:\nИмя: {instance.order.customer.first_name}\nФамилия: {instance.order.customer.last_name}\nТелефон: {instance.order.customer.phone_number}\nEmail: {instance.order.customer.email}\n'
+    message_product = f'Товар: {instance.product.name}\n Кол-во: {instance.quantity}\n Цена: {instance.fixed_price}\n На сумму: {Decimal(instance.quantity * instance.fixed_price).quantize(Decimal("1.00"))}'
+    tg_send_message(settings.TG_API_TOKEN, settings.TG_CHAT_ID, message=message_user + message_product)

@@ -228,3 +228,7 @@ TINYMCE_DEFAULT_CONFIG = {
     "a11ycheck ltr rtl | showcomments addcomment code",
     "custom_undo_redo_levels": 10,
 }
+
+TG_BOT_NAME = env.str('TG_BOT_NAME')
+TG_API_TOKEN = env.str('TG_API_TOKEN')
+TG_CHAT_ID = env.str('TG_CHAT_ID')
