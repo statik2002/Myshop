@@ -8,7 +8,7 @@ from main.models import (
     )
 from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
-
+from django.utils.html import format_html
 from main.list_filters import ProductGtZero, ProductWithDiscount, ProductWithImages
 
 
@@ -48,13 +48,13 @@ class ProductImageInline(admin.StackedInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'margin', 'price', 'discount', 'available', 'catalog')
+    list_display = ('name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'margin', 'total_price', 'price', 'discount', 'available', 'catalog')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', 'catalog', 'online_price', 'discount')
     raw_id_fields = ('tags',)
     search_fields = ['name', 'code_1c', 'id']
     search_help_text = 'Поиск по наименованию или коду из 1С'
-    readonly_fields = ('show_count', 'rating', 'tumbnail', 'margin')
+    readonly_fields = ('show_count', 'rating', 'tumbnail', 'margin', 'total_price')
     list_filter = ('available', ProductGtZero, ProductWithImages, ProductWithDiscount)
 
     inlines = (ProductImageInline, ProductPropertyInline, )
@@ -77,7 +77,27 @@ class ProductAdmin(admin.ModelAdmin):
     def margin(self, obj):
         if obj.first_price == 0.0:
             return 0.0
-        return Decimal((obj.online_price - obj.first_price) / obj.first_price * 100).quantize(Decimal('1.00'))
+        
+        if obj.discount > 0:
+            discount = obj.online_price * obj.discount / 100
+        else:
+            discount = 0
+        magrin = Decimal((obj.online_price - discount - obj.first_price) / obj.first_price * 100).quantize(Decimal('1.00'))
+        if magrin < 0:
+            return format_html(f'<b style="color: red;">{magrin}</b>')
+        
+        return format_html(f'<b>{magrin}</b>')
+    
+    def total_price(self, obj):
+        if obj.discount > 0:
+            discount = obj.online_price * obj.discount / 100
+        else:
+            discount = 0
+        total = Decimal(obj.online_price - discount).quantize(Decimal('1.00'))
+        if total < obj.first_price:
+            return format_html(f'<b style="color: red;">{total}</b>')
+        else:
+            return format_html(f'<b>{total}</b>')
 
 
 
