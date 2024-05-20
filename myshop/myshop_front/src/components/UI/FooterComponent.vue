@@ -1,6 +1,6 @@
 <template>
     <!--== Start Footer Area Wrapper ==-->
-    <footer class="footer-area">
+    <footer class="footer-area pt-5">
         <div class="footer-top-area">
             <div class="container">
                 <div class="row">

@@ -14,7 +14,7 @@
             </div>
         </div>
         <!--== End Preloader Content ==-->
-        <main class="main-content">
+        <main class="main-content pb-5">
             <!--== Start Page Header Area Wrapper ==-->
             <div class="page-header-area">
                 <div class="container">
@@ -200,14 +200,19 @@
                             <div class="product-review-tabs-content">
                             <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
                                 <li role="presentation">
-                                <a class="active" id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="true">Характеристики</a>
-                                </li><li role="presentation">
-                                <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Отзывы</a>
-                                </li><li role="presentation">
-                                <a id="shipping-policy-tab" data-bs-toggle="pill" href="#shipping-policy" role="tab" aria-controls="shipping-policy" aria-selected="false">Условия продажи</a>
-                                </li><li role="presentation">
-                                <a id="size-chart-tab" data-bs-toggle="pill" href="#size-chart" role="tab" aria-controls="size-chart" aria-selected="false">Размеры</a>
+                                    <a class="active" id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="true">Характеристики</a>
                                 </li>
+                                <li role="presentation">
+                                    <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Отзывы</a>
+                                </li>
+                                <li role="presentation">
+                                    <a id="shipping-policy-tab" data-bs-toggle="pill" href="#shipping-policy" role="tab" aria-controls="shipping-policy" aria-selected="false">Условия продажи</a>
+                                </li>
+                                <!--
+                                <li role="presentation">
+                                    <a id="size-chart-tab" data-bs-toggle="pill" href="#size-chart" role="tab" aria-controls="size-chart" aria-selected="false">Размеры</a>
+                                </li>
+                                -->
                             </ul>
                             <div class="tab-content product-tab-content" id="ReviewTabContent">
                                 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
@@ -249,234 +254,227 @@
                                 </div>
                                 </div>
                                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                                <div class="product-review-content">
-                                    <div class="review-content-header">
-                                    <h3>Customer Reviews</h3>
-                                    <div class="review-info">
-                                        <ul class="review-rating">
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        </ul>
-                                        <span class="review-caption">Based on 7 reviews</span>
-                                        <span class="review-write-btn show">Write a review</span>
-                                    </div>
-                                    </div>
-
-                                    <!--== Start Reviews Form Item ==-->
-                                    <div class="reviews-form-area show">
-                                    <h4 class="title">Write a review</h4>
-                                    <div class="reviews-form-content">
-                                        <form action="#">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="for_name">Name</label>
-                                                <input id="for_name" class="form-control" type="text" placeholder="Enter your name">
-                                            </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="for_email">Email</label>
-                                                <input id="for_email" class="form-control" type="email" placeholder="john.smith@example.com">
-                                            </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                            <div class="form-group">
-                                                <span class="title">Rating</span>
-                                                <ul class="review-rating">
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                </ul>
-                                            </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="for_review-title">Review Title</label>
-                                                <input id="for_review-title" class="form-control" type="text" placeholder="Give your review a title">
-                                            </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="for_comment">Body of Review (1500)</label>
-                                                <textarea id="for_comment" class="form-control" placeholder="Write your comments here"></textarea>
-                                            </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                            <div class="form-submit-btn">
-                                                <button type="submit" class="btn-submit">Post comment</button>
-                                            </div>
-                                            </div>
+                                    <!--
+                                    <div class="product-review-content">
+                                        <div class="review-content-header">
+                                        <h3>Отзыв</h3>
+                                        <div class="review-info">
+                                            <ul class="review-rating">
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            </ul>
+                                            <span class="review-caption">Based on 7 reviews</span>
+                                            <span class="review-write-btn show">Write a review</span>
                                         </div>
-                                        </form>
-                                    </div>
-                                    </div>
-                                    <!--== End Reviews Form Item ==-->
+                                        </div>
 
-                                    <div class="reviews-content-body">
-                                    <!--== Start Reviews Content Item ==-->
-                                    <div class="review-item">
-                                        <ul class="review-rating">
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        </ul>
-                                        <h3 class="title">Awesome shipping service!</h3>
-                                        <h5 class="sub-title"><span>Nantu Nayal</span> no <span>Sep 30, 2018</span></h5>
-                                        <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                        <a href="#/">Report as Inappropriate</a>
-                                    </div>
-                                    <!--== End Reviews Content Item ==-->
 
-                                    <!--== Start Reviews Content Item ==-->
-                                    <div class="review-item">
-                                        <ul class="review-rating">
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        </ul>
-                                        <h3 class="title">Low Quality</h3>
-                                        <h5 class="sub-title"><span>Oliv hala</span> no <span>Sep 30, 2018</span></h5>
-                                        <p>My Favorite White Sneakers From Splurge To Save the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
-                                        <a href="#/">Report as Inappropriate</a>
-                                    </div>
-                                    <!--== End Reviews Content Item ==-->
+                                        <div class="reviews-form-area show">
+                                        <h4 class="title">Write a review</h4>
+                                        <div class="reviews-form-content">
+                                            <form action="#">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="for_name">Name</label>
+                                                    <input id="for_name" class="form-control" type="text" placeholder="Enter your name">
+                                                </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="for_email">Email</label>
+                                                    <input id="for_email" class="form-control" type="email" placeholder="john.smith@example.com">
+                                                </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <span class="title">Rating</span>
+                                                    <ul class="review-rating">
+                                                    <li class="fa fa-star-o"></li>
+                                                    <li class="fa fa-star-o"></li>
+                                                    <li class="fa fa-star-o"></li>
+                                                    <li class="fa fa-star-o"></li>
+                                                    <li class="fa fa-star-o"></li>
+                                                    </ul>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="for_review-title">Review Title</label>
+                                                    <input id="for_review-title" class="form-control" type="text" placeholder="Give your review a title">
+                                                </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="for_comment">Body of Review (1500)</label>
+                                                    <textarea id="for_comment" class="form-control" placeholder="Write your comments here"></textarea>
+                                                </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                <div class="form-submit-btn">
+                                                    <button type="submit" class="btn-submit">Post comment</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                        </div>
 
-                                    <!--== Start Reviews Content Item ==-->
-                                    <div class="review-item">
-                                        <ul class="review-rating">
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        </ul>
-                                        <h3 class="title">Excellent services!</h3>
-                                        <h5 class="sub-title"><span>Halk Marron</span> no <span>Sep 30, 2018</span></h5>
-                                        <p>The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-                                        <a href="#/">Report as Inappropriate</a>
-                                    </div>
-                                    <!--== End Reviews Content Item ==-->
 
-                                    <!--== Start Reviews Content Item ==-->
-                                    <div class="review-item">
-                                        <ul class="review-rating">
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        </ul>
-                                        <h3 class="title">Price is very high</h3>
-                                        <h5 class="sub-title"><span>Musa</span> no <span>Sep 30, 2018</span></h5>
-                                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-                                        <a href="#/">Report as Inappropriate</a>
-                                    </div>
-                                    <!--== End Reviews Content Item ==-->
+                                        <div class="reviews-content-body">
 
-                                    <!--== Start Reviews Content Item ==-->
-                                    <div class="review-item">
-                                        <ul class="review-rating">
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star"></li>
-                                        <li class="fa fa-star-o"></li>
-                                        </ul>
-                                        <h3 class="title">Normal</h3>
-                                        <h5 class="sub-title"><span>Muhammad</span> no <span>Sep 30, 2018</span></h5>
-                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-                                        <a href="#/">Report as Inappropriate</a>
-                                    </div>
-                                    <!--== End Reviews Content Item ==-->
-                                    </div>
+                                        <div class="review-item">
+                                            <ul class="review-rating">
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            </ul>
+                                            <h3 class="title">Awesome shipping service!</h3>
+                                            <h5 class="sub-title"><span>Nantu Nayal</span> no <span>Sep 30, 2018</span></h5>
+                                            <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                            <a href="#/">Report as Inappropriate</a>
+                                        </div>
 
-                                    <!--== Start Reviews Pagination Item ==-->
-                                    <div class="review-pagination">
-                                    <span class="pagination-pag">1</span>
-                                    <span class="pagination-pag">2</span>
-                                    <span class="pagination-next">Next »</span>
+                                        <div class="review-item">
+                                            <ul class="review-rating">
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            </ul>
+                                            <h3 class="title">Low Quality</h3>
+                                            <h5 class="sub-title"><span>Oliv hala</span> no <span>Sep 30, 2018</span></h5>
+                                            <p>My Favorite White Sneakers From Splurge To Save the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
+                                            <a href="#/">Report as Inappropriate</a>
+                                        </div>
+
+                                        <div class="review-item">
+                                            <ul class="review-rating">
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            </ul>
+                                            <h3 class="title">Excellent services!</h3>
+                                            <h5 class="sub-title"><span>Halk Marron</span> no <span>Sep 30, 2018</span></h5>
+                                            <p>The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+                                            <a href="#/">Report as Inappropriate</a>
+                                        </div>
+
+                                        <div class="review-item">
+                                            <ul class="review-rating">
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            </ul>
+                                            <h3 class="title">Price is very high</h3>
+                                            <h5 class="sub-title"><span>Musa</span> no <span>Sep 30, 2018</span></h5>
+                                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+                                            <a href="#/">Report as Inappropriate</a>
+                                        </div>
+
+                                        <div class="review-item">
+                                            <ul class="review-rating">
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star"></li>
+                                            <li class="fa fa-star-o"></li>
+                                            </ul>
+                                            <h3 class="title">Normal</h3>
+                                            <h5 class="sub-title"><span>Muhammad</span> no <span>Sep 30, 2018</span></h5>
+                                            <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
+                                            <a href="#/">Report as Inappropriate</a>
+                                        </div>
+
+                                        </div>
+
+
+                                        <div class="review-pagination">
+                                        <span class="pagination-pag">1</span>
+                                        <span class="pagination-pag">2</span>
+                                        <span class="pagination-next">Next »</span>
+                                        </div>
+
                                     </div>
-                                    <!--== End Reviews Pagination Item ==-->
-                                </div>
+                                    -->
                                 </div>
                                 <div class="tab-pane fade" id="shipping-policy" role="tabpanel" aria-labelledby="shipping-policy-tab">
-                                <div class="product-shipping-policy">
-                                    <div class="section-title">
-                                    <h2 class="title">Shipping policy for our store</h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate</p>
+                                    <div class="product-shipping-policy">
+                                        <div class="section-title">
+                                        <h2 class="title">Условия продажи товара</h2>
+                                        <p>При заказе и покупке товаров в нашем интернет магазине просим обратить внимание на следующее:</p>
+                                        </div>
+                                        <ul class="shipping-policy-list">
+                                            <li>Цены товаров на сайте только при заказе и покупке онлайн. Цены непосредственно в магазине, могут быть значительно больше.</li>
+                                            <li>Акции и распродажи на сайте, относятся только к товарам заказываемым или покупаемым на сайте.</li>
+                                            <li>На данный момент товар можно заказать и получить в пункте выдачи.</li>
+                                            <li>Оплата товара производиться в пункте выдачи при получении заказа.</li>
+                                            <li>Если товар не подошел, то его можно вернуть в течении 14 дней. Товар необходимо вернуть в пункт выдачи.</li>
+                                            <li>При возврате товара необходимо написать заявление на возврат товара. </li>
+                                        </ul>
                                     </div>
-                                    <ul class="shipping-policy-list">
-                                    <li>1-2 business days (Typically by end of day)</li>
-                                    <li><a href="#/">30 days money back guaranty</a></li>
-                                    <li>24/7 live support</li>
-                                    <li>odio dignissim qui blandit praesent</li>
-                                    <li>luptatum zzril delenit augue duis dolore</li>
-                                    <li>te feugait nulla facilisi.</li>
-                                    </ul>
-                                    <p>Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum</p>
-                                    <p>claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per</p>
-                                    <p>seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
                                 </div>
-                                </div>
+                                <!--
                                 <div class="tab-pane fade" id="size-chart" role="tabpanel" aria-labelledby="size-chart-tab">
-                                <div class="product-size-chart">
-                                    <h4>Size Chart</h4>
-                                    <table class="table">
-                                    <tbody>
-                                        <tr>
-                                        <td class="cun-name"><span>UK</span></td>
-                                        <td>18</td>
-                                        <td>20</td>
-                                        <td>22</td>
-                                        <td>24</td>
-                                        <td>26</td>
-                                        </tr>
-                                        <tr>
-                                        <td class="cun-name"><span>European</span></td>
-                                        <td>46</td>
-                                        <td>48</td>
-                                        <td>50</td>
-                                        <td>52</td>
-                                        <td>54</td>
-                                        </tr>
-                                        <tr>
-                                        <td class="cun-name"><span>usa</span></td>
-                                        <td>14</td>
-                                        <td>16</td>
-                                        <td>18</td>
-                                        <td>20</td>
-                                        <td>22</td>
-                                        </tr>
-                                        <tr>
-                                        <td class="cun-name"><span>Australia</span></td>
-                                        <td>28</td>
-                                        <td>10</td>
-                                        <td>12</td>
-                                        <td>14</td>
-                                        <td>16</td>
-                                        </tr>
-                                        <tr>
-                                        <td class="cun-name"><span>Canada</span></td>
-                                        <td>24</td>
-                                        <td>18</td>
-                                        <td>14</td>
-                                        <td>42</td>
-                                        <td>36</td>
-                                        </tr>
-                                    </tbody>
-                                    </table>
+                                    <div class="product-size-chart">
+                                        <h4>Size Chart</h4>
+                                        <table class="table">
+                                        <tbody>
+                                            <tr>
+                                            <td class="cun-name"><span>UK</span></td>
+                                            <td>18</td>
+                                            <td>20</td>
+                                            <td>22</td>
+                                            <td>24</td>
+                                            <td>26</td>
+                                            </tr>
+                                            <tr>
+                                            <td class="cun-name"><span>European</span></td>
+                                            <td>46</td>
+                                            <td>48</td>
+                                            <td>50</td>
+                                            <td>52</td>
+                                            <td>54</td>
+                                            </tr>
+                                            <tr>
+                                            <td class="cun-name"><span>usa</span></td>
+                                            <td>14</td>
+                                            <td>16</td>
+                                            <td>18</td>
+                                            <td>20</td>
+                                            <td>22</td>
+                                            </tr>
+                                            <tr>
+                                            <td class="cun-name"><span>Australia</span></td>
+                                            <td>28</td>
+                                            <td>10</td>
+                                            <td>12</td>
+                                            <td>14</td>
+                                            <td>16</td>
+                                            </tr>
+                                            <tr>
+                                            <td class="cun-name"><span>Canada</span></td>
+                                            <td>24</td>
+                                            <td>18</td>
+                                            <td>14</td>
+                                            <td>42</td>
+                                            <td>36</td>
+                                            </tr>
+                                        </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                </div>
+                                -->
                             </div>
                             </div>
                         </div>
