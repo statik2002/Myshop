@@ -3,6 +3,7 @@ import os
 import pprint
 import time
 
+from django.conf import settings
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, status
@@ -33,6 +34,7 @@ from django.db.models import Prefetch
 from django.contrib.postgres.search import SearchVector, SearchQuery, TrigramSimilarity
 from decimal import Decimal
 
+from main.tg_bot import tg_send_message
 from myshop.settings import USER_BAN_HOURS
 
 from main.slugify import slugify
@@ -227,9 +229,10 @@ class UpdateLeftovers(viewsets.ModelViewSet):
         product_objs = Product.objects.bulk_create(
             bulk_products,
             update_conflicts=True,
-            update_fields=['name', 'first_price', 'price', 'quantity'],
+            update_fields=['first_price', 'price', 'quantity'],
             unique_fields=['code_1c']
         )
+        tg_send_message(settings.TG_API_TOKEN, settings.TG_CHAT_ID, message='Остатки обновились')
         return Response({'data': 'ok'}, status=status.HTTP_200_OK)
 
 
