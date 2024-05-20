@@ -410,10 +410,10 @@ class GetTokenViewSet(viewsets.ModelViewSet):
         try:
             user = Customer.objects.get(phone_number=request.data.get('phone_number'))
         except ObjectDoesNotExist:
-            return Response({'error': 'wrong tel or password'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Полльзователя с таким номером телефона не существует.'}, status=status.HTTP_400_BAD_REQUEST)
 
         if not user.is_active:
-            return Response({'error': 'User is not active! Activate account from email.'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'error': 'Пользователь не активирован. Необходимо пройти активацию.'}, status=status.HTTP_401_UNAUTHORIZED)
         
         if user is not None and check_password(request.data.get('password'), user.password):
             refresh = RefreshToken.for_user(user)

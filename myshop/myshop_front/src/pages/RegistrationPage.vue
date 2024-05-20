@@ -9,7 +9,7 @@
                         <p>Введите ваши учетные данные.</p>
                     </div>
                     <div class="content">
-                        <div class="d-flex flex-column" v-for="message in messages">
+                        <div class="alert alert-danger" role="alert" v-for="message in messages">
                             <div>В поле "{{ message.field }}" ошибка "{{ message.error }}"</div>
                         </div>
                     </div>

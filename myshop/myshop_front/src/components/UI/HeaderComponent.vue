@@ -145,16 +145,29 @@
                             <h4 class="title">Войти в аккаунт</h4>
                             <p>Введите ваши учетные данные.</p>
                         </div>
+                        <div v-if="messages.length > 0">
+                            <div class="alert alert-danger" role="alert" v-for="message in messages">
+                                {{ message }}
+                            </div>
+                        </div>
                         <form @submit.prevent>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input v-bind:phone @input="inputPhone" id="phone" class="form-control" type="text" placeholder="Телефон" autocomplete="username">
+                                        <input 
+                                        v-model="phone" 
+                                        id="phone" 
+                                        class="form-control" 
+                                        type="tel" 
+                                        placeholder="Телефон" 
+                                        v-mask="['(+7) ###-###-##-##']"
+                                        autocomplete="username"
+                                        >
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <input v-bind:password @input="inputPassword" id="password" class="form-control" type="password" placeholder="пароль" autocomplete="current-password">
+                                        <input v-model="password" id="password" class="form-control" type="password" placeholder="пароль" autocomplete="current-password">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -212,34 +225,27 @@
 
 <script>
     import axios from 'axios'
+    import { mask } from 'vue-the-mask';
     export default {
         name: 'header-component',
+        directives: { mask },
         data() {
             return {
                 loginModalVisible: false,
                 phone: '',
                 password: '',
-                searchQuery: ''
+                searchQuery: '',
+                messages: []
             }
         },
         methods: {
-            inputPhone(event) {
-                this.phone = event.target.value
-            },
-            inputPassword(event) {
-                this.password = event.target.value
-            },
             showLoginDialog() {
                 this.loginModalVisible = true
             },
             loginUser() {
                 this.messages = []
-                if (this.phone.length<12) {
-                    this.messages.push('Phone number wrong!')
-                    return
-                }
                 if (this.password.length<3) {
-                    this.messages.push('Password wrong!')
+                    this.messages.push('Пароль не должен быть меньше 3-х символов!')
                     return
                 }
                 axios(
@@ -272,6 +278,7 @@
                 .catch((error) => {
                     if (error.response.data.error) {
                         this.messages.push(error.response.data.error)
+                        console.log(error.response.data.error)
                     }
                 })
             },

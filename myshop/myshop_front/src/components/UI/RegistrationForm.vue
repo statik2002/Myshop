@@ -38,7 +38,7 @@
                     <label for="inputPassword" class="col-sm-2 form-label">Пароль:</label>
                 </div>
                 <div class="col-sm-9">
-                <input v-bind:value="password" @input="inputPassword" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
+                    <input v-bind:value="password" @input="inputPassword" type="password" autocomplete="new-password" class="form-control" id="inputPassword">
                 </div>
             </div>
             <div class="mb-3 row">
@@ -165,7 +165,7 @@
                 .catch((error) => {
                     if (error.response) {
                         for (let index in error.response.data) {
-                            this.messages.push({ 'field': index, 'error': error.response.data[index] });
+                            this.messages.push({'field': index, 'error': error.response.data[index]});
                         }
                         this.message = error.response;
                     }
