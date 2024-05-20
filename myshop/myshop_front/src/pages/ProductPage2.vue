@@ -154,6 +154,9 @@
                                             </div>
                                             -->
                                             <div class="product-action-simple">
+                                                <div class="product-quick-action" v-if="product.quantity==1">
+                                                    <span class="product-badge">Остался всего 1</span>
+                                                </div>
                                                 <div class="product-quick-action">
                                                     <div class="product-quick-qty">
                                                         <div class="pro-qty">
@@ -165,6 +168,7 @@
                                                     <div class="pe-3" v-if="product.unit">{{ product.unit.short_name }}</div>
                                                     <button class="btn-product-add border-0" @click="addToCart(product)">В корзину</button>
                                                 </div>
+                                                
                                                 <div class="product-wishlist">
                                                     <div v-if="!likedProducts.includes(product.id)">
                                                         <a href="#" class="btn-wishlist" @click="like">В избранное</a>

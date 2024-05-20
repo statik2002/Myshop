@@ -5533,3 +5533,9 @@ section .container-fluid {
     width: 100%;
   }
 }
+
+.product-badge {
+  background-color: red;
+  padding: 10px;
+  color: white;
+}
