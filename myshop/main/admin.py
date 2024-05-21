@@ -51,7 +51,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'tumbnail', 'quantity', 'first_price', 'online_price', 'margin', 'total_price', 'price', 'discount', 'available', 'catalog')
     prepopulated_fields = {'slug': ['name']}
     list_editable = ('available', 'catalog', 'online_price', 'discount')
-    raw_id_fields = ('tags',)
+    raw_id_fields = ('tags', 'linked_products')
     search_fields = ['name', 'code_1c', 'id']
     search_help_text = 'Поиск по наименованию или коду из 1С'
     readonly_fields = ('show_count', 'rating', 'tumbnail', 'margin', 'total_price')

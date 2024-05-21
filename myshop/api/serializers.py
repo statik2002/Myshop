@@ -162,6 +162,13 @@ class ProductUnitSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class LinkedProductSerializer(serializers.ModelSerializer):
+    product_images = ProductImageSerializer(many=True, read_only=True)
+    class Meta:
+        model = Product
+        fields = ('id', 'name', 'description', 'online_price', 'discount', 'code_1c', 'quantity', 'product_images')
+
+
 class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(many=True, read_only=True)
     his_rating = ProductRatingSerializer(many=True, read_only=True)
@@ -172,6 +179,7 @@ class ProductSerializer(serializers.ModelSerializer):
     num_ratings = serializers.SerializerMethodField()
     questions = ProductQuestionsSerializer(child=ProductQuestionSerializer(), required=False)
     unit = ProductUnitSerializer(read_only=True)
+    linked_products = LinkedProductSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product

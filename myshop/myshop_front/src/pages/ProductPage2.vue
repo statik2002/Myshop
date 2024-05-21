@@ -195,6 +195,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row pt-5" v-if="product.linked_products.length > 0">
+                        <h5 class="title">С этим товаром покупают</h5>
+                        <linked-products :products="product.linked_products"></linked-products>
+                    </div>
                     <div class="row pt-5">
                         <div class="col-12">
                             <div class="product-review-tabs-content">
@@ -807,6 +811,11 @@
         mounted() {
             this.uploadProduct();
             this.likedProducts = this.$store.getters.getLikedProducts
+        },
+        watch: {
+            $route(to, from) {
+                this.$router.go(0)
+            }
         }
     }
 </script>

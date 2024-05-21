@@ -176,6 +176,8 @@ class Product(models.Model):
     quantity = models.DecimalField(max_digits=9, decimal_places=3, verbose_name='Количество',
                                    default=0.0)  # 000 000.000
     unit = models.ForeignKey(ProductUnit, on_delete=models.CASCADE, related_name='product_unit', null=True, blank=True, verbose_name='Еденица измерения')
+
+    linked_products = models.ManyToManyField('self', verbose_name='Связанные товары')
     
 
     class Meta:

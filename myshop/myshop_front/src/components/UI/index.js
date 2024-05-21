@@ -19,6 +19,7 @@ import AcceptCookieComponent from '@/components/UI/AceptCookieComponent.vue'
 import HeaderComponent from '@/components/UI/HeaderComponent.vue'
 import FooterComponent from '@/components/UI/FooterComponent.vue'
 import CartProduct2 from '@/components/UI/ProductInCart.vue'
+import LinkedProductsComponent from '@/components/UI/LinkedProductsComponent.vue'
 
 export default [
     ModalComponent,
@@ -40,7 +41,7 @@ export default [
     ProcessingOrderComponent,
     AcceptCookieComponent,
     CartProduct2,
-
+    LinkedProductsComponent,
     HeaderComponent,
     FooterComponent
 ]
