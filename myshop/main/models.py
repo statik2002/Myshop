@@ -177,7 +177,7 @@ class Product(models.Model):
                                    default=0.0)  # 000 000.000
     unit = models.ForeignKey(ProductUnit, on_delete=models.CASCADE, related_name='product_unit', null=True, blank=True, verbose_name='Еденица измерения')
 
-    linked_products = models.ManyToManyField('self', verbose_name='Связанные товары')
+    linked_products = models.ManyToManyField('self', verbose_name='Связанные товары', blank=True)
     
 
     class Meta:
