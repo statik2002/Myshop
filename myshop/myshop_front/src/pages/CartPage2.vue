@@ -207,9 +207,9 @@
                 this.$store.commit('subOne', cart_product.id)
             },
             getTotal(cart_product) {
-                const price = new Decimal(cart_product.product.online_price)
-                const discount = new Decimal(cart_product.product.discount)
-                const quantity = new Decimal(cart_product.quantity)
+                const price = cart_product.product.online_price ? cart_product.product.online_price : 0
+                const discount = cart_product.product.discount ? cart_product.product.discount : 0
+                const quantity = cart_product.quantity ? cart_product.quantity : 1
                 return ((price - price * discount/100) * quantity).toFixed(2)
             },
             inputQuantity(cart_product, event){
