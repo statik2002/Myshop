@@ -203,20 +203,24 @@
                     <button class="btn-search" data-bs-dismiss="offcanvas" @click="$router.push({name: 'search2', params: {query: searchQuery}})"><i class="bi bi-search"></i></button>
                 </div>
             </div>
-            <div class="d-flex flex-column">
-                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('newfront')">Главная</button>
+            <div class="d-flex flex-column gap-2 pt-5">
+                <div class="align-self-center">
+                    <button class="btn-theme" data-bs-dismiss="offcanvas" @click="$router.push('/newfront')">Главная</button>
+                </div>
+                
                 <div class="d-flex flex-row justify-content-evenly" v-if="$store.getters.isUserLogin">
-                    <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/cabinet2')">Кабинет</button>
-                    <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="userLogout">Выйти</button>
+                    <button class="btn-theme" data-bs-dismiss="offcanvas" @click="$router.push('/cabinet2')">Кабинет</button>
+                    <button class="btn-theme" data-bs-dismiss="offcanvas" @click="userLogout">Выйти</button>
                 </div>
                 <div class="d-flex flex-row justify-content-evenly" v-else>
                     <button class="btn-theme" data-bs-target="#offcanvasLoginView" data-bs-toggle="modal" type="button" aria-controls="offcanvasLoginView">
                         Войти
                     </button>
                 </div>
-                
-                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/like2')">Лайки</button>
-                <button class="btn btn-link" data-bs-dismiss="offcanvas" @click="$router.push('/cart2')">Корзина</button>
+                <div class="d-flex flex-row justify-content-evenly">
+                    <button class="btn-theme" data-bs-dismiss="offcanvas" @click="$router.push('/like2')">Лайки</button>
+                    <button class="btn-theme" data-bs-dismiss="offcanvas" @click="$router.push('/cart2')">Корзина</button>
+                </div>
             </div>
         </div>
     </aside>
