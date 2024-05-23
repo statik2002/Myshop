@@ -47,7 +47,6 @@
                             </li>
                             -->
                             <li><a href="contact.html">Контакты</a></li>
-                            <li><a href="about-us.html">О нас</a></li>
                         </ul>
                     </div>
                 </div>
