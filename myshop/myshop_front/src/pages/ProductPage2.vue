@@ -49,10 +49,10 @@
                                                 <div class="carousel-inner" v-if="product.product_images.length > 0">
                                                     <div v-for="(image, index) in product.product_images">
                                                         <div v-if="index === 0" class="carousel-item active">
-                                                            <img :src=image.image class="d-block w-100" :alt=image.alt>
+                                                            <img :src=$store.state.mediaUrl+image.image class="d-block w-100" :alt=image.alt>
                                                         </div>
                                                         <div v-else class="carousel-item">
-                                                            <img :src=image.image class="d-block w-100" :alt=image.alt>
+                                                            <img :src=$store.state.mediaUrl+image.image class="d-block w-100" :alt=image.alt>
                                                         </div>
                                                     </div>
                                                 </div>
