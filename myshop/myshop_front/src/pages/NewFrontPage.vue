@@ -64,7 +64,7 @@
                                 <div class="inner-content" >
                                     <div class="product-thumb">
                                         <a href="#" @click="$router.push({name: 'product2', params: {id: product.id}})">
-                                            <img v-if="product.product_images.length > 0" :src=product.product_images[0].image alt="...">
+                                            <img v-if="product.product_images.length > 0" :src=$store.state.mediaUrl+product.product_images[0].image alt="...">
                                             <img v-else src="@/assets/no_image.png" class="card-img-top product-image" alt="no image">
                                         </a>
                                         <span v-if="product.discount > 0" class="percent-count sticker">- {{ Math.floor(product.discount) }}%</span>

@@ -15,6 +15,7 @@ export default createStore({
             },
             catalogs: [],
             apiUrl: '',
+            mediaUrl: '',
             simplePages: []
         }
     },
