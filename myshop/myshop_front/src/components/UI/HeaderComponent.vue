@@ -101,7 +101,7 @@
                                 <div class="mini-cart-dropdown">
                                     <div class="cart-item" v-for="cartItem in $store.getters.productsInCart">
                                         <div class="thumb">
-                                            <img v-if="cartItem.product.product_images.length > 0" class="w-100" :src=cartItem.product.product_images[0].image :alt=cartItem.product.product_images[0].alt>
+                                            <img v-if="cartItem.product.product_images.length > 0" class="w-100" :src=$store.state.mediaUrl+cartItem.product.product_images[0].image :alt=cartItem.product.product_images[0].alt>
                                             <img v-else class="w-100" src="@/assets/no_image.png" alt="no image">
                                         </div>
                                         <div class="content">
