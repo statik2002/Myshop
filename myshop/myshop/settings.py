@@ -214,7 +214,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://77.222.43.32:8000",
     "http://mozaikashop.ru",
     "http://mozaikamagazin.ru",
-    "http://мозаикамагазин.рф"
+    "http://мозаикамагазин.рф",
+    "https://mozaikamagazin.ru",
+    "https://mozaikamagazin.ru:8000"
 ]
 
 TINYMCE_DEFAULT_CONFIG = {
