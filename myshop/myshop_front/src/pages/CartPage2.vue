@@ -135,7 +135,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-5">
-                                    <img v-if="product.product.product_images.length > 0" :src=product.product.product_images[0].image :alt=product.product.product_images[0].alt>
+                                    <img v-if="product.product.product_images.length > 0" :src=$store.state.mediaUrl+product.product.product_images[0].image :alt=product.product.product_images[0].alt>
                                     <img v-else src="@/assets/no_image.png" alt="No image">
                                 </div>
                                 <div class="col-2 align-self-center">{{ product.fixed_price }} &#8381;</div>

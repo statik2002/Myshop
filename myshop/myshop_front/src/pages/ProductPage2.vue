@@ -811,6 +811,7 @@
         mounted() {
             this.uploadProduct();
             this.likedProducts = this.$store.getters.getLikedProducts
+            window.scrollTo({top: 0, behavior: "smooth"})
         },
         watch: {
             $route(to, from) {
