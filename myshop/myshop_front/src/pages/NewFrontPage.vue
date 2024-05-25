@@ -131,7 +131,7 @@
                     <div class="row">
                     <div class="col-lg-6 col-md-6 col-12">
                         <div class="thumb">
-                            <img v-if="productAtModal.product_images.length > 0" :src=productAtModal.product_images[0].image :alt=productAtModal.product_images[0].alt>
+                            <img v-if="productAtModal.product_images.length > 0" :src=$store.state.mediaUrl+productAtModal.product_images[0].image :alt=productAtModal.product_images[0].alt>
                             <img v-else src="@/assets/no_image.png" alt="no image">
                         </div>
                     </div>

@@ -53,7 +53,7 @@
                                                 <a href="#/"><i class="bi bi-trash3" @click="$store.commit('deleteProductFromCart', cart_product.id)"></i></a>
                                             </td>
                                             <td class="indecor-product-thumbnail">
-                                                <a href="#/" v-if="cart_product.product.product_images.length > 0"><img :src=cart_product.product.product_images[0].image :alt=cart_product.product.product_images[0].alt></a>
+                                                <a href="#/" v-if="cart_product.product.product_images.length > 0"><img :src=$store.state.mediaUrl+cart_product.product.product_images[0].image :alt=cart_product.product.product_images[0].alt></a>
                                                 <a href="#/" v-else><img src="@/assets/no_image.png" alt="no image"></a>
                                             </td>
                                             <td class="indecor-product-name">
