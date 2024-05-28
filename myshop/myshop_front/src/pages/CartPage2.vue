@@ -53,7 +53,7 @@
                                                 <a href="#/"><i class="bi bi-trash3" @click="$store.commit('deleteProductFromCart', cart_product.id)"></i></a>
                                             </td>
                                             <td class="indecor-product-thumbnail">
-                                                <a href="#/" v-if="cart_product.product.product_images.length > 0"><img :src=cart_product.product.product_images[0].image :alt=cart_product.product.product_images[0].alt></a>
+                                                <a href="#/" v-if="cart_product.product.product_images.length > 0"><img :src=$store.state.mediaUrl+cart_product.product.product_images[0].image :alt=cart_product.product.product_images[0].alt></a>
                                                 <a href="#/" v-else><img src="@/assets/no_image.png" alt="no image"></a>
                                             </td>
                                             <td class="indecor-product-name">
@@ -135,7 +135,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-5">
-                                    <img v-if="product.product.product_images.length > 0" :src=product.product.product_images[0].image :alt=product.product.product_images[0].alt>
+                                    <img v-if="product.product.product_images.length > 0" :src=$store.state.mediaUrl+product.product.product_images[0].image :alt=product.product.product_images[0].alt>
                                     <img v-else src="@/assets/no_image.png" alt="No image">
                                 </div>
                                 <div class="col-2 align-self-center">{{ product.fixed_price }} &#8381;</div>

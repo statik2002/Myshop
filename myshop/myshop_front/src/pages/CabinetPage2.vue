@@ -128,7 +128,7 @@
                                             <th scope="row">{{index+1}}</th>
                                             <td>{{order.id}}</td>
                                             <td>
-                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
+                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=$store.state.mediaUrl+order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
                                                 <img v-else src="@/assets/no_image.png" alt="no image" height="100px">
                                             </td>
                                             <td>{{ order.order_products[0].product.name }}</td>
@@ -163,7 +163,7 @@
                                             <td>{{order.id}}</td>
                                             <td>{{ order.order_status.status }}</td>
                                             <td>
-                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
+                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=$store.state.mediaUrl+order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
                                                 <img v-else src="@/assets/no_image.png" alt="no image" height="100px">
                                             </td>
                                             <td>{{ order.order_products[0].product.name }}</td>
@@ -195,7 +195,7 @@
                                             <th scope="row">{{index+1}}</th>
                                             <td>{{order.id}}</td>
                                             <td>
-                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
+                                                <img v-if="order.order_products[0].product.product_images.length > 0" :src=$store.state.mediaUrl+order.order_products[0].product.product_images[0].image :alt=order.order_products[0].product.product_images[0].alt height="100px">
                                                 <img v-else src="@/assets/no_image.png" alt="no image" height="100px">
                                             </td>
                                             <td>{{ order.order_products[0].product.name }}</td>

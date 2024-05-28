@@ -63,7 +63,7 @@
                                             </td>
                                             <td class="product-thumb">
                                                 <router-link :to="{name: 'product2', params: {id: product.id}}">
-                                                    <img v-if="product.product_images.length > 0" :src=product.product_images[0].image :alt=product.product_images[0].alt>
+                                                    <img v-if="product.product_images.length > 0" :src=$store.state.mediaUrl+product.product_images[0].image :alt=product.product_images[0].alt>
                                                     <img v-else src="@/assets/no_image.png" alt="no image">
                                                 </router-link>
                                             </td>

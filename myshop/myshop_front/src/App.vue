@@ -53,8 +53,10 @@
             //Load user from useStorage
             const DEBUG = import.meta.env.VITE_DEBUG
             this.$store.state.apiUrl = import.meta.env.VITE_DEV_URL
+            this.$store.state.mediaUrl = import.meta.env.VITE_DEV_MEDIA_URL
             if (DEBUG=='false'){
                 this.$store.state.apiUrl = import.meta.env.VITE_PROD_URL
+                this.$store.state.mediaUrl = import.meta.env.VITE_PROD_MEDIA_URL
             }
             const user = localStorage.getItem('user')
             const unregisteredUser = localStorage.getItem('unregisteredUser')
