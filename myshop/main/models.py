@@ -28,6 +28,8 @@ class CustomerManager(BaseUserManager):
         user.set_password(password)
         user.cart = cart
         user.save(using=self._db)
+        message = f'Зарегистрирован новый пользователь:\nИмя: {user.first_name}\nФамилия: {user.last_name}\nТелефон: {user.phone_number}\nEmail: {user.email}\nАктивен: {user.is_active}'
+        tg_send_message(settings.TG_API_TOKEN, settings.TG_CHAT_ID, message=message)
         return user
 
     def create_superuser(self, phone_number,  password=None, **extra_fields):
@@ -441,10 +443,10 @@ def product_image_delete(sender, instance, **kwargs):
 
 
 #### Send message to Telegram when new user register
-@receiver(post_save, sender=Customer)
-def new_user_register(sender, instance, **kwargs):
-    message = f'Зарегистрирован новый пользователь:\nИмя: {instance.first_name}\nФамилия: {instance.last_name}\nТелефон: {instance.phone_number}\nEmail: {instance.email}\nАктивен: {instance.is_active}'
-    tg_send_message(settings.TG_API_TOKEN, settings.TG_CHAT_ID, message=message)
+#@receiver(post_save, sender=Customer)
+#def new_user_register(sender, instance, **kwargs):
+#    message = f'Зарегистрирован новый пользователь:\nИмя: {instance.first_name}\nФамилия: {instance.last_name}\nТелефон: {instance.phone_number}\nEmail: {instance.email}\nАктивен: {instance.is_active}'
+#    tg_send_message(settings.TG_API_TOKEN, settings.TG_CHAT_ID, message=message)
 
 
 @receiver(post_save, sender=ProductInOrder)
