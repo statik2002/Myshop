@@ -216,6 +216,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://mozaikamagazin.ru",
     "http://мозаикамагазин.рф",
     "https://mozaikamagazin.ru",
+    "https://www.mozaikamagazin.ru",
     "https://mozaikamagazin.ru:8000",
     "https://mozaikamagazin.ru:8080",
     "https://www.mozaikamagazin.ru:8000",
