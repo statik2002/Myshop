@@ -30,13 +30,13 @@
                             <h4 class="widget-title">ПОКУПАТЕЛЯМ</h4>
                             <div class="widget-menu-wrap">
                                 <ul class="nav-menu">
-                                    <li><a href="shop.html">Как сделать заказ</a></li>
-                                    <li><a href="shop.html">Как оплатить</a></li>
-                                    <li><a href="shop.html">Доставка</a></li>
-                                    <li><a href="shop.html">Возврат товара</a></li>
-                                    <li><a href="contact.html">Парвила продажи</a></li>
-                                    <li><a href="contact.html">Политика обработки персональных данных</a></li>
-                                    <li><a href="contact.html">Вопросы и ответы</a></li>
+                                    <li><a href="#">Как сделать заказ</a></li>
+                                    <li><a href="#">Как оплатить</a></li>
+                                    <li><a href="#">Доставка</a></li>
+                                    <li><a href="#">Возврат товара</a></li>
+                                    <li><a href="#">Парвила продажи</a></li>
+                                    <li><a href="#">Политика обработки персональных данных</a></li>
+                                    <li><a href="#">Вопросы и ответы</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -48,9 +48,9 @@
                             <h4 class="widget-title">КОМПАНИЯ</h4>
                             <div class="widget-menu-wrap">
                                 <ul class="nav-menu">
-                                    <li><a href="login.html">О нас</a></li>
-                                    <li><a href="about-us.html">Реквизиты</a></li>
-                                    <li><a href="about-us.html">Контакты</a></li>
+                                    <li><a href="#">О нас</a></li>
+                                    <li><a href="#">Реквизиты</a></li>
+                                    <li><a href="#">Контакты</a></li>
                                 </ul>
                             </div>
                         </div>

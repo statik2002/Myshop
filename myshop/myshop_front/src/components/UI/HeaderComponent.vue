@@ -30,9 +30,11 @@
                             </li>
                             <li class="has-submenu"><a href="#/">Акции</a>
                                 <ul class="submenu-nav">
+                                    <!--
                                     <li><a href="single-product-simple.html">Распродажа обоев</a></li>
                                     <li><a href="single-product.html">Уцененные товары</a></li>
                                     <li><a href="single-product-affiliate.html">Скидки</a></li>
+                                    -->
                                 </ul>
                             </li>
                             <!--
