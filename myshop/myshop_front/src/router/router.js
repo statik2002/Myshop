@@ -22,6 +22,7 @@ import CabinetPage2 from '@/pages/CabinetPage2.vue';
 import LoginPage from '@/pages/LoginPage.vue';
 import SimplePage from '@/pages/SimplePage.vue';
 import ActivationPage from '@/pages/ActivationPage.vue';
+import Page404 from '@/pages/Page404.vue';
 import {createRouter, createWebHistory} from 'vue-router'
 
 
@@ -145,7 +146,12 @@ const routes = [
         path: '/activate_user',
         component: ActivationPage,
         name: 'activate_user'
-    }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: Page404,
+        name: '404'
+    },
 ]
 
 const router = createRouter({
