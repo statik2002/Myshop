@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<url>
+	<loc>https://mozaikamagazin.ru/</loc>
+	<lastmod>2024-06-03T11:56:00+01:00</lastmod>
+	<priority>0.8</priority>
+</url>
+<url>
+	<loc>https://mozaikamagazin.ru/newfront</loc>
+	<lastmod>2024-06-03T11:56:00+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://mozaikamagazin.ru/products</loc>
+	<lastmod>2024-06-03T11:56:00+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+<url>
+	<loc>https://mozaikamagazin.ru/about</loc>
+	<lastmod>2024-06-03T11:56:00+01:00</lastmod>
+	<priority>1.0</priority>
+</url>
+</urlset>
